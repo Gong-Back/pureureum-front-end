@@ -1,5 +1,6 @@
 #!/bin/bash
+REPOSITORY=/home/ubuntu/prr-deploy
+cd $REPOSITORY
 
-cd /home/ubuntu/prr-deploy 
-sudo yarn 
-sudo npx pm2 reload all 
+sudo yarn install --ignore-engines
+sudo npx pm2 reload all
