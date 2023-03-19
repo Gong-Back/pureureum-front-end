@@ -1,38 +1,58 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Pureureum-front-end
 
-## Getting Started
+```
+수도권과 지방, 도시와 농어촌 간의 인구 불균형 문제는 갈수록 심각해지고 있다. 
 
-First, run the development server:
+현재 우리나라에서는 인구 고령화, 농어촌을 탈출하는 청장년 인구의 증가, 이로 인한 농어촌 지역의 빈곤 및 양극화 문제가 심각해지고 있다. 
+이러한 현상들을 조금이나마 해결하기 위해서는 수도권을 비롯한 도시 사람들이 농어촌 지역에 대한 관심을 더 갖고, 지역 사람들 간의 교류를 더 해야할 필요가 있다. 
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+이러한 맥락에서 귀농/귀촌 인구는 2년 연속 증가하고 있고(2021년 기준 전년대비 4.2% 증가), 
+‘5도 2촌’ 같은 생활 양식을 추구하는 청년들이 늘어나고 있다. 농촌에서의 취/창업 혹은 여가 생활에 대한 청년들의 관심이나 열망이 높아졌다는 지표다. 
+
+그러나 아직까지도 정보 부족이나 장기적인 귀농/귀촌 대한 두려움 등으로 인해 이를 주저하거나 아예 관심을 갖지 않는 청년들이 많다. 
+우리는 이러한 사람들에게 일자리 정보 등 농어촌에 관한 정보를 제공하고 자유롭게 농어촌 생활을 체험하며 지역 관심도를 높일 수 있는 서비스를 제작하려 한다. 
+또 동시에 일손의 부족함을 겪고 있는 지역 사람들에게 단기 인력들을 제공하거나 (사용하지 않고 방치된) 토지나 농장을 농장주들이 쉽게 대여해줄 수 있는 플랫폼을 만들어보고자 한다.
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📑 Description
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## 🧱 Dependencies
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+- Typescript (Programming Language)
+- Husky (Git Hooks)
+- React (SPA)
+- Next.js (SSR)
+- Jotai (Global State)
+- React-query (Server State Management)
+- Emotions (Styling)
+- Axios (HTTP Client)
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## 📂 Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```
+/FrontEnd
+    └─ /src
+        └─ /apis
+        └─ /assets
+        └─ /components
+        └─ /constants
+        └─ /hooks
+        └─ /pages
+        └─ /types
+        └─ /stores
+        └─ /utils
+```
 
-## Learn More
+## ⚙️ Feature
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 💻 Run the development server
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```
+yarn
+yarn dev
+```
 
-## Deploy on Vercel
+## 🔐 License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+해당 프로젝트의 라이센스는 [MIT] License 규정을 지키고 있습니다.
