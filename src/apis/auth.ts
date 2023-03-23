@@ -1,4 +1,10 @@
-import { ApiResponse, GenderType, DuplicateOptionType, LoginAsyncInput, LoginAsyncOutput } from '@/constants/types';
+import {
+  ApiResponse,
+  GenderType,
+  VerifyPhoneNumType,
+  LoginAsyncInput,
+  LoginAsyncOutput,
+} from '@/constants/types';
 import { postAsync } from './API';
 
 /**
@@ -6,23 +12,27 @@ import { postAsync } from './API';
  * @param email 유저의 이메일
  * @param password 유저의 비밀번호
  * @param name 유저의 실명
- * @param nickname 유저의 닉네임
- * @param age 유저의 나이
- * @param gender 유저의 성별 (m,f)
+ * @param phoneNumber 유저의 전화번호
+ * @param birthday 유저의 생일
+ * @param gender 유저의 성별 (MALE, FEMALE)
  * @returns 가입 성공 시 201, 실패 시 에러 반환 (1001, 500 등)
  */
 export async function registerAsync(
-    email: string,
-    password: string,
-    name: string,
-    nickname: string,
-    age: number,
-    gender: GenderType
+  email: string,
+  password: string,
+  name: string,
+  phoneNumber: string,
+  birthday: number,
+  gender: GenderType,
 ): ApiResponse<undefined> {
-    const response = await postAsync<undefined, any>('/auth/sign-up', undefined, {
-        params: { email, password, name, nickname, age, gender },
-    });
-    return response;
+  const response = await postAsync<undefined, any>(
+    '/users/register',
+    undefined,
+    {
+      params: { email, password, name, phoneNumber, birthday, gender },
+    },
+  );
+  return response;
 }
 
 /**
@@ -31,21 +41,45 @@ export async function registerAsync(
  * @param password 유저의 비밀번호
  * @returns 성공 시 JWT 액세스 토큰 인계, 실패 시 에러 객체 반환
  */
-export async function loginAsync(email: string, password: string): ApiResponse<LoginAsyncOutput> {
-    const response = await postAsync<LoginAsyncOutput, LoginAsyncInput>('/auth/sign-in', { email, password });
-    return response;
+export async function loginAsync(
+  email: string,
+  password: string,
+): ApiResponse<LoginAsyncOutput> {
+  const response = await postAsync<LoginAsyncOutput, LoginAsyncInput>(
+    '/users/login',
+    { email, password },
+  );
+  return response;
 }
 
 /**
- * 이메일 혹은 닉네임 중복을 확인할 함수 checkDuplicateAsync
+ * 이메일 중복을 확인할 함수 verifyEmailAsync
+ * @param email 중복을 체크할 이메일
+ * @returns 중복일 경우 409 에러 반환, 미중복일 경우 200
+ */
+export async function verifyEmailAsync(email: string): ApiResponse<undefined> {
+  // TO-DO : request data 에 any type 강제 해결 필요
+  const response = await postAsync<undefined, any>(`/users/validate/email`, {
+    email,
+  });
+  return response;
+}
+
+/**
+ * 유효한 핸드폰 번호인지를 체크하고, 인증 번호를 보내기 위한 verifyPhoneNumberAsync
  * @param option 닉네임, 이메일
  * @param value 중복 여부를 확인할 데이터
  * @returns 중복일 경우 409 에러 반환, 미중복일 경우 200
  */
-export async function checkDuplicateAsync(option: DuplicateOptionType, value: string): ApiResponse<undefined> {
-    // TO-DO : request data 에 any type 강제 해결 필요
-    const response = await postAsync<undefined, any>(`/auth/check-${option}`, {
-        [option]: value,
-    });
-    return response;
+export async function verifyPhoneNumberAsync(
+  phoneNumber: string,
+): ApiResponse<VerifyPhoneNumType> {
+  // TO-DO : request data 에 any type 강제 해결 필요
+  const response = await postAsync<VerifyPhoneNumType, any>(
+    `/sms/send/certification`,
+    {
+      phoneNumber,
+    },
+  );
+  return response;
 }
