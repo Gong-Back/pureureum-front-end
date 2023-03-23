@@ -25,23 +25,22 @@ function handleApiError(err: unknown): ApiError {
       // 서버의 Error Response 의 body를 참고하여 데이터 추가.
       const { data: errResponse }: AxiosResponse<ApiError, any> = err.response;
       return {
-        code: errResponse.code,
-        msg: errResponse.msg,
-        data: errResponse.data ?? undefined,
+        message: errResponse.message,
+        body: null,
       };
     }
     // 요청을 전송하였으나 서버에서 응답을 받지 못한 경우
     if (err.request) {
       return {
-        code: -1,
-        msg: '서버와의 통신 과정에서 문제가 발생했습니다.',
+        message: '서버와의 통신 과정에서 문제가 발생했습니다.',
+        body: null,
       };
     }
   }
   // axios 오류가 아닌 다른 케이스의 오류일 경우
   return {
-    code: 0,
-    msg: '원인 미상의 오류가 발생했습니다.',
+    message: '원인 미상의 오류가 발생했습니다.',
+    body: null,
   };
 }
 
