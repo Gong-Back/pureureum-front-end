@@ -1,28 +1,28 @@
 export interface LoginInputsType {
-    email: string;
-    password: string;
+  email: string;
+  password: string;
 }
 
-export type GenderType = 'm' | 'f';
-
-export type DuplicateOptionType = 'email' | 'nickname';
-
 export interface RegisterInputsType extends LoginInputsType {
-    passwordCheck: string;
-    name: string;
-    gender: GenderType;
-    age: number;
-    profileImg: string;
-    nickname: string;
+  name: string;
+  phoneNumber: string;
+  birthday: number;
+  gender: GenderType;
+}
+
+export type GenderType = 'MALE' | 'FEMALE';
+
+export interface VerifyPhoneNumType {
+  certificationNumber: number;
 }
 
 export interface LoginAsyncInput {
-    email: string;
-    password: string;
+  email: string;
+  password: string;
 }
 
 export interface LoginAsyncOutput {
-    token: string;
+  token: string;
 }
 
 export type InputNameType = keyof RegisterInputsType;
