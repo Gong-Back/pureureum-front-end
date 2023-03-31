@@ -1,28 +1,35 @@
-export interface LoginInputsType {
-    email: string;
-    password: string;
+export type GenderType = 'MALE' | 'FEMALE';
+export type SocialPlatformType = 'NAVER' | 'KAKAO' | 'GOOGLE';
+
+export interface LoginInput {
+  email: string;
+  password: string;
 }
 
-export type GenderType = 'm' | 'f';
-
-export type DuplicateOptionType = 'email' | 'nickname';
-
-export interface RegisterInputsType extends LoginInputsType {
-    passwordCheck: string;
-    name: string;
-    gender: GenderType;
-    age: number;
-    profileImg: string;
-    nickname: string;
+export interface LoginOutput {
+  token: string;
 }
 
-export interface LoginAsyncInput {
-    email: string;
-    password: string;
+export interface RegisterInput extends LoginInput {
+  name: string;
+  phoneNumber: string;
+  birthday: string;
+  gender: GenderType;
 }
 
-export interface LoginAsyncOutput {
-    token: string;
+export type VerifyEmailInput = Pick<RegisterInput, 'email'>;
+
+export type VerifyPhoneNumberInput = Pick<RegisterInput, 'phoneNumber'>;
+
+export interface VerifyPhoneNumberOutput {
+  certificationNumber: number;
 }
 
-export type InputNameType = keyof RegisterInputsType;
+export interface SocialLoginInput {
+  code: string;
+  redirectUrl: string;
+}
+
+export interface SocialRegisterInput extends Omit<RegisterInput, 'password'> {
+  socialType: SocialPlatformType;
+}
