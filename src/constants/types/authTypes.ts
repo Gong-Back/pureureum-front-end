@@ -1,28 +1,35 @@
-export interface LoginInputsType {
-  email: string;
-  password: string;
-}
-
-export interface RegisterInputsType extends LoginInputsType {
-  name: string;
-  phoneNumber: string;
-  birthday: number;
-  gender: GenderType;
-}
-
 export type GenderType = 'MALE' | 'FEMALE';
+export type SocialPlatformType = 'NAVER' | 'KAKAO' | 'GOOGLE';
 
-export interface VerifyPhoneNumType {
-  certificationNumber: number;
-}
-
-export interface LoginAsyncInput {
+export interface LoginInput {
   email: string;
   password: string;
 }
 
-export interface LoginAsyncOutput {
+export interface LoginOutput {
   token: string;
 }
 
-export type InputNameType = keyof RegisterInputsType;
+export interface RegisterInput extends LoginInput {
+  name: string;
+  phoneNumber: string;
+  birthday: string;
+  gender: GenderType;
+}
+
+export type VerifyEmailInput = Pick<RegisterInput, 'email'>;
+
+export type VerifyPhoneNumberInput = Pick<RegisterInput, 'phoneNumber'>;
+
+export interface VerifyPhoneNumberOutput {
+  certificationNumber: number;
+}
+
+export interface SocialLoginInput {
+  code: string;
+  redirectUrl: string;
+}
+
+export interface SocialRegisterInput extends Omit<RegisterInput, 'password'> {
+  socialType: SocialPlatformType;
+}
