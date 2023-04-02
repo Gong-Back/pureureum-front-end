@@ -7,8 +7,9 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { ThemeProvider, Global } from '@emotion/react';
 import { theme, GlobalStyle } from '@/constants/styles';
-
 import '@/assets/fonts/font.css';
+
+import Navigation from '@/components/common/Navigation';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const [queryClient] = useState(
@@ -28,6 +29,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       <Provider>
         <ThemeProvider theme={theme}>
           <Global styles={GlobalStyle} />
+          <Navigation />
           {/* eslint-disable react/jsx-props-no-spreading */}
           <Component {...pageProps} />
         </ThemeProvider>
