@@ -24,7 +24,7 @@ const RegisterSection = () => (
     </style.Section>
     <style.Section>
       <style.Description>계정이 없다면</style.Description>
-      <Link href="/register">
+      <Link href="/auth/register">
         <style.Button>회원가입</style.Button>
       </Link>
     </style.Section>
