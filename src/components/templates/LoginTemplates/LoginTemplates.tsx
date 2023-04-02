@@ -1,3 +1,5 @@
+import React from 'react';
+
 import PCLogoSvg from '@/assets/icons/PCLogo.svg';
 import LoginForm from '@/components/pages/Login/LoginForm';
 import RegisterSection from '@/components/pages/Login/RegisterSection';

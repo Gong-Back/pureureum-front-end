@@ -1,3 +1,5 @@
+import React from 'react';
+
 import * as style from './LoginForm.style';
 
 interface LoginFormProps {
