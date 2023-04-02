@@ -10,6 +10,9 @@ import { API_URL } from '@/constants/apis';
 const API = axios.create({
   baseURL: API_URL,
   responseType: 'json',
+  headers: {
+    'Content-Type': 'application/json;charset=UTF-8',
+  },
 });
 
 /**
@@ -23,12 +26,12 @@ function handleApiError(err: unknown): ApiError {
     // 요청을 전송하여 서버에서 응답을 받았으나, 에러가 발생한 경우
     if (err.response) {
       // 서버의 Error Response 의 body를 참고하여 데이터 추가.
-      const { data: errResponse }: AxiosResponse<ApiError, any> =
-        err.response.data;
+      const { data: errorResponseData }: AxiosResponse<ApiError, undefined> =
+        err.response;
       return {
-        code: errResponse.code,
-        messages: errResponse.messages,
-        data: errResponse.data,
+        code: errorResponseData.code,
+        messages: errorResponseData.messages,
+        data: errorResponseData.data,
       };
     }
     // 요청을 전송하였으나 서버에서 응답을 받지 못한 경우
