@@ -32,59 +32,59 @@ const LINE_HEIGHT_RATIO = 1.6;
  */
 export const FONT_STYLE_PC: Record<FontStyleName, FontStyle> = {
   [FONT_STYLE_NAME.title]: {
-    fontSize: 36,
-    fontWeight: 800,
-    lineHeight: `${LINE_HEIGHT_RATIO * 36}px`,
-  },
-  [FONT_STYLE_NAME.subtitle1]: {
     fontSize: 30,
-    fontWeight: 700,
+    fontWeight: 800,
     lineHeight: `${LINE_HEIGHT_RATIO * 30}px`,
   },
-  [FONT_STYLE_NAME.subtitle2B]: {
-    fontSize: 25,
+  [FONT_STYLE_NAME.subtitle1]: {
+    fontSize: 27,
     fontWeight: 700,
-    lineHeight: `${LINE_HEIGHT_RATIO * 25}px`,
+    lineHeight: `${LINE_HEIGHT_RATIO * 27}px`,
+  },
+  [FONT_STYLE_NAME.subtitle2B]: {
+    fontSize: 23,
+    fontWeight: 700,
+    lineHeight: `${LINE_HEIGHT_RATIO * 23}px`,
   },
   [FONT_STYLE_NAME.subtitle2R]: {
-    fontSize: 25,
+    fontSize: 23,
     fontWeight: 400,
-    lineHeight: `${LINE_HEIGHT_RATIO * 25}px`,
+    lineHeight: `${LINE_HEIGHT_RATIO * 23}px`,
   },
   [FONT_STYLE_NAME.subtitle3]: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: 700,
-    lineHeight: `${LINE_HEIGHT_RATIO * 22}px`,
+    lineHeight: `${LINE_HEIGHT_RATIO * 20}px`,
   },
   [FONT_STYLE_NAME.body1B]: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: 600,
-    lineHeight: `${LINE_HEIGHT_RATIO * 22}px`,
+    lineHeight: `${LINE_HEIGHT_RATIO * 20}px`,
   },
   [FONT_STYLE_NAME.body1R]: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: 400,
-    lineHeight: `${LINE_HEIGHT_RATIO * 22}px`,
+    lineHeight: `${LINE_HEIGHT_RATIO * 20}px`,
   },
   [FONT_STYLE_NAME.body2B]: {
-    fontSize: 19,
+    fontSize: 17,
     fontWeight: 600,
-    lineHeight: `${LINE_HEIGHT_RATIO * 19}px`,
+    lineHeight: `${LINE_HEIGHT_RATIO * 17}px`,
   },
   [FONT_STYLE_NAME.body2R]: {
-    fontSize: 19,
-    fontWeight: 400,
-    lineHeight: `${LINE_HEIGHT_RATIO * 19}px`,
-  },
-  [FONT_STYLE_NAME.body3]: {
     fontSize: 17,
     fontWeight: 400,
     lineHeight: `${LINE_HEIGHT_RATIO * 17}px`,
   },
+  [FONT_STYLE_NAME.body3]: {
+    fontSize: 15,
+    fontWeight: 400,
+    lineHeight: `${LINE_HEIGHT_RATIO * 15}px`,
+  },
   [FONT_STYLE_NAME.caption]: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: 300,
-    lineHeight: `${LINE_HEIGHT_RATIO * 16}px`,
+    lineHeight: `${LINE_HEIGHT_RATIO * 15}px`,
   },
 };
 
