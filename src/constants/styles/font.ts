@@ -16,136 +16,135 @@ export const FONT_STYLE_NAME = {
   caption: 'caption',
 } as const;
 
-type FontStyleName = typeof FONT_STYLE_NAME[keyof typeof FONT_STYLE_NAME];
+export type FontStyleName =
+  typeof FONT_STYLE_NAME[keyof typeof FONT_STYLE_NAME];
 
-interface FontStyle {
+export interface FontStyle {
   fontSize: number;
   fontWeight: number;
-  lineHeight: number;
+  lineHeight: string;
 }
 
 const LINE_HEIGHT_RATIO = 1.6;
 
 /**
  * PC 버전에 쓰일 font style 상수 모음 (figma 참조)
- *  * FIXME: 추후 디자인 시스템이 안정화된다면 추가적인 수정 필요
  */
 export const FONT_STYLE_PC: Record<FontStyleName, FontStyle> = {
   [FONT_STYLE_NAME.title]: {
     fontSize: 36,
     fontWeight: 800,
-    lineHeight: LINE_HEIGHT_RATIO * 36,
+    lineHeight: `${LINE_HEIGHT_RATIO * 36}px`,
   },
   [FONT_STYLE_NAME.subtitle1]: {
     fontSize: 30,
     fontWeight: 700,
-    lineHeight: LINE_HEIGHT_RATIO * 30,
+    lineHeight: `${LINE_HEIGHT_RATIO * 30}px`,
   },
   [FONT_STYLE_NAME.subtitle2B]: {
     fontSize: 25,
     fontWeight: 700,
-    lineHeight: LINE_HEIGHT_RATIO * 25,
+    lineHeight: `${LINE_HEIGHT_RATIO * 25}px`,
   },
   [FONT_STYLE_NAME.subtitle2R]: {
     fontSize: 25,
     fontWeight: 400,
-    lineHeight: LINE_HEIGHT_RATIO * 25,
+    lineHeight: `${LINE_HEIGHT_RATIO * 25}px`,
   },
   [FONT_STYLE_NAME.subtitle3]: {
     fontSize: 22,
     fontWeight: 700,
-    lineHeight: LINE_HEIGHT_RATIO * 22,
+    lineHeight: `${LINE_HEIGHT_RATIO * 22}px`,
   },
   [FONT_STYLE_NAME.body1B]: {
     fontSize: 22,
     fontWeight: 600,
-    lineHeight: LINE_HEIGHT_RATIO * 22,
+    lineHeight: `${LINE_HEIGHT_RATIO * 22}px`,
   },
   [FONT_STYLE_NAME.body1R]: {
     fontSize: 22,
     fontWeight: 400,
-    lineHeight: LINE_HEIGHT_RATIO * 22,
+    lineHeight: `${LINE_HEIGHT_RATIO * 22}px`,
   },
   [FONT_STYLE_NAME.body2B]: {
     fontSize: 19,
     fontWeight: 600,
-    lineHeight: LINE_HEIGHT_RATIO * 19,
+    lineHeight: `${LINE_HEIGHT_RATIO * 19}px`,
   },
   [FONT_STYLE_NAME.body2R]: {
     fontSize: 19,
     fontWeight: 400,
-    lineHeight: LINE_HEIGHT_RATIO * 19,
+    lineHeight: `${LINE_HEIGHT_RATIO * 19}px`,
   },
   [FONT_STYLE_NAME.body3]: {
     fontSize: 17,
     fontWeight: 400,
-    lineHeight: LINE_HEIGHT_RATIO * 17,
+    lineHeight: `${LINE_HEIGHT_RATIO * 17}px`,
   },
   [FONT_STYLE_NAME.caption]: {
     fontSize: 16,
     fontWeight: 300,
-    lineHeight: LINE_HEIGHT_RATIO * 16,
+    lineHeight: `${LINE_HEIGHT_RATIO * 16}px`,
   },
 };
 
 /**
  * Mobile 버전에 쓰일 font style 상수 모음 (figma 참조)
- * FIXME: 추후 디자인 시스템이 안정화된다면 추가적인 수정 필요
  */
 export const FONT_STYLE_MOBILE: Record<FontStyleName, FontStyle> = {
   [FONT_STYLE_NAME.title]: {
     fontSize: 30,
     fontWeight: 800,
-    lineHeight: LINE_HEIGHT_RATIO * 30,
+    lineHeight: `${LINE_HEIGHT_RATIO * 30}px`,
   },
   [FONT_STYLE_NAME.subtitle1]: {
     fontSize: 22,
     fontWeight: 700,
-    lineHeight: LINE_HEIGHT_RATIO * 22,
+    lineHeight: `${LINE_HEIGHT_RATIO * 22}px`,
   },
   [FONT_STYLE_NAME.subtitle2B]: {
     fontSize: 20,
     fontWeight: 600,
-    lineHeight: LINE_HEIGHT_RATIO * 20,
+    lineHeight: `${LINE_HEIGHT_RATIO * 20}px`,
   },
   [FONT_STYLE_NAME.subtitle2R]: {
     fontSize: 20,
     fontWeight: 400,
-    lineHeight: LINE_HEIGHT_RATIO * 20,
+    lineHeight: `${LINE_HEIGHT_RATIO * 20}px`,
   },
   [FONT_STYLE_NAME.subtitle3]: {
     fontSize: 18,
     fontWeight: 700,
-    lineHeight: LINE_HEIGHT_RATIO * 18,
+    lineHeight: `${LINE_HEIGHT_RATIO * 18}px`,
   },
   [FONT_STYLE_NAME.body1B]: {
     fontSize: 18,
     fontWeight: 700,
-    lineHeight: LINE_HEIGHT_RATIO * 18,
+    lineHeight: `${LINE_HEIGHT_RATIO * 18}px`,
   },
   [FONT_STYLE_NAME.body1R]: {
     fontSize: 18,
     fontWeight: 400,
-    lineHeight: LINE_HEIGHT_RATIO * 18,
+    lineHeight: `${LINE_HEIGHT_RATIO * 18}px`,
   },
   [FONT_STYLE_NAME.body2B]: {
     fontSize: 16,
     fontWeight: 600,
-    lineHeight: LINE_HEIGHT_RATIO * 16,
+    lineHeight: `${LINE_HEIGHT_RATIO * 16}px`,
   },
   [FONT_STYLE_NAME.body2R]: {
     fontSize: 16,
     fontWeight: 400,
-    lineHeight: LINE_HEIGHT_RATIO * 16,
+    lineHeight: `${LINE_HEIGHT_RATIO * 16}px`,
   },
   [FONT_STYLE_NAME.body3]: {
     fontSize: 14,
     fontWeight: 400,
-    lineHeight: LINE_HEIGHT_RATIO * 14,
+    lineHeight: `${LINE_HEIGHT_RATIO * 14}px`,
   },
   [FONT_STYLE_NAME.caption]: {
     fontSize: 12,
     fontWeight: 300,
-    lineHeight: LINE_HEIGHT_RATIO * 12,
+    lineHeight: `${LINE_HEIGHT_RATIO * 12}px`,
   },
 };
