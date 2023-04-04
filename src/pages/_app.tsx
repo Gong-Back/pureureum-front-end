@@ -9,9 +9,14 @@ import { ThemeProvider, Global } from '@emotion/react';
 import { theme, GlobalStyle } from '@/constants/styles';
 import '@/assets/fonts/font.css';
 
-import Navigation from '@/components/common/Navigation';
+import NavigationBar from '@/components/common/NavigationBar';
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+interface ServiceAppProps {
+  isNavigationVisible: boolean;
+}
+
+const MyApp = ({ Component, pageProps }: AppProps<ServiceAppProps>) => {
+  const { isNavigationVisible = true } = pageProps;
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -29,7 +34,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       <Provider>
         <ThemeProvider theme={theme}>
           <Global styles={GlobalStyle} />
-          <Navigation />
+          {isNavigationVisible && <NavigationBar />}
           {/* eslint-disable react/jsx-props-no-spreading */}
           <Component {...pageProps} />
         </ThemeProvider>
