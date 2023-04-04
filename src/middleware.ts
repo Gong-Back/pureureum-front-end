@@ -26,15 +26,15 @@ export async function middleware(request: NextRequest) {
 
   // 만약 요청 header에 access token, refresh token이 존재한다면 이를 cookie로 설정.
   const response = NextResponse.next();
-  if (request.cookies.has('authorization'))
-    response.cookies.set('accessToken', request.cookies.get('authorization'), {
+  if (request.headers.has('authorization'))
+    response.cookies.set('accessToken', request.headers.get('authorization'), {
       maxAge: 30 * 60, // access token의 유효 기간 30분 반영
       httpOnly: true,
       secure: true,
     });
 
-  if (request.cookies.has('refreshToken'))
-    response.cookies.set('refreshToken', request.cookies.get('refreshToken'), {
+  if (request.headers.has('refreshToken'))
+    response.cookies.set('refreshToken', request.headers.get('refreshToken'), {
       maxAge: 7 * 24 * 60 * 60, // refresh token의 유효 기간 7일 반영
       httpOnly: true,
       secure: true,
