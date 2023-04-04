@@ -4,7 +4,15 @@ import { useRouter } from 'next/router';
 import { AuthRepository } from '@/apis/auth';
 import { LoginInput } from '@/constants/types';
 
-import LoginTemplates from '@/components/templates/LoginTemplates';
+import LoginTemplate from '@/components/template/LoginTemplate';
+
+export async function getStaticProps() {
+  return {
+    props: {
+      isNavigationVisible: false, // NOTICE: 빌드 과정에서 네비게이션 바를 보이지 않게 설정.
+    },
+  };
+}
 
 const Login = () => {
   const router = useRouter();
@@ -27,7 +35,7 @@ const Login = () => {
   };
 
   return (
-    <LoginTemplates
+    <LoginTemplate
       email={email}
       password={password}
       handleLoginInput={handleLoginInput}
