@@ -1,10 +1,10 @@
 import React from 'react';
 
-import PCLogoSvg from '@/assets/icons/PCLogo.svg';
-import LoginForm from '@/components/pages/Login/LoginForm';
-import RegisterSection from '@/components/pages/Login/RegisterSection';
+import PureureumPcLogoSvg from '@/assets/icons/pureureumPcLogo.svg';
+import LoginForm from '@/components/domain/Login/LoginForm';
+import RegisterSection from '@/components/domain/Login/RegisterSection';
 
-import * as style from './LoginTemplates.style';
+import * as style from './LoginTemplate.style';
 
 export interface LoginTemplatesProps {
   email: string;
@@ -13,7 +13,7 @@ export interface LoginTemplatesProps {
   submitLogin: () => Promise<void>;
 }
 
-const LoginTemplates = ({
+const LoginTemplate = ({
   email,
   password,
   handleLoginInput,
@@ -21,7 +21,7 @@ const LoginTemplates = ({
 }: LoginTemplatesProps) => (
   <style.Wrapper>
     <style.Header>
-      <PCLogoSvg />
+      <PureureumPcLogoSvg />
       <style.Title>로그인해서 재밌는 프로젝트들을 경험해보세요!</style.Title>
     </style.Header>
     <LoginForm
@@ -33,4 +33,4 @@ const LoginTemplates = ({
     <RegisterSection />
   </style.Wrapper>
 );
-export default LoginTemplates;
+export default LoginTemplate;

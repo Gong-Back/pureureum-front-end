@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router';
 
-import MobileLogoSvg from '@/assets/icons/MobileLogo.svg';
+import PureureumMobileLogoSvg from '@/assets/icons/pureureumMobileLogo.svg';
 import UserProfile from '@/components/common/UserProfile';
 
-import * as style from './Navigation.style';
+import * as style from './NavigationBar.style';
 
-const Navigation = () => {
+const NavigationBar = () => {
   const router = useRouter();
 
   const handleMoveToPath = (path: string) => {
@@ -34,7 +34,7 @@ const Navigation = () => {
 
   return (
     <style.Wrapper>
-      <MobileLogoSvg />
+      <PureureumMobileLogoSvg />
       <style.NavItemList>
         {NavigationItems.map(({ path, text }) => (
           <style.NavItem key={text} onClick={() => handleMoveToPath(path)}>
@@ -47,4 +47,4 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+export default NavigationBar;
