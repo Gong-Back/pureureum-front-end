@@ -3,7 +3,7 @@ import * as style from './AccountForm.style';
 const AccountForm = () => (
   <style.Wrapper>
     <style.Section>
-      <style.Input name="id" placeholder="아이디" isIdSection />
+      <style.Input name="id" placeholder="아이디" width={290} />
       <style.CheckButton>중복 확인</style.CheckButton>
       <style.Description>8 ~ 15자 영문, 한글, 숫자</style.Description>
     </style.Section>

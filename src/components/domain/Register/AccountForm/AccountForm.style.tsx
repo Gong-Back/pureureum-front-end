@@ -28,21 +28,19 @@ export const Description = styled.p(({ theme }) => {
   };
 });
 
-export const Input = styled.input<{ isIdSection?: boolean }>(
-  ({ theme, isIdSection = false }) => {
-    const { colors, fonts } = theme;
-    return {
-      width: isIdSection ? '290px' : '100%',
-      padding: '11px 26px',
+export const Input = styled.input<{ width?: number }>(({ theme, width }) => {
+  const { colors, fonts } = theme;
+  return {
+    width: `${width ?? 400}px`,
+    padding: '11px 26px',
 
-      color: colors.grayscale.gray500,
-      ...fonts.pc.body2R,
+    color: colors.grayscale.gray500,
+    ...fonts.pc.body2R,
 
-      border: `1px solid ${colors.grayscale.gray500}`,
-      borderRadius: '25px',
-    };
-  },
-);
+    border: `1px solid ${colors.grayscale.gray500}`,
+    borderRadius: '25px',
+  };
+});
 
 export const CheckButton = styled.button(({ theme }) => {
   const { colors, fonts } = theme;
