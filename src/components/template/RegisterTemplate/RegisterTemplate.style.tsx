@@ -4,10 +4,10 @@ export const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 55px 0px;
 
   width: 400px;
-  height: 547px;
-  margin: 128px auto;
+  margin: 128px auto 0px auto;
 `;
 
 export const Header = styled.header`
@@ -15,6 +15,21 @@ export const Header = styled.header`
   flex-direction: column;
   gap: 10px 0px;
 `;
+
+export const VisibleSection = styled.div`
+  width: 100%;
+  overflow: hidden;
+`;
+
+export const Section = styled.section<{ currentRegisterStep: number }>(
+  ({ currentRegisterStep }) => ({
+    display: 'flex',
+    gap: '16px 0px',
+
+    transform: `translateX(${-100 * currentRegisterStep}%)`,
+    transition: '0.25s all ease-in-out',
+  }),
+);
 
 export const Footer = styled.footer`
   display: flex;
