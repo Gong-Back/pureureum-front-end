@@ -17,7 +17,14 @@ export interface RegisterInput extends LoginInput {
   gender: GenderType;
 }
 
-export type VerifyEmailInput = Pick<RegisterInput, 'email'>;
+export interface RegisterVerifyInput {
+  certificationNumber: number | undefined;
+  typedCertificationNumber: number;
+  isCheckUserId: boolean;
+  isCheckPhoneNumber: boolean;
+}
+
+export type VerifyIdInput = Pick<RegisterInput, 'id'>;
 
 export type VerifyPhoneNumberInput = Pick<RegisterInput, 'phoneNumber'>;
 

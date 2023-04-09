@@ -1,40 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { AuthRepository } from '@/apis/auth';
-import { RegisterInput } from '@/constants/types';
+import { RegisterInput, RegisterVerifyInput } from '@/constants/types';
 
 import RegisterTemplate from '@/components/template/RegisterTemplate';
 
-type RegisterStepType = 'first' | 'second' | 'last';
-
 const Register = () => {
   const router = useRouter();
+  const feedbackRef = useRef('');
 
-  const [registerInfomation, setRegisterInfomation] = useState<RegisterInput>({
-    email: '',
+  const [userInfomation, setUserInfomation] = useState<RegisterInput>({
+    id: '',
     password: '',
     name: '',
     phoneNumber: '',
     birthday: '',
     gender: 'MALE',
   });
-  const [certificationNumber, setCertificationNumber] = useState<string | null>(
-    null,
-  );
-  const [currentRegisterStep, setCurrentRegisterStep] =
-    useState<RegisterStepType>('second');
-
-  const handleRegisterInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setRegisterInfomation((prev) => ({ ...prev, [name]: value }));
-  };
+  const [verifyInformation, setVerifyInformation] =
+    useState<RegisterVerifyInput>({
+      certificationNumber: undefined,
+      typedCertificationNumber: 0,
+      isCheckUserId: false,
+      isCheckPhoneNumber: false,
+    });
+  const [currentRegisterStep, setCurrentRegisterStep] = useState(0);
 
   return (
     <RegisterTemplate
-      RegisterInfomation={registerInfomation}
       currentRegisterStep={currentRegisterStep}
-      certificationNumber={certificationNumber}
+      feedbackRef={feedbackRef}
+      verifyInformation={verifyInformation}
+      userInfomation={userInfomation}
     />
   );
 };

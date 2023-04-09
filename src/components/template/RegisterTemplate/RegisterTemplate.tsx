@@ -1,45 +1,68 @@
 import React from 'react';
 
-import AccountForm from '@/components/domain/Register/AccountForm';
-import PersonalDataForm from '@/components/domain/Register/PersonalDataForm';
-import VerifyPhoneNumberForm from '@/components/domain/Register/VerifyPhoneNumberForm';
+import {
+  AccountForm,
+  AccountFormProps,
+} from '@/components/domain/Register/AccountForm';
+import {
+  PersonalDataForm,
+  PersonalDataFormProps,
+} from '@/components/domain/Register/PersonalDataForm';
+import {
+  VerifyPhoneNumberForm,
+  VerifyPhoneNumberFormProps,
+} from '@/components/domain/Register/VerifyPhoneNumberForm';
 
-import { RegisterInput } from '@/constants/types';
+import { RegisterInput, RegisterVerifyInput } from '@/constants/types';
 
 import * as style from './RegisterTemplate.style';
 
-// NOTICE : 회원가입 분기 처리를 위해 선언된 상수 RegisterStepContainer
-const RegisterStepContainer = {
-  first: {
+const RegisterStepContainer = [
+  {
     title: '회원가입',
     subtitle: '사용할 아이디와 비밀번호를 입력해주세요.',
-    renderComponent: <AccountForm />,
+    form: ({ id, password, isCheckUserId }: AccountFormProps) => (
+      <AccountForm id={id} password={password} isCheckUserId={isCheckUserId} />
+    ),
   },
-  second: {
+  {
     title: '환영해요 👋',
     subtitle: '당신의 몇 가지 정보가 궁금해요!',
-    renderComponent: <PersonalDataForm />,
+    form: ({ name, birthday, gender }: PersonalDataFormProps) => (
+      <PersonalDataForm name={name} birthday={birthday} gender={gender} />
+    ),
   },
-  last: {
+  {
     title: '환영해요 👋',
     subtitle: '마지막으로 사용할 휴대폰 번호를 입력해주세요.',
-    renderComponent: <VerifyPhoneNumberForm />,
+    form: ({
+      phoneNumber,
+      certificationNumber,
+      isCheckPhoneNumber,
+    }: VerifyPhoneNumberFormProps) => (
+      <VerifyPhoneNumberForm
+        phoneNumber={phoneNumber}
+        certificationNumber={certificationNumber}
+        isCheckPhoneNumber={isCheckPhoneNumber}
+      />
+    ),
   },
-};
+];
 
 export interface RegisterTemplatesProps {
-  currentRegisterStep: 'first' | 'second' | 'last';
-  RegisterInfomation: RegisterInput;
-  certificationNumber: string | null;
+  currentRegisterStep: number;
+  feedbackRef: React.MutableRefObject<string>;
+  verifyInformation: RegisterVerifyInput;
+  userInfomation: RegisterInput;
 }
 
 const RegisterTemplate = ({
-  currentRegisterStep = 'second',
-  RegisterInfomation,
-  certificationNumber,
+  currentRegisterStep = 0,
+  feedbackRef,
+  verifyInformation,
+  userInfomation,
 }: RegisterTemplatesProps) => {
-  const { title, subtitle, renderComponent } =
-    RegisterStepContainer[currentRegisterStep];
+  const { title, subtitle, form } = RegisterStepContainer[currentRegisterStep];
 
   return (
     <style.Wrapper>
@@ -47,9 +70,10 @@ const RegisterTemplate = ({
         <style.Title>{title}</style.Title>
         <style.Subtitle>{subtitle}</style.Subtitle>
       </style.Header>
-      {renderComponent}
+      {/** NOTICE : 유저 정보와 인증 정보를 모두 인자로 넘기되, 필요한 값만 취하는 형식으로 작성 */}
+      {form({ ...verifyInformation, ...userInfomation })}
       <style.Footer>
-        <style.Feedback>test</style.Feedback>
+        <style.Feedback>{feedbackRef.current}</style.Feedback>
         <style.ConfirmButton isConfirm={false}>반가워요!</style.ConfirmButton>
       </style.Footer>
     </style.Wrapper>
