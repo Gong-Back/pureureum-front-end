@@ -11,7 +11,7 @@ const Register = () => {
   const feedbackRef = useRef('');
 
   const [userInfomation, setUserInfomation] = useState<RegisterInput>({
-    id: '',
+    email: '',
     password: '',
     name: '',
     phoneNumber: '',

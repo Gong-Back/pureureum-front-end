@@ -21,8 +21,12 @@ const RegisterStepContainer = [
   {
     title: '회원가입',
     subtitle: '사용할 아이디와 비밀번호를 입력해주세요.',
-    form: ({ id, password, isCheckUserId }: AccountFormProps) => (
-      <AccountForm id={id} password={password} isCheckUserId={isCheckUserId} />
+    form: ({ email, password, isCheckUserId }: AccountFormProps) => (
+      <AccountForm
+        email={email}
+        password={password}
+        isCheckUserId={isCheckUserId}
+      />
     ),
   },
   {

@@ -24,7 +24,7 @@ export interface RegisterVerifyInput {
   isCheckPhoneNumber: boolean;
 }
 
-export type VerifyIdInput = Pick<RegisterInput, 'id'>;
+export type VerifyEmailInput = Pick<RegisterInput, 'email'>;
 
 export type VerifyPhoneNumberInput = Pick<RegisterInput, 'phoneNumber'>;
 

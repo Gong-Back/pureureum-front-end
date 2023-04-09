@@ -1,15 +1,20 @@
 import * as style from './AccountForm.style';
 
 export interface AccountFormProps {
-  id: string;
+  email: string;
   password: string;
   isCheckUserId: boolean;
 }
 
-const AccountForm = ({ id, password, isCheckUserId }: AccountFormProps) => (
+const AccountForm = ({ email, password, isCheckUserId }: AccountFormProps) => (
   <style.Wrapper>
     <style.Section>
-      <style.Input name="id" placeholder="아이디" value={id} width={290} />
+      <style.Input
+        name="email"
+        placeholder="이메일"
+        value={email}
+        width={290}
+      />
       <style.CheckButton>중복 확인</style.CheckButton>
       <style.Description>8 ~ 15자 영문, 한글, 숫자</style.Description>
     </style.Section>
