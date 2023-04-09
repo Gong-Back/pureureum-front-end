@@ -71,7 +71,7 @@ const Register = () => {
       feedbackRef.current.innerText = '이미 SMS 인증을 마친 상태입니다.';
       return;
     }
-    if (!ValidationUtil.validatePhoneNumber(password)) {
+    if (!ValidationUtil.validatePhoneNumber(phoneNumber)) {
       feedbackRef.current.innerText = '올바른 핸드폰 번호 양식이 아닙니다.';
       return;
     }
@@ -165,9 +165,20 @@ const Register = () => {
 
   // 각 Step 별로 다음 스텝으로 넘어가기 위한 최소 조건을 충족했는지를 판별하는 변수 shouldCheckCurrentStep
   const shouldCheckCurrentStep = [
-    !!(email && password && confirmPassword && isCheckUserEmail),
-    !!(name && ValidationUtil.validateBirthDay(birthday)),
-    !!(phoneNumber && certificationNumber && typedCertificationNumber),
+    !!(
+      ValidationUtil.validateEmail(email) &&
+      isCheckUserEmail &&
+      password === confirmPassword
+    ),
+    !!(
+      ValidationUtil.validateName(name) &&
+      ValidationUtil.validateBirthDay(birthday)
+    ),
+    !!(
+      ValidationUtil.validatePhoneNumber(phoneNumber) &&
+      isCheckPhoneNumber &&
+      certificationNumber === typedCertificationNumber
+    ),
   ];
 
   return (
