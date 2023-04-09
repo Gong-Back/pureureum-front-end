@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import Link from 'next/link';
 
 export const Wrapper = styled.aside(({ theme }) => {
   const { colors } = theme;
@@ -53,11 +54,12 @@ export const NavItemGroup = styled.div`
   }
 `;
 
-export const NavItem = styled.p(({ theme }) => {
+export const NavItem = styled(Link)(({ theme }) => {
   const { colors, fonts } = theme;
   return {
     margin: '0px',
     color: colors.grayscale.gray500,
     ...fonts.pc.body3,
+    cursor: 'pointer',
   };
 });
