@@ -66,9 +66,7 @@ const RegisterTemplate = ({
           />
           <PersonalDataForm
             name={userInformation.name}
-            birthday={userInformation.birthday}
             gender={userInformation.gender}
-            feedbackRef={feedbackRef}
             setUserInformation={setUserInformation}
           />
           <VerifyPhoneNumberForm

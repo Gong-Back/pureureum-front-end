@@ -1,23 +1,18 @@
 import React, { useState } from 'react';
 
 import { GenderType, RegisterFormInput } from '@/constants/types';
-import ValidationUtil from '@/utils/validation';
 
 import * as style from './PersonalDataForm.style';
 
 export interface PersonalDataFormProps {
   name: string;
-  birthday: string;
   gender: GenderType;
-  feedbackRef: React.MutableRefObject<HTMLParagraphElement>;
   setUserInformation: React.Dispatch<React.SetStateAction<RegisterFormInput>>;
 }
 
 const PersonalDataForm = ({
   name,
-  birthday,
   gender,
-  feedbackRef,
   setUserInformation,
 }: PersonalDataFormProps) => {
   const [birthDate, setBirthDate] = useState({
