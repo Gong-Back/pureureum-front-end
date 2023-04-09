@@ -1,11 +1,21 @@
-import Link from 'next/link';
+import { GenderType } from '@/constants/types';
 
 import * as style from './PersonalDataForm.style';
 
-const PersonalDataForm = () => (
+export interface PersonalDataFormProps {
+  name: string;
+  birthday: string;
+  gender: GenderType;
+}
+
+const PersonalDataForm = ({
+  name,
+  birthday,
+  gender,
+}: PersonalDataFormProps) => (
   <style.Wrapper>
     <style.Section>
-      <style.Input name="name" placeholder="이름" />
+      <style.Input name="name" placeholder="이름" value={name} />
     </style.Section>
     <style.Section>
       <style.Title>생년월일</style.Title>

@@ -1,3 +1,4 @@
-import RegisterSection from './AccountForm';
+import AccountForm from './AccountForm';
+import type { AccountFormProps } from './AccountForm';
 
-export default RegisterSection;
+export { AccountForm, AccountFormProps };

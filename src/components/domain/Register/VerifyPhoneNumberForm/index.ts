@@ -1,3 +1,4 @@
 import VerifyPhoneNumberForm from './VerifyPhoneNumberForm';
+import type { VerifyPhoneNumberFormProps } from './VerifyPhoneNumberForm';
 
-export default VerifyPhoneNumberForm;
+export { VerifyPhoneNumberForm, VerifyPhoneNumberFormProps };
