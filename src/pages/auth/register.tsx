@@ -10,7 +10,7 @@ const Register = () => {
   const router = useRouter();
   const feedbackRef = useRef('');
 
-  const [userInfomation, setUserInfomation] = useState<RegisterInput>({
+  const [userInformation, setUserInformation] = useState<RegisterInput>({
     email: '',
     password: '',
     name: '',
@@ -32,7 +32,7 @@ const Register = () => {
       currentRegisterStep={currentRegisterStep}
       feedbackRef={feedbackRef}
       verifyInformation={verifyInformation}
-      userInfomation={userInfomation}
+      userInformation={userInformation}
     />
   );
 };

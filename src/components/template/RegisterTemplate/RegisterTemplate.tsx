@@ -57,14 +57,14 @@ export interface RegisterTemplatesProps {
   currentRegisterStep: number;
   feedbackRef: React.MutableRefObject<string>;
   verifyInformation: RegisterVerifyInput;
-  userInfomation: RegisterInput;
+  userInformation: RegisterInput;
 }
 
 const RegisterTemplate = ({
   currentRegisterStep = 0,
   feedbackRef,
   verifyInformation,
-  userInfomation,
+  userInformation,
 }: RegisterTemplatesProps) => {
   const { title, subtitle, form } = RegisterStepContainer[currentRegisterStep];
 
@@ -75,7 +75,7 @@ const RegisterTemplate = ({
         <style.Subtitle>{subtitle}</style.Subtitle>
       </style.Header>
       {/** NOTICE : 유저 정보와 인증 정보를 모두 인자로 넘기되, 필요한 값만 취하는 형식으로 작성 */}
-      {form({ ...verifyInformation, ...userInfomation })}
+      {form({ ...verifyInformation, ...userInformation })}
       <style.Footer>
         <style.Feedback>{feedbackRef.current}</style.Feedback>
         <style.ConfirmButton isConfirm={false}>반가워요!</style.ConfirmButton>
