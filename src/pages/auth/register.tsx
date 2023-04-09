@@ -163,6 +163,13 @@ const Register = () => {
     router.replace('/login');
   };
 
+  // 각 Step 별로 다음 스텝으로 넘어가기 위한 최소 조건을 충족했는지를 판별하는 변수 shouldCheckCurrentStep
+  const shouldCheckCurrentStep = [
+    !!(email && password && confirmPassword && isCheckUserEmail),
+    !!(name && ValidationUtil.validateBirthDay(birthday)),
+    !!(phoneNumber && certificationNumber && typedCertificationNumber),
+  ];
+
   return (
     <RegisterTemplate
       currentRegisterStep={currentRegisterStep}
@@ -171,6 +178,7 @@ const Register = () => {
       userInformation={userInformation}
       handleNextRegisterStep={handleNextRegisterStep}
       setUserInformation={setUserInformation}
+      shouldCheckCurrentStep={shouldCheckCurrentStep}
       verifyUserEmail={verifyUserEmail}
       verifyPhoneNumber={verifyPhoneNumber}
     />

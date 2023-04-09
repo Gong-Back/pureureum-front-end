@@ -30,6 +30,7 @@ export interface RegisterTemplatesProps {
   userInformation: RegisterFormInput;
   handleNextRegisterStep: () => void;
   setUserInformation: React.Dispatch<React.SetStateAction<RegisterFormInput>>;
+  shouldCheckCurrentStep: boolean[];
   verifyUserEmail: () => Promise<void>;
   verifyPhoneNumber: () => Promise<void>;
 }
@@ -41,6 +42,7 @@ const RegisterTemplate = ({
   userInformation,
   handleNextRegisterStep,
   setUserInformation,
+  shouldCheckCurrentStep,
   verifyUserEmail,
   verifyPhoneNumber,
 }: RegisterTemplatesProps) => {
@@ -81,7 +83,10 @@ const RegisterTemplate = ({
       </style.VisibleSection>
       <style.Footer>
         <style.Feedback ref={feedbackRef} />
-        <style.ConfirmButton onClick={handleNextRegisterStep} isConfirm={false}>
+        <style.ConfirmButton
+          onClick={handleNextRegisterStep}
+          isConfirm={shouldCheckCurrentStep[currentRegisterStep]}
+        >
           반가워요!
         </style.ConfirmButton>
       </style.Footer>
