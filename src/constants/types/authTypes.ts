@@ -17,10 +17,14 @@ export interface RegisterInput extends LoginInput {
   gender: GenderType;
 }
 
+export interface RegisterFormInput extends RegisterInput {
+  confirmPassword: string;
+  typedCertificationNumber: string;
+}
+
 export interface RegisterVerifyInput {
-  certificationNumber: number | undefined;
-  typedCertificationNumber: number;
-  isCheckUserId: boolean;
+  certificationNumber: string | undefined;
+  isCheckUserEmail: boolean;
   isCheckPhoneNumber: boolean;
 }
 

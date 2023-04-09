@@ -28,7 +28,7 @@ export class AuthRepository {
     password: string,
     name: string,
     phoneNumber: string,
-    birthday: number,
+    birthday: string,
     gender: GenderType,
   ): ApiResponse<undefined> {
     const response = await postAsync<undefined, undefined>(
