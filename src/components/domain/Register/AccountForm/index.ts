@@ -1,4 +1,3 @@
 import AccountForm from './AccountForm';
-import type { AccountFormProps } from './AccountForm';
 
-export { AccountForm, AccountFormProps };
+export default AccountForm;

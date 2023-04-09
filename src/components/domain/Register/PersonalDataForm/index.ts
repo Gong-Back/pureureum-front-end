@@ -1,4 +1,3 @@
 import PersonalDataForm from './PersonalDataForm';
-import type { PersonalDataFormProps } from './PersonalDataForm';
 
-export { PersonalDataForm, PersonalDataFormProps };
+export default PersonalDataForm;

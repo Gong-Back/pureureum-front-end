@@ -1,19 +1,10 @@
 import React from 'react';
 
-import {
-  AccountForm,
-  AccountFormProps,
-} from '@/components/domain/Register/AccountForm';
-import {
-  PersonalDataForm,
-  PersonalDataFormProps,
-} from '@/components/domain/Register/PersonalDataForm';
-import {
-  VerifyPhoneNumberForm,
-  VerifyPhoneNumberFormProps,
-} from '@/components/domain/Register/VerifyPhoneNumberForm';
+import AccountForm from '@/components/domain/Register/AccountForm';
+import PersonalDataForm from '@/components/domain/Register/PersonalDataForm';
+import VerifyPhoneNumberForm from '@/components/domain/Register/VerifyPhoneNumberForm';
 
-import { RegisterInput, RegisterVerifyInput } from '@/constants/types';
+import { RegisterFormInput, RegisterVerifyInput } from '@/constants/types';
 
 import * as style from './RegisterTemplate.style';
 
