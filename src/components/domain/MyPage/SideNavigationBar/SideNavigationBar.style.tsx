@@ -46,6 +46,7 @@ export const NavItemList = styled.div`
 export const NavItemGroup = styled.div`
   display: flex;
   gap: 0px 6px;
+  justify-content: flex-end;
 
   & > svg {
     margin: auto 0px;
