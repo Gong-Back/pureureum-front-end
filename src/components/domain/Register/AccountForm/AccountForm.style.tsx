@@ -39,20 +39,28 @@ export const Input = styled.input<{ width?: number }>(({ theme, width }) => {
 
     border: `1px solid ${colors.grayscale.gray500}`,
     borderRadius: '25px',
+
+    '&:disabled': {
+      color: colors.grayscale.gray400,
+    },
   };
 });
 
-export const CheckButton = styled.button(({ theme }) => {
-  const { colors, fonts } = theme;
-  return {
-    padding: '6px 16px',
-    margin: 'auto 0px',
+export const CheckButton = styled.button<{ isCheckUserEmail: boolean }>(
+  ({ theme, isCheckUserEmail }) => {
+    const { colors, fonts } = theme;
+    return {
+      padding: '6px 16px',
+      margin: 'auto 0px',
 
-    color: colors.grayscale.white,
-    ...fonts.pc.body2R,
-    textAlign: 'center',
+      color: colors.grayscale.white,
+      ...fonts.pc.body2R,
+      textAlign: 'center',
 
-    background: colors.primary.greenDefault,
-    borderRadius: '5px',
-  };
-});
+      background: isCheckUserEmail
+        ? colors.grayscale.gray500
+        : colors.primary.greenDefault,
+      borderRadius: '5px',
+    };
+  },
+);

@@ -28,23 +28,25 @@ export const Title = styled.h5(({ theme }) => {
   };
 });
 
-export const Input = styled.input<{ width?: number }>(({ theme, width }) => {
-  const { colors, fonts } = theme;
-  return {
-    width: `${width ?? 400}px`,
-    padding: '11px 26px',
+export const Input = styled.input<{ textAlign?: 'right'; width?: number }>(
+  ({ theme, textAlign, width }) => {
+    const { colors, fonts } = theme;
+    return {
+      width: `${width ?? 400}px`,
+      padding: '11px 26px',
 
-    color: colors.grayscale.gray500,
-    ...fonts.pc.body2R,
+      color: colors.grayscale.gray500,
+      ...fonts.pc.body2R,
 
-    border: `1px solid ${colors.grayscale.gray500}`,
-    borderRadius: '25px',
+      border: `1px solid ${colors.grayscale.gray500}`,
+      borderRadius: '25px',
 
-    '&::placeholder': {
-      textAlign: 'right',
-    },
-  };
-});
+      '&::placeholder': {
+        textAlign,
+      },
+    };
+  },
+);
 
 export const Button = styled.button<{ isSelected?: boolean }>(
   ({ theme, isSelected }) => {
