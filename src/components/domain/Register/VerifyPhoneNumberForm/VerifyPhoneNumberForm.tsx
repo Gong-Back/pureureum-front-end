@@ -23,6 +23,14 @@ const VerifyPhoneNumberForm = ({
 }: VerifyPhoneNumberFormProps) => {
   const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    // 전화번호의 경우, 숫자만을 입력 받게 하며 자동으로 하이픈 (-) 을 추가시킴.
+    if (name === 'phoneNumber') {
+      const formattedValue = value
+        .replace(/[^0-9]/g, '')
+        .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+      setUserInformation((prev) => ({ ...prev, phoneNumber: formattedValue }));
+      return;
+    }
     setUserInformation((prev) => ({ ...prev, [name]: value }));
   };
 
