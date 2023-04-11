@@ -9,6 +9,7 @@ import {
   VerifyPhoneNumberOutput,
   SocialLoginInput,
   SocialRegisterInput,
+  RegisterInput,
 } from '@/constants/types';
 import { postAsync } from './API';
 
@@ -31,11 +32,15 @@ export class AuthRepository {
     birthday: string,
     gender: GenderType,
   ): ApiResponse<undefined> {
-    const response = await postAsync<undefined, undefined>(
+    const response = await postAsync<undefined, RegisterInput>(
       '/users/register',
-      undefined,
       {
-        params: { email, password, name, phoneNumber, birthday, gender },
+        email,
+        password,
+        name,
+        phoneNumber,
+        birthday,
+        gender,
       },
     );
     return response;
