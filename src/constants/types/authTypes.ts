@@ -33,7 +33,7 @@ export type VerifyEmailInput = Pick<RegisterInput, 'email'>;
 export type VerifyPhoneNumberInput = Pick<RegisterInput, 'phoneNumber'>;
 
 export interface VerifyPhoneNumberOutput {
-  certificationNumber: number;
+  certificationNumber: string;
 }
 
 export interface SocialLoginInput {

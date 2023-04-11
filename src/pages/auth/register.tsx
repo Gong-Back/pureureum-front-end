@@ -68,17 +68,20 @@ const Register = () => {
   // SMS 문자 인증 번호를 검사하여 정상적으로 인증되었는지를 판별하는 함수 verifyPhoneNumber
   const verifyPhoneNumber = async () => {
     if (isCheckPhoneNumber) {
-      feedbackRef.current.innerText = '이미 SMS 인증을 마친 상태입니다.';
+      feedbackRef.current.innerText = '이미 SMS 인증 문자를 전송하였습니다.';
       return;
     }
     if (!ValidationUtil.validatePhoneNumber(phoneNumber)) {
       feedbackRef.current.innerText = '올바른 핸드폰 번호 양식이 아닙니다.';
       return;
     }
-    const response = await AuthRepository.confirmPhoneNumberAsync(phoneNumber);
+    const response = await AuthRepository.verifyPhoneNumberAsync(phoneNumber);
     if (response.isSuccess) {
-      setVerifyInformation((prev) => ({ ...prev, isCheckPhoneNumber: true }));
-      feedbackRef.current.innerText = '';
+      setVerifyInformation((prev) => ({
+        ...prev,
+        certificationNumber: response.result.data?.certificationNumber,
+        isCheckPhoneNumber: true,
+      }));
       return;
     }
     const [errorMessage] = response.result.messages;
@@ -111,7 +114,6 @@ const Register = () => {
           '유효하지 않은 이름입니다. 한글 혹은 영문명을 작성해주세요.';
         return;
       }
-      console.log(!ValidationUtil.validateBirthDay(birthday));
       if (!ValidationUtil.validateBirthDay(birthday)) {
         feedbackRef.current.innerText =
           '유효하지 않은 생년월일입니다. 정확하게 입력해주세요';
@@ -119,7 +121,7 @@ const Register = () => {
       }
       feedbackRef.current.innerText = '';
       setCurrentRegisterStep((prev) => prev + 1);
-    } else if (currentRegisterStep === 2) {
+    } else {
       if (!isCheckPhoneNumber) {
         feedbackRef.current.innerText = '아직 SMS 인증을 진행하지 않았습니다.';
         return;
@@ -135,7 +137,7 @@ const Register = () => {
   // 회원가입 처리를 최종적으로 완료하는 함수 confirmRegister
   const confirmRegister = async () => {
     if (!isCheckPhoneNumber) {
-      feedbackRef.current.innerText = '아직 SMS 인증을 하지 않으셨습니다.';
+      feedbackRef.current.innerText = '아직 SMS 인증을 진행하지 않았습니다.';
       return;
     }
     // 먼저, SMS 인증이 완료되었다는 사실을 백엔드 서버에 전송해야 한다.
@@ -160,7 +162,7 @@ const Register = () => {
       feedbackRef.current.innerText = errorMessage;
       return;
     }
-    router.replace('/login');
+    router.replace('/auth/login');
   };
 
   // 각 Step 별로 다음 스텝으로 넘어가기 위한 최소 조건을 충족했는지를 판별하는 변수 shouldCheckCurrentStep
@@ -168,6 +170,7 @@ const Register = () => {
     !!(
       ValidationUtil.validateEmail(email) &&
       isCheckUserEmail &&
+      password &&
       password === confirmPassword
     ),
     !!(
