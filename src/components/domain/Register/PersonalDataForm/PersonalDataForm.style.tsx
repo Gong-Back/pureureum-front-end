@@ -48,6 +48,23 @@ export const Input = styled.input<{ textAlign?: 'right'; width?: number }>(
   },
 );
 
+export const InputWrapper = styled.div`
+  display: flex;
+  position: relative;
+`;
+
+export const InputPlaceholder = styled.span(({ theme }) => {
+  const { colors, fonts } = theme;
+  return {
+    position: 'absolute',
+    top: '12px',
+    right: '26px',
+
+    color: colors.grayscale.gray500,
+    ...fonts.pc.body2R,
+  };
+});
+
 export const Button = styled.button<{ isSelected?: boolean }>(
   ({ theme, isSelected }) => {
     const { colors, fonts } = theme;
