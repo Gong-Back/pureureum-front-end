@@ -37,7 +37,9 @@ const PersonalDataForm = ({
       if (Number.isNaN(Number(value))) {
         return;
       }
-      const formattedValue = `${Number(value)}`.padStart(isYear ? 4 : 2, '0');
+      const formattedValue = `${Number(value)}`
+        .padStart(isYear ? 4 : 2, '0')
+        .slice(0, 2);
       setBirthDate((prev) => ({
         ...prev,
         [inputName]: formattedValue,
@@ -68,30 +70,36 @@ const PersonalDataForm = ({
       </style.Section>
       <style.Section>
         <style.Title>생년월일</style.Title>
-        <style.Input
-          width={148}
-          textAlign="right"
-          name="year"
-          placeholder="년"
-          value={year.length ? year : ''}
-          onChange={handleUserInput}
-        />
-        <style.Input
-          width={110}
-          textAlign="right"
-          name="month"
-          placeholder="월"
-          value={month.length ? month : ''}
-          onChange={handleUserInput}
-        />
-        <style.Input
-          width={110}
-          textAlign="right"
-          name="day"
-          placeholder="일"
-          value={day.length ? day : ''}
-          onChange={handleUserInput}
-        />
+        <style.InputWrapper>
+          <style.Input
+            width={148}
+            textAlign="right"
+            name="year"
+            value={year.length ? year : ''}
+            onChange={handleUserInput}
+          />
+          <style.InputPlaceholder>년</style.InputPlaceholder>
+        </style.InputWrapper>
+        <style.InputWrapper>
+          <style.Input
+            width={110}
+            textAlign="right"
+            name="month"
+            value={month.length ? month : ''}
+            onChange={handleUserInput}
+          />
+          <style.InputPlaceholder>월</style.InputPlaceholder>
+        </style.InputWrapper>
+        <style.InputWrapper>
+          <style.Input
+            width={110}
+            textAlign="right"
+            name="day"
+            value={day.length ? day : ''}
+            onChange={handleUserInput}
+          />
+          <style.InputPlaceholder>일</style.InputPlaceholder>
+        </style.InputWrapper>
       </style.Section>
       <style.Section>
         <style.Title>성별</style.Title>
