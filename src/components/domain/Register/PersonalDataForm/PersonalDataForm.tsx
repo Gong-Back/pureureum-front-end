@@ -39,7 +39,7 @@ const PersonalDataForm = ({
       }
       const formattedValue = `${Number(value)}`
         .padStart(isYear ? 4 : 2, '0')
-        .slice(0, 2);
+        .slice(0, isYear ? 4 : 2);
       setBirthDate((prev) => ({
         ...prev,
         [inputName]: formattedValue,
