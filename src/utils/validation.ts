@@ -23,7 +23,7 @@ class ValidationUtil {
 
   /**
    * 유효한 생년월일인지를 검사하기 위한 함수 validateBirthDay
-   * @param value 유효성 검사를 진행할 생년월일 문자열 birthday
+   * @param birthday 유효성 검사를 진행할 생년월일 문자열 birthday
    * @returns 유효하다면 true, 그렇지 않다면 false
    */
   static validateBirthDay(birthday: string) {
@@ -42,6 +42,11 @@ class ValidationUtil {
     return regexp.test(name);
   }
 
+  /**
+   * 유효한 전화번호 인지를 검사하기 위한 함수 validateName
+   * @param phoneNumber 유효성 검사를 진행할 전화번호 phoneNumber
+   * @returns 유효하다면 true, 그렇지 않다면 false
+   */
   static validatePhoneNumber(phoneNumber: string) {
     const regexp = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
     return regexp.test(phoneNumber);
