@@ -54,7 +54,7 @@ const VerifyPhoneNumberForm = ({
         placeholder="인증번호"
         value={typedCertificationNumber}
         onChange={handleUserInput}
-        disabled={!!certificationNumber || !isCheckPhoneNumber}
+        disabled={certificationNumber && !isCheckPhoneNumber}
       />
     </style.Wrapper>
   );
