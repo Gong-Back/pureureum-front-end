@@ -82,6 +82,7 @@ const Register = () => {
         certificationNumber: response.result.data?.certificationNumber,
         isCheckPhoneNumber: true,
       }));
+      feedbackRef.current.innerText = '';
       return;
     }
     const [errorMessage] = response.result.messages;
