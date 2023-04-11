@@ -5,8 +5,7 @@ class ValidationUtil {
    * @returns 유효하다면 true, 그렇지 않다면 false
    */
   static validateEmail(email: string) {
-    const regexp = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{8,15}$/;
-    console.log(regexp.test(email));
+    const regexp = /^(?=.*[a-zA-Z])[a-zA-Z0-9]{8,15}$/;
     return regexp.test(email);
   }
 

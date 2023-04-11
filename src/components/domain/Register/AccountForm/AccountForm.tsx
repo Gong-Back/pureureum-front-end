@@ -43,7 +43,7 @@ const AccountForm = ({
         >
           {isCheckUserEmail ? '확인 완료' : '중복 확인'}
         </style.CheckButton>
-        <style.Description>8 ~ 15자 영문, 한글, 숫자</style.Description>
+        <style.Description>8 ~ 15자 영문, 숫자</style.Description>
       </style.Section>
       <style.Section>
         <style.Input
