@@ -28,14 +28,16 @@ const PersonalDataForm = ({
       setUserInformation((prev) => ({ ...prev, [inputName]: value }));
       return;
     }
-    if (inputName === 'year' || inputName === 'month' || inputName === 'day') {
-      if (Number.isNaN(value)) {
+    const [isYear, isMonth, isDay] = [
+      inputName === 'year',
+      inputName === 'month',
+      inputName === 'day',
+    ];
+    if (isYear || isMonth || isDay) {
+      if (Number.isNaN(Number(value))) {
         return;
       }
-      const formattedValue = `${Number(value)}`.padStart(
-        inputName === 'year' ? 4 : 2,
-        '0',
-      );
+      const formattedValue = `${Number(value)}`.padStart(isYear ? 4 : 2, '0');
       setBirthDate((prev) => ({
         ...prev,
         [inputName]: formattedValue,
@@ -43,9 +45,9 @@ const PersonalDataForm = ({
       // TODO : setState의 비동기 처리로 인해 아래와 같이 명시적으로 값으로 변경해줘야 하는데, 개선이 필요해 보임.
       setUserInformation((prev) => ({
         ...prev,
-        birthday: `${inputName === 'year' ? formattedValue : year}-${
-          inputName === 'month' ? formattedValue : month
-        }-${inputName === 'day' ? formattedValue : day}`,
+        birthday: `${isYear ? formattedValue : year}-${
+          isMonth ? formattedValue : month
+        }-${isDay ? formattedValue : day}`,
       }));
     }
   };
