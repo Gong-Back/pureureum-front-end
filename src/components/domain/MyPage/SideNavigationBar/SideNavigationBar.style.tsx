@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import Link from 'next/link';
 
 export const Wrapper = styled.aside(({ theme }) => {
   const { colors } = theme;
@@ -35,14 +34,22 @@ export const NavGroupTitle = styled.h5(({ theme }) => {
   };
 });
 
-export const NavItemList = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 15px 0px;
-
-  margin: auto 0px;
-`;
+export const NavItemList = styled.div(({ theme }) => {
+  const { colors, fonts } = theme;
+  return {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    gap: '15px 0px',
+  
+    margin: 'auto 0px',
+    
+    color: colors.grayscale.gray500,
+    ...fonts.pc.body3,
+    cursor: 'pointer',
+    
+  };
+});
 
 export const NavItemGroup = styled.div`
   display: flex;
@@ -53,13 +60,3 @@ export const NavItemGroup = styled.div`
     margin: auto 0px;
   }
 `;
-
-export const NavItem = styled(Link)(({ theme }) => {
-  const { colors, fonts } = theme;
-  return {
-    margin: '0px',
-    color: colors.grayscale.gray500,
-    ...fonts.pc.body3,
-    cursor: 'pointer',
-  };
-});

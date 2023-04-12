@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import CocoNoteDeleteIcon from '@/assets/icons/coco/noteDeleteIcon.svg';
 import CocoNoteIcon from '@/assets/icons/coco/noteIcon.svg';
 import CocoNotificationIcon from '@/assets/icons/coco/notificationIcon.svg';
@@ -74,9 +76,9 @@ const SideNavigationBar = () => (
       <style.NavItemList>
         {sideNavigationElement.project.map(({ title, icon, path }) => (
           <style.NavItemGroup key={title}>
-            <style.NavItem href={path} passHref>
+            <Link href={path} passHref>
               {title}
-            </style.NavItem>
+            </Link>
             {icon}
           </style.NavItemGroup>
         ))}
@@ -84,25 +86,29 @@ const SideNavigationBar = () => (
     </style.NavGroup>
     <style.NavGroup>
       <style.NavGroupTitle>내 정보 관리</style.NavGroupTitle>
-      {sideNavigationElement.personal.map(({ title, icon, path }) => (
-        <style.NavItemGroup key={title}>
-          <style.NavItem href={path} passHref>
-            {title}
-          </style.NavItem>
-          {icon}
-        </style.NavItemGroup>
-      ))}
+      <style.NavItemList>
+        {sideNavigationElement.personal.map(({ title, icon, path }) => (
+          <style.NavItemGroup key={title}>
+            <Link href={path} passHref>
+              {title}
+            </Link>
+            {icon}
+          </style.NavItemGroup>
+        ))}
+      </style.NavItemList>
     </style.NavGroup>
     <style.NavGroup>
       <style.NavGroupTitle>프로젝트 운영</style.NavGroupTitle>
+      <style.NavItemList>
       {sideNavigationElement.operation.map(({ title, icon, path }) => (
         <style.NavItemGroup key={title}>
-          <style.NavItem href={path} passHref>
+          <Link href={path} passHref>
             {title}
-          </style.NavItem>
+          </Link>
           {icon}
         </style.NavItemGroup>
       ))}
+      </style.NavItemList>
     </style.NavGroup>
   </style.Wrapper>
 );
