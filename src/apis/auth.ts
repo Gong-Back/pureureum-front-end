@@ -4,19 +4,19 @@ import {
   SocialPlatformType,
   LoginInput,
   LoginOutput,
-  RegisterInput,
   VerifyEmailInput,
   VerifyPhoneNumberInput,
   VerifyPhoneNumberOutput,
   SocialLoginInput,
   SocialRegisterInput,
+  RegisterInput,
 } from '@/constants/types';
 import { postAsync } from './API';
 
 export class AuthRepository {
   /**
    * 신규 유저의 회원가입을 처리하는 함수 registerAsync
-   * @param email 유저의 이메일
+   * @param id 유저의 아이디
    * @param password 유저의 비밀번호
    * @param name 유저의 실명
    * @param phoneNumber 유저의 전화번호
@@ -29,14 +29,18 @@ export class AuthRepository {
     password: string,
     name: string,
     phoneNumber: string,
-    birthday: number,
+    birthday: string,
     gender: GenderType,
   ): ApiResponse<undefined> {
-    const response = await postAsync<undefined, undefined>(
+    const response = await postAsync<undefined, RegisterInput>(
       '/users/register',
-      undefined,
       {
-        params: { email, password, name, phoneNumber, birthday, gender },
+        email,
+        password,
+        name,
+        phoneNumber,
+        birthday,
+        gender,
       },
     );
     return response;

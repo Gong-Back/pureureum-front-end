@@ -27,6 +27,7 @@ const LoginForm = ({
       name="password"
       value={password}
       placeholder="Password"
+      type="password"
       onChange={handleLoginInput}
     />
     <style.Button onClick={submitLogin}>로그인</style.Button>

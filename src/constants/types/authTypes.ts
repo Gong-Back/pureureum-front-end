@@ -17,12 +17,23 @@ export interface RegisterInput extends LoginInput {
   gender: GenderType;
 }
 
+export interface RegisterFormInput extends RegisterInput {
+  confirmPassword: string;
+  typedCertificationNumber: string;
+}
+
+export interface RegisterVerifyInput {
+  certificationNumber: string | undefined;
+  isCheckUserEmail: boolean;
+  isCheckPhoneNumber: boolean;
+}
+
 export type VerifyEmailInput = Pick<RegisterInput, 'email'>;
 
 export type VerifyPhoneNumberInput = Pick<RegisterInput, 'phoneNumber'>;
 
 export interface VerifyPhoneNumberOutput {
-  certificationNumber: number;
+  certificationNumber: string;
 }
 
 export interface SocialLoginInput {
