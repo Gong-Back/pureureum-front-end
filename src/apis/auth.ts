@@ -11,7 +11,7 @@ import {
   SocialRegisterInput,
   RegisterInput,
 } from '@/constants/types';
-import { postAsync } from './API';
+import { getAsync, postAsync } from './API';
 
 export class AuthRepository {
   /**
@@ -117,14 +117,16 @@ export class AuthRepository {
    * OAuth2 기반 소셜 로그인을 진행하는 함수 socialLoginAsync
    * @param code 소셜 플랫폼에서 인가 받은 인증 코드 code
    * @param redirectUrl 로그인 성공 시 redirect 할 URL
+   * @param socialType 로그인을 진행한 소셜 플랫폼 정보
    * @returns 성공 시 200, 실패 시 40X 에러 반환
    */
   static async socialLoginAsync(
     code: string,
     redirectUrl: string,
+    socialType: Lowercase<SocialPlatformType>,
   ): ApiResponse<undefined> {
     const response = await postAsync<undefined, SocialLoginInput>(
-      `/oauth/login`,
+      `/oauth/login/${socialType}`,
       {
         code,
         redirectUrl,
@@ -162,6 +164,20 @@ export class AuthRepository {
         gender,
         socialType,
       },
+    );
+    return response;
+  }
+
+  /**
+   * OAuth2 회원가입 진행을 위한 정보를 서버로부터 받는 함수 socialSearchUserAsync
+   * @param email 회원가입을 진행할 유저의 email
+   * @returns 조회 성공 시 SocialRegisterInput 객체 return, 실패 시 410.
+   */
+  static async socialSearchUserAsync(
+    email: string,
+  ): ApiResponse<SocialRegisterInput> {
+    const response = await getAsync<SocialRegisterInput>(
+      `/oauth/temp/${email}`,
     );
     return response;
   }
