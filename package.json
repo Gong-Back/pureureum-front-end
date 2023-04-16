@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@emotion/react": "11.10.6",
@@ -21,6 +23,14 @@
   "devDependencies": {
     "@babel/core": "7.20.7",
     "@next/eslint-plugin-next": "13.1.1",
+    "@storybook/addon-essentials": "^7.0.5",
+    "@storybook/addon-interactions": "^7.0.5",
+    "@storybook/addon-links": "^7.0.5",
+    "@storybook/addon-styling": "^1.0.1",
+    "@storybook/blocks": "^7.0.5",
+    "@storybook/nextjs": "^7.0.5",
+    "@storybook/react": "^7.0.5",
+    "@storybook/testing-library": "^0.0.14-next.2",
     "@svgr/webpack": "6.5.1",
     "@tanstack/react-query-devtools": "4.20.4",
     "@types/node": "18.11.18",
@@ -40,6 +50,8 @@
     "eslint-plugin-react-hooks": "4.3.0",
     "husky": "8.0.2",
     "prettier": "2.8.1",
+    "storybook": "^7.0.5",
+    "tsconfig-paths-webpack-plugin": "^4.0.1",
     "typescript": "4.9.5"
   }
 }
