@@ -2,11 +2,9 @@ import {
   ApiResponse,
   GenderType,
   SocialPlatformType,
-  SocialLoginInput,
   SocialRegisterInput,
 } from '@/constants/types';
 import { API_URL } from '@/constants/apis';
-import { getAsync, postAsync } from './API';
 
 export class SocialRepository {
   /**
@@ -64,18 +62,33 @@ export class SocialRepository {
     gender: GenderType,
     socialType: SocialPlatformType,
   ): ApiResponse<undefined> {
-    const response = await postAsync<undefined, SocialRegisterInput>(
-      `/oauth/register`,
-      {
-        email,
-        name,
-        phoneNumber,
-        birthday,
-        gender,
-        socialType,
-      },
-    );
-    return response;
+    try {
+      const response = await fetch(`${API_URL}/oauth/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+        },
+        body: JSON.stringify({
+          email,
+          name,
+          phoneNumber,
+          birthday,
+          gender,
+          socialType,
+        }),
+      });
+      console.log(response);
+      return {
+        isSuccess: response.ok,
+        result: { code: response.status, messages: [] },
+      };
+    } catch (err) {
+      console.log(err);
+      return {
+        isSuccess: false,
+        result: { code: 400, messages: [] },
+      };
+    }
   }
 
   /**
@@ -86,9 +99,24 @@ export class SocialRepository {
   static async tempSearchUserAsync(
     email: string,
   ): ApiResponse<SocialRegisterInput> {
-    const response = await getAsync<SocialRegisterInput>(
-      `/oauth/temp/${email}`,
-    );
-    return response;
+    try {
+      const response = await fetch(`${API_URL}/oauth/temp/${email}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+        },
+      });
+      console.log(response);
+      return {
+        isSuccess: response.ok,
+        result: { code: response.status, messages: [] },
+      };
+    } catch (err) {
+      console.log(err);
+      return {
+        isSuccess: false,
+        result: { code: 400, messages: [] },
+      };
+    }
   }
 }
