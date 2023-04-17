@@ -34,6 +34,8 @@ const TextInput = ({
 }: TextInputProps) => (
   <styles.Input
     type="text"
+    value={value}
+    width={width}
     sizeType={sizeType}
     isFilled={isFilled}
     isRound={isRound}
