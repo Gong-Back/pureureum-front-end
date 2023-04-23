@@ -10,7 +10,6 @@ import { API_URL } from '@/constants/apis';
 const API = axios.create({
   baseURL: API_URL,
   responseType: 'json',
-  withCredentials: true,
   headers: {
     'Content-Type': 'application/json;charset=UTF-8',
   },

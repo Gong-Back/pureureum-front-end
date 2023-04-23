@@ -1,11 +1,11 @@
 import {
   ApiResponse,
-  ApiResponseData,
   GenderType,
   SocialPlatformType,
   SocialRegisterInput,
 } from '@/constants/types';
 import { API_URL } from '@/constants/apis';
+import { postAsync } from './API';
 
 export class SocialRepository {
   /**
@@ -42,7 +42,7 @@ export class SocialRepository {
 
   /**
    *
-   * OAuth2 기반 신규 유저의 회원가입을 처리하는 함수 socialRegisterAsync
+   * OAuth2 기반 신규 유저의 회원가입을 처리하는 함수 registerAsync
    * @param email 유저의 이메일
    * @param name 유저의 실명
    * @param phoneNumber 유저의 전화번호
@@ -59,30 +59,18 @@ export class SocialRepository {
     gender: GenderType,
     socialType: SocialPlatformType,
   ): ApiResponse<undefined> {
-    const response = await fetch(`${API_URL}/users/validate/email`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-        Origin: 'http://localhost:3000',
-      },
-      body: JSON.stringify({
+    const response = await postAsync<undefined, SocialRegisterInput>(
+      `/oauth/register`,
+      {
         email,
         name,
         phoneNumber,
         birthday,
         gender,
         socialType,
-      }),
-    });
-    const responseData = await response.json();
-    return {
-      isSuccess: responseData?.code === 200,
-      result: {
-        code: responseData?.code,
-        messages: responseData?.messages,
-        data: responseData?.data,
       },
-    };
+    );
+    return response;
   }
 
   /**
