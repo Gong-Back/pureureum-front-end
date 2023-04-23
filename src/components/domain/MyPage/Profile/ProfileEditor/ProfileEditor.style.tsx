@@ -13,12 +13,13 @@ export const ProfileSection = styled.div`
   flex-direction: column;
   gap: 15px 0px;
 
-  padding: 13px 0px 13px auto;
+  margin: 13px 0px 13px auto;
 `;
 
 export const UserId = styled.p(({ theme }) => {
   const { colors, fonts } = theme;
   return {
+    margin: '0px',
     ...fonts.pc.subtitle1,
     color: `${colors.grayscale.gray700}`,
   };
@@ -26,6 +27,7 @@ export const UserId = styled.p(({ theme }) => {
 
 export const ButtonContainer = styled.div`
   display: flex;
+  gap: 0px 15px;
 `;
 
 export const DefaultProfileImg = styled.div(({ theme }) => {
@@ -34,6 +36,7 @@ export const DefaultProfileImg = styled.div(({ theme }) => {
     width: '120px',
     height: '120px',
 
-    backgroundColor: `${colors.primary.logo}`,
+    background: `${colors.primary.logo}`,
+    borderRadius: '120px',
   };
 });

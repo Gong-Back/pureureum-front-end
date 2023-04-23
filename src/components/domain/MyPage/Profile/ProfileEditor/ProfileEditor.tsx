@@ -28,7 +28,7 @@ const ProfileEditor = ({ profileImgSrc, userId }: ProfileEditorProps) => {
       )}
       <styles.ProfileSection>
         <styles.UserId>{userId || 'test_userId'}</styles.UserId>
-        <div>
+        <styles.ButtonContainer>
           <Button
             width={110}
             sizeType="small"
@@ -51,7 +51,7 @@ const ProfileEditor = ({ profileImgSrc, userId }: ProfileEditorProps) => {
           >
             프로필 이미지 변경
           </Button>
-        </div>
+        </styles.ButtonContainer>
       </styles.ProfileSection>
     </styles.Wrapper>
   );

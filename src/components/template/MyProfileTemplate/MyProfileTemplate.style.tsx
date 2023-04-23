@@ -19,14 +19,13 @@ export const Main = styled.main`
   margin: 94px auto;
 `;
 
-export const Title = styled.p(({ theme }) => {
-  const { colors, fonts } = theme;
-  return {
-    margin: '9px',
-    ...fonts.pc.body2B,
-    color: `${colors.grayscale.dark}`,
-  };
-});
+export const PersonalSection = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  gap: 30px 0px;
+  margin: 58px 0px 96px 0px;
+`;
 
 export const Section = styled.section(({ theme }) => {
   const { colors } = theme;
@@ -64,44 +63,3 @@ export const Content = styled.span(({ theme }) => {
     color: `${colors.grayscale.gray700}`,
   };
 });
-
-export const ChangeButton = styled.button<{ width?: number }>(
-  ({ theme, width = '100px' }) => {
-    const { colors, fonts } = theme;
-    return {
-      width,
-      height: '35px',
-
-      marginLeft: 'auto',
-      padding: '6px auto',
-
-      backgroundColor: colors.grayscale.white,
-      border: `1px solid ${colors.primary.greenDefault}`,
-      borderRadius: '25px',
-
-      color: colors.primary.greenDefault,
-      ...fonts.pc.body3,
-    };
-  },
-);
-
-export const ConfirmButton = styled.button<{ isConfirm: boolean }>(
-  ({ theme, isConfirm = false }) => {
-    const { colors, fonts } = theme;
-    return {
-      width: '300px',
-      height: '45px',
-
-      marginRight: 'auto',
-      padding: '9px auto',
-
-      backgroundColor: isConfirm
-        ? colors.primary.greenDefault
-        : colors.grayscale.gray400,
-      borderRadius: '5px',
-
-      color: colors.grayscale.white,
-      ...fonts.pc.body2B,
-    };
-  },
-);

@@ -1,5 +1,14 @@
 import styled from '@emotion/styled';
 
+export const Title = styled.p(({ theme }) => {
+  const { colors, fonts } = theme;
+  return {
+    margin: '0px 0px 9px',
+    ...fonts.pc.body2B,
+    color: `${colors.grayscale.dark}`,
+  };
+});
+
 export const Wrapper = styled.section(({ theme }) => {
   const { colors } = theme;
   return {
