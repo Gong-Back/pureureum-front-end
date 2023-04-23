@@ -14,6 +14,26 @@ export async function middleware(request: NextRequest) {
     if (accessToken) return NextResponse.redirect(origin);
   }
 
+  // 로그인, 회원가입 시도 시 access token이 존재한다면 메인 화면으로 redirect.
+  if (pathname.startsWith('/auth/register')) {
+    const email = searchParams.get('email');
+    const socialType = searchParams.get('socialType');
+
+    if (!email || !socialType) return NextResponse.next();
+
+    const tempSearchResponse = await SocialRepository.tempSearchUserAsync(
+      email,
+    );
+
+    if (!tempSearchResponse.isSuccess) {
+      const loginPageUrl = new URL(`/auth/login`, origin);
+      loginPageUrl.searchParams.set('feedback', 'NOT_STORED');
+      return NextResponse.redirect(loginPageUrl);
+    }
+
+    return NextResponse.next();
+  }
+
   // 소셜 로그인 진행 시, 인가 코드가 있다면 login API 성공 여부에 따라 redirect.
   if (pathname.startsWith('/oauth2/redirect')) {
     const code = searchParams.get('code');
@@ -25,7 +45,7 @@ export async function middleware(request: NextRequest) {
     ): checkedType is SocialPlatformType =>
       SOCIAL_PLATFORM_LIST.includes(checkedType);
 
-    const loginPageUrl = new URL(`/auth/register`, origin);
+    const loginPageUrl = new URL(`/auth/login`, origin);
 
     if (!code || !socialType || !isSocialPlatformType(socialType)) {
       loginPageUrl.searchParams.set('feedback', 'WRONG_PLATFORM');
@@ -42,9 +62,11 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(loginPageUrl);
     }
 
+    const userSocialEmail = loginResponse.result.data!.email;
+
     const registerPageUrl = new URL(`/auth/register`, origin);
     registerPageUrl.searchParams.set('socialType', socialType);
-    registerPageUrl.searchParams.set('email', loginResponse.result.data!.email);
+    registerPageUrl.searchParams.set('email', userSocialEmail);
 
     return NextResponse.redirect(registerPageUrl);
   }
