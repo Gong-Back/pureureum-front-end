@@ -1,10 +1,9 @@
 // middleware.ts
 
 import { NextRequest, NextResponse } from 'next/server';
-import { AuthRepository } from '@/apis/auth';
 import { SocialRepository } from '@/apis/social';
 import { SocialPlatformType } from '@/constants/types';
-import { socialPlatformList } from '@/constants/apis/social';
+import { SOCIAL_PLATFORM_LIST, ERROR_CODE } from '@/constants/apis';
 
 export async function middleware(request: NextRequest) {
   const accessToken = request.cookies.get('authorization');
@@ -24,32 +23,31 @@ export async function middleware(request: NextRequest) {
     const isSocialPlatformType = (
       checkedType: string,
     ): checkedType is SocialPlatformType =>
-      ['naver', 'kakao', 'google'].includes(checkedType);
+      SOCIAL_PLATFORM_LIST.includes(checkedType);
 
-    if (!code || !socialType || !isSocialPlatformType(socialType))
-      return NextResponse.redirect(`${origin}/login`);
+    const loginPageUrl = new URL(`/auth/register`, origin);
 
-    const response = await SocialRepository.loginAsync(code, socialType);
-    return NextResponse.redirect(
-      response.isSuccess ? origin : `${origin}/login`,
-    );
+    if (!code || !socialType || !isSocialPlatformType(socialType)) {
+      loginPageUrl.searchParams.set('feedback', 'WRONG_PLATFORM');
+      return NextResponse.redirect(loginPageUrl);
+    }
+
+    const loginResponse = await SocialRepository.loginAsync(code, socialType);
+    if (loginResponse.isSuccess) return NextResponse.redirect(origin);
+
+    if (
+      loginResponse.result.code === ERROR_CODE.REQUEST_RESOURCE_ALREADY_EXISTS
+    ) {
+      loginPageUrl.searchParams.set('feedback', 'ALREADY_EXISTS');
+      return NextResponse.redirect(loginPageUrl);
+    }
+
+    const registerPageUrl = new URL(`/auth/register`, origin);
+    registerPageUrl.searchParams.set('socialType', socialType);
+    registerPageUrl.searchParams.set('email', loginResponse.result.data!.email);
+
+    return NextResponse.redirect(registerPageUrl);
   }
 
-  // 만약 요청 header에 access token, refresh token이 존재한다면 이를 cookie로 설정.
-  const response = NextResponse.next();
-  if (request.headers.has('authorization'))
-    response.cookies.set('accessToken', request.headers.get('authorization'), {
-      maxAge: 30 * 60, // access token의 유효 기간 30분 반영
-      httpOnly: true,
-      secure: true,
-    });
-
-  if (request.headers.has('refreshToken'))
-    response.cookies.set('refreshToken', request.headers.get('refreshToken'), {
-      maxAge: 7 * 24 * 60 * 60, // refresh token의 유효 기간 7일 반영
-      httpOnly: true,
-      secure: true,
-    });
-
-  return response;
+  return NextResponse.next();
 }

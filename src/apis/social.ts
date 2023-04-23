@@ -1,5 +1,6 @@
 import {
   ApiResponse,
+  ApiResponseData,
   GenderType,
   SocialPlatformType,
   SocialRegisterInput,
@@ -18,29 +19,25 @@ export class SocialRepository {
     code: string,
     socialType: SocialPlatformType,
   ): ApiResponse<undefined> {
-    try {
-      const response = await fetch(`${API_URL}/oauth/login/${socialType}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-        },
-        body: JSON.stringify({
-          code,
-          redirectUrl: 'localhost:3000/oauth2/redirect',
-        }),
-      });
-      console.log(response);
-      return {
-        isSuccess: response.ok,
-        result: { code: response.status, messages: [] },
-      };
-    } catch (err) {
-      console.log(err);
-      return {
-        isSuccess: false,
-        result: { code: 400, messages: [] },
-      };
-    }
+    const response = await fetch(`${API_URL}/oauth/login/${socialType}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify({
+        code,
+        redirectUrl: `http://localhost:3000/oauth2/redirect/${socialType}`,
+      }),
+    });
+    const responseData = await response.json();
+    return {
+      isSuccess: responseData?.code === 200,
+      result: {
+        code: responseData?.code,
+        messages: responseData?.messages,
+        data: responseData?.data,
+      },
+    };
   }
 
   /**
@@ -62,33 +59,26 @@ export class SocialRepository {
     gender: GenderType,
     socialType: SocialPlatformType,
   ): ApiResponse<undefined> {
-    try {
-      const response = await fetch(`${API_URL}/oauth/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-        },
-        body: JSON.stringify({
-          email,
-          name,
-          phoneNumber,
-          birthday,
-          gender,
-          socialType,
-        }),
-      });
-      console.log(response);
-      return {
-        isSuccess: response.ok,
-        result: { code: response.status, messages: [] },
-      };
-    } catch (err) {
-      console.log(err);
-      return {
-        isSuccess: false,
-        result: { code: 400, messages: [] },
-      };
-    }
+    const response = await fetch(`${API_URL}/users/validate/email`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        Origin: 'http://localhost:3000',
+      },
+      body: JSON.stringify({
+        email,
+        name,
+        phoneNumber,
+        birthday,
+        gender,
+        socialType,
+      }),
+    });
+    console.log(response);
+    return {
+      isSuccess: true,
+      result: { code: response.status, messages: [''], data: undefined },
+    };
   }
 
   /**
@@ -99,24 +89,16 @@ export class SocialRepository {
   static async tempSearchUserAsync(
     email: string,
   ): ApiResponse<SocialRegisterInput> {
-    try {
-      const response = await fetch(`${API_URL}/oauth/temp/${email}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-        },
-      });
-      console.log(response);
-      return {
-        isSuccess: response.ok,
-        result: { code: response.status, messages: [] },
-      };
-    } catch (err) {
-      console.log(err);
-      return {
-        isSuccess: false,
-        result: { code: 400, messages: [] },
-      };
-    }
+    const response = await fetch(`${API_URL}/oauth/temp/${email}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    });
+    console.log(response);
+    return {
+      isSuccess: true,
+      result: { code: response.status, messages: [''], data: response.data },
+    };
   }
 }
