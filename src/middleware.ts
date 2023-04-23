@@ -14,7 +14,7 @@ export async function middleware(request: NextRequest) {
     if (accessToken) return NextResponse.redirect(origin);
   }
 
-  // 로그인, 회원가입 시도 시 access token이 존재한다면 메인 화면으로 redirect.
+  // OAuth2 회원가입 이라면, 임시로 저장된 유저 정보를 서버에서 인계 받아야 한다.
   if (pathname.startsWith('/auth/register')) {
     const email = searchParams.get('email');
     const socialType = searchParams.get('socialType');
@@ -52,9 +52,11 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(loginPageUrl);
     }
 
+    // OAuth2 로그인을 먼저 진행하고, 성공했다면 메인 페이지로 리다이렉트 시킨다.
     const loginResponse = await SocialRepository.loginAsync(code, socialType);
     if (loginResponse.isSuccess) return NextResponse.redirect(origin);
 
+    // OAuth2 로그인을 실패했다면, 이미 타 플랫폼으로 가입한 계정인지 신규 유저인지를 판별한다.
     if (
       loginResponse.result.code === ERROR_CODE.REQUEST_RESOURCE_ALREADY_EXISTS
     ) {
