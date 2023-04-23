@@ -13,11 +13,13 @@ export const COLORS = {
     green500: '#048435',
     green600: '#083A1B',
     caption: '#FF823C',
+    logo: 'linear-gradient(162.16deg, #A4E9FF 8.64%, #43C16E 94.99%, #86DEA4 94.99%)',
   },
   grayscale: {
     white: '#FFFFFF',
     cremeWhite: '#FCFBFA',
     background: '#F8F8F8',
+    blocked: 'rgba(20, 21, 20, 0.5)',
     gray100: '#E5E5E5',
     gray200: '#CECFCD',
     gray300: '#C8C8C8',
