@@ -10,6 +10,7 @@ import { API_URL } from '@/constants/apis';
 const API = axios.create({
   baseURL: API_URL,
   responseType: 'json',
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json;charset=UTF-8',
   },
@@ -30,8 +31,8 @@ function handleApiError(err: unknown): ApiError {
         err.response;
       return {
         code: errorResponseData.code,
-        messages: errorResponseData.messages,
-        data: errorResponseData.data,
+        messages: errorResponseData.messages ?? '',
+        data: errorResponseData.data ?? null,
       };
     }
     // 요청을 전송하였으나 서버에서 응답을 받지 못한 경우
@@ -39,6 +40,7 @@ function handleApiError(err: unknown): ApiError {
       return {
         code: -1,
         messages: ['서버와의 통신 과정에서 문제가 발생했습니다.'],
+        data: null,
       };
     }
   }
@@ -46,6 +48,7 @@ function handleApiError(err: unknown): ApiError {
   return {
     code: 0,
     messages: ['원인 미상의 오류가 발생했습니다.'],
+    data: null,
   };
 }
 

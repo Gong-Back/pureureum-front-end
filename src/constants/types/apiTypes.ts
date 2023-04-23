@@ -7,7 +7,7 @@ export interface ApiResponseData<T> {
   /** 백엔드 측에서 전송한 응답 메세지 */
   messages: string[];
   /** 백엔드 측에서 전송한 응답 데이터 */
-  data?: T;
+  data: T;
 }
 
 /**
@@ -27,7 +27,7 @@ export interface ApiError {
   /** 백엔드 측에서 전송한 에러 관련 메세지 */
   messages: string[];
   /** 백엔드 측에서 전송한 에러 관련 데이터 */
-  data?: ApiErrorFieldData[];
+  data: ApiErrorFieldData | null;
 }
 
 /**
