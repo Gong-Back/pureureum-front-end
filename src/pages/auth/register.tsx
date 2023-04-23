@@ -15,7 +15,8 @@ import RegisterTemplate from '@/components/template/RegisterTemplate';
 
 // NOTICE: Server - Side 에서 사전에 OAuth2 로 가입되었는지를 체크하고, 관련 정보를 주입한다.
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { socialType, email: socialEmail } = ctx.query as SocialRegisterParam;
+  const { socialType = null, email: socialEmail = null } =
+    ctx.query as SocialRegisterParam;
   return {
     props: { socialType, socialEmail },
   };
@@ -55,8 +56,6 @@ const Register = ({ socialType, socialEmail }: RegisterProps) => {
   const [currentRegisterStep, setCurrentRegisterStep] = useState(
     Number(!!socialType),
   );
-
-  console.log(currentRegisterStep);
 
   const { isCheckUserEmail, isCheckPhoneNumber, certificationNumber } =
     verifyInformation;

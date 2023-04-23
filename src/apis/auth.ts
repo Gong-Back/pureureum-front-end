@@ -1,17 +1,14 @@
 import {
   ApiResponse,
   GenderType,
-  SocialPlatformType,
   LoginInput,
   LoginOutput,
   VerifyEmailInput,
   VerifyPhoneNumberInput,
   VerifyPhoneNumberOutput,
-  SocialLoginInput,
-  SocialRegisterInput,
   RegisterInput,
 } from '@/constants/types';
-import { getAsync, postAsync } from './API';
+import { postAsync } from './API';
 
 export class AuthRepository {
   /**

@@ -74,10 +74,14 @@ export class SocialRepository {
         socialType,
       }),
     });
-    console.log(response);
+    const responseData = await response.json();
     return {
-      isSuccess: true,
-      result: { code: response.status, messages: [''], data: undefined },
+      isSuccess: responseData?.code === 200,
+      result: {
+        code: responseData?.code,
+        messages: responseData?.messages,
+        data: responseData?.data,
+      },
     };
   }
 
@@ -95,10 +99,14 @@ export class SocialRepository {
         'Content-Type': 'application/json;charset=UTF-8',
       },
     });
-    console.log(response);
+    const responseData = await response.json();
     return {
-      isSuccess: true,
-      result: { code: response.status, messages: [''], data: response.data },
+      isSuccess: responseData?.code === 200,
+      result: {
+        code: responseData?.code,
+        messages: responseData?.messages,
+        data: responseData?.data,
+      },
     };
   }
 }
