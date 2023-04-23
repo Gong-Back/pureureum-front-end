@@ -4,6 +4,7 @@ const Document = () => (
   <Html lang="en">
     <Head />
     <body>
+      <div id="modal" />
       <Main />
       <NextScript />
     </body>
