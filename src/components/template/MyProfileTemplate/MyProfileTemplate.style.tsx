@@ -11,13 +11,22 @@ export const Header = styled.header`
   gap: 10px 0px;
 `;
 
-export const Main = styled.section`
+export const Main = styled.main`
   display: flex;
   flex-direction: column;
 
   width: 600px;
   margin: 94px auto;
 `;
+
+export const Title = styled.p(({ theme }) => {
+  const { colors, fonts } = theme;
+  return {
+    margin: '9px',
+    ...fonts.pc.body2B,
+    color: `${colors.grayscale.dark}`,
+  };
+});
 
 export const Section = styled.section(({ theme }) => {
   const { colors } = theme;

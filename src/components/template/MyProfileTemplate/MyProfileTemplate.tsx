@@ -2,7 +2,7 @@ import React from 'react';
 
 import { GenderType } from '@/constants/types';
 
-import BasicInformation from '@/components/domain/MyPage/Profile/BasicInformation';
+import PersonalInformation from '@/components/domain/MyPage/Profile/PersonalInformation';
 import SideNavigationBar from '@/components/domain/MyPage/SideNavigationBar';
 
 import * as style from './MyProfileTemplate.style';
@@ -25,7 +25,8 @@ const MyProfileTemplate = ({
   <style.Wrapper>
     <SideNavigationBar />
     <style.Main>
-      <BasicInformation
+      <style.Title>기본 정보</style.Title>
+      <PersonalInformation
         name={name}
         email={email}
         gender={gender}
