@@ -1,20 +1,42 @@
 import React, { useRef, useState } from 'react';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 
 import { AuthRepository } from '@/apis/auth';
-import { RegisterFormInput, RegisterVerifyInput } from '@/constants/types';
+import {
+  RegisterFormInput,
+  RegisterVerifyInput,
+  SocialPlatformType,
+  SocialRegisterParam,
+} from '@/constants/types';
 import ValidationUtil from '@/utils/validation';
 
 import RegisterTemplate from '@/components/template/RegisterTemplate';
 
-const Register = () => {
+// NOTICE: Server - Side 에서 사전에 OAuth2 로 가입되었는지를 체크하고, 관련 정보를 주입한다.
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { socialType, email: socialEmail } = ctx.query as SocialRegisterParam;
+  return {
+    props: { socialType, socialEmail },
+  };
+};
+
+interface RegisterProps {
+  /** OAuth2 로 회원가입 진행 시, 가입을 진행한 플랫폼 정보 */
+  socialType: SocialPlatformType;
+  /** OAuth2 로 회원가입 진행 시, 서버에서 임시 가공된 유저 Email 값 */
+  socialEmail: string;
+}
+
+const Register = ({ socialType, socialEmail }: RegisterProps) => {
   const router = useRouter();
+
   // NOTICE : Form Validation fail 시 피드백 메세지를 제공하기 위한 ref
   const feedbackRef =
     useRef<HTMLParagraphElement>() as React.MutableRefObject<HTMLParagraphElement>;
 
   const [userInformation, setUserInformation] = useState<RegisterFormInput>({
-    email: '',
+    email: socialEmail ?? '',
     password: '',
     confirmPassword: '',
     typedCertificationNumber: '',
@@ -22,6 +44,7 @@ const Register = () => {
     phoneNumber: '',
     birthday: '',
     gender: 'MALE',
+    ...(socialType && { socialType }),
   });
   const [verifyInformation, setVerifyInformation] =
     useState<RegisterVerifyInput>({
@@ -29,7 +52,11 @@ const Register = () => {
       isCheckUserEmail: false,
       isCheckPhoneNumber: false,
     });
-  const [currentRegisterStep, setCurrentRegisterStep] = useState(0);
+  const [currentRegisterStep, setCurrentRegisterStep] = useState(
+    Number(!!socialType),
+  );
+
+  console.log(currentRegisterStep);
 
   const { isCheckUserEmail, isCheckPhoneNumber, certificationNumber } =
     verifyInformation;
