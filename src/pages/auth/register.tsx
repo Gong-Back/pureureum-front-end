@@ -3,6 +3,7 @@ import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 
 import { AuthRepository } from '@/apis/auth';
+import { SocialRepository } from '@/apis/social';
 import {
   RegisterFormInput,
   RegisterVerifyInput,
@@ -175,15 +176,23 @@ const Register = ({ socialType, socialEmail }: RegisterProps) => {
       feedbackRef.current.innerText = errorMessage;
       return;
     }
+
     // 이후 최종적으로 유저의 정보를 인계하여 회원가입 처리를 완료시킨다.
-    const response = await AuthRepository.registerAsync(
-      email,
-      password,
-      name,
-      phoneNumber,
-      birthday,
-      gender,
-    );
+    const response = socialType 
+      ? await SocialRepository.registerAsync(email,
+        name,
+        phoneNumber,
+        birthday,
+        gender, 
+        socialType)
+      : await AuthRepository.registerAsync(
+        email,
+        password,
+        name,
+        phoneNumber,
+        birthday,
+        gender,
+      );
     if (!response.isSuccess) {
       const [errorMessage] = response.result.messages;
       feedbackRef.current.innerText = errorMessage;
