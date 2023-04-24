@@ -1,5 +1,7 @@
+import type { ParsedUrlQuery } from 'querystring';
+
 export type GenderType = 'MALE' | 'FEMALE';
-export type SocialPlatformType = 'NAVER' | 'KAKAO' | 'GOOGLE';
+export type SocialPlatformType = 'naver' | 'kakao' | 'google';
 
 export interface LoginInput {
   email: string;
@@ -15,6 +17,7 @@ export interface RegisterInput extends LoginInput {
   phoneNumber: string;
   birthday: string;
   gender: GenderType;
+  socialType?: SocialPlatformType;
 }
 
 export interface RegisterFormInput extends RegisterInput {
@@ -43,4 +46,9 @@ export interface SocialLoginInput {
 
 export interface SocialRegisterInput extends Omit<RegisterInput, 'password'> {
   socialType: SocialPlatformType;
+}
+
+export interface SocialRegisterParam extends ParsedUrlQuery {
+  email: string;
+  socialType: Lowercase<SocialPlatformType>;
 }
