@@ -5,6 +5,7 @@ export const Wrapper = styled.div`
   flex-direction: column;
 
   width: 700px;
+  margin: auto;
 
   border-radius: 5px;
 `;
@@ -13,7 +14,11 @@ export const Header = styled.header(({ theme }) => {
   const { colors } = theme;
   return {
     height: '60px',
-    padding: '14px 0px',
+    padding: '14px',
+
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
 
     background: colors.grayscale.white,
     boxShadow: '0px 0px 4px rgba(88, 88, 88, 0.25)',
@@ -23,6 +28,7 @@ export const Header = styled.header(({ theme }) => {
 export const Title = styled.h5(({ theme }) => {
   const { colors, fonts } = theme;
   return {
+    margin: '0px auto',
     color: colors.grayscale.gray600,
     ...fonts.pc.body1B,
   };
@@ -31,6 +37,8 @@ export const Title = styled.h5(({ theme }) => {
 export const Section = styled.section(({ theme }) => {
   const { colors } = theme;
   return {
-    color: colors.grayscale.white,
+    padding: '14px',
+
+    backgroundColor: colors.grayscale.white,
   };
 });
