@@ -6,7 +6,9 @@ import ModalCloseIconSvg from '@/assets/icons/modalCloseIcon.svg';
 import * as styles from './ModalTemplate.style';
 
 interface ModalTemplateProps {
+  /** 모달 헤더에 보여질 타이틀 */
   title: string;
+  /** 모달 내부에 들어갈 하위 컴포넌트 */
   children: React.ReactNode;
 }
 

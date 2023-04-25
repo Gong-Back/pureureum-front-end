@@ -14,7 +14,6 @@ const ModalPortal = () => {
 
   if (isOpen) {
     // 만약 mount 되기 전이라면, window 객체의 정보가 없으므로 false를 return 하게 됨.
-    // modal id를 가진 div는 _document.tsx에 정의되었으므로 타입 단언을 통해 무조건 Element를 return.
     const modalRoot =
       window !== undefined ? document.getElementById('modal') : null;
 
