@@ -1,5 +1,6 @@
 import React from 'react';
-
+import TextInput from '@/components/common/TextInput';
+import Button from '@/components/common/Button';
 import { RegisterFormInput } from '@/constants/types';
 
 import * as style from './VerifyPhoneNumberForm.style';
@@ -44,24 +45,26 @@ const VerifyPhoneNumberForm = ({
   return (
     <style.Wrapper>
       <style.Section>
-        <style.Input
+        <TextInput
           name="phoneNumber"
           placeholder="핸드폰 번호"
           value={phoneNumber}
           width={269}
           onChange={handleUserInput}
           disabled={isCheckPhoneNumber}
+          isRound
         />
-        <style.CheckButton onClick={verifyPhoneNumber}>
+        <Button onClick={verifyPhoneNumber} isFilled>
           인증번호 요청
-        </style.CheckButton>
+        </Button>
       </style.Section>
-      <style.Input
+      <TextInput
         name="typedCertificationNumber"
         placeholder="인증번호"
         value={typedCertificationNumber}
         onChange={handleUserInput}
         disabled={!certificationNumber}
+        isRound
       />
     </style.Wrapper>
   );

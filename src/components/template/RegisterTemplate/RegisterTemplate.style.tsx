@@ -36,54 +36,17 @@ export const Footer = styled.footer`
   flex-direction: column;
   align-items: center;
   gap: 10px 0px;
+
+  > .confirm-button {
+    width: 100%;
+  }
 `;
-
-export const Title = styled.h5(({ theme }) => {
-  const { colors, fonts } = theme;
-  return {
-    margin: '0px',
-
-    color: colors.grayscale.dark,
-    ...fonts.pc.subtitle1,
-  };
-});
-
-export const Subtitle = styled.p(({ theme }) => {
-  const { colors, fonts } = theme;
-  return {
-    margin: '0px',
-
-    color: colors.grayscale.gray500,
-    ...fonts.pc.body1R,
-  };
-});
 
 export const Feedback = styled.p(({ theme }) => {
   const { colors, fonts } = theme;
   return {
     margin: '0px',
-
-    color: colors.primary.caption,
+    color: colors.caption,
     ...fonts.pc.caption,
   };
 });
-
-export const ConfirmButton = styled.button<{ isConfirm: boolean }>(
-  ({ theme, isConfirm = false }) => {
-    const { colors, fonts } = theme;
-    return {
-      width: '100%',
-      height: '46px',
-
-      padding: '9px auto',
-
-      backgroundColor: isConfirm
-        ? colors.primary.greenDefault
-        : colors.grayscale.gray400,
-      borderRadius: '5px',
-
-      color: colors.grayscale.white,
-      ...fonts.pc.body2B,
-    };
-  },
-);

@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 
 import { GenderType, RegisterFormInput } from '@/constants/types';
 
+import TextInput from '@/components/common/TextInput';
+import Text from '@/components/common/Text';
+import { COLORS } from '@/constants/styles';
 import * as style from './PersonalDataForm.style';
 
 export interface PersonalDataFormProps {
@@ -61,62 +64,69 @@ const PersonalDataForm = ({
   return (
     <style.Wrapper>
       <style.Section>
-        <style.Input
+        <TextInput
           name="name"
           placeholder="이름"
           value={name}
           onChange={handleUserInput}
+          isRound
         />
       </style.Section>
       <style.Section>
-        <style.Title>생년월일</style.Title>
-        <style.InputWrapper>
-          <style.Input
-            width={148}
-            textAlign="right"
-            name="year"
-            value={year.length ? year : ''}
-            onChange={handleUserInput}
-          />
-          <style.InputPlaceholder>년</style.InputPlaceholder>
-        </style.InputWrapper>
-        <style.InputWrapper>
-          <style.Input
-            width={110}
-            textAlign="right"
-            name="month"
-            value={month.length ? month : ''}
-            onChange={handleUserInput}
-          />
-          <style.InputPlaceholder>월</style.InputPlaceholder>
-        </style.InputWrapper>
-        <style.InputWrapper>
-          <style.Input
-            width={110}
-            textAlign="right"
-            name="day"
-            value={day.length ? day : ''}
-            onChange={handleUserInput}
-          />
-          <style.InputPlaceholder>일</style.InputPlaceholder>
-        </style.InputWrapper>
+        <Text
+          fontStyleName="body1B"
+          color={COLORS.grayscale.gray500}
+          className="title"
+        >
+          생년월일
+        </Text>
+        <TextInput
+          placeholder="년"
+          name="year"
+          value={year.length ? year : ''}
+          onChange={handleUserInput}
+          isRound
+          className="input year"
+        />
+        <TextInput
+          placeholder="월"
+          name="month"
+          value={month.length ? month : ''}
+          onChange={handleUserInput}
+          isRound
+          className="input"
+        />
+        <TextInput
+          placeholder="일"
+          name="day"
+          value={day.length ? day : ''}
+          onChange={handleUserInput}
+          isRound
+          className="input"
+        />
       </style.Section>
       <style.Section>
-        <style.Title>성별</style.Title>
-        <style.Button
+        <Text
+          fontStyleName="body1B"
+          color={COLORS.grayscale.gray500}
+          className="title"
+        >
+          성별
+        </Text>
+        <style.ToggleButton
           name="FEMALE"
           onClick={() => handleSelectGender('FEMALE')}
           isSelected={gender === 'FEMALE'}
         >
           여자
-        </style.Button>
-        <style.Button
+        </style.ToggleButton>
+        <style.ToggleButton
           name="MALE"
           onClick={() => handleSelectGender('MALE')}
           isSelected={gender === 'MALE'}
         >
           남자
-        </style.Button>
+        </style.ToggleButton>
       </style.Section>
     </style.Wrapper>
   );
