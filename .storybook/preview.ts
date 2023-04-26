@@ -1,7 +1,10 @@
+import Link from 'next/link';
 import { withThemeFromJSXProvider } from '@storybook/addon-styling';
 import type { Preview } from '@storybook/react';
 import { ThemeProvider } from '@emotion/react';
 import { theme } from '../src/constants/styles';
+
+import { GlobalStyles } from './StorybookGlobalStyle';
 
 const preview: Preview = {
   parameters: {
@@ -19,6 +22,7 @@ const preview: Preview = {
         theme: theme,
       },
       Provider: ThemeProvider,
+      GlobalStyles,
     }),
   ],
 };
