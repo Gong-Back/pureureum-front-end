@@ -1,30 +1,32 @@
-import React from 'react';
+import React, { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
+import { COLORS } from '~/src/constants/styles';
 import * as styles from './Button.style';
 
-export interface ButtonProps {
+export interface ButtonProps
+  extends DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
   children: React.ReactNode;
-  /** 높이를 기준으로 분류되는 사이즈 타입 (각각 높이: 35/40/45px) */
+  /** 높이를 기준으로 분류되는 사이즈 타입 (각각 높이: 35/40/45px, default: medium) */
   sizeType?: 'small' | 'medium' | 'large';
-  /** 버튼 컴포넌트 너비 */
-  width?: number;
-  /** 버튼 텍스트 색상 (default: colors.grayscale.white) */
-  textColor?: string;
-  /** 버튼 테두리 색상 (default: none) */
-  borderColor?: string;
-  /** 버튼 배경 색상 (default: colors.primary.greendefault) */
-  backgroundColor?: string;
-  /** 버튼 테두리 둥글게 할지 여부 */
+  /** 버튼 테두리 둥글게 할지 여부 (default: false) */
   isRound?: boolean;
+  /** 배경색 채울지에 대한 여부 (default: false) */
+  isFilled?: boolean;
+  /** 버튼 색상 (default: colors.primary.greenDefault) */
+  themeColor?: string;
   className?: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
+/**
+ * 버튼 컴포넌트
+ */
 const Button = ({
-  sizeType,
-  width,
-  textColor,
-  borderColor,
-  backgroundColor,
+  sizeType = 'medium',
+  themeColor = COLORS.primary.greenDefault,
+  isFilled,
   isRound,
   className,
   children,
@@ -32,11 +34,9 @@ const Button = ({
 }: ButtonProps) => (
   <styles.Button
     sizeType={sizeType}
-    width={width}
     isRound={isRound}
-    textColor={textColor}
-    borderColor={borderColor}
-    backgroundColor={backgroundColor}
+    isFilled={isFilled}
+    themeColor={themeColor}
     onClick={onClick}
     className={className}
   >
