@@ -1709,7 +1709,7 @@
     remark-slug "^6.0.0"
     ts-dedent "^2.0.0"
 
-"@storybook/addon-essentials@^7.0.5":
+"@storybook/addon-essentials@7.0.5":
   version "7.0.5"
   resolved "https://registry.yarnpkg.com/@storybook/addon-essentials/-/addon-essentials-7.0.5.tgz#fbeb38c014a5f46190c49551a7efa6c022a1c78d"
   integrity sha512-6wektUddMelsWdcRfZfvKfaRPE5d6IsFBbZtE97qcrYnm63mSFwfwC5Kr77ithOOk24cpv5N2a59AL0AEq6sNA==
@@ -1738,7 +1738,7 @@
     "@storybook/global" "^5.0.0"
     "@storybook/preview-api" "7.0.5"
 
-"@storybook/addon-interactions@^7.0.5":
+"@storybook/addon-interactions@7.0.5":
   version "7.0.5"
   resolved "https://registry.yarnpkg.com/@storybook/addon-interactions/-/addon-interactions-7.0.5.tgz#f37f0de7347d4a0f9736544ebefa847f07b76ce8"
   integrity sha512-ATmZbM/EKkHMHUCXR+rMyxV5Kr1t6kStcmGxGxOw/dm68tbCAos3xqKJ+7PcrvjGhyzCYcbITMFpPMm8OnIz6A==
@@ -1757,7 +1757,7 @@
     polished "^4.2.2"
     ts-dedent "^2.2.0"
 
-"@storybook/addon-links@^7.0.5":
+"@storybook/addon-links@7.0.5":
   version "7.0.5"
   resolved "https://registry.yarnpkg.com/@storybook/addon-links/-/addon-links-7.0.5.tgz#e764ddd57d44bb68309d0002de571f98ab5c7f6f"
   integrity sha512-XltdGrWWlyW9mxeyS11Khi963ajV6B+TWUMi/U5Ka/uTHzVoB2vsB7jzkVKLc0mSR7oIkP+aZmkzaWNZZq9v1A==
@@ -1800,7 +1800,7 @@
     "@storybook/types" "7.0.5"
     ts-dedent "^2.0.0"
 
-"@storybook/addon-styling@^1.0.1":
+"@storybook/addon-styling@1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@storybook/addon-styling/-/addon-styling-1.0.1.tgz#c68268a4e7ee993b5f595a0f40c9ba907a44fb2c"
   integrity sha512-ERi52/Rebk3HPQAA0Xnhd5Opl3Q4csX1yYkYKRa5vAKTKIX7n3YT6I5V5zasCdNHT5+LkJ5ZUJb4AQ5T/QPYRw==
@@ -1861,7 +1861,7 @@
     "@storybook/client-logger" "7.0.5"
     "@storybook/manager-api" "7.0.5"
 
-"@storybook/blocks@7.0.5", "@storybook/blocks@^7.0.5":
+"@storybook/blocks@7.0.5":
   version "7.0.5"
   resolved "https://registry.yarnpkg.com/@storybook/blocks/-/blocks-7.0.5.tgz#9d0a54145ea6f0f5ef909f26769ccd805a8983a8"
   integrity sha512-cOWRqmgRMZ+pgnqRv6jC2ehvXiQxDJsTQAoWO2+5iUuBmciv6s9u7FQFkW9Wn1TUkkLwEvY5jnzMNvzZsEBx1w==
@@ -2271,7 +2271,7 @@
   resolved "https://registry.yarnpkg.com/@storybook/mdx2-csf/-/mdx2-csf-1.0.0.tgz#ce4b2e44c9082bf382db835eef611b0097b7d771"
   integrity sha512-dBAnEL4HfxxJmv7LdEYUoZlQbWj9APZNIbOaq0tgF8XkxiIbzqvgB0jhL/9UOrysSDbQWBiCRTu2wOVxedGfmw==
 
-"@storybook/nextjs@^7.0.5":
+"@storybook/nextjs@7.0.5":
   version "7.0.5"
   resolved "https://registry.yarnpkg.com/@storybook/nextjs/-/nextjs-7.0.5.tgz#442dca0e7aa688021b7977f23ce4365f2b1497ac"
   integrity sha512-Tth/qIMjn1VG1BbRSUX4iIOQV/UP4NlCxTH9WJlQVpmyTTn0kIm63QU67R6nAF2r7Jaa3o6wFnupoxOxTXUwhg==
@@ -2394,7 +2394,7 @@
   resolved "https://registry.yarnpkg.com/@storybook/react-dom-shim/-/react-dom-shim-7.0.5.tgz#ebfc224a20ae816da54f3f70f62ed301439193b9"
   integrity sha512-iSdP73Af/d8RdNfa4rDHI3JuAakDqPl8Z1LT0cFcfzg29kihdmXIVaLvMcMqTrnqELU6VmzSiE86U+T1XOX95w==
 
-"@storybook/react@7.0.5", "@storybook/react@^7.0.5":
+"@storybook/react@7.0.5":
   version "7.0.5"
   resolved "https://registry.yarnpkg.com/@storybook/react/-/react-7.0.5.tgz#6e3f30c02ffd717f57f37635a67ccd235c23fdf4"
   integrity sha512-VXLi/oZnYLXe61Bvfan1YY6cANbFgDb5MmCpu8COaYOGjT53o4gTh3zQoDubaN8wzTQfE0TyP9E+m4//KvZxow==
@@ -2453,7 +2453,7 @@
     nanoid "^3.3.1"
     read-pkg-up "^7.0.1"
 
-"@storybook/testing-library@^0.0.14-next.2":
+"@storybook/testing-library@0.0.14-next.2":
   version "0.0.14-next.2"
   resolved "https://registry.yarnpkg.com/@storybook/testing-library/-/testing-library-0.0.14-next.2.tgz#458e6c7623118e24826ba73b80db0a887f3f57e8"
   integrity sha512-i/SLSGm0o978ELok/SB4Qg1sZ3zr+KuuCkzyFqcCD0r/yf+bG35aQGkFqqxfSAdDxuQom0NO02FE+qys5Eapdg==
@@ -8133,7 +8133,7 @@ store2@^2.14.2:
   resolved "https://registry.yarnpkg.com/store2/-/store2-2.14.2.tgz#56138d200f9fe5f582ad63bc2704dbc0e4a45068"
   integrity sha512-siT1RiqlfQnGqgT/YzXVUNsom9S0H1OX+dpdGN1xkyYATo4I6sep5NmsRD/40s3IIOvlCq6akxkqG82urIZW1w==
 
-storybook@^7.0.5:
+storybook@7.0.5:
   version "7.0.5"
   resolved "https://registry.yarnpkg.com/storybook/-/storybook-7.0.5.tgz#079540e985832d1a2bc81fecdfbc11b9f6931caf"
   integrity sha512-wU8PpA2vgZe4Eu4ytilUdHIwl1J2sYlqVT4luGw+O/9dDbkVkB/3f73rAEMMwucWJmqG9HDausdZqEh+1BzJsw==
@@ -8464,6 +8464,15 @@ ts-pnp@^1.1.6:
   resolved "https://registry.yarnpkg.com/ts-pnp/-/ts-pnp-1.2.0.tgz#a500ad084b0798f1c3071af391e65912c86bca92"
   integrity sha512-csd+vJOb/gkzvcCHgTGSChYpy5f1/XKNsmvBGO4JXS+z1v2HobugDz4s1IeFXM3wZB44uczs+eazB5Q/ccdhQw==
 
+tsconfig-paths-webpack-plugin@4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/tsconfig-paths-webpack-plugin/-/tsconfig-paths-webpack-plugin-4.0.1.tgz#a24651d0f69668a1abad38d3c2489855c257460d"
+  integrity sha512-m5//KzLoKmqu2MVix+dgLKq70MnFi8YL8sdzQZ6DblmCdfuq/y3OqvJd5vMndg2KEVCOeNz8Es4WVZhYInteLw==
+  dependencies:
+    chalk "^4.1.0"
+    enhanced-resolve "^5.7.0"
+    tsconfig-paths "^4.1.2"
+
 tsconfig-paths-webpack-plugin@^3.5.2:
   version "3.5.2"
   resolved "https://registry.yarnpkg.com/tsconfig-paths-webpack-plugin/-/tsconfig-paths-webpack-plugin-3.5.2.tgz#01aafff59130c04a8c4ebc96a3045c43c376449a"
@@ -8472,15 +8481,6 @@ tsconfig-paths-webpack-plugin@^3.5.2:
     chalk "^4.1.0"
     enhanced-resolve "^5.7.0"
     tsconfig-paths "^3.9.0"
-
-tsconfig-paths-webpack-plugin@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/tsconfig-paths-webpack-plugin/-/tsconfig-paths-webpack-plugin-4.0.1.tgz#a24651d0f69668a1abad38d3c2489855c257460d"
-  integrity sha512-m5//KzLoKmqu2MVix+dgLKq70MnFi8YL8sdzQZ6DblmCdfuq/y3OqvJd5vMndg2KEVCOeNz8Es4WVZhYInteLw==
-  dependencies:
-    chalk "^4.1.0"
-    enhanced-resolve "^5.7.0"
-    tsconfig-paths "^4.1.2"
 
 tsconfig-paths@^3.12.0, tsconfig-paths@^3.14.1, tsconfig-paths@^3.9.0:
   version "3.14.2"
