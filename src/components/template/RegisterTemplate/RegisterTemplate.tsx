@@ -1,11 +1,14 @@
 import React from 'react';
 
+import Text from '@/components/common/Text';
+import Button from '@/components/common/Button';
 import AccountForm from '@/components/domain/Register/AccountForm';
 import PersonalDataForm from '@/components/domain/Register/PersonalDataForm';
 import VerifyPhoneNumberForm from '@/components/domain/Register/VerifyPhoneNumberForm';
 
 import { RegisterFormInput, RegisterVerifyInput } from '@/constants/types';
 
+import { COLORS } from '@/constants/styles';
 import * as style from './RegisterTemplate.style';
 
 const RegisterStepHeader = [
@@ -51,8 +54,12 @@ const RegisterTemplate = ({
   return (
     <style.Wrapper>
       <style.Header>
-        <style.Title>{title}</style.Title>
-        <style.Subtitle>{subtitle}</style.Subtitle>
+        <Text color={COLORS.grayscale.dark} fontStyleName="subtitle1">
+          {title}
+        </Text>
+        <Text color={COLORS.grayscale.gray500} fontStyleName="body1R">
+          {subtitle}
+        </Text>
       </style.Header>
       <style.VisibleSection>
         <style.Section currentRegisterStep={currentRegisterStep}>
@@ -81,12 +88,19 @@ const RegisterTemplate = ({
       </style.VisibleSection>
       <style.Footer>
         <style.Feedback ref={feedbackRef} />
-        <style.ConfirmButton
+        <Button
+          themeColor={
+            shouldCheckCurrentStep[currentRegisterStep]
+              ? COLORS.primary.greenDefault
+              : COLORS.grayscale.gray400
+          }
+          isFilled
           onClick={handleNextRegisterStep}
-          isConfirm={shouldCheckCurrentStep[currentRegisterStep]}
+          sizeType="large"
+          className="confirm-button"
         >
           반가워요!
-        </style.ConfirmButton>
+        </Button>
       </style.Footer>
     </style.Wrapper>
   );
