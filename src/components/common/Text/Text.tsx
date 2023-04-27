@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FontStyleName } from '~/src/constants/styles';
+import { FontStyleName } from '@/constants/styles';
 import * as styles from './Text.style';
 
 export interface TextProps {

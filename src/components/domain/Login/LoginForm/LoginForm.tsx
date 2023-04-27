@@ -17,8 +17,6 @@ interface LoginFormProps {
 
 /**
  * 로그인 관련 정보를 입력받는 Form 컴포넌트
- * @param param0
- * @returns
  */
 const LoginForm = ({
   email,

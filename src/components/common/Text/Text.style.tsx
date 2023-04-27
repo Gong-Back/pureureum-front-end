@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { FontStyleName } from '~/src/constants/styles';
+import { FontStyleName } from '@/constants/styles';
 
 interface TextWrapProps {
   color?: string;
