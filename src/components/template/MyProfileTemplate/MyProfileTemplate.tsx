@@ -7,8 +7,9 @@ import ProfileEditor from '@/components/domain/MyPage/Profile/ProfileEditor/Prof
 import SideNavigationBar from '@/components/domain/MyPage/SideNavigationBar';
 
 import Button from '@/components/common/Button';
-import { theme } from '@/constants/styles';
+import Text from '@/components/common/Text';
 
+import { COLORS } from '@/constants/styles';
 import * as style from './MyProfileTemplate.style';
 
 interface MyProfileTemplatesProps {
@@ -52,36 +53,43 @@ const MyProfileTemplate = ({
             birthday={birthday}
           />
           <style.Section>
-            <style.Label>휴대폰 번호</style.Label>
-            <style.Content>{maskedPhoneNumber}</style.Content>
-            <Button
-              width={100}
-              sizeType="small"
-              textColor={theme.colors.primary.greenDefault}
-              borderColor={theme.colors.primary.greenDefault}
-              backgroundColor={theme.colors.grayscale.white}
-              onClick={handleChangePhoneNumber}
-              isRound
+            <Text
+              className="info-label"
+              color={COLORS.grayscale.gray700}
+              fontStyleName="body2B"
             >
+              휴대폰 번호
+            </Text>
+            <Text
+              className="info-content"
+              color={COLORS.grayscale.gray700}
+              fontStyleName="body2R"
+            >
+              {maskedPhoneNumber}
+            </Text>
+            <Button onClick={handleChangePhoneNumber} isRound sizeType="small">
               번호 변경
             </Button>
           </style.Section>
           <style.Section>
-            <style.Label>비밀번호</style.Label>
+            <Text
+              className="info-label"
+              color={COLORS.grayscale.gray700}
+              fontStyleName="body2B"
+            >
+              비밀번호
+            </Text>
             <Button
-              width={140}
-              sizeType="small"
-              textColor={theme.colors.primary.greenDefault}
-              borderColor={theme.colors.primary.greenDefault}
-              backgroundColor={theme.colors.grayscale.white}
               onClick={handleChangePassword}
               isRound
+              sizeType="small"
+              themeColor={COLORS.grayscale.white}
             >
               비밀번호 변경
             </Button>
           </style.Section>
         </style.PersonalSection>
-        <Button width={300} sizeType="large" onClick={handleSaveChange}>
+        <Button sizeType="large" onClick={handleSaveChange} isFilled>
           저장하기
         </Button>
       </style.Main>
