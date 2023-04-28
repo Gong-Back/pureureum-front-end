@@ -1,15 +1,24 @@
 import Link from 'next/link';
+import Text from '@/components/common/Text';
+import Button from '@/components/common/Button';
 
 import GoogleCircleIconSvg from '@/assets/icons/googleCircleIcon.svg';
 import NaverCircleIconSvg from '@/assets/icons/naverCircleIcon.svg';
 import KakaoCircleIconSvg from '@/assets/icons/kakaoCircleIcon.svg';
 
+import { COLORS } from '@/constants/styles';
 import * as style from './RegisterSection.style';
 
 const RegisterSection = () => (
   <style.Wrapper>
     <style.Section>
-      <style.Description>소셜 로그인</style.Description>
+      <Text
+        fontStyleName="body1R"
+        color={COLORS.grayscale.gray500}
+        className="description"
+      >
+        소셜 로그인
+      </Text>
       <style.SocialIcons>
         <Link href="/oauth2/google">
           <GoogleCircleIconSvg />
@@ -23,9 +32,21 @@ const RegisterSection = () => (
       </style.SocialIcons>
     </style.Section>
     <style.Section>
-      <style.Description>계정이 없다면</style.Description>
+      <Text
+        fontStyleName="body1R"
+        color={COLORS.grayscale.gray500}
+        className="description"
+      >
+        계정이 없다면
+      </Text>
       <Link href="/auth/register">
-        <style.Button>회원가입</style.Button>
+        <Button
+          themeColor={COLORS.primary.greenDefault}
+          className="register-button"
+          isRound
+        >
+          회원가입
+        </Button>
       </Link>
     </style.Section>
   </style.Wrapper>

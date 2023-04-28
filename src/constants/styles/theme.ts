@@ -1,6 +1,6 @@
 import { COLORS } from './color';
 import { FONT_STYLE_PC, FONT_STYLE_MOBILE } from './font';
-import { MEDIA_QUERIES } from './mediaQuery';
+import { MEDIA_QUERIES } from './mediaQueries';
 
 export const theme = {
   colors: COLORS,
@@ -8,7 +8,7 @@ export const theme = {
     pc: FONT_STYLE_PC,
     mobile: FONT_STYLE_MOBILE,
   },
-  medias: MEDIA_QUERIES,
+  mediaQueries: MEDIA_QUERIES,
 };
 
 export type ThemeType = typeof theme;

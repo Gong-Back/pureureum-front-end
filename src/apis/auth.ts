@@ -1,14 +1,11 @@
 import {
   ApiResponse,
   GenderType,
-  SocialPlatformType,
   LoginInput,
   LoginOutput,
   VerifyEmailInput,
   VerifyPhoneNumberInput,
   VerifyPhoneNumberOutput,
-  SocialLoginInput,
-  SocialRegisterInput,
   RegisterInput,
 } from '@/constants/types';
 import { postAsync } from './API';
@@ -108,59 +105,6 @@ export class AuthRepository {
       `/sms/complete/certification`,
       {
         phoneNumber,
-      },
-    );
-    return response;
-  }
-
-  /**
-   * OAuth2 기반 소셜 로그인을 진행하는 함수 socialLoginAsync
-   * @param code 소셜 플랫폼에서 인가 받은 인증 코드 code
-   * @param redirectUrl 로그인 성공 시 redirect 할 URL
-   * @returns 성공 시 200, 실패 시 40X 에러 반환
-   */
-  static async socialLoginAsync(
-    code: string,
-    redirectUrl: string,
-  ): ApiResponse<undefined> {
-    const response = await postAsync<undefined, SocialLoginInput>(
-      `/oauth/login`,
-      {
-        code,
-        redirectUrl,
-      },
-    );
-    return response;
-  }
-
-  /**
-   *
-   * OAuth2 기반 신규 유저의 회원가입을 처리하는 함수 socialRegisterAsync
-   * @param email 유저의 이메일
-   * @param name 유저의 실명
-   * @param phoneNumber 유저의 전화번호
-   * @param birthday 유저의 생일
-   * @param gender 유저의 성별 (MALE, FEMALE)
-   * @param socialType 소셜 플랫폼 타입 (NAVER, KAKAO, GOOGLE)
-   * @returns 성공 시 true, 실패 시 false 반환
-   */
-  static async socialRegisterAsync(
-    email: string,
-    name: string,
-    phoneNumber: string,
-    birthday: string,
-    gender: GenderType,
-    socialType: SocialPlatformType,
-  ): ApiResponse<undefined> {
-    const response = await postAsync<undefined, SocialRegisterInput>(
-      `/oauth/register`,
-      {
-        email,
-        name,
-        phoneNumber,
-        birthday,
-        gender,
-        socialType,
       },
     );
     return response;

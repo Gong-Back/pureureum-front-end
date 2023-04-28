@@ -43,7 +43,7 @@ export const FONT_STYLE_PC: Record<FontStyleName, FontStyle> = {
   },
   [FONT_STYLE_NAME.subtitle2B]: {
     fontSize: 23,
-    fontWeight: 700,
+    fontWeight: 600,
     lineHeight: `${LINE_HEIGHT_RATIO * 23}px`,
   },
   [FONT_STYLE_NAME.subtitle2R]: {
@@ -93,14 +93,14 @@ export const FONT_STYLE_PC: Record<FontStyleName, FontStyle> = {
  */
 export const FONT_STYLE_MOBILE: Record<FontStyleName, FontStyle> = {
   [FONT_STYLE_NAME.title]: {
-    fontSize: 30,
+    fontSize: 27,
     fontWeight: 800,
-    lineHeight: `${LINE_HEIGHT_RATIO * 30}px`,
+    lineHeight: `${LINE_HEIGHT_RATIO * 27}px`,
   },
   [FONT_STYLE_NAME.subtitle1]: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: 700,
-    lineHeight: `${LINE_HEIGHT_RATIO * 22}px`,
+    lineHeight: `${LINE_HEIGHT_RATIO * 24}px`,
   },
   [FONT_STYLE_NAME.subtitle2B]: {
     fontSize: 20,
@@ -113,9 +113,9 @@ export const FONT_STYLE_MOBILE: Record<FontStyleName, FontStyle> = {
     lineHeight: `${LINE_HEIGHT_RATIO * 20}px`,
   },
   [FONT_STYLE_NAME.subtitle3]: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: 700,
-    lineHeight: `${LINE_HEIGHT_RATIO * 18}px`,
+    lineHeight: `${LINE_HEIGHT_RATIO * 17}px`,
   },
   [FONT_STYLE_NAME.body1B]: {
     fontSize: 18,
@@ -128,23 +128,23 @@ export const FONT_STYLE_MOBILE: Record<FontStyleName, FontStyle> = {
     lineHeight: `${LINE_HEIGHT_RATIO * 18}px`,
   },
   [FONT_STYLE_NAME.body2B]: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: 600,
-    lineHeight: `${LINE_HEIGHT_RATIO * 16}px`,
+    lineHeight: `${LINE_HEIGHT_RATIO * 15}px`,
   },
   [FONT_STYLE_NAME.body2R]: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: 400,
-    lineHeight: `${LINE_HEIGHT_RATIO * 16}px`,
+    lineHeight: `${LINE_HEIGHT_RATIO * 15}px`,
   },
   [FONT_STYLE_NAME.body3]: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: 400,
-    lineHeight: `${LINE_HEIGHT_RATIO * 14}px`,
+    lineHeight: `${LINE_HEIGHT_RATIO * 13}px`,
   },
   [FONT_STYLE_NAME.caption]: {
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: 300,
-    lineHeight: `${LINE_HEIGHT_RATIO * 12}px`,
+    lineHeight: `${LINE_HEIGHT_RATIO * 13}px`,
   },
 };

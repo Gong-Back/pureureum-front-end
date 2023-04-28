@@ -9,6 +9,7 @@ import { ThemeProvider, Global } from '@emotion/react';
 import { theme, GlobalStyle } from '@/constants/styles';
 import '@/assets/fonts/font.css';
 
+import ModalPortal from '@/components/common/ModalPortal';
 import NavigationBar from '@/components/common/NavigationBar';
 
 interface ServiceAppProps {
@@ -34,6 +35,7 @@ const MyApp = ({ Component, pageProps }: AppProps<ServiceAppProps>) => {
       <Provider>
         <ThemeProvider theme={theme}>
           <Global styles={GlobalStyle} />
+          <ModalPortal />
           {isNavigationVisible && <NavigationBar />}
           {/* eslint-disable react/jsx-props-no-spreading */}
           <Component {...pageProps} />

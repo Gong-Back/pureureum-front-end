@@ -13,59 +13,32 @@ export const Section = styled.section`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-
   width: 100%;
+
+  > .title {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  > .input {
+    width: 110px;
+    &::placeholder {
+      text-align: right;
+      padding-right: 25px;
+    }
+  }
+
+  > .year {
+    width: 148px;
+  }
 `;
-
-export const Title = styled.h5(({ theme }) => {
-  const { colors, fonts } = theme;
-  return {
-    width: '100%',
-    margin: '0px 0px 15px 0px',
-
-    color: colors.grayscale.gray500,
-    ...fonts.pc.body1B,
-  };
-});
-
-export const Input = styled.input<{ textAlign?: 'right'; width?: number }>(
-  ({ theme, textAlign, width }) => {
-    const { colors, fonts } = theme;
-    return {
-      width: `${width ?? 400}px`,
-      padding: '11px 26px',
-
-      color: colors.grayscale.gray500,
-      ...fonts.pc.body2R,
-
-      border: `1px solid ${colors.grayscale.gray500}`,
-      borderRadius: '25px',
-
-      '&::placeholder': {
-        textAlign,
-      },
-    };
-  },
-);
 
 export const InputWrapper = styled.div`
   display: flex;
   position: relative;
 `;
 
-export const InputPlaceholder = styled.span(({ theme }) => {
-  const { colors, fonts } = theme;
-  return {
-    position: 'absolute',
-    top: '12px',
-    right: '26px',
-
-    color: colors.grayscale.gray500,
-    ...fonts.pc.body2R,
-  };
-});
-
-export const Button = styled.button<{ isSelected?: boolean }>(
+export const ToggleButton = styled.button<{ isSelected?: boolean }>(
   ({ theme, isSelected }) => {
     const { colors, fonts } = theme;
     return {

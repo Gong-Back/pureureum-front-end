@@ -14,6 +14,7 @@ type Story = StoryObj<typeof Button>;
 export const Small: Story = {
   args: {
     sizeType: 'small',
+    isFilled: true,
     children: 'button',
   },
 };
@@ -22,6 +23,7 @@ export const MediumRound: Story = {
   args: {
     sizeType: 'medium',
     children: 'button',
+    isFilled: false,
     isRound: true,
   },
 };
@@ -30,8 +32,6 @@ export const LargeTransparent: Story = {
   args: {
     sizeType: 'large',
     children: 'button',
-    backgroundColor: 'transparent',
-    borderColor: COLORS.primary.greenDefault,
-    textColor: COLORS.primary.greenDefault,
+    themeColor: COLORS.primary.greenDefault,
   },
 };
