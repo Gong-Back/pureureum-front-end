@@ -36,21 +36,14 @@ const ProfileEditor = ({ profileImgSrc, userId }: ProfileEditorProps) => {
           {userId || 'test_userId'}
         </Text>
         <styles.ButtonBox>
-          <Button
-            onClick={handleChangeProfile}
-            isFilled
-            isRound
-            themeColor={COLORS.grayscale.white}
-            sizeType="small"
-          >
+          <Button onClick={handleChangeProfile} isRound sizeType="small">
             닉네임 변경
           </Button>
           <Button
             onClick={handleChangeNickname}
-            isFilled
             isRound
-            themeColor={COLORS.grayscale.white}
             sizeType="small"
+            className="profile-img"
           >
             프로필 이미지 변경
           </Button>

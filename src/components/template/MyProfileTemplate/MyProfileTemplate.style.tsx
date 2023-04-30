@@ -12,7 +12,7 @@ export const Header = styled.header`
   gap: 10px 0px;
 `;
 
-export const Main = styled.main`
+export const Aside = styled.div`
   display: flex;
   flex-direction: column;
 
@@ -27,6 +27,7 @@ export const PersonalSection = styled.div`
   gap: 30px 0px;
   margin: 58px 0px 96px 0px;
 `;
+
 
 export const Section = styled.section`
   display: flex;
@@ -46,5 +47,9 @@ export const Section = styled.section`
   > .info-content {
     margin: 4px 0px;
     flex-grow: 1;
+  }
+
+  > .profile-button {
+    width: 140px;
   }
 `;

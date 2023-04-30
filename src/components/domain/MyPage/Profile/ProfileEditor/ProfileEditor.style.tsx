@@ -20,6 +20,10 @@ export const Section = styled.div`
 export const ButtonBox = styled.div`
   display: flex;
   gap: 0px 15px;
+
+  > .profile-img {
+    width: 140px;
+  }
 `;
 
 export const DefaultProfileImg = styled.div`

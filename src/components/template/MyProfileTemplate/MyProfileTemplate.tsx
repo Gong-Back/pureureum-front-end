@@ -2,7 +2,7 @@ import React from 'react';
 
 import { GenderType } from '@/constants/types';
 
-import PersonalInformation from '@/components/domain/MyPage/Profile/PersonalInformation';
+import PersonalInfoList from '@/components/domain/MyPage/Profile/PersonalInfoList';
 import ProfileEditor from '@/components/domain/MyPage/Profile/ProfileEditor/ProfileEditor';
 import SideNavigationBar from '@/components/domain/MyPage/SideNavigationBar';
 
@@ -43,10 +43,10 @@ const MyProfileTemplate = ({
   return (
     <style.Wrapper>
       <SideNavigationBar />
-      <style.Main>
+      <style.Aside>
         <ProfileEditor profileImgSrc={profileImgSrc} userId={userId} />
         <style.PersonalSection>
-          <PersonalInformation
+          <PersonalInfoList
             name={name}
             email={email}
             gender={gender}
@@ -83,7 +83,7 @@ const MyProfileTemplate = ({
               onClick={handleChangePassword}
               isRound
               sizeType="small"
-              themeColor={COLORS.grayscale.white}
+              className="profile-button"
             >
               비밀번호 변경
             </Button>
@@ -92,7 +92,7 @@ const MyProfileTemplate = ({
         <Button sizeType="large" onClick={handleSaveChange} isFilled>
           저장하기
         </Button>
-      </style.Main>
+      </style.Aside>
     </style.Wrapper>
   );
 };
