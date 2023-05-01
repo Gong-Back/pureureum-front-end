@@ -24,6 +24,7 @@ const UserProfile = ({ imageSrc, nickname }: UserProfileProps) => (
     <Text
       fontStyleName={FONT_STYLE_NAME.body2B}
       color={COLORS.grayscale.gray700}
+      className="nickname"
     >
       {nickname || '사용자'}
     </Text>

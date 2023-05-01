@@ -7,10 +7,12 @@ export const Wrapper = styled.nav`
   width: 100%;
   height: 60px;
 
-  padding: 0px 50px 0px 27px;
+  padding: 0px 30px;
+
+  box-shadow: 0px 0px 4px rgba(88, 88, 88, 0.25);
 
   & > svg {
-    margin: auto 0px;
+    margin: 5px 0 16px 0;
   }
 `;
 

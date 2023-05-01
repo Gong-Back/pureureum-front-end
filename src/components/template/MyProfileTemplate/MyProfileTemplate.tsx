@@ -102,7 +102,12 @@ const MyProfileTemplate = ({
             </Button>
           </style.Section>
         </style.PersonalSection>
-        <Button sizeType="large" onClick={handleSaveChange} isFilled>
+        <Button
+          sizeType="large"
+          onClick={handleSaveChange}
+          isFilled
+          className="confirm-button"
+        >
           저장하기
         </Button>
       </style.Aside>

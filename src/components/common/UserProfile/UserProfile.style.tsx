@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { MEDIA_QUERIES } from '@/constants/styles';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -8,12 +9,3 @@ export const Wrapper = styled.div`
   height: 100%;
   margin-left: 10px;
 `;
-
-export const Nickname = styled.span(({ theme }) => {
-  const { colors, fonts } = theme;
-  return {
-    margin: '0px auto',
-    color: colors.grayscale.gray700,
-    ...fonts.pc.body2B,
-  };
-});

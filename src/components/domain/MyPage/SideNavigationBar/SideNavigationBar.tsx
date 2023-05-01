@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import CocoNoteDeleteIcon from '@/assets/icons/coco/noteDeleteIcon.svg';
 import CocoNoteIcon from '@/assets/icons/coco/noteIcon.svg';
@@ -8,6 +9,9 @@ import CocoSavedIcon from '@/assets/icons/coco/savedIcon.svg';
 import CocoUserIcon from '@/assets/icons/coco/userIcon.svg';
 import CocoPresentationIcon from '@/assets/icons/coco/presentationIcon.svg';
 
+import Text from '@/components/common/Text';
+
+import { COLORS } from '@/constants/styles';
 import * as style from './SideNavigationBar.style';
 
 const sideNavigationElement = {
@@ -45,7 +49,7 @@ const sideNavigationElement = {
       path: '/mypage/personal/notification',
     },
     {
-      title: '작성 글 관리',
+      title: '작성한 글 관리',
       icon: <CocoNoteIcon />,
       path: '/mypage/personal/',
     },
@@ -69,48 +73,89 @@ const sideNavigationElement = {
   ],
 };
 
-const SideNavigationBar = () => (
-  <style.Wrapper>
-    <style.NavGroup>
-      <style.NavGroupTitle>프로젝트</style.NavGroupTitle>
-      <style.NavItemList>
-        {sideNavigationElement.project.map(({ title, icon, path }) => (
-          <style.NavItemGroup key={title}>
+const SideNavigationBar = () => {
+  const router = useRouter();
+  const isMatchCurrentPage = (path: string) => path === router.pathname;
+
+  return (
+    <style.Wrapper>
+      <style.Section>
+        <Text
+          fontStyleName="body2B"
+          color={COLORS.grayscale.gray700}
+          className="section-title"
+        >
+          프로젝트
+        </Text>
+        <style.SectionList>
+          {sideNavigationElement.project.map(({ title, icon, path }) => (
             <Link href={path} passHref>
-              {title}
+              <style.NavItem>
+                <Text
+                  fontStyleName="body3"
+                  color={COLORS.grayscale.gray500}
+                  className={isMatchCurrentPage(path) ? 'selected' : ''}
+                >
+                  {title}
+                </Text>
+                {icon}
+              </style.NavItem>
             </Link>
-            {icon}
-          </style.NavItemGroup>
-        ))}
-      </style.NavItemList>
-    </style.NavGroup>
-    <style.NavGroup>
-      <style.NavGroupTitle>내 정보 관리</style.NavGroupTitle>
-      <style.NavItemList>
-        {sideNavigationElement.personal.map(({ title, icon, path }) => (
-          <style.NavItemGroup key={title}>
+          ))}
+        </style.SectionList>
+      </style.Section>
+      <style.Section>
+        <Text
+          fontStyleName="body2B"
+          color={COLORS.grayscale.gray700}
+          className="section-title"
+        >
+          내 정보 관리
+        </Text>
+        <style.SectionList>
+          {sideNavigationElement.personal.map(({ title, icon, path }) => (
             <Link href={path} passHref>
-              {title}
+              <style.NavItem>
+                <Text
+                  fontStyleName="body3"
+                  color={COLORS.grayscale.gray500}
+                  className={isMatchCurrentPage(path) ? 'selected' : ''}
+                >
+                  {title}
+                </Text>
+                {icon}
+              </style.NavItem>
             </Link>
-            {icon}
-          </style.NavItemGroup>
-        ))}
-      </style.NavItemList>
-    </style.NavGroup>
-    <style.NavGroup>
-      <style.NavGroupTitle>프로젝트 운영</style.NavGroupTitle>
-      <style.NavItemList>
-      {sideNavigationElement.operation.map(({ title, icon, path }) => (
-        <style.NavItemGroup key={title}>
-          <Link href={path} passHref>
-            {title}
-          </Link>
-          {icon}
-        </style.NavItemGroup>
-      ))}
-      </style.NavItemList>
-    </style.NavGroup>
-  </style.Wrapper>
-);
+          ))}
+        </style.SectionList>
+      </style.Section>
+      <style.Section>
+        <Text
+          fontStyleName="body2B"
+          color={COLORS.grayscale.gray700}
+          className="section-title"
+        >
+          프로젝트 운영
+        </Text>
+        <style.SectionList>
+          {sideNavigationElement.operation.map(({ title, icon, path }) => (
+            <Link href={path} passHref>
+              <style.NavItem>
+                <Text
+                  fontStyleName="body3"
+                  color={COLORS.grayscale.gray500}
+                  className={isMatchCurrentPage(path) ? 'selected' : ''}
+                >
+                  {title}
+                </Text>
+                {icon}
+              </style.NavItem>
+            </Link>
+          ))}
+        </style.SectionList>
+      </style.Section>
+    </style.Wrapper>
+  );
+};
 
 export default SideNavigationBar;

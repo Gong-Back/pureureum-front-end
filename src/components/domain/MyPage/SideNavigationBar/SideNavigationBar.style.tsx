@@ -1,62 +1,49 @@
 import styled from '@emotion/styled';
+import { COLORS } from '@/constants/styles';
 
-export const Wrapper = styled.aside(({ theme }) => {
-  const { colors } = theme;
-  return {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '69px 0px',
+export const Wrapper = styled.aside`
+  display: flex;
+  flex-direction: column;
+  gap: 69px 0px;
 
-    width: '220px',
-    height: '100vh',
+  width: 220px;
+  min-height: 100vh;
 
-    padding: '68px 50px 0px 50px',
+  padding: 68px 50px 0px 50px;
 
-    background: colors.grayscale.background,
-    borderRight: `1px solid ${colors.grayscale.gray100}`,
-  };
-});
+  border-right: 1px solid ${COLORS.grayscale.gray100};
+`;
 
-export const NavGroup = styled.div`
+export const Section = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px 0px;
+
+  > .section-title {
+    text-align: right;
+  }
 `;
 
-export const NavGroupTitle = styled.h5(({ theme }) => {
-  const { colors, fonts } = theme;
-  return {
-    margin: '0px',
+export const SectionList = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 15px 0px;
 
-    color: colors.grayscale.gray700,
-    ...fonts.pc.body2B,
-    textAlign: 'right',
-  };
-});
+  margin: auto 0px;
+  cursor: pointer;
+`;
 
-export const NavItemList = styled.div(({ theme }) => {
-  const { colors, fonts } = theme;
-  return {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-end',
-    gap: '15px 0px',
-  
-    margin: 'auto 0px',
-    
-    color: colors.grayscale.gray500,
-    ...fonts.pc.body3,
-    cursor: 'pointer',
-    
-  };
-});
-
-export const NavItemGroup = styled.div`
+export const NavItem = styled.div`
   display: flex;
   gap: 0px 6px;
   justify-content: flex-end;
 
   & > svg {
     margin: auto 0px;
+  }
+
+  > .selected {
+    color: ${COLORS.grayscale.gray700};
   }
 `;

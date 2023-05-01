@@ -23,6 +23,14 @@ export const Aside = styled.div`
     width: 370px;
     margin: 88px auto;
   }
+
+  > .confirm-button {
+    width: 300px;
+
+    @media ${MEDIA_QUERIES.mobile} {
+      width: 250px;
+    }
+  }
 `;
 
 export const PersonalSection = styled.div`
@@ -75,7 +83,7 @@ export const Section = styled.section`
 
   > .profile-button {
     width: 140px;
-    margin: auto;
+    margin-left: auto;
 
     @media ${MEDIA_QUERIES.mobile} {
       width: 130px;
