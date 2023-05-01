@@ -3,7 +3,7 @@ import React from 'react';
 import { GenderType } from '@/constants/types';
 
 import PersonalInfoList from '@/components/domain/MyPage/Profile/PersonalInfoList';
-import ProfileEditor from '@/components/domain/MyPage/Profile/ProfileEditor/ProfileEditor';
+import ProfileEditor from '@/components/domain/MyPage/Profile/ProfileEditor';
 import UpdatePhoneModal from '@/components/domain/MyPage/Profile/UpdatePhoneModal';
 import UpdatePasswordModal from '@/components/domain/MyPage/Profile/UpdatePasswordModal';
 import SideNavigationBar from '@/components/domain/MyPage/SideNavigationBar';
