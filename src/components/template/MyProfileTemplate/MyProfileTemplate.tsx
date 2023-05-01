@@ -12,6 +12,7 @@ import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 
 import useModal from '@/hooks/useModal';
+import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
 
 import { COLORS } from '@/constants/styles';
 import * as style from './MyProfileTemplate.style';
@@ -39,6 +40,8 @@ const MyProfileTemplate = ({
   const maskedPhoneNumber = phoneNumber.replace(/-[0-9]{4}-/g, '-****-');
 
   const { openModal } = useModal();
+  const currentBreakpoint = useMeasureBreakpoint(['mobile', 'pc']);
+  console.log(currentBreakpoint);
 
   const openChangePhoneModal = () => openModal(<UpdatePhoneModal />);
 
@@ -48,7 +51,7 @@ const MyProfileTemplate = ({
 
   return (
     <style.Wrapper>
-      <SideNavigationBar />
+      {currentBreakpoint === 'pc' && <SideNavigationBar />}
       <style.Aside>
         <ProfileEditor profileImgSrc={profileImgSrc} userId={userId} />
         <style.PersonalSection>
