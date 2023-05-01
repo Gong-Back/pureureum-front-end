@@ -4,10 +4,14 @@ import { GenderType } from '@/constants/types';
 
 import PersonalInfoList from '@/components/domain/MyPage/Profile/PersonalInfoList';
 import ProfileEditor from '@/components/domain/MyPage/Profile/ProfileEditor/ProfileEditor';
+import UpdatePhoneModal from '@/components/domain/MyPage/Profile/UpdatePhoneModal';
+import UpdatePasswordModal from '@/components/domain/MyPage/Profile/UpdatePasswordModal';
 import SideNavigationBar from '@/components/domain/MyPage/SideNavigationBar';
 
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
+
+import useModal from '@/hooks/useModal';
 
 import { COLORS } from '@/constants/styles';
 import * as style from './MyProfileTemplate.style';
@@ -34,9 +38,11 @@ const MyProfileTemplate = ({
   // TODO : 정규식의 경우 추후 Util 로 묶을 수 있다면 일괄적으로 수정해야 함.
   const maskedPhoneNumber = phoneNumber.replace(/-[0-9]{4}-/g, '-****-');
 
-  const handleChangePhoneNumber = () => {};
+  const { openModal } = useModal();
 
-  const handleChangePassword = () => {};
+  const openChangePhoneModal = () => openModal(<UpdatePhoneModal />);
+
+  const openChangePasswordModal = () => openModal(<UpdatePasswordModal />);
 
   const handleSaveChange = () => {};
 
@@ -67,7 +73,7 @@ const MyProfileTemplate = ({
             >
               {maskedPhoneNumber}
             </Text>
-            <Button onClick={handleChangePhoneNumber} isRound sizeType="small">
+            <Button onClick={openChangePhoneModal} isRound sizeType="small">
               번호 변경
             </Button>
           </style.Section>
@@ -80,7 +86,7 @@ const MyProfileTemplate = ({
               비밀번호
             </Text>
             <Button
-              onClick={handleChangePassword}
+              onClick={openChangePasswordModal}
               isRound
               sizeType="small"
               className="profile-button"

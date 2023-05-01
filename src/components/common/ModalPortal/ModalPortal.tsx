@@ -1,7 +1,7 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
-
 import { useAtom } from 'jotai';
+
 import useModal from '@/hooks/useModal';
 import { modalStateAtom } from '@/stores/atoms';
 
