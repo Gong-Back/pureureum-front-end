@@ -6,7 +6,7 @@ import {
 } from '@/constants/types';
 import { getAsync, postAsync } from './API';
 
-export class AuthRepository {
+export class UserRepository {
   /**
    * 유저의 회원 정보를 가져오는 함수 getUserInfoAsync
    * @returns 가입 성공 시 200, 실패 시 에러 반환 (400 등)

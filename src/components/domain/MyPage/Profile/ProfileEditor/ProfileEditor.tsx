@@ -7,11 +7,11 @@ import { COLORS } from '@/constants/styles';
 import * as styles from './ProfileEditor.style';
 
 interface ProfileEditorProps {
-  profileImgSrc: string;
-  userId: string;
+  profileUrl: string;
+  nickname: string;
 }
 
-const ProfileEditor = ({ profileImgSrc, userId }: ProfileEditorProps) => {
+const ProfileEditor = ({ profileUrl, nickname }: ProfileEditorProps) => {
   const handleChangeProfile = () => {
     console.log('test');
   };
@@ -22,8 +22,8 @@ const ProfileEditor = ({ profileImgSrc, userId }: ProfileEditorProps) => {
 
   return (
     <styles.Wrapper>
-      {profileImgSrc ? (
-        <Image src={profileImgSrc} alt="profileImg" />
+      {profileUrl ? (
+        <Image src={profileUrl} alt="profileImg" />
       ) : (
         <styles.DefaultProfileImg />
       )}
@@ -31,9 +31,9 @@ const ProfileEditor = ({ profileImgSrc, userId }: ProfileEditorProps) => {
         <Text
           fontStyleName="subtitle1"
           color={COLORS.grayscale.gray700}
-          className="userId"
+          className="nickname"
         >
-          {userId || 'test_userId'}
+          {nickname || 'test_userId'}
         </Text>
         <styles.ButtonBox>
           <Button onClick={handleChangeProfile} isRound sizeType="small">

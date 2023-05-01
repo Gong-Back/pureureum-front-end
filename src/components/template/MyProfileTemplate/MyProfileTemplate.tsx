@@ -23,8 +23,8 @@ interface MyProfileTemplatesProps {
   gender: GenderType;
   birthday: string;
   phoneNumber: string;
-  profileImgSrc: string;
-  userId: string;
+  profileUrl: string;
+  nickname: string;
 }
 
 const MyProfileTemplate = ({
@@ -32,16 +32,15 @@ const MyProfileTemplate = ({
   email,
   gender,
   birthday,
-  phoneNumber = '010-7167-0851',
-  profileImgSrc,
-  userId,
+  phoneNumber,
+  profileUrl,
+  nickname,
 }: MyProfileTemplatesProps) => {
   // TODO : 정규식의 경우 추후 Util 로 묶을 수 있다면 일괄적으로 수정해야 함.
   const maskedPhoneNumber = phoneNumber.replace(/-[0-9]{4}-/g, '-****-');
 
   const { openModal } = useModal();
   const currentBreakpoint = useMeasureBreakpoint(['mobile', 'pc']);
-  console.log(currentBreakpoint);
 
   const openChangePhoneModal = () => openModal(<UpdatePhoneModal />);
 
@@ -53,7 +52,7 @@ const MyProfileTemplate = ({
     <style.Wrapper>
       {currentBreakpoint === 'pc' && <SideNavigationBar />}
       <style.Aside>
-        <ProfileEditor profileImgSrc={profileImgSrc} userId={userId} />
+        <ProfileEditor profileUrl={profileUrl} nickname={nickname} />
         <style.PersonalSection>
           <PersonalInfoList
             name={name}
@@ -76,7 +75,12 @@ const MyProfileTemplate = ({
             >
               {maskedPhoneNumber}
             </Text>
-            <Button onClick={openChangePhoneModal} isRound sizeType="small">
+            <Button
+              onClick={openChangePhoneModal}
+              isRound
+              sizeType="small"
+              className="phone-button"
+            >
               번호 변경
             </Button>
           </style.Section>

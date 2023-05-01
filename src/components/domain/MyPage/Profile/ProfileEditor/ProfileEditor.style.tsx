@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { COLORS } from '@/constants/styles';
+import { COLORS, MEDIA_QUERIES } from '@/constants/styles';
 
 export const Wrapper = styled.section`
   display: flex;
@@ -7,6 +7,11 @@ export const Wrapper = styled.section`
 
   width: 415px;
   margin-right: auto;
+
+  @media ${MEDIA_QUERIES.mobile} {
+    gap: 0px 21px;
+    width: 366px;
+  }
 `;
 
 export const Section = styled.div`
@@ -15,6 +20,10 @@ export const Section = styled.div`
   gap: 15px 0px;
 
   margin: 13px 0px 13px auto;
+
+  @media ${MEDIA_QUERIES.mobile} {
+    margin: 0;
+  }
 `;
 
 export const ButtonBox = styled.div`
@@ -32,4 +41,9 @@ export const DefaultProfileImg = styled.div`
 
   background: ${COLORS.primary.logo};
   border-radius: 50%;
+
+  @media ${MEDIA_QUERIES.mobile} {
+    width: 90px;
+    height: 90px;
+  }
 `;
