@@ -8,7 +8,6 @@ export const Wrapper = styled.div`
   width: 700px;
   margin: auto;
 
-  border-radius: 5px;
   box-shadow: 0px 0px 5px rgba(165, 165, 165, 0.25);
 
   @media ${MEDIA_QUERIES.mobile} {
@@ -20,6 +19,7 @@ export const Header = styled.header`
   height: 60px;
   padding: 14px;
 
+  border-radius: 5px 5px 0px 0px;
   background: ${COLORS.grayscale.white};
 `;
 
@@ -39,5 +39,6 @@ export const IconWrap = styled.div`
 
 export const Section = styled.section`
   background-color: ${COLORS.grayscale.white};
+  border-radius: 0px 0px 5px 5px;
   box-shadow: inset 0px 2px 4px -2px rgba(88, 88, 88, 0.25);
 `;
