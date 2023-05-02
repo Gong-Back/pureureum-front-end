@@ -35,12 +35,10 @@ const useMeasureBreakpoint = (
 
       // 가장 첫번째 요소보다 더 width 가 작다면 그냥 첫번째 요소를 바라보게끔 한다.
       if (BREAKPOINT.get(firstBreakpoint)! > currentBodyWidth) {
-        console.log(firstBreakpoint);
         return firstBreakpoint;
       }
       // 마지막 요소보다 더 width 가 크다면 마지막 요소를 바라보게끔 설정한다.
       if (BREAKPOINT.get(lastBreakpoint)! <= currentBodyWidth) {
-        console.log(lastBreakpoint);
         return lastBreakpoint;
       }
 
