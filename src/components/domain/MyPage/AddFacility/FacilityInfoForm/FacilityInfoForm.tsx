@@ -1,12 +1,47 @@
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 import TextInput from '@/components/common/TextInput';
+import ProjectTypeIcon from '@/components/common/ProjectTypeIcon';
 
 import { COLORS } from '@/constants/styles';
 import * as style from './FacilityInfoForm.style';
 
 const FacilityInfoForm = () => (
   <style.Wrapper>
+    <style.ProjectTypeSelect>
+      <style.FormTitle className="title">
+        <Text fontStyleName="subtitle2B" color={COLORS.grayscale.gray600}>
+          카테고리
+        </Text>
+        <Text
+          fontStyleName="body1B"
+          color={COLORS.caption}
+          className="asterisk"
+        >
+          *
+        </Text>
+      </style.FormTitle>
+      <ProjectTypeIcon
+        projectType="volunteer"
+        sizeType="big"
+        className="volunteer-button"
+      />
+      <ProjectTypeIcon
+        projectType="experiment"
+        sizeType="big"
+        className="experiment-button"
+      />
+      <ProjectTypeIcon
+        projectType="healing"
+        sizeType="big"
+        className="healing-button"
+      />
+      <ProjectTypeIcon
+        projectType="others"
+        sizeType="big"
+        className="others-button"
+      />
+    </style.ProjectTypeSelect>
     <style.FacilityNameForm>
       <style.FormTitle>
         <Text fontStyleName="subtitle2B" color={COLORS.grayscale.gray600}>

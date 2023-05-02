@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { MEDIA_QUERIES } from '@/constants/styles';
+import { COLORS, MEDIA_QUERIES } from '@/constants/styles';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -24,6 +24,45 @@ export const FormTitle = styled.div`
 
   > .asterisk {
     margin: auto 0px;
+  }
+`;
+
+export const ProjectTypeSelect = styled.div`
+  display: grid;
+  grid-template-rows: repeat(2, fit-content(100%));
+  grid-template-columns: repeat(4, fit-content(100%));
+  grid-template-areas:
+    'title title title title'
+    'volunteer-button experiment-button healing-button others-button';
+
+  gap: 20px 30px;
+
+  > .title {
+    grid-area: title;
+  }
+
+  > .volunteer-button {
+    grid-area: volunteer-button;
+    background-color: ${COLORS.grayscale.gray100};
+    color: ${COLORS.grayscale.gray700};
+  }
+
+  > .experiment-button {
+    grid-area: experiment-button;
+    background-color: ${COLORS.grayscale.gray100};
+    color: ${COLORS.grayscale.gray700};
+  }
+
+  > .healing-button {
+    grid-area: healing-button;
+    background-color: ${COLORS.grayscale.gray100};
+    color: ${COLORS.grayscale.gray700};
+  }
+
+  > .others-button {
+    grid-area: others-button;
+    background-color: ${COLORS.grayscale.gray100};
+    color: ${COLORS.grayscale.gray700};
   }
 `;
 
