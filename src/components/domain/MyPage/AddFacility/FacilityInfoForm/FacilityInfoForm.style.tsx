@@ -30,6 +30,7 @@ export const FormTitle = styled.div`
 export const FacilityNameForm = styled.form`
   display: flex;
   flex-direction: column;
+  gap: 20px 0px;
 
   > .name-input {
     width: 100%;
@@ -38,7 +39,7 @@ export const FacilityNameForm = styled.form`
 
 export const FacilityLocForm = styled.form`
   display: grid;
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-rows: fit-content(100%) repeat(2, 1fr);
   grid-template-columns: 1fr fit-content(100%);
   grid-template-areas:
     'title title'
@@ -75,7 +76,7 @@ export const FacilityLocForm = styled.form`
 
 export const FacilityDocsForm = styled.form`
   display: grid;
-  grid-template-rows: repeat(2, 1fr);
+  grid-template-rows: fit-content(100%) 1fr;
   grid-template-columns: 1fr fit-content(100%);
   grid-template-areas:
     'title title'
