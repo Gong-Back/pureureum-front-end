@@ -5,7 +5,7 @@
  * pc : 1000px 이상
  */
 export const MEDIA_QUERIES = {
-  tablet: 'screen and (min-width: 500px) and (max-width: 1000x)',
+  tablet: 'screen and (min-width: 500px) and (max-width: 1000px)',
   mobile: 'screen and (max-width: 1000px)',
   pc: 'screen and (min-width: 1000px)',
 };

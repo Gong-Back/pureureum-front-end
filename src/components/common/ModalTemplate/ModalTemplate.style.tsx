@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { COLORS, FONT_STYLE_PC, MEDIA_QUERIES } from '@/constants/styles';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -7,29 +8,27 @@ export const Wrapper = styled.div`
   width: 700px;
   margin: auto;
 
-  border-radius: 5px;
   box-shadow: 0px 0px 5px rgba(165, 165, 165, 0.25);
+
+  @media ${MEDIA_QUERIES.mobile} {
+    width: 400px;
+  }
 `;
 
-export const Header = styled.header(({ theme }) => {
-  const { colors } = theme;
-  return {
-    height: '60px',
-    padding: '14px',
+export const Header = styled.header`
+  height: 60px;
+  padding: 14px;
 
-    background: colors.grayscale.white,
-  };
-});
+  border-radius: 5px 5px 0px 0px;
+  background: ${COLORS.grayscale.white};
+`;
 
-export const Title = styled.h5(({ theme }) => {
-  const { colors, fonts } = theme;
-  return {
-    margin: '0px auto',
-    textAlign: 'center',
+export const Title = styled.h5({
+  margin: '0px auto',
+  textAlign: 'center',
 
-    color: colors.grayscale.gray600,
-    ...fonts.pc.body1B,
-  };
+  color: COLORS.grayscale.gray600,
+  ...FONT_STYLE_PC.body1B,
 });
 
 export const IconWrap = styled.div`
@@ -38,12 +37,8 @@ export const IconWrap = styled.div`
   left: calc(100% - 24px);
 `;
 
-export const Section = styled.section(({ theme }) => {
-  const { colors } = theme;
-  return {
-    padding: '14px',
-
-    backgroundColor: colors.grayscale.white,
-    boxShadow: 'inset 0px 2px 4px -2px rgba(88, 88, 88, 0.25)',
-  };
-});
+export const Section = styled.section`
+  background-color: ${COLORS.grayscale.white};
+  border-radius: 0px 0px 5px 5px;
+  box-shadow: inset 0px 2px 4px -2px rgba(88, 88, 88, 0.25);
+`;
