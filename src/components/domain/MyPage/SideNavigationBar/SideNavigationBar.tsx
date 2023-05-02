@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import CocoNoteDeleteIcon from '@/assets/icons/coco/noteDeleteIcon.svg';
-import CocoNoteIcon from '@/assets/icons/coco/noteIcon.svg';
-import CocoNotificationIcon from '@/assets/icons/coco/notificationIcon.svg';
-import CocoNotificationBellIcon from '@/assets/icons/coco/notificationBellIcon.svg';
-import CocoSavedIcon from '@/assets/icons/coco/savedIcon.svg';
-import CocoUserIcon from '@/assets/icons/coco/userIcon.svg';
-import CocoPresentationIcon from '@/assets/icons/coco/presentationIcon.svg';
+import CocoNoteDeleteIcon from '@/assets/icons/noteDeleteIcon.svg';
+import CocoNoteIcon from '@/assets/icons/noteIcon.svg';
+import CocoNotificationIcon from '@/assets/icons/notificationIcon.svg';
+import CocoNotificationBellIcon from '@/assets/icons/notificationBellIcon.svg';
+import CocoSavedIcon from '@/assets/icons/savedIcon.svg';
+import CocoUserIcon from '@/assets/icons/userIcon.svg';
+import CocoPresentationIcon from '@/assets/icons/presentationIcon.svg';
 
 import Text from '@/components/common/Text';
 
