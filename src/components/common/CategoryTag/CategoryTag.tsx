@@ -16,7 +16,7 @@ const TagInfo: Record<CategoryType, { emoji: string; text: string }> = {
     text: '농촌 체험',
   },
   ETC: {
-    emoji: '🌿',
+    emoji: '🌤️',
     text: '기타',
   },
 };

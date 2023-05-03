@@ -1,6 +1,4 @@
-import MyAddFacilityTemplate from '@/components/template/MyAddFacilityTemplate';
+import AddFacilityTemplate from '~/src/components/template/AddFacilityTemplate';
 
-const Apply = () => {
-  return <MyAddFacilityTemplate />;
-};
+const Apply = () => <AddFacilityTemplate />;
 export default Apply;

@@ -2,10 +2,10 @@ import React from 'react';
 
 import { GenderType } from '@/constants/types';
 
-import PersonalInfoList from '@/components/domain/MyPage/Profile/PersonalInfoList';
-import ProfileEditor from '@/components/domain/MyPage/Profile/ProfileEditor';
-import UpdatePhoneModal from '@/components/domain/MyPage/Profile/UpdatePhoneModal';
-import UpdatePasswordModal from '@/components/domain/MyPage/Profile/UpdatePasswordModal';
+import PersonalInfoList from '~/src/components/domain/MyPage/PersonalInfoList';
+import ProfileEditor from '@/components/domain/MyPage/ProfileEditor';
+import UpdatePhoneModal from '@/components/domain/MyPage/UpdatePhoneModal';
+import UpdatePasswordModal from '@/components/domain/MyPage/UpdatePasswordModal';
 import SideNavigationBar from '@/components/domain/MyPage/SideNavigationBar';
 
 import Button from '@/components/common/Button';
