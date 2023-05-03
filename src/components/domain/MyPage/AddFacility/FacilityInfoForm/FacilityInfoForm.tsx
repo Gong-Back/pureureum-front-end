@@ -1,12 +1,20 @@
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 import TextInput from '@/components/common/TextInput';
-import ProjectTypeIcon from '@/components/common/ProjectTypeIcon';
+import CategoryTag from '@/components/common/CategoryTag';
+
+import { CategoryType } from '@/constants/types';
 
 import { COLORS } from '@/constants/styles';
 import * as style from './FacilityInfoForm.style';
 
-const FacilityInfoForm = () => (
+interface FacilityInfoFormProps {
+  selectedCategory: CategoryType;
+}
+
+const FacilityInfoForm = ({
+  selectedCategory = 'YOUTH_FARMING',
+}: FacilityInfoFormProps) => (
   <style.Wrapper>
     <style.ProjectTypeSelect>
       <style.FormTitle className="title">
@@ -21,25 +29,31 @@ const FacilityInfoForm = () => (
           *
         </Text>
       </style.FormTitle>
-      <ProjectTypeIcon
-        projectType="volunteer"
+      <CategoryTag
+        type="YOUTH_FARMING"
         sizeType="big"
-        className="volunteer-button"
+        className={`youth-farming ${
+          selectedCategory !== 'YOUTH_FARMING' ? 'not-selected' : ''
+        }`}
       />
-      <ProjectTypeIcon
-        projectType="experiment"
+      <CategoryTag
+        type="FARMING_EXPERIENCE"
         sizeType="big"
-        className="experiment-button"
+        className={`farming-experience ${
+          selectedCategory !== 'FARMING_EXPERIENCE' ? 'not-selected' : ''
+        }`}
       />
-      <ProjectTypeIcon
-        projectType="healing"
+      <CategoryTag
+        type="FARMING_HEALING"
         sizeType="big"
-        className="healing-button"
+        className={`farming-healing ${
+          selectedCategory !== 'FARMING_HEALING' ? 'not-selected' : ''
+        }`}
       />
-      <ProjectTypeIcon
-        projectType="others"
+      <CategoryTag
+        type="ETC"
         sizeType="big"
-        className="others-button"
+        className={`etc ${selectedCategory !== 'ETC' ? 'not-selected' : ''}`}
       />
     </style.ProjectTypeSelect>
     <style.FacilityNameForm>

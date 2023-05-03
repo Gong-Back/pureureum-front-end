@@ -33,7 +33,7 @@ export const ProjectTypeSelect = styled.div`
   grid-template-columns: repeat(4, fit-content(100%));
   grid-template-areas:
     'title title title title'
-    'volunteer-button experiment-button healing-button others-button';
+    'youth-farming farming-experience farming-healing etc';
 
   gap: 20px 30px;
 
@@ -41,28 +41,32 @@ export const ProjectTypeSelect = styled.div`
     grid-area: title;
   }
 
-  > .volunteer-button {
-    grid-area: volunteer-button;
+  > .not-selected {
     background-color: ${COLORS.grayscale.gray100};
-    color: ${COLORS.grayscale.gray700};
+
+    > .text {
+      color: ${COLORS.grayscale.gray700};
+    }
   }
 
-  > .experiment-button {
-    grid-area: experiment-button;
-    background-color: ${COLORS.grayscale.gray100};
-    color: ${COLORS.grayscale.gray700};
+  > .youth-farming {
+    grid-area: youth-farming;
+    cursor: pointer;
   }
 
-  > .healing-button {
-    grid-area: healing-button;
-    background-color: ${COLORS.grayscale.gray100};
-    color: ${COLORS.grayscale.gray700};
+  > .farming-experience {
+    grid-area: farming-experience;
+    cursor: pointer;
   }
 
-  > .others-button {
-    grid-area: others-button;
-    background-color: ${COLORS.grayscale.gray100};
-    color: ${COLORS.grayscale.gray700};
+  > .farming-healing {
+    grid-area: farming-healing;
+    cursor: pointer;
+  }
+
+  > .etc {
+    grid-area: etc;
+    cursor: pointer;
   }
 `;
 
