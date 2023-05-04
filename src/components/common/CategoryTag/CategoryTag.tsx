@@ -25,15 +25,26 @@ export interface CategoryTagProps {
   sizeType: 'small' | 'big';
   type: CategoryType;
   className: string;
+  onClick?: () => void;
 }
 
-const CategoryTag = ({ sizeType, type, className }: CategoryTagProps) => {
+const CategoryTag = ({
+  sizeType,
+  type,
+  className,
+  onClick,
+}: CategoryTagProps) => {
   const isBigSize = sizeType === 'big';
   const content = `${TagInfo[type].text}  ${
     isBigSize ? TagInfo[type].emoji : ''
   }`;
   return (
-    <style.Wrapper type={type} isBigSize={isBigSize} className={className}>
+    <style.Wrapper
+      type={type}
+      isBigSize={isBigSize}
+      className={className}
+      onClick={onClick}
+    >
       <Text
         fontStyleName={isBigSize ? 'body1B' : 'body3'}
         className={`text ${className}`}
