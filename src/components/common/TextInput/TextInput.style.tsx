@@ -25,7 +25,7 @@ export const Input = styled.input<Omit<TextInputProps, 'value'>>(
       lineHeight: fonts.pc[isSmallSize ? 'body3' : 'body2R'].lineHeight,
 
       '::-webkit-inner-spin-button ': {
-        '-webkit-appearance': 'none',
+        WebkitAppearance: 'none',
         margin: 0,
       },
 
