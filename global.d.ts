@@ -4,3 +4,12 @@ declare module '*.svg' {
   const svg: React.FC<React.SVGProps<SVGSVGElement>>;
   export default svg;
 }
+
+declare global {
+  interface Window {
+    kakao: any;
+    daum: any;
+  }
+}
+
+export const { kakao, daum } = Window;
