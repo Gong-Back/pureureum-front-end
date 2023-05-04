@@ -2,7 +2,7 @@ import React from 'react';
 
 import { GenderType } from '@/constants/types';
 
-import PersonalInfoList from '~/src/components/domain/MyPage/PersonalInfoList';
+import PersonalInfoList from '@/components/domain/MyPage/PersonalInfoList';
 import ProfileEditor from '@/components/domain/MyPage/ProfileEditor';
 import UpdatePhoneModal from '@/components/domain/MyPage/UpdatePhoneModal';
 import UpdatePasswordModal from '@/components/domain/MyPage/UpdatePasswordModal';
