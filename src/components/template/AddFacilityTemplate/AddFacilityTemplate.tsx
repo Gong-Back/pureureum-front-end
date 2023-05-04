@@ -10,12 +10,12 @@ import * as style from './AddFacilityTemplate.style';
 
 const AddFacilityTemplate = () => (
   <style.Wrapper>
-    <style.Title>
+    <style.Header>
       <ChevronLeftIconSvg />
       <Text color={COLORS.grayscale.gray700} fontStyleName="title">
         신규 시설 등록
       </Text>
-    </style.Title>
+    </style.Header>
     <style.Main>
       <FacilityInfoForm
         category="FARMING_HEALING"

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { COLORS, MEDIA_QUERIES } from '@/constants/styles';
+import { MEDIA_QUERIES } from '@/constants/styles';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -11,11 +11,11 @@ export const Wrapper = styled.div`
   margin: auto;
 `;
 
-export const Title = styled.div`
+export const Header = styled.div`
   display: flex;
   gap: 0 20px;
 
-  width: 1200px;
+  width: 1000px;
   margin: 70px auto 55px auto;
 
   > svg {
