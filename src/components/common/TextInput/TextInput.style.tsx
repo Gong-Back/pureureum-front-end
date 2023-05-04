@@ -24,6 +24,11 @@ export const Input = styled.input<Omit<TextInputProps, 'value'>>(
       fontWeight: fonts.pc[isSmallSize ? 'body3' : 'body2R'].fontWeight,
       lineHeight: fonts.pc[isSmallSize ? 'body3' : 'body2R'].lineHeight,
 
+      '::-webkit-inner-spin-button ': {
+        '-webkit-appearance': 'none',
+        margin: 0,
+      },
+
       [`@media ${mediaQueries.mobile}`]: {
         height: DEFAULT_SIZES[sizeType ?? 'medium'].mHeight,
         paddingLeft: 20,
