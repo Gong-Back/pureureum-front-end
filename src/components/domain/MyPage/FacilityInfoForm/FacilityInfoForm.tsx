@@ -129,7 +129,7 @@ const FacilityInfoForm = ({
       <style.FacilityDocsForm>
         <style.FormTitle className="title">
           <Text fontStyleName="subtitle2B" color={COLORS.grayscale.gray600}>
-            시설 위치
+            증빙 서류
           </Text>
           <Text
             fontStyleName="body1B"
