@@ -70,7 +70,7 @@ export const ProjectTypeSelect = styled.div`
   }
 `;
 
-export const FacilityNameForm = styled.form`
+export const FacilityNameForm = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px 0px;
@@ -80,7 +80,7 @@ export const FacilityNameForm = styled.form`
   }
 `;
 
-export const FacilityLocForm = styled.form`
+export const FacilityLocForm = styled.div`
   display: grid;
   grid-template-rows: fit-content(100%) repeat(2, 1fr);
   grid-template-columns: 1fr fit-content(100%);
@@ -117,7 +117,7 @@ export const FacilityLocForm = styled.form`
   }
 `;
 
-export const FacilityDocsForm = styled.form`
+export const FacilityDocsForm = styled.div`
   display: grid;
   grid-template-rows: fit-content(100%) 1fr;
   grid-template-columns: 1fr fit-content(100%);

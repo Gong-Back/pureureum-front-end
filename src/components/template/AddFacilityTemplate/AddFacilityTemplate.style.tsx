@@ -20,6 +20,7 @@ export const Header = styled.div`
 
   > svg {
     margin: auto 0;
+    cursor: pointer;
   }
 
   @media ${MEDIA_QUERIES.mobile} {

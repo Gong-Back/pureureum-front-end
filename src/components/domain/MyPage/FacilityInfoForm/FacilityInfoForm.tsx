@@ -1,9 +1,12 @@
+import React from 'react';
+
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 import TextInput from '@/components/common/TextInput';
 import CategoryTag from '@/components/common/CategoryTag';
 
 import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
+import useDaumPostCode from '@/hooks/useDaumPostCode';
 
 import { CategoryType } from '@/constants/types';
 
@@ -17,18 +20,37 @@ interface FacilityInfoFormProps {
   county: string;
   district: string;
   detail: string;
+  certificationDoc: File | null;
+  fileInputRef: React.RefObject<HTMLInputElement>;
+  handleFormInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSelectCategory: (category: CategoryType) => void;
+  handleUploadFile: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const FacilityInfoForm = ({
-  category = 'ETC',
-  name = '테스트 시설',
-  city = '',
-  county = '',
-  district = '',
-  detail = '',
+  category,
+  name,
+  city,
+  county,
+  district,
+  detail,
+  certificationDoc,
+  fileInputRef,
+  handleFormInput,
+  handleSelectCategory,
+  handleUploadFile,
 }: FacilityInfoFormProps) => {
   const currentBreakpoint = useMeasureBreakpoint(['mobile', 'tablet', 'pc']);
+  const { openPostCode, address } = useDaumPostCode();
+  const openFileUploadDialog = () => fileInputRef.current?.click();
+
   const isMobile = currentBreakpoint === 'mobile';
+  const isValidAddress = [city, county, district].every(
+    (value) => value.length,
+  );
+
+  console.log(address);
+
   return (
     <style.Wrapper>
       <style.ProjectTypeSelect>
@@ -50,6 +72,7 @@ const FacilityInfoForm = ({
           className={`youth-farming ${
             category !== 'YOUTH_FARMING' ? 'not-selected' : ''
           }`}
+          onClick={() => handleSelectCategory('YOUTH_FARMING')}
         />
         <CategoryTag
           type="FARMING_EXPERIENCE"
@@ -57,6 +80,7 @@ const FacilityInfoForm = ({
           className={`farming-experience ${
             category !== 'FARMING_EXPERIENCE' ? 'not-selected' : ''
           }`}
+          onClick={() => handleSelectCategory('FARMING_EXPERIENCE')}
         />
         <CategoryTag
           type="FARMING_HEALING"
@@ -64,11 +88,13 @@ const FacilityInfoForm = ({
           className={`farming-healing ${
             category !== 'FARMING_HEALING' ? 'not-selected' : ''
           }`}
+          onClick={() => handleSelectCategory('FARMING_HEALING')}
         />
         <CategoryTag
           type="ETC"
           sizeType={isMobile ? 'small' : 'big'}
           className={`etc ${category !== 'ETC' ? 'not-selected' : ''}`}
+          onClick={() => handleSelectCategory('ETC')}
         />
       </style.ProjectTypeSelect>
       <style.FacilityNameForm>
@@ -85,8 +111,9 @@ const FacilityInfoForm = ({
           </Text>
         </style.FormTitle>
         <TextInput
-          onChange={() => {}}
-          value=""
+          onChange={handleFormInput}
+          value={name}
+          name="name"
           placeholder="시설 이름을 지정해주세요"
           sizeType="large"
           className="name-input"
@@ -107,20 +134,26 @@ const FacilityInfoForm = ({
           </Text>
         </style.FormTitle>
         <TextInput
-          onChange={() => {}}
-          value=""
+          value={
+            isValidAddress
+              ? `${city} ${county} ${district}`
+              : '먼저 지도에서 주소를 검색해주세요'
+          }
+          readOnly
           placeholder="주소를 지도에서 검색해주세요"
           sizeType="large"
           className="loc-input"
           isFilled
         />
-        <Button isFilled className="search-button">
+        <Button isFilled className="search-button" onClick={openPostCode}>
           지도 검색
         </Button>
         <TextInput
-          onChange={() => {}}
-          value=""
-          placeholder="상세 주소"
+          onChange={handleFormInput}
+          value={detail}
+          name="detail"
+          disabled={!isValidAddress}
+          placeholder={isValidAddress ? '상세 주소' : ''}
           sizeType="large"
           className="detail-input"
           isFilled
@@ -140,14 +173,23 @@ const FacilityInfoForm = ({
           </Text>
         </style.FormTitle>
         <TextInput
-          onChange={() => {}}
-          value=""
-          placeholder="시설 인증을 할 수 있는 서류를 첨부해주세요"
+          value={
+            certificationDoc?.name ??
+            '시설 인증을 할 수 있는 서류를 첨부해주세요'
+          }
+          placeholder=""
           sizeType="large"
           className="file-input"
           isFilled
+          readOnly
         />
-        <Button isFilled className="find-button">
+        <input
+          ref={fileInputRef}
+          type="file"
+          style={{ display: 'none' }}
+          onChange={handleUploadFile}
+        />
+        <Button isFilled className="find-button" onClick={openFileUploadDialog}>
           파일 찾기
         </Button>
       </style.FacilityDocsForm>
