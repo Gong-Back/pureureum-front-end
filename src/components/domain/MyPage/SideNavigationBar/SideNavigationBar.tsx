@@ -1,77 +1,77 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import CocoNoteDeleteIcon from '@/assets/icons/noteDeleteIcon.svg';
-import CocoNoteIcon from '@/assets/icons/noteIcon.svg';
-import CocoNotificationIcon from '@/assets/icons/notificationIcon.svg';
-import CocoNotificationBellIcon from '@/assets/icons/notificationBellIcon.svg';
-import CocoSavedIcon from '@/assets/icons/savedIcon.svg';
-import CocoUserIcon from '@/assets/icons/userIcon.svg';
-import CocoPresentationIcon from '@/assets/icons/presentationIcon.svg';
+import NoteDeleteIcon from '@/assets/icons/noteDeleteIcon.svg';
+import NoteIcon from '@/assets/icons/noteIcon.svg';
+import NotificationIcon from '@/assets/icons/notificationIcon.svg';
+import NotificationBellIcon from '@/assets/icons/notificationBellIcon.svg';
+import SavedIcon from '@/assets/icons/savedIcon.svg';
+import UserIcon from '@/assets/icons/userIcon.svg';
+import PresentationIcon from '@/assets/icons/presentationIcon.svg';
 
 import Text from '@/components/common/Text';
 
 import { COLORS } from '@/constants/styles';
 import * as style from './SideNavigationBar.style';
 
-const sideNavigationElement = {
+const SIDE_NAV_ELEMENT = {
   project: [
     {
       title: '현재 진행 중인',
-      icon: <CocoPresentationIcon />,
+      icon: <PresentationIcon />,
       path: '/mypage/project/progressed',
     },
     {
       title: '진행 완료 된',
-      icon: <CocoNoteDeleteIcon />,
+      icon: <NoteDeleteIcon />,
       path: '/mypage/project/completed',
     },
     {
       title: '승인 대기 중인',
-      icon: <CocoNotificationIcon />,
+      icon: <NotificationIcon />,
       path: '/mypage/project/wait',
     },
     {
       title: '내가 관심 있는',
-      icon: <CocoSavedIcon />,
+      icon: <SavedIcon />,
       path: '/mypage/project/favorite',
     },
   ],
   personal: [
     {
       title: '정보 수정',
-      icon: <CocoUserIcon />,
+      icon: <UserIcon />,
       path: '/mypage/personal/profile',
     },
     {
       title: '알림 관리',
-      icon: <CocoNotificationBellIcon />,
+      icon: <NotificationBellIcon />,
       path: '/mypage/personal/notification',
     },
     {
       title: '작성한 글 관리',
-      icon: <CocoNoteIcon />,
+      icon: <NoteIcon />,
       path: '/mypage/personal/',
     },
   ],
   operation: [
     {
       title: '프로젝트 관리',
-      icon: <CocoNoteIcon />,
+      icon: <NoteIcon />,
       path: '/mypage/operation/project',
     },
     {
       title: '신규 시설 등록',
-      icon: <CocoNoteIcon />,
+      icon: <NoteIcon />,
       path: '/mypage/operation/apply',
     },
     {
       title: '시설 관리',
-      icon: <CocoNoteIcon />,
+      icon: <NoteIcon />,
       path: '/mypage/operation/manage',
     },
   ],
-};
+} as const;
 
 const SideNavigationBar = () => {
   const router = useRouter();
@@ -88,7 +88,7 @@ const SideNavigationBar = () => {
           프로젝트
         </Text>
         <style.SectionList>
-          {sideNavigationElement.project.map(({ title, icon, path }) => (
+          {SIDE_NAV_ELEMENT.project.map(({ title, icon, path }) => (
             <Link href={path} passHref>
               <style.NavItem>
                 <Text
@@ -113,7 +113,7 @@ const SideNavigationBar = () => {
           내 정보 관리
         </Text>
         <style.SectionList>
-          {sideNavigationElement.personal.map(({ title, icon, path }) => (
+          {SIDE_NAV_ELEMENT.personal.map(({ title, icon, path }) => (
             <Link href={path} passHref>
               <style.NavItem>
                 <Text
@@ -138,7 +138,7 @@ const SideNavigationBar = () => {
           프로젝트 운영
         </Text>
         <style.SectionList>
-          {sideNavigationElement.operation.map(({ title, icon, path }) => (
+          {SIDE_NAV_ELEMENT.operation.map(({ title, icon, path }) => (
             <Link href={path} passHref>
               <style.NavItem>
                 <Text
