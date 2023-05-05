@@ -27,7 +27,7 @@ interface FacilityInfoFormProps {
   >;
 }
 
-const MAX_FILE_SIZE = 3 * 1024;
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
 const ALLOWED_FILE_TYPE = ['pdf', 'hwp', 'docx'];
 
 const FacilityInfoForm = ({
@@ -59,8 +59,12 @@ const FacilityInfoForm = ({
 
   const handleUploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const [uploadedFile] = e.target.files ?? [];
-    console.log(uploadedFile.type);
     if (!uploadedFile || uploadedFile.size > MAX_FILE_SIZE) return;
+
+    // 파일 확장자를 체크하고, 올바른 타입의 확장자인지를 체크
+    const uploadedFileExtractType = uploadedFile?.name.split('.')[1];
+    if (!ALLOWED_FILE_TYPE.includes(uploadedFileExtractType)) return;
+
     setFacilityInformation((prev) => ({
       ...prev,
       certificationDoc: uploadedFile,
