@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
@@ -8,7 +8,7 @@ import CategoryTag from '@/components/common/CategoryTag';
 import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
 import useDaumPostCode from '@/hooks/useDaumPostCode';
 
-import { CategoryType } from '@/constants/types';
+import { AddFacilityInputType, CategoryType } from '@/constants/types';
 
 import { COLORS } from '@/constants/styles';
 import * as style from './FacilityInfoForm.style';
@@ -21,11 +21,12 @@ interface FacilityInfoFormProps {
   district: string;
   detail: string;
   certificationDoc: File | null;
-  fileInputRef: React.RefObject<HTMLInputElement>;
-  handleFormInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSelectCategory: (category: CategoryType) => void;
-  handleUploadFile: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setFacilityInformation: React.Dispatch<
+    React.SetStateAction<AddFacilityInputType>
+  >;
 }
+
+const MAX_FILE_SIZE = 3 * 1024;
 
 const FacilityInfoForm = ({
   category,
@@ -35,21 +36,44 @@ const FacilityInfoForm = ({
   district,
   detail,
   certificationDoc,
-  fileInputRef,
-  handleFormInput,
-  handleSelectCategory,
-  handleUploadFile,
+  setFacilityInformation,
 }: FacilityInfoFormProps) => {
   const currentBreakpoint = useMeasureBreakpoint(['mobile', 'tablet', 'pc']);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const { openPostCode, address } = useDaumPostCode();
+
+  console.log(address);
+
+  const handleFormInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name: inputName, value } = e.target;
+    setFacilityInformation((prev) => ({ ...prev, [inputName]: value }));
+  };
+
+  const handleUploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const [uploadedFile] = e.target.files ?? [];
+    if (!uploadedFile || uploadedFile.size > MAX_FILE_SIZE) return;
+    setFacilityInformation((prev) => ({
+      ...prev,
+      certificationDoc: uploadedFile,
+    }));
+  };
+
+  const handleSelectCategory = (selectedCategory: CategoryType) => {
+    setFacilityInformation((prev) => ({ ...prev, category: selectedCategory }));
+  };
+
   const openFileUploadDialog = () => fileInputRef.current?.click();
+  const removeUploadedFile = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+      setFacilityInformation((prev) => ({ ...prev, certificationDoc: null }));
+    }
+  };
 
   const isMobile = currentBreakpoint === 'mobile';
   const isValidAddress = [city, county, district].every(
     (value) => value.length,
   );
-
-  console.log(address);
 
   return (
     <style.Wrapper>
@@ -174,8 +198,11 @@ const FacilityInfoForm = ({
         </style.FormTitle>
         <TextInput
           value={
-            certificationDoc?.name ??
-            '시설 인증을 할 수 있는 서류를 첨부해주세요'
+            certificationDoc
+              ? `${certificationDoc.name} (${(
+                  certificationDoc.size / 1024
+                ).toFixed(1)}MB)`
+              : '시설 인증을 할 수 있는 서류를 첨부해주세요'
           }
           placeholder=""
           sizeType="large"
@@ -189,8 +216,12 @@ const FacilityInfoForm = ({
           style={{ display: 'none' }}
           onChange={handleUploadFile}
         />
-        <Button isFilled className="find-button" onClick={openFileUploadDialog}>
-          파일 찾기
+        <Button
+          isFilled
+          className="find-button"
+          onClick={certificationDoc ? removeUploadedFile : openFileUploadDialog}
+        >
+          {certificationDoc ? '파일 제거 ' : '파일 찾기'}
         </Button>
       </style.FacilityDocsForm>
     </style.Wrapper>

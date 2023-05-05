@@ -7,7 +7,7 @@ import Text from '@/components/common/Text';
 
 import ChevronLeftIconSvg from '@/assets/icons/ChevronLeftIcon.svg';
 
-import { CategoryType } from '@/constants/types';
+import { AddFacilityInputType, CategoryType } from '@/constants/types';
 
 import { COLORS } from '@/constants/styles';
 import * as style from './AddFacilityTemplate.style';
@@ -20,10 +20,9 @@ interface AddFacilityTemplateProps {
   district: string;
   detail: string;
   certificationDoc: File | null;
-  fileInputRef: React.RefObject<HTMLInputElement>;
-  handleFormInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSelectCategory: (category: CategoryType) => void;
-  handleUploadFile: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setFacilityInformation: React.Dispatch<
+    React.SetStateAction<AddFacilityInputType>
+  >;
 }
 
 const AddFacilityTemplate = ({
@@ -34,10 +33,7 @@ const AddFacilityTemplate = ({
   district,
   detail,
   certificationDoc,
-  fileInputRef,
-  handleFormInput,
-  handleSelectCategory,
-  handleUploadFile,
+  setFacilityInformation,
 }: AddFacilityTemplateProps) => {
   const router = useRouter();
 
@@ -58,10 +54,7 @@ const AddFacilityTemplate = ({
           district={district}
           detail={detail}
           certificationDoc={certificationDoc}
-          fileInputRef={fileInputRef}
-          handleFormInput={handleFormInput}
-          handleSelectCategory={handleSelectCategory}
-          handleUploadFile={handleUploadFile}
+          setFacilityInformation={setFacilityInformation}
         />
         <style.ButtonBox>
           <Button isRound isFilled sizeType="large" className="bottom-btn">
