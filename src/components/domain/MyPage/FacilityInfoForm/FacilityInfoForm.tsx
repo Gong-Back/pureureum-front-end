@@ -19,6 +19,7 @@ interface FacilityInfoFormProps {
   city: string;
   county: string;
   district: string;
+  jibun: string;
   detail: string;
   certificationDoc: File | null;
   setFacilityInformation: React.Dispatch<
@@ -27,6 +28,7 @@ interface FacilityInfoFormProps {
 }
 
 const MAX_FILE_SIZE = 3 * 1024;
+const ALLOWED_FILE_TYPE = ['pdf', 'hwp', 'docx'];
 
 const FacilityInfoForm = ({
   category,
@@ -34,6 +36,7 @@ const FacilityInfoForm = ({
   city,
   county,
   district,
+  jibun,
   detail,
   certificationDoc,
   setFacilityInformation,
@@ -42,7 +45,12 @@ const FacilityInfoForm = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { openPostCode, address } = useDaumPostCode();
 
-  console.log(address);
+  useEffect(() => {
+    setFacilityInformation((prev) => ({
+      ...prev,
+      ...address,
+    }));
+  }, [address]);
 
   const handleFormInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name: inputName, value } = e.target;
@@ -51,6 +59,7 @@ const FacilityInfoForm = ({
 
   const handleUploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const [uploadedFile] = e.target.files ?? [];
+    console.log(uploadedFile.type);
     if (!uploadedFile || uploadedFile.size > MAX_FILE_SIZE) return;
     setFacilityInformation((prev) => ({
       ...prev,
@@ -71,9 +80,7 @@ const FacilityInfoForm = ({
   };
 
   const isMobile = currentBreakpoint === 'mobile';
-  const isValidAddress = [city, county, district].every(
-    (value) => value.length,
-  );
+  const isValidAddress = [city, county, district, jibun].every(Boolean);
 
   return (
     <style.Wrapper>
@@ -160,7 +167,7 @@ const FacilityInfoForm = ({
         <TextInput
           value={
             isValidAddress
-              ? `${city} ${county} ${district}`
+              ? `${county} ${city} ${district} ${jibun}`
               : '먼저 지도에서 주소를 검색해주세요'
           }
           readOnly

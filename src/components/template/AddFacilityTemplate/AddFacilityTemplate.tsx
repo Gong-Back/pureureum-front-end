@@ -18,6 +18,7 @@ interface AddFacilityTemplateProps {
   city: string;
   county: string;
   district: string;
+  jibun: string;
   detail: string;
   certificationDoc: File | null;
   setFacilityInformation: React.Dispatch<
@@ -31,6 +32,7 @@ const AddFacilityTemplate = ({
   city,
   county,
   district,
+  jibun,
   detail,
   certificationDoc,
   setFacilityInformation,
@@ -52,6 +54,7 @@ const AddFacilityTemplate = ({
           city={city}
           county={county}
           district={district}
+          jibun={jibun}
           detail={detail}
           certificationDoc={certificationDoc}
           setFacilityInformation={setFacilityInformation}

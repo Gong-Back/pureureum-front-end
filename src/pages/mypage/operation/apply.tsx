@@ -12,6 +12,7 @@ const Apply = () => {
       city: '',
       county: '',
       district: '',
+      jibun: '',
       detail: '',
       certificationDoc: null,
     });
@@ -23,6 +24,7 @@ const Apply = () => {
       city={facilityInformation.city}
       county={facilityInformation.county}
       district={facilityInformation.district}
+      jibun={facilityInformation.jibun}
       detail={facilityInformation.detail}
       certificationDoc={facilityInformation.certificationDoc}
       setFacilityInformation={setFacilityInformation}
