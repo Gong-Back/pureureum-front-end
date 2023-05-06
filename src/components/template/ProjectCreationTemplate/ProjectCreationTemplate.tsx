@@ -1,22 +1,21 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
+import { useRouter } from 'next/router';
 import LeftIconSvg from '@/assets/icons/leftIcon.svg';
+
 import Text from '@/components/common/Text';
 import Button from '@/components/common/Button';
 import * as ProjectForm from '@/components/domain/Project/ProjectCreationForm';
-import { COLORS } from '@/constants/styles';
 
 import { ProjectCreationInputType } from '@/constants/types';
-import { useRouter } from 'next/router';
+import { COLORS } from '@/constants/styles';
+
 import * as style from './ProjectCreationTemplate.style';
 
 export interface ProjectCreationTemplateProps {
   feedbackRef: React.MutableRefObject<HTMLParagraphElement>;
   scrollRef: (node: HTMLDivElement) => void;
   projectInformation: ProjectCreationInputType;
-  handleFormInput: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => void;
   setProjectInformation: any;
   currentStep: number;
   handleNextStep: (step: number) => void;
@@ -27,7 +26,6 @@ const ProjectCreationTemplate = ({
   scrollRef,
   projectInformation,
   setProjectInformation,
-  handleFormInput,
   currentStep,
   handleNextStep,
 }: ProjectCreationTemplateProps) => {
@@ -48,6 +46,16 @@ const ProjectCreationTemplate = ({
     thumnail,
   } = projectInformation;
   const router = useRouter();
+
+  const handleFormInput = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name: inputName, value } = e.target;
+    setProjectInformation((prev: ProjectCreationInputType) => ({
+      ...prev,
+      [inputName]: value,
+    }));
+  };
   return (
     <>
       <style.Wrapper>

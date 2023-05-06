@@ -79,13 +79,6 @@ const ProjectCreationPage: NextPage = () => {
     setCurrentStep((prev) => prev + 1);
   };
 
-  const handleFormInput = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { name: inputName, value } = e.target;
-    setProjectInformation((prev) => ({ ...prev, [inputName]: value }));
-  };
-
   const scrollRef = useCallback((node: HTMLDivElement) => {
     node?.scrollIntoView({
       behavior: 'smooth',
@@ -98,7 +91,6 @@ const ProjectCreationPage: NextPage = () => {
       feedbackRef={feedbackRef}
       scrollRef={scrollRef}
       projectInformation={projectInformation}
-      handleFormInput={handleFormInput}
       setProjectInformation={setProjectInformation}
       currentStep={currentStep}
       handleNextStep={handleNextStep}
