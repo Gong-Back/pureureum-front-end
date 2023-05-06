@@ -10,26 +10,10 @@ import { COLORS } from '@/constants/styles';
 import Text from '@/components/common/Text';
 import TextInput from '@/components/common/TextInput';
 import LocationBox from '@/components/common/LocationBox';
+import FormLabel from '@/components/common/FormLabel';
 import { ProjectAgeInput, ProjectPeriodInput } from './ProjectRangeInput';
 
 import * as style from './ProjectCreationForm.style';
-
-const Label = ({
-  text,
-  isEssential,
-}: {
-  text: string;
-  isEssential?: boolean;
-}) => (
-  <Text
-    color={COLORS.grayscale.gray600}
-    fontStyleName="subtitle2B"
-    className="sub-title"
-  >
-    {text}
-    {isEssential && <span>*</span>}
-  </Text>
-);
 
 interface FormCommonProps {
   handleFormInput: (
@@ -51,15 +35,15 @@ export const Step1 = ({ title, guide, handleFormInput }: Step1Props) => (
       className="title-input"
     />
     <style.Section>
-      <Label text="카테고리" />
+      <FormLabel text="카테고리" />
       <div>TAG</div>
     </style.Section>
     <style.Section>
-      <Label text="진행시설" />
+      <FormLabel text="진행시설" />
       <LocationBox name="감자농장" address="서울시 영등포구 가나다라" />
     </style.Section>
     <style.Section>
-      <Label text="찾아오시는 길 안내" />
+      <FormLabel text="찾아오시는 길 안내" />
       <style.TextArea
         value={guide}
         name="guide"
@@ -91,7 +75,7 @@ export const Step2 = ({
 }: Step2Props) => (
   <style.Wrapper ref={stepRef}>
     <style.Section>
-      <Label text="한 줄 소개" isEssential />
+      <FormLabel text="한 줄 소개" isEssential />
       <TextInput
         value={introduction}
         name="introduction"
@@ -103,7 +87,7 @@ export const Step2 = ({
     </style.Section>
     <style.HorizonalWrap className="step2-horizonal-wrap">
       <style.Section className="count-section">
-        <Label text="모집 인원" isEssential />
+        <FormLabel text="모집 인원" isEssential />
         <style.HorizonalWrap>
           <TextInput
             type="number"
@@ -121,7 +105,7 @@ export const Step2 = ({
         </style.HorizonalWrap>
       </style.Section>
       <style.Section>
-        <Label text="나이 제한" />
+        <FormLabel text="나이 제한" />
         <ProjectAgeInput
           minAge={minAge}
           maxAge={maxAge}
@@ -130,7 +114,7 @@ export const Step2 = ({
       </style.Section>
     </style.HorizonalWrap>
     <style.Section>
-      <Label text="진행 기간" isEssential />
+      <FormLabel text="진행 기간" isEssential />
       <ProjectPeriodInput
         projectStartDate={projectStartDate}
         projectEndDate={projectEndDate}
@@ -138,7 +122,7 @@ export const Step2 = ({
       />
     </style.Section>
     <style.Section>
-      <Label text="프로젝트 내용" isEssential />
+      <FormLabel text="프로젝트 내용" isEssential />
       <style.TextArea
         value={content}
         name="content"
@@ -148,7 +132,7 @@ export const Step2 = ({
       />
     </style.Section>
     <style.Section>
-      <Label text="유의사항" isEssential />
+      <FormLabel text="유의사항" isEssential />
       <style.TextArea
         value={notice}
         name="notice"
@@ -179,7 +163,7 @@ export const Step3 = ({
 }: Step3Props) => (
   <style.Wrapper ref={stepRef}>
     <style.Section>
-      <Label text="프로젝트 참가비 유형" isEssential />
+      <FormLabel text="프로젝트 참가비 유형" isEssential />
       <style.PaymentTypeContainer>
         {PAYMENT_TYPE.map(({ text, value }: any) => (
           <style.CheckboxWrap>
@@ -196,7 +180,7 @@ export const Step3 = ({
       </style.PaymentTypeContainer>
     </style.Section>
     <style.Section>
-      <Label text="참가비(보증금) 금액" />
+      <FormLabel text="참가비(보증금) 금액" />
       <style.HorizonalWrap>
         <TextInput
           type="number"
@@ -214,7 +198,7 @@ export const Step3 = ({
       </style.HorizonalWrap>
     </style.Section>
     <style.Section>
-      <Label text="환불 관련 안내 사항" />
+      <FormLabel text="환불 관련 안내 사항" />
       <style.TextArea
         value={refundInstruction}
         name="refundInstruction"
@@ -223,7 +207,7 @@ export const Step3 = ({
       />
     </style.Section>
     <style.Section>
-      <Label text="입금 계좌 정보" />
+      <FormLabel text="입금 계좌 정보" />
       <div>입금 계좌 정보</div>
       <div className="deposition-info">{depositionInformation}</div>
     </style.Section>

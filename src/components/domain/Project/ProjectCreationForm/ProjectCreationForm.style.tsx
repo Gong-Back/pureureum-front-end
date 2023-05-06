@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { COLORS } from '@/constants/styles';
+import { COLORS, MEDIA_QUERIES } from '@/constants/styles';
 
 export const Wrapper = styled.section`
   display: flex;
@@ -22,7 +22,7 @@ export const Wrapper = styled.section`
     }
   }
 
-  @media ${(props) => props.theme.mediaQueries.mobile} {
+  @media ${MEDIA_QUERIES.mobile} {
     > .step2-horizonal-wrap {
       flex-direction: column;
       align-items: flex-start;
@@ -36,13 +36,7 @@ export const Section = styled.div`
   > input {
     width: 100%;
   }
-  > .sub-title {
-    margin-bottom: 30px;
-    span {
-      color: ${COLORS.caption};
-      margin-left: 10px;
-    }
-  }
+
   > .content-input {
     height: 800px;
   }
