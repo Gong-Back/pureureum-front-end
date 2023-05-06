@@ -8,7 +8,8 @@ declare module '*.svg' {
 declare global {
   interface Window {
     kakao: any;
+    daum: any;
   }
 }
 
-export const { kakao } = Window;
+export const { kakao, daum } = Window;

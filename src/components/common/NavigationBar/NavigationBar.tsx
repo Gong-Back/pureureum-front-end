@@ -39,12 +39,8 @@ const NavigationBar = () => {
       <style.NavItemList>
         {isPc &&
           NavigationItems.map(({ path, text }) => (
-            <Link href={path} passHref>
-              <Text
-                color={COLORS.grayscale.gray500}
-                fontStyleName="body2R"
-                key={text}
-              >
+            <Link href={path} passHref key={text}>
+              <Text color={COLORS.grayscale.gray500} fontStyleName="body2R">
                 {text}
               </Text>
             </Link>
