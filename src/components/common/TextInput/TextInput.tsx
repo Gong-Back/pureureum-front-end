@@ -7,7 +7,7 @@ export interface TextInputProps
     HTMLInputElement
   > {
   /** Input 텍스트 입력 값 */
-  value: string;
+  value?: string | number;
   /** Input placeholder */
   placeholder: string;
   /** 높이를 기준으로 분류되는 사이즈 타입 (각각 높이: 45/50/60px, default:) */
@@ -32,7 +32,6 @@ const TextInput = ({
   ...inputprops
 }: TextInputProps) => (
   <styles.Input
-    type="text"
     value={value}
     sizeType={sizeType}
     isFilled={isFilled}

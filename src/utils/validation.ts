@@ -42,13 +42,29 @@ class ValidationUtil {
   }
 
   /**
-   * 유효한 전화번호 인지를 검사하기 위한 함수 validateName
+   * 유효한 전화번호 인지를 검사하기 위한 함수 validatePhoneNumber
    * @param phoneNumber 유효성 검사를 진행할 전화번호 phoneNumber
    * @returns 유효하다면 true, 그렇지 않다면 false
    */
   static validatePhoneNumber(phoneNumber: string) {
     const regexp = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
     return regexp.test(phoneNumber);
+  }
+
+  /**
+   * 유효한 일자인지 검사하기 위한 함수 validateDate
+   * @param year 유효성 검사를 진행할 년도 year
+   * @param month 유효성 검사를 진행할 월 month
+   * @param day 유효성 검사를 진행할 일 day
+   * @returns 유효하다면 true, 그렇지 않다면 false
+   */
+  static validateDate(year: string, month: string, day: string) {
+    const yearRegexp = /^(19[0-9]{2}|20[0-2][0-9])$/;
+    const monthRegexp = /^(0[1-9]|1[0-2])$/;
+    const dayRegexp = /^((0[1-9]|[12][0-9])|3[01])$/;
+    return (
+      yearRegexp.test(year) && monthRegexp.test(month) && dayRegexp.test(day)
+    );
   }
 }
 
