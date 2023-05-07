@@ -21,9 +21,12 @@ interface AddFacilityTemplateProps {
   jibun: string;
   detail: string;
   certificationDoc: File | null;
+  feedbackRef: React.RefObject<HTMLDivElement>;
+  isPossibleSubmit: boolean;
   setFacilityInformation: React.Dispatch<
     React.SetStateAction<AddFacilityInputType>
   >;
+  submitFacilityInfo: () => Promise<void>;
 }
 
 const AddFacilityTemplate = ({
@@ -35,7 +38,10 @@ const AddFacilityTemplate = ({
   jibun,
   detail,
   certificationDoc,
+  feedbackRef,
+  isPossibleSubmit,
   setFacilityInformation,
+  submitFacilityInfo,
 }: AddFacilityTemplateProps) => {
   const router = useRouter();
 
@@ -59,8 +65,20 @@ const AddFacilityTemplate = ({
           certificationDoc={certificationDoc}
           setFacilityInformation={setFacilityInformation}
         />
+        <style.Feedback ref={feedbackRef} />
         <style.ButtonBox>
-          <Button isRound isFilled sizeType="large" className="bottom-btn">
+          <Button
+            isRound
+            isFilled
+            themeColor={
+              isPossibleSubmit
+                ? COLORS.primary.greenDefault
+                : COLORS.grayscale.gray400
+            }
+            sizeType="large"
+            className="bottom-btn"
+            onClick={submitFacilityInfo}
+          >
             신청 완료
           </Button>
           <Button

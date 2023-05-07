@@ -1,5 +1,4 @@
 import {
-  AddFacilityInputType,
   SearchFacilityOutputType,
   ApiResponse,
   CategoryType,

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { MEDIA_QUERIES } from '@/constants/styles';
+import { COLORS, MEDIA_QUERIES } from '@/constants/styles';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -37,7 +37,7 @@ export const Header = styled.div`
 export const Main = styled.main`
   display: flex;
   flex-direction: column;
-  gap: 126px 0;
+  gap: 32px 0;
 
   width: 1000px;
   margin: auto;
@@ -66,3 +66,12 @@ export const ButtonBox = styled.div`
     width: 180px;
   }
 `;
+
+export const Feedback = styled.p(({ theme }) => {
+  const { colors, fonts } = theme;
+  return {
+    margin: '0px auto 80px auto',
+    color: colors.caption,
+    ...fonts.pc.body2R,
+  };
+});

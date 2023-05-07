@@ -28,7 +28,7 @@ interface FacilityInfoFormProps {
 }
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
-const ALLOWED_FILE_TYPE = ['pdf', 'hwp', 'docx'];
+const ALLOWED_FILE_TYPE = ['pdf', 'hwp', 'docx', 'txt'];
 
 const FacilityInfoForm = ({
   category,
