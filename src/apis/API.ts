@@ -16,6 +16,16 @@ const API = axios.create({
 });
 
 /**
+ * Axios Interceptor 설정
+ * response : header 내 authorization 값을 취득한 후, 인스턴스 header 에 설정 
+ */
+API.interceptors.response.use((res: AxiosResponse) => {
+  const accessToken = res.headers.authorization;
+  if (accessToken) API.defaults.headers.authorization = `Bearer ${accessToken}`;
+  return res;
+})
+
+/**
  * API 통신 과정에서 발생한 에러를 클라이언트에 객체로 인계하는 함수
  * @param err API 통신 과정에서 발생한 에러 데이터
  * @returns 클라이언트에게 인계할 에러 객체 (ApiError)
