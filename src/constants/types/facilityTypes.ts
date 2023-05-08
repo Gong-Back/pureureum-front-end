@@ -19,6 +19,7 @@ export interface AddFacilityInputType {
   certificationDoc: File | null;
 }
 
-export interface SearchFacilityOutputType extends AddFacilityInputType {
+export interface SearchFacilityOutputType
+  extends Omit<AddFacilityInputType, 'certificationDoc'> {
   id: number;
 }
