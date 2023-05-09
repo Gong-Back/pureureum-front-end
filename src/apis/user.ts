@@ -2,7 +2,6 @@ import {
   ApiResponse,
   PersonalInfoType,
   UpdatePersonalInfoType,
-  UpdateProfileImageType,
 } from '@/constants/types';
 import { getAsync, postAsync } from './API';
 
@@ -24,9 +23,9 @@ export class UserRepository {
    * @returns 성공 시 200 반환, 실패 시 40X 에러 반환
    */
   static async updateUserInfoAsync(
-    password: string | undefined,
-    phoneNumber: string | undefined,
-    nickname: string | undefined,
+    password: string,
+    phoneNumber: string,
+    nickname: string,
   ): ApiResponse<undefined> {
     const response = await postAsync<undefined, UpdatePersonalInfoType>(
       '/users/update/info',
@@ -41,18 +40,35 @@ export class UserRepository {
 
   /**
    * 유저의 프로필 이미지를 업데이트 하는 함수 updateProfileImageAsync
-   * @param profileImageFile 새롭게 업데이트 하려는 프로필 이미지 (undefined인 경우, 기존 이미지로 수정하겠다는 의미)
+   * @param profileImageFile 새롭게 업데이트 하려는 프로필 이미지 (undefined인 경우, 기본 이미지로 롤백)
    * @returns 성공 시 200 반환, 실패 시 40X 에러 반환
    */
   static async updateProfileImageAsync(
     profileImageFile: File | undefined,
   ): ApiResponse<undefined> {
-    const response = await postAsync<undefined, UpdateProfileImageType>(
+    const formData = new FormData();
+    // 업로드 하려는 이미지가 존재하는 경우에만 Blob로 변환하여 추가
+    if (profileImageFile) {
+      formData.append(
+        'profile',
+        new Blob(
+          [
+            JSON.stringify({
+              profileImageFile,
+            }),
+          ],
+          {
+            type: 'image/png',
+          },
+        ),
+      );
+    }
+    const response = await postAsync<undefined, FormData>(
       '/users/update/profile',
-      { profileImageFile },
+      formData,
       {
         headers: {
-          'Content-Type': 'image/png',
+          'Content-Type': 'multipart/form-data',
         },
       },
     );
