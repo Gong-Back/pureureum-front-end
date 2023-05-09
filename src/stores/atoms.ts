@@ -1,4 +1,5 @@
 import { atom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
 import type { ReactNode } from 'react';
 
 export interface ModalStateType {
@@ -8,7 +9,17 @@ export interface ModalStateType {
   content: ReactNode[];
 }
 
+export interface AuthTokenType {
+  accessToken: string | null;
+  refreshToken: string | null;
+}
+
 export const modalStateAtom = atom<ModalStateType>({
   isOpen: false,
   content: [],
+});
+
+export const authTokenAtom = atomWithStorage<AuthTokenType>('jwt', {
+  accessToken: null,
+  refreshToken: null,
 });
