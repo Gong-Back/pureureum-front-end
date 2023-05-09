@@ -15,6 +15,8 @@ const Profile = () => {
     profileUrl: '',
   });
 
+  const handleProfileImg = ()
+
   return (
     <MyProfileTemplate
       name={personalInfo.name}
@@ -24,6 +26,7 @@ const Profile = () => {
       gender={personalInfo.gender}
       birthday={personalInfo.birthday}
       profileUrl={personalInfo.profileUrl}
+      setPersonalInfo={setPersonalInfo}
     />
   );
 };

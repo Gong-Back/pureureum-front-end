@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { GenderType } from '@/constants/types';
-
 import PersonalInfoList from '@/components/domain/MyPage/PersonalInfoList';
 import ProfileEditor from '@/components/domain/MyPage/ProfileEditor';
 import UpdatePhoneModal from '@/components/domain/MyPage/UpdatePhoneModal';
@@ -10,6 +8,8 @@ import SideNavigationBar from '@/components/domain/MyPage/SideNavigationBar';
 
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
+
+import { GenderType, PersonalInfoType } from '@/constants/types';
 
 import useModal from '@/hooks/useModal';
 import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
@@ -25,6 +25,7 @@ interface MyProfileTemplatesProps {
   phoneNumber: string;
   profileUrl: string;
   nickname: string;
+  setPersonalInfo: React.Dispatch<React.SetStateAction<PersonalInfoType>>;
 }
 
 const MyProfileTemplate = ({
@@ -35,6 +36,7 @@ const MyProfileTemplate = ({
   phoneNumber,
   profileUrl,
   nickname,
+  setPersonalInfo,
 }: MyProfileTemplatesProps) => {
   // TODO : 정규식의 경우 추후 Util 로 묶을 수 있다면 일괄적으로 수정해야 함.
   const maskedPhoneNumber = phoneNumber.replace(/-[0-9]{4}-/g, '-****-');
@@ -42,9 +44,11 @@ const MyProfileTemplate = ({
   const { openModal } = useModal();
   const currentBreakpoint = useMeasureBreakpoint(['mobile', 'pc']);
 
-  const openChangePhoneModal = () => openModal(<UpdatePhoneModal />);
+  const openChangePhoneModal = () =>
+    openModal(<UpdatePhoneModal setPersonalInfo={setPersonalInfo} />);
 
-  const openChangePasswordModal = () => openModal(<UpdatePasswordModal />);
+  const openChangePasswordModal = () =>
+    openModal(<UpdatePasswordModal setPersonalInfo={setPersonalInfo} />);
 
   const handleSaveChange = () => {};
 
