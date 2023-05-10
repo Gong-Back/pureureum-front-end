@@ -2,6 +2,10 @@ name: PRR-Production
 
 on:
   pull_request:
+    types: [opened, synchronize]
+    branches:
+      - main
+      - develop
 
 env:
   S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
