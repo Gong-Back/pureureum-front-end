@@ -1,9 +1,7 @@
 name: PRR-Production
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
 
 env:
   S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
