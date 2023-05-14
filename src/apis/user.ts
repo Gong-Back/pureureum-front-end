@@ -10,29 +10,26 @@ export class UserRepository {
    * 유저의 회원 정보를 가져오는 함수 getUserInfoAsync
    * @returns 가입 성공 시 200, 실패 시 에러 반환 (400 등)
    */
-  static async getUserInfoAsync(): ApiResponse<PersonalInfoType> {
+  static async getUserInfoAsync(): Promise<PersonalInfoType> {
     const response = await getAsync<PersonalInfoType>('/users/me');
-    return response;
+    if (response.isSuccess) return response.result.data;
+    throw Error('failed to load data');
   }
 
   /**
    * 유저의 회원 정보를 업데이트 하는 함수 updateUserInfoAsync
-   * @param password 변경하고자 하는 유저의 비밀번호
-   * @param phoneNumber 변경하고자 하는 유저의 핸드폰 번호
-   * @param nickname 변경하고자 하는 유저의 닉네임
+   * @param type 변경하고자 하는 타입 (비밀번호, 핸드폰 번호, 닉네임 중 1개)
+   * @param updatedValue 변경하고자 하는 정보
    * @returns 성공 시 200 반환, 실패 시 40X 에러 반환
    */
   static async updateUserInfoAsync(
-    password: string,
-    phoneNumber: string,
-    nickname: string,
+    type: 'password' | 'phoneNumber' | 'nickname',
+    updatedValue: string,
   ): ApiResponse<undefined> {
     const response = await postAsync<undefined, UpdatePersonalInfoType>(
       '/users/update/info',
       {
-        password,
-        phoneNumber,
-        nickname,
+        [type]: updatedValue,
       },
     );
     return response;

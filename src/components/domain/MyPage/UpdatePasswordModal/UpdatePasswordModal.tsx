@@ -1,20 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 import Button from '@/components/common/Button';
 import TextInput from '@/components/common/TextInput';
 import ModalTemplate from '@/components/common/ModalTemplate';
 
 import { UserRepository } from '@/apis/user';
-import { PersonalInfoType } from '@/constants/types';
 
 import { COLORS } from '@/constants/styles';
 import * as style from './UpdatePasswordModal.style';
 
-interface UpdatePasswordModalProps {
-  setPersonalInfo: React.Dispatch<React.SetStateAction<PersonalInfoType>>;
-}
-
-const UpdatePasswordModal = ({ setPersonalInfo }: UpdatePasswordModalProps) => {
+const UpdatePasswordModal = () => {
+  const [feedbackMsg, setFeedbackMsg] = useState('');
   const [changedPasswordInfo, setChangedPasswordInfo] = useState({
     currentPassword: '',
     changedPassword: '',
@@ -26,6 +22,17 @@ const UpdatePasswordModal = ({ setPersonalInfo }: UpdatePasswordModalProps) => {
   const handleFormInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name: inputName, value } = e.target;
     setChangedPasswordInfo((prev) => ({ ...prev, [inputName]: value }));
+  };
+
+  const confirmUpdatePassword = async () => {
+    if (changedPassword !== confirmedPassword) {
+      setFeedbackMsg('비밀번호가 서로 일치하지 않습니다.');
+      return;
+    }
+    const response = await UserRepository.updateUserInfoAsync(
+      'password',
+      changedPassword,
+    );
   };
 
   const isPossibleToConfirm = [
@@ -70,9 +77,11 @@ const UpdatePasswordModal = ({ setPersonalInfo }: UpdatePasswordModalProps) => {
           }
           sizeType="small"
           className="confirm-btn"
+          onClick={confirmUpdatePassword}
         >
           비밀번호 변경
         </Button>
+        {feedbackMsg && <p>{feedbackMsg}</p>}
       </style.Wrapper>
     </ModalTemplate>
   );
