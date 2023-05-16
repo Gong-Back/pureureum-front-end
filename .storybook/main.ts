@@ -22,6 +22,19 @@ const config: StorybookConfig = {
   webpackFinal: async (config) => {
     // for typescript absolute path
     config.resolve?.plugins?.push(new TsconfigPathsPlugin({}));
+
+    // for using icon svg files : disable exisiting rules and add new rule
+    const svgRule = config.module?.rules?.find((rule) => {
+      const test = (rule as { test: RegExp }).test;
+      return !test ? false : test.test('.svg');
+    }) as { [key: string]: any };
+    svgRule.exclude = /\.svg$/i;
+
+    config.module?.rules?.push({
+      test: /\.svg$/i,
+      use: ['@svgr/webpack'],
+    });
+
     return {
       ...config,
       resolve: {

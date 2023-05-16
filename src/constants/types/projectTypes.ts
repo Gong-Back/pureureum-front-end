@@ -1,9 +1,11 @@
+/** 프로젝트 카테고리 타입 */
 export type CategoryType =
   | 'YOUTH_FARMING'
   | 'FARMING_HEALING'
   | 'FARMING_EXPERIENCE'
   | 'ETC';
 
+/** 프로젝트 생성 Input 타입 (step1~3) */
 export interface Step1InputType {
   title: string;
   guide: string;
@@ -40,4 +42,16 @@ export interface ProjectCreationInputType
   // };
 }
 
-// TODO 'NONE'을 여기에 넣는게 맞나?
+export interface ProjectItemType {
+  projectId: number;
+  type: CategoryType;
+  thumbnail: string;
+  title: string;
+  introduction: string;
+  onwerName: string;
+  currentRecruit: number;
+  totalRecruit: number;
+  location: string;
+  startDate: string;
+  endDate: string;
+}
