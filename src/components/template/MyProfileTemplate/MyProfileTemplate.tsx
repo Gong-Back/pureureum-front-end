@@ -25,7 +25,6 @@ interface MyProfileTemplatesProps {
   phoneNumber: string;
   profileUrl: string;
   nickname: string;
-  setPersonalInfo: React.Dispatch<React.SetStateAction<PersonalInfoType>>;
 }
 
 const MyProfileTemplate = ({
@@ -36,7 +35,6 @@ const MyProfileTemplate = ({
   phoneNumber,
   profileUrl,
   nickname,
-  setPersonalInfo,
 }: MyProfileTemplatesProps) => {
   // TODO : 정규식의 경우 추후 Util 로 묶을 수 있다면 일괄적으로 수정해야 함.
   const maskedPhoneNumber = phoneNumber.replace(/-[0-9]{4}-/g, '-****-');
@@ -44,11 +42,9 @@ const MyProfileTemplate = ({
   const { openModal } = useModal();
   const currentBreakpoint = useMeasureBreakpoint(['mobile', 'pc']);
 
-  const openChangePhoneModal = () =>
-    openModal(<UpdatePhoneModal setPersonalInfo={setPersonalInfo} />);
+  const openChangePhoneModal = () => openModal(<UpdatePhoneModal />);
 
-  const openChangePasswordModal = () =>
-    openModal(<UpdatePasswordModal setPersonalInfo={setPersonalInfo} />);
+  const openChangePasswordModal = () => openModal(<UpdatePasswordModal />);
 
   const handleSaveChange = () => {};
 
