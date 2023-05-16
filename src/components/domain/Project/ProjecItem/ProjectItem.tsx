@@ -14,6 +14,7 @@ import * as style from './ProjectItem.style';
 export interface ProjectItemProps extends Omit<ProjectItemType, 'projectId'> {}
 
 // TODO 멤버 모집률을 반영한 GrassIcon 상태 변화는 추후에 수정하겠습니다
+// TODO FormatUtils 교체 예정
 const ProjectItem = ({
   type,
   thumbnail,
