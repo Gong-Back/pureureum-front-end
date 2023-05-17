@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useSetAtom } from 'jotai';
 import { useRouter } from 'next/router';
 
 import { AuthRepository } from '@/apis/auth';
 import { LoginInput } from '@/constants/types';
+import { authTokenAtom } from '@/stores/atoms';
 
 import LoginTemplate from '@/components/template/LoginTemplate';
 
@@ -16,6 +18,7 @@ export async function getStaticProps() {
 
 const Login = () => {
   const router = useRouter();
+  const setAuthToken = useSetAtom(authTokenAtom);
   const [loginInputs, setLoginInputs] = useState<LoginInput>({
     email: '',
     password: '',
@@ -30,6 +33,7 @@ const Login = () => {
   const submitLogin = async () => {
     const response = await AuthRepository.loginAsync(email, password);
     if (response.isSuccess) {
+      setAuthToken({ ...response.result.data });
       router.replace('/');
     }
   };
