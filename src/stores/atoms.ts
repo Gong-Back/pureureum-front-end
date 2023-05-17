@@ -1,5 +1,8 @@
 import { atom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
 import type { ReactNode } from 'react';
+
+import { AuthTokenType } from '@/constants/types';
 
 export interface ModalStateType {
   /** 현재 모달이 열렸는지, 닫혔는지를 나타내는 상태 */
@@ -11,4 +14,9 @@ export interface ModalStateType {
 export const modalStateAtom = atom<ModalStateType>({
   isOpen: false,
   content: [],
+});
+
+export const authTokenAtom = atomWithStorage<AuthTokenType>('jwt', {
+  accessToken: null,
+  refreshToken: null,
 });
