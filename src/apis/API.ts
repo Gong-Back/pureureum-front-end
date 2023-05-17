@@ -59,9 +59,9 @@ API.interceptors.response.use(
 );
 
 API.interceptors.request.use(async (req: AxiosRequestConfig) => {
-  const accessToken = localStorage.getItem('jwt');
-  if (accessToken && req.headers) {
-    req.headers.authorization = `Bearer ${JSON.parse(accessToken)}`;
+  const jwtObject = localStorage.getItem('jwt');
+  if (jwtObject && req.headers) {
+    req.headers.authorization = `Bearer ${JSON.parse(jwtObject).accessToken}`;
   }
   return req;
 });
