@@ -9,8 +9,7 @@ export interface LoginInput {
 }
 
 export interface LoginOutput {
-  accessToken: string;
-  refreshToken: string;
+  token: string;
 }
 
 export interface RegisterInput extends LoginInput {
