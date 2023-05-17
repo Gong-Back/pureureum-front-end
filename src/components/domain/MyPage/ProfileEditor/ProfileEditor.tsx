@@ -1,7 +1,10 @@
 import Image from 'next/image';
+import React, { useRef } from 'react';
 
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
+
+import { UserRepository } from '@/apis/user';
 
 import { COLORS } from '@/constants/styles';
 import * as styles from './ProfileEditor.style';
@@ -12,8 +15,17 @@ interface ProfileEditorProps {
 }
 
 const ProfileEditor = ({ profileUrl, nickname }: ProfileEditorProps) => {
-  const handleChangeProfile = () => {
-    console.log('test');
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const openFileUploadDialog = () => fileInputRef.current?.click();
+  const uploadProfileImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.files);
+    const [uploadedFile] = e.target.files ?? [];
+    if (!uploadedFile) return;
+    if (!uploadedFile.type.includes('image')) return;
+
+    const response = await UserRepository.updateProfileImageAsync(uploadedFile);
+    console.log(response);
   };
 
   const handleChangeNickname = () => {
@@ -36,11 +48,18 @@ const ProfileEditor = ({ profileUrl, nickname }: ProfileEditorProps) => {
           {nickname || 'test_userId'}
         </Text>
         <styles.ButtonBox>
-          <Button onClick={handleChangeProfile} isRound sizeType="small">
+          <Button onClick={handleChangeNickname} isRound sizeType="small">
             닉네임 변경
           </Button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            style={{ display: 'none' }}
+            onChange={uploadProfileImage}
+          />
           <Button
-            onClick={handleChangeNickname}
+            onClick={openFileUploadDialog}
             isRound
             sizeType="small"
             className="profile-img"
