@@ -2,6 +2,7 @@ import {
   ApiResponse,
   PersonalInfoType,
   UpdatePersonalInfoType,
+  UpdateUserInfoParamType,
 } from '@/constants/types';
 import { getAsync, postAsync } from './API';
 
@@ -22,10 +23,10 @@ export class UserRepository {
    * @param updatedValue 변경하고자 하는 정보
    * @returns 성공 시 200 반환, 실패 시 40X 에러 반환
    */
-  static async updateUserInfoAsync(
-    type: 'password' | 'phoneNumber' | 'nickname',
-    updatedValue: string,
-  ): ApiResponse<undefined> {
+  static async updateUserInfoAsync({
+    type,
+    updatedValue,
+  }: UpdateUserInfoParamType): ApiResponse<undefined> {
     const response = await postAsync<undefined, UpdatePersonalInfoType>(
       '/users/update/info',
       {
