@@ -19,3 +19,8 @@ export interface UpdatePersonalInfoType {
 export interface UpdateProfileImageType {
   profileImageFile: File | undefined;
 }
+
+export type UpdateUserInfoParamType = {
+  type: 'password' | 'phoneNumber' | 'nickname';
+  updatedValue: string;
+};
