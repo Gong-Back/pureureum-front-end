@@ -3,13 +3,17 @@ import {
   useQuery,
   QueryOptions,
   useMutation,
+  UseQueryResult,
 } from '@tanstack/react-query';
 
 import { UserRepository } from '@/apis/user';
+import { ApiError, ApiResponse, PersonalInfoType } from '@/constants/types';
 
 import PROFILE_KEYS from './queryKey';
 
-export function useProfileInfo(option: QueryOptions) {
+export function useProfileInfo(
+  option: QueryOptions = {},
+): UseQueryResult<PersonalInfoType, unknown> {
   return useQuery(PROFILE_KEYS.base, UserRepository.getUserInfoAsync, {
     ...option,
   });

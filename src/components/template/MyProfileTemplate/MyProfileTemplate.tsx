@@ -9,33 +9,16 @@ import SideNavigationBar from '@/components/domain/MyPage/SideNavigationBar';
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 
-import { GenderType, PersonalInfoType } from '@/constants/types';
-
 import useModal from '@/hooks/useModal';
 import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
+import { useProfileInfo } from '@/hooks/useFetchProfileInfo';
 
 import { COLORS } from '@/constants/styles';
 import * as style from './MyProfileTemplate.style';
 
-interface MyProfileTemplatesProps {
-  name: string;
-  email: string;
-  gender: GenderType;
-  birthday: string;
-  phoneNumber: string;
-  profileUrl: string;
-  nickname: string;
-}
+const MyProfileTemplate = () => {
+  const { data } = useProfileInfo();
 
-const MyProfileTemplate = ({
-  name,
-  email,
-  gender,
-  birthday,
-  phoneNumber,
-  profileUrl,
-  nickname,
-}: MyProfileTemplatesProps) => {
   // TODO : 정규식의 경우 추후 Util 로 묶을 수 있다면 일괄적으로 수정해야 함.
   const maskedPhoneNumber = phoneNumber.replace(/-[0-9]{4}-/g, '-****-');
 
