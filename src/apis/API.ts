@@ -1,6 +1,6 @@
 import axios, { type AxiosRequestConfig, AxiosResponse } from 'axios';
 
-import { ApiResponse } from '@/constants/types';
+import { type ApiResponse } from '@/constants/types';
 import { API_URL } from '@/constants/apis';
 
 /**

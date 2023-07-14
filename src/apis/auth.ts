@@ -28,7 +28,7 @@ export class AuthRepository {
     phoneNumber: string,
     birthday: string,
     gender: GenderType,
-  ): ApiResponse<undefined> {
+  ) {
     const response = await postAsync<undefined, RegisterInput>(
       '/users/register',
       {
@@ -52,7 +52,7 @@ export class AuthRepository {
   static async loginAsync(
     email: string,
     password: string,
-  ): ApiResponse<LoginOutput> {
+  ) {
     const response = await postAsync<LoginOutput, LoginInput>('/users/login', {
       email,
       password,
@@ -65,7 +65,7 @@ export class AuthRepository {
    * @param email 중복을 체크할 이메일
    * @returns 성공일 경우 200, 실패할 경우 40X 에러 반환
    */
-  static async verifyEmailAsync(email: string): ApiResponse<undefined> {
+  static async verifyEmailAsync(email: string) {
     const response = await postAsync<undefined, VerifyEmailInput>(
       `/users/validate/email`,
       {
@@ -82,7 +82,7 @@ export class AuthRepository {
    */
   static async verifyPhoneNumberAsync(
     phoneNumber: string,
-  ): ApiResponse<VerifyPhoneNumberOutput> {
+  ) {
     const response = await postAsync<
       VerifyPhoneNumberOutput,
       VerifyPhoneNumberInput
@@ -100,7 +100,7 @@ export class AuthRepository {
    */
   static async confirmPhoneNumberAsync(
     phoneNumber: string,
-  ): ApiResponse<undefined> {
+  ) {
     const response = await postAsync<undefined, VerifyPhoneNumberInput>(
       `/sms/complete/certification`,
       {
