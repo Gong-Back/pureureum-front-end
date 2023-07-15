@@ -46,7 +46,7 @@ function handleApiError(err: unknown): ApiError {
 }
 
 // 서버에서 받은 에러 정보를 Wrapping 한 커스텀 에러 객체 ApiErrorInstance
-class ApiErrorInstance extends Error {
+export class ApiErrorInstance extends Error {
   constructor(error: ApiError) {
     super();
     this.name = 'ApiError'
