@@ -8,19 +8,8 @@ import RegisterSection from '@/components/domain/Login/RegisterSection';
 import { COLORS } from '@/constants/styles';
 import * as style from './LoginTemplate.style';
 
-export interface LoginTemplatesProps {
-  email: string;
-  password: string;
-  handleLoginInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  submitLogin: () => Promise<void>;
-}
 
-const LoginTemplate = ({
-  email,
-  password,
-  handleLoginInput,
-  submitLogin,
-}: LoginTemplatesProps) => (
+const LoginTemplate = () => (
   <style.Wrapper>
     <style.Header>
       <PureureumPcLogoSvg />
@@ -28,12 +17,7 @@ const LoginTemplate = ({
         로그인해서 재밌는 프로젝트들을 경험해보세요!
       </Text>
     </style.Header>
-    <LoginForm
-      email={email}
-      password={password}
-      handleLoginInput={handleLoginInput}
-      submitLogin={submitLogin}
-    />
+    <LoginForm />
     <RegisterSection />
   </style.Wrapper>
 );
