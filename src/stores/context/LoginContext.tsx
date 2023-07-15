@@ -1,4 +1,10 @@
-import { createContext, useMemo, useState, type PropsWithChildren, useContext } from 'react';
+import {
+  createContext,
+  useMemo,
+  useState,
+  type PropsWithChildren,
+  useContext,
+} from 'react';
 
 import { AuthRepository } from '@/apis/auth';
 import { AuthResponses } from '@/constants/types';
@@ -11,6 +17,7 @@ type LoginContextValueType = {
 type LoginContextActionType = {
   // eslint-disable-next-line no-unused-vars
   change: (type: string, value: string) => void;
+  reset: () => void;
   submit: () => Promise<AuthResponses['login']>;
 };
 
@@ -28,35 +35,48 @@ export const LoginContextProvider = ({ children }: PropsWithChildren) => {
     password: '',
   });
 
-  const action: LoginContextActionType = useMemo(() => ({
-    change(type: string, value: string) {
-        setLoginInput((prev) => ({...prev, [type]: value}));
-    },
-    async submit() {
+  const action: LoginContextActionType = useMemo(
+    () => ({
+      change(type: string, value: string) {
+        setLoginInput((prev) => ({ ...prev, [type]: value }));
+      },
+      reset() {
+        setLoginInput({
+          email: '',
+          password: '',
+        });
+      },
+      async submit() {
         const { data } = await AuthRepository.loginAsync(loginInput);
         return data;
-    }
-  }), [loginInput])
+      },
+    }),
+    [loginInput],
+  );
 
   return (
     <LoginValueContext.Provider value={loginInput}>
-        <LoginActionContext.Provider value={action}>
-            {children}
-        </LoginActionContext.Provider>
+      <LoginActionContext.Provider value={action}>
+        {children}
+      </LoginActionContext.Provider>
     </LoginValueContext.Provider>
   );
 };
 
 export const useLoginContextValue = () => {
-    const value = useContext(LoginValueContext);
-    if (value === undefined)
-        throw new Error('useLoginContextValue는 LoginContextProvider와 함께 사용해야 합니다.')
-    return value;
-}
+  const value = useContext(LoginValueContext);
+  if (value === undefined)
+    throw new Error(
+      'useLoginContextValue는 LoginContextProvider와 함께 사용해야 합니다.',
+    );
+  return value;
+};
 
 export const useLoginContextAction = () => {
-    const actions = useContext(LoginActionContext);
-    if (actions === undefined)
-        throw new Error('useLoginContextAction은 LoginContextProvider와 함께 사용해야 합니다.')
-    return actions;
-}
+  const actions = useContext(LoginActionContext);
+  if (actions === undefined)
+    throw new Error(
+      'useLoginContextAction은 LoginContextProvider와 함께 사용해야 합니다.',
+    );
+  return actions;
+};
