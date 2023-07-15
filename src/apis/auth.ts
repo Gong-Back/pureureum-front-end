@@ -1,11 +1,8 @@
 import {
-  GenderType,
-  LoginInput,
-  LoginOutput,
-  VerifyEmailInput,
-  VerifyPhoneNumberInput,
-  VerifyPhoneNumberOutput,
-  RegisterInput,
+  AuthReqParams,
+  AuthResponses,
+  VerifyReqParams,
+  VerifyResponses,
 } from '@/constants/types';
 import { postAsync } from './API';
 
@@ -20,26 +17,22 @@ export class AuthRepository {
    * @param gender 유저의 성별 (MALE, FEMALE)
    * @returns 가입 성공 시 201, 실패 시 에러 반환 (400 등)
    */
-  static async registerAsync(
-    email: string,
-    password: string,
-    name: string,
-    phoneNumber: string,
-    birthday: string,
-    gender: GenderType,
-  ) {
-    const response = await postAsync<undefined, RegisterInput>(
-      '/users/register',
-      {
-        email,
-        password,
-        name,
-        phoneNumber,
-        birthday,
-        gender,
-      },
-    );
-    return response;
+  static async registerAsync({
+    email,
+    password,
+    name,
+    phoneNumber,
+    birthday,
+    gender,
+  }: AuthReqParams['register']) {
+    await postAsync<undefined, AuthReqParams['register']>('/users/register', {
+      email,
+      password,
+      name,
+      phoneNumber,
+      birthday,
+      gender,
+    });
   }
 
   /**
@@ -48,11 +41,8 @@ export class AuthRepository {
    * @param password 유저의 비밀번호
    * @returns 성공 시 JWT 액세스 토큰 인계, 실패 시 에러 객체 반환
    */
-  static async loginAsync(
-    email: string,
-    password: string,
-  ) {
-    const response = await postAsync<LoginOutput, LoginInput>('/users/login', {
+  static async loginAsync({email, password}: AuthReqParams['login']) {
+    const response = await postAsync<AuthResponses['login'], AuthReqParams['login']>('/users/login', {
       email,
       password,
     });
@@ -65,13 +55,12 @@ export class AuthRepository {
    * @returns 성공일 경우 200, 실패할 경우 40X 에러 반환
    */
   static async verifyEmailAsync(email: string) {
-    const response = await postAsync<undefined, VerifyEmailInput>(
+    await postAsync<undefined, VerifyReqParams['email']>(
       `/users/validate/email`,
       {
         email,
       },
     );
-    return response;
   }
 
   /**
@@ -79,12 +68,10 @@ export class AuthRepository {
    * @param phoneNumber 인증을 진행할 핸드폰 번호
    * @returns 성공일 경우 200, 실패할 경우 40X 에러 반환
    */
-  static async verifyPhoneNumberAsync(
-    phoneNumber: string,
-  ) {
+  static async verifyPhoneNumberAsync(phoneNumber: string) {
     const response = await postAsync<
-      VerifyPhoneNumberOutput,
-      VerifyPhoneNumberInput
+      VerifyResponses['phoneNumber'],
+      VerifyReqParams['phoneNumber']
     >(`/sms/send/certification`, {
       phoneNumber,
     });
@@ -97,15 +84,12 @@ export class AuthRepository {
    * @param value 중복 여부를 확인할 데이터
    * @returns 중복일 경우 409 에러 반환, 미중복일 경우 200
    */
-  static async confirmPhoneNumberAsync(
-    phoneNumber: string,
-  ) {
-    const response = await postAsync<undefined, VerifyPhoneNumberInput>(
+  static async confirmPhoneNumberAsync(phoneNumber: string) {
+    await postAsync<undefined, VerifyReqParams['phoneNumber']>(
       `/sms/complete/certification`,
       {
         phoneNumber,
       },
     );
-    return response;
   }
 }
