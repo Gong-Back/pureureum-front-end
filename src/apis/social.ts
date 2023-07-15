@@ -18,7 +18,7 @@ export class SocialRepository {
   static async loginAsync(
     code: string,
     socialType: SocialPlatformType,
-  ): ApiResponse<undefined> {
+  ) {
     const response = await fetch(`${API_URL}/oauth/login/${socialType}`, {
       method: 'POST',
       headers: {
@@ -58,8 +58,8 @@ export class SocialRepository {
     birthday: string,
     gender: GenderType,
     socialType: SocialPlatformType,
-  ): ApiResponse<undefined> {
-    const response = await postAsync<undefined, SocialRegisterInput>(
+  ) {
+    await postAsync<undefined, SocialRegisterInput>(
       `/oauth/register`,
       {
         email,
@@ -70,7 +70,6 @@ export class SocialRepository {
         socialType,
       },
     );
-    return response;
   }
 
   /**
@@ -80,7 +79,7 @@ export class SocialRepository {
    */
   static async tempSearchUserAsync(
     email: string,
-  ): ApiResponse<SocialRegisterInput> {
+  ): Promise<ApiResponse<SocialRegisterInput>> {
     const response = await fetch(`${API_URL}/oauth/temp/${email}`, {
       method: 'GET',
       headers: {
@@ -89,12 +88,9 @@ export class SocialRepository {
     });
     const responseData = await response.json();
     return {
-      isSuccess: responseData?.code === 200,
-      result: {
-        code: responseData?.code,
-        messages: responseData?.messages,
-        data: responseData?.data,
-      },
+      code: responseData?.code,
+      messages: responseData?.messages,
+      data: responseData?.data,
     };
   }
 }

@@ -1,5 +1,4 @@
 import {
-  ApiResponse,
   GenderType,
   LoginInput,
   LoginOutput,

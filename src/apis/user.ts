@@ -1,5 +1,4 @@
 import {
-  ApiResponse,
   PersonalInfoType,
   UpdatePersonalInfoType,
   UpdateProfileImageType,
@@ -11,7 +10,7 @@ export class UserRepository {
    * 유저의 회원 정보를 가져오는 함수 getUserInfoAsync
    * @returns 가입 성공 시 200, 실패 시 에러 반환 (400 등)
    */
-  static async getUserInfoAsync(): ApiResponse<PersonalInfoType> {
+  static async getUserInfoAsync() {
     const response = await getAsync<PersonalInfoType>('/users/me');
     return response;
   }
@@ -27,8 +26,8 @@ export class UserRepository {
     password: string | undefined,
     phoneNumber: string | undefined,
     nickname: string | undefined,
-  ): ApiResponse<undefined> {
-    const response = await postAsync<undefined, UpdatePersonalInfoType>(
+  ) {
+    await postAsync<undefined, UpdatePersonalInfoType>(
       '/users/update/info',
       {
         password,
@@ -36,7 +35,6 @@ export class UserRepository {
         nickname,
       },
     );
-    return response;
   }
 
   /**
@@ -46,8 +44,8 @@ export class UserRepository {
    */
   static async updateProfileImageAsync(
     profileImageFile: File | undefined,
-  ): ApiResponse<undefined> {
-    const response = await postAsync<undefined, UpdateProfileImageType>(
+  ) {
+    await postAsync<undefined, UpdateProfileImageType>(
       '/users/update/profile',
       { profileImageFile },
       {
@@ -56,6 +54,5 @@ export class UserRepository {
         },
       },
     );
-    return response;
   }
 }
