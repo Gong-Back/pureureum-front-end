@@ -23,6 +23,21 @@ export type AuthReqParams = {
   }
 }
 
+export type SocialReqParams = {
+  'login': {
+    verifyCode: string;
+    socialType: string;
+  }
+  'register': {
+    name: string;
+    email: string;
+    phoneNumber: string;
+    birthday: string;
+    gender: GenderType;
+    socialType: SocialPlatformType;
+  }
+}
+
 export type VerifyReqParams = {
   'phoneNumber': {
     phoneNumber: string;
@@ -36,6 +51,13 @@ export type AuthResponses = {
   'login': {
     accessToken: string;
     refreshToken: string;
+  }
+}
+
+export type SocialResponses = {
+  'tempSearch': {
+    email: string;
+    socialType: SocialPlatformType;
   }
 }
 
