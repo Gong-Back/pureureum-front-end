@@ -1,64 +1,62 @@
 import React, { useState } from 'react';
 
-import { GenderType, RegisterFormInput } from '@/constants/types';
+import { GenderType } from '@/constants/types';
 
 import TextInput from '@/components/common/TextInput';
 import Text from '@/components/common/Text';
 import { COLORS } from '@/constants/styles';
+import {
+  useRegisterContextAction,
+  useRegisterContextValue,
+} from '@/stores/context/RegisterContext';
+
 import * as style from './PersonalDataForm.style';
 
-export interface PersonalDataFormProps {
-  name: string;
-  gender: GenderType;
-  setUserInformation: React.Dispatch<React.SetStateAction<RegisterFormInput>>;
-}
+const PersonalDataForm = () => {
+  const {
+    form: { name, gender },
+  } = useRegisterContextValue();
+  const { change } = useRegisterContextAction();
 
-const PersonalDataForm = ({
-  name,
-  gender,
-  setUserInformation,
-}: PersonalDataFormProps) => {
-  const [birthDate, setBirthDate] = useState({
-    year: '',
-    month: '',
-    day: '',
-  });
-  const { year, month, day } = birthDate;
+  const [birthDate, setBirthDate] = useState([0, 0, 0]);
+  const [year, month, day] = birthDate;
 
   const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name: inputName, value } = e.target;
-    if (inputName === 'name') {
-      setUserInformation((prev) => ({ ...prev, [inputName]: value }));
-      return;
-    }
-    const [isYear, isMonth, isDay] = [
-      inputName === 'year',
-      inputName === 'month',
-      inputName === 'day',
-    ];
-    if (isYear || isMonth || isDay) {
-      if (Number.isNaN(Number(value))) {
-        return;
+    switch (inputName) {
+      case "name": {
+        change(inputName, value);
+        break;
       }
-      const formattedValue = `${Number(value)}`
-        .padStart(isYear ? 4 : 2, '0')
-        .slice(0, isYear ? 4 : 2);
-      setBirthDate((prev) => ({
-        ...prev,
-        [inputName]: formattedValue,
-      }));
-      // TODO : setState의 비동기 처리로 인해 아래와 같이 명시적으로 값으로 변경해줘야 하는데, 개선이 필요해 보임.
-      setUserInformation((prev) => ({
-        ...prev,
-        birthday: `${isYear ? formattedValue : year}-${
-          isMonth ? formattedValue : month
-        }-${isDay ? formattedValue : day}`,
-      }));
+      case "year":
+      case "month":
+      case "day": {
+        const [isYear, isMonth, isDay] = [
+          inputName === 'year',
+          inputName === 'month',
+          inputName === 'day',
+        ];
+        if (isYear || isMonth || isDay) {
+          if (Number.isNaN(Number(value))) {
+            return;
+          }
+          const changedValue = [
+            isYear ? Number(value) : year,
+            isMonth ? Number(value) : month,
+            isDay ? Number(value) : day,
+          ]
+          setBirthDate(changedValue);
+          change('inputName', changedValue);
+        }
+        break;
+      }
+      default:
+        break;
     }
   };
 
   const handleSelectGender = (selectedGender: GenderType) => {
-    setUserInformation((prev) => ({ ...prev, gender: selectedGender }));
+    change('gender', selectedGender);
   };
 
   return (
@@ -83,7 +81,7 @@ const PersonalDataForm = ({
         <TextInput
           placeholder="년"
           name="year"
-          value={year.length ? year : ''}
+          value={String(year).padStart(4, '0')}
           onChange={handleUserInput}
           isRound
           className="input year"
@@ -91,7 +89,7 @@ const PersonalDataForm = ({
         <TextInput
           placeholder="월"
           name="month"
-          value={month.length ? month : ''}
+          value={String(month).padStart(2, '0')}
           onChange={handleUserInput}
           isRound
           className="input"
@@ -99,7 +97,7 @@ const PersonalDataForm = ({
         <TextInput
           placeholder="일"
           name="day"
-          value={day.length ? day : ''}
+          value={String(day).padStart(2, '0')}
           onChange={handleUserInput}
           isRound
           className="input"

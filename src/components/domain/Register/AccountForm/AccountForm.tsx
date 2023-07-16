@@ -2,30 +2,25 @@ import React from 'react';
 import TextInput from '@/components/common/TextInput';
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
-import { RegisterFormInput } from '@/constants/types';
+
 import { COLORS } from '@/constants/styles';
+import {
+  useRegisterContextAction,
+  useRegisterContextValue,
+} from '@/stores/context/RegisterContext';
+
 import * as style from './AccountForm.style';
 
-export interface AccountFormProps {
-  email: string;
-  password: string;
-  confirmPassword: string;
-  isCheckUserEmail: boolean;
-  setUserInformation: React.Dispatch<React.SetStateAction<RegisterFormInput>>;
-  verifyUserEmail: () => Promise<void>;
-}
+const AccountForm = () => {
+  const {
+    form: { email, password, confirmPassword },
+    verify: { isCheckUserEmail },
+  } = useRegisterContextValue();
+  const { change, verifyEmail } = useRegisterContextAction();
 
-const AccountForm = ({
-  email,
-  password,
-  confirmPassword,
-  isCheckUserEmail,
-  setUserInformation,
-  verifyUserEmail,
-}: AccountFormProps) => {
   const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name: inputName, value } = e.target;
-    setUserInformation((prev) => ({ ...prev, [inputName]: value }));
+    change(inputName, value);
   };
 
   return (
@@ -41,7 +36,7 @@ const AccountForm = ({
           className="account-input email-input"
         />
         <Button
-          onClick={verifyUserEmail}
+          onClick={verifyEmail}
           isFilled
           themeColor={
             isCheckUserEmail
