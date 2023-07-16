@@ -51,6 +51,33 @@ export class AuthRepository {
   }
 
   /**
+   * 토큰 갱신이 필요할 시 First-Site Cookie를 세팅하는 함수 setJwtCookieAsync
+   * @param param.accessToken 서버로부터 받은 엑세스 토큰
+   * @param param.refreshToken 서버로부터 받은 리프레시 토큰
+   */
+  static async setJwtCookieAsync({accessToken, refreshToken}: AuthReqParams['jwt']) {
+    await fetch('/api/token', {
+      method: 'POST',
+      body: JSON.stringify({ accessToken, refreshToken }),
+      headers: {
+        'Content-type': 'application/json'
+      }
+    })
+  }
+
+  /**
+   * 서버로부터 받았던 JWT 를 보관한 Cookie를 삭제하는 함수 removeJwtCookieAsync
+   */
+  static async removeJwtCookieAsync() {
+    await fetch('/api/token', {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json'
+      }
+    })
+  }
+
+  /**
    * 이메일 중복을 확인할 함수 verifyEmailAsync
    * @param email 중복을 체크할 이메일
    * @returns 성공일 경우 200, 실패할 경우 40X 에러 반환
