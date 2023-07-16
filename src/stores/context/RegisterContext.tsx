@@ -1,11 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   createContext,
   useContext,
   useMemo,
   useState,
-  useRef,
+  useEffect,
   type PropsWithChildren,
-  type MutableRefObject,
 } from 'react';
 
 import { type ApiErrorInstance } from '@/apis/API';
@@ -37,7 +37,7 @@ type RegisterContextValueType = {
     isCheckPhoneNumber: boolean;
   };
   step: number;
-  fallbackRef: MutableRefObject<string>;
+  fallbackMessage: string;
 };
 
 type RegisterContextActionType = {
@@ -80,9 +80,9 @@ export const RegisterContextProvider = ({ children }: PropsWithChildren) => {
   });
 
   const [currentRegisterStep, setCurrentRegisterStep] = useState(0);
+  const [fallbackMessage, setFallbackMessage] = useState('');
 
-  const fallbackRef = useRef('');
-  fallbackRef.current = '';
+  useEffect(() => setFallbackMessage(''), [registerFormData]);
 
   const {
     email,
@@ -103,20 +103,25 @@ export const RegisterContextProvider = ({ children }: PropsWithChildren) => {
       form: registerFormData,
       verify: registerVerifyData,
       step: currentRegisterStep,
-      fallbackRef,
+      fallbackMessage,
     }),
-    [registerFormData, registerVerifyData, currentRegisterStep, fallbackRef],
+    [
+      registerFormData,
+      registerVerifyData,
+      currentRegisterStep,
+      fallbackMessage,
+    ],
   );
 
   const contextAction: RegisterContextActionType = useMemo(
     () => ({
       async verifyEmail() {
         if (isCheckUserEmail) {
-          fallbackRef.current = REGISTER_FALLBACK.NOT_CHECK_EMAIL;
+          setFallbackMessage(REGISTER_FALLBACK.NOT_CHECK_EMAIL);
           return;
         }
         if (!ValidationUtil.validateEmail(email)) {
-          fallbackRef.current = REGISTER_FALLBACK.INVALID_EMAIL;
+          setFallbackMessage(REGISTER_FALLBACK.INVALID_EMAIL);
           return;
         }
         try {
@@ -125,16 +130,16 @@ export const RegisterContextProvider = ({ children }: PropsWithChildren) => {
         } catch (error) {
           const apiError = error as ApiErrorInstance;
           const [errorMessage] = apiError.messages;
-          fallbackRef.current = errorMessage;
+          setFallbackMessage(errorMessage);
         }
       },
       async verifyPhoneNumber() {
         if (isCheckPhoneNumber) {
-          fallbackRef.current = REGISTER_FALLBACK.ALREADY_VERIFY_SMS;
+          setFallbackMessage(REGISTER_FALLBACK.ALREADY_VERIFY_SMS);
           return;
         }
         if (!ValidationUtil.validatePhoneNumber(phoneNumber)) {
-          fallbackRef.current = REGISTER_FALLBACK.INVALID_PHONE_NUMBER;
+          setFallbackMessage(REGISTER_FALLBACK.INVALID_PHONE_NUMBER);
           return;
         }
         try {
@@ -149,22 +154,27 @@ export const RegisterContextProvider = ({ children }: PropsWithChildren) => {
         } catch (error) {
           const apiError = error as ApiErrorInstance;
           const [errorMessage] = apiError.messages;
-          fallbackRef.current = errorMessage;
+          setFallbackMessage(errorMessage);
         }
       },
       async handleCurrentStep() {
         switch (currentRegisterStep) {
           case 0: {
+            // NOTE : OAuth2 로그인일 경우 첫 번째 스텝을 스킵하고 두 번째 스텝으로 넘어간다.
+            if (socialType) {
+              setCurrentRegisterStep((prev) => prev + 1);
+              return;
+            }
             if (!isCheckUserEmail) {
-              fallbackRef.current = REGISTER_FALLBACK.NOT_CHECK_EMAIL;
+              setFallbackMessage(REGISTER_FALLBACK.NOT_CHECK_EMAIL);
               return;
             }
             if (!ValidationUtil.validatePassword(password)) {
-              fallbackRef.current = REGISTER_FALLBACK.INVALID_PASSWORD;
+              setFallbackMessage(REGISTER_FALLBACK.INVALID_PASSWORD);
               return;
             }
             if (confirmPassword !== password) {
-              fallbackRef.current = REGISTER_FALLBACK.NOT_MATCH_PASSWORDS;
+              setFallbackMessage(REGISTER_FALLBACK.NOT_MATCH_PASSWORDS);
               return;
             }
             setCurrentRegisterStep((prev) => prev + 1);
@@ -172,25 +182,25 @@ export const RegisterContextProvider = ({ children }: PropsWithChildren) => {
           }
           case 1: {
             if (!ValidationUtil.validateName(name)) {
-              fallbackRef.current = REGISTER_FALLBACK.INVALID_NAME;
+              setFallbackMessage(REGISTER_FALLBACK.INVALID_NAME);
               return;
             }
             if (!ValidationUtil.validateBirthDay(birthday.join('-'))) {
-              fallbackRef.current = REGISTER_FALLBACK.INVALID_BIRTHDAY;
+              setFallbackMessage(REGISTER_FALLBACK.INVALID_BIRTHDAY);
               return;
             }
-            fallbackRef.current = '';
             setCurrentRegisterStep((prev) => prev + 1);
             break;
           }
           case 2: {
             if (!isCheckPhoneNumber) {
-              fallbackRef.current = REGISTER_FALLBACK.NOT_CHECK_SMS_VERIFY;
+              setFallbackMessage(REGISTER_FALLBACK.NOT_CHECK_SMS_VERIFY);
               return;
             }
             if (certificationNumber !== typedCertificationNumber) {
-              fallbackRef.current =
-                REGISTER_FALLBACK.NOT_MATCH_CERTIFICATE_NUMBER;
+              setFallbackMessage(
+                REGISTER_FALLBACK.NOT_MATCH_CERTIFICATE_NUMBER,
+              );
               return;
             }
             await contextAction.submit();
@@ -206,7 +216,7 @@ export const RegisterContextProvider = ({ children }: PropsWithChildren) => {
       },
       async submit() {
         if (!isCheckPhoneNumber) {
-          fallbackRef.current = REGISTER_FALLBACK.NOT_CHECK_SMS_VERIFY;
+          setFallbackMessage(REGISTER_FALLBACK.NOT_CHECK_SMS_VERIFY);
           return undefined;
         }
         try {
@@ -220,10 +230,10 @@ export const RegisterContextProvider = ({ children }: PropsWithChildren) => {
               })
             : await AuthRepository.registerAsync(registerFormData);
           return token;
-          } catch (error) {
+        } catch (error) {
           const apiError = error as ApiErrorInstance;
           const [errorMessage] = apiError.messages;
-          fallbackRef.current = errorMessage;
+          setFallbackMessage(errorMessage);
           return undefined;
         }
       },

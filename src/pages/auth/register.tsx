@@ -1,10 +1,7 @@
 import { GetServerSideProps } from 'next';
 
-import {
-  SocialPlatformType,
-  SocialRegisterParam,
-} from '@/constants/types';
-import { useRegisterContextAction } from '@/stores/context/RegisterContext';
+import { SocialPlatformType, SocialRegisterParam } from '@/constants/types';
+import { RegisterContextProvider } from '@/stores/context/RegisterContext';
 
 import RegisterTemplate from '@/components/template/RegisterTemplate';
 
@@ -17,19 +14,16 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
-interface RegisterProps {
+export interface RegisterProps {
   /** OAuth2 로 회원가입 진행 시, 가입을 진행한 플랫폼 정보 */
   socialType: SocialPlatformType;
   /** OAuth2 로 회원가입 진행 시, 서버에서 임시 가공된 유저 Email 값 */
   socialEmail: string;
 }
 
-const Register = ({ socialType, socialEmail }: RegisterProps) => {
-  const { change } = useRegisterContextAction();
-
-  if (socialType) change('socialType', socialType);
-  if (socialEmail) change('email', socialEmail);
-
-  return <RegisterTemplate />;
-};
+const Register = ({ socialType, socialEmail }: RegisterProps) => (
+    <RegisterContextProvider>
+      <RegisterTemplate socialEmail={socialEmail} socialType={socialType}/>
+    </RegisterContextProvider>
+  );
 export default Register;

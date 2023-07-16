@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useLayoutEffect } from 'react';
 
 import Text from '@/components/common/Text';
 import Button from '@/components/common/Button';
@@ -7,6 +7,7 @@ import PersonalDataForm from '@/components/domain/Register/PersonalDataForm';
 import VerifyPhoneNumberForm from '@/components/domain/Register/VerifyPhoneNumberForm';
 
 import { COLORS } from '@/constants/styles';
+import { type RegisterProps } from '@/pages/auth/register';
 import {
   useRegisterContextAction,
   useRegisterContextValue,
@@ -30,7 +31,7 @@ const RegisterStepHeader = [
   },
 ];
 
-const RegisterTemplate = () => {
+const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
   const {
     form: {
       email,
@@ -43,9 +44,17 @@ const RegisterTemplate = () => {
     },
     verify: { certificationNumber, isCheckPhoneNumber, isCheckUserEmail },
     step,
-    fallbackRef,
+    fallbackMessage,
   } = useRegisterContextValue();
-  const { handleCurrentStep } = useRegisterContextAction();
+  const { change, handleCurrentStep } = useRegisterContextAction();
+
+  useLayoutEffect(() => {
+    if (socialType && socialEmail) {
+      change('socialType', socialType);
+      change('email', socialEmail);
+      handleCurrentStep();
+    }
+  }, []);
 
   const { title, subtitle } = RegisterStepHeader[step];
 
@@ -100,8 +109,8 @@ const RegisterTemplate = () => {
         </style.Section>
       </style.VisibleSection>
       <style.Footer>
-        {fallbackRef ? (
-          <style.Feedback>{fallbackRef.current}</style.Feedback>
+        {fallbackMessage ? (
+          <style.Feedback>{fallbackMessage}</style.Feedback>
         ) : null}
         <Button
           themeColor={
