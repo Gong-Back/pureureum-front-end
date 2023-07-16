@@ -206,9 +206,8 @@ export const RegisterContextProvider = ({ children }: PropsWithChildren) => {
             await contextAction.submit();
             break;
           }
-          default: {
+          default:
             break;
-          }
         }
       },
       change(type: string, value: unknown) {

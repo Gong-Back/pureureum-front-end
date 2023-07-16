@@ -1,4 +1,4 @@
-import { useMemo, useLayoutEffect } from 'react';
+import { useCallback, useLayoutEffect } from 'react';
 
 import Text from '@/components/common/Text';
 import Button from '@/components/common/Button';
@@ -59,25 +59,29 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
   const { title, subtitle } = RegisterStepHeader[step];
 
   // 각 Step 별로 다음 스텝으로 넘어가기 위한 최소 조건을 충족했는지를 판별하는 변수 shouldCheckCurrentStep
-  const shouldCheckCurrentStep = useMemo(
-    () => [
-      !!(
-        ValidationUtil.validateEmail(email) &&
-        isCheckUserEmail &&
-        password &&
-        password === confirmPassword
-      ),
-      !!(
-        ValidationUtil.validateName(name) &&
-        ValidationUtil.validateBirthDay(birthday.join('-'))
-      ),
-      !!(
-        ValidationUtil.validatePhoneNumber(phoneNumber) &&
-        isCheckPhoneNumber &&
-        certificationNumber === typedCertificationNumber
-      ),
-    ],
+  const shouldCheckCurrentStep = useCallback(
+    () => {
+      switch (step) {
+        case 0:
+          return !!(ValidationUtil.validateEmail(email) &&
+            isCheckUserEmail &&
+            password &&
+            password === confirmPassword)
+        case 1:
+          return !!(ValidationUtil.validateName(name) &&
+          ValidationUtil.validateBirthDay(birthday.join('-')))
+        case 2:
+          return       !!(
+            ValidationUtil.validatePhoneNumber(phoneNumber) &&
+            isCheckPhoneNumber &&
+            certificationNumber === typedCertificationNumber
+          )
+        default:
+          return false;
+      }
+    },
     [
+      step,
       birthday,
       certificationNumber,
       email,
@@ -114,7 +118,7 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
         ) : null}
         <Button
           themeColor={
-            shouldCheckCurrentStep[step]
+            shouldCheckCurrentStep()
               ? COLORS.primary.greenDefault
               : COLORS.grayscale.gray400
           }

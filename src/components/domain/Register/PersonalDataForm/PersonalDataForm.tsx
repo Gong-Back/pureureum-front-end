@@ -24,30 +24,32 @@ const PersonalDataForm = () => {
   const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name: inputName, value } = e.target;
     switch (inputName) {
-      case "name": {
+      case 'name': {
         change(inputName, value);
         break;
       }
-      case "year":
-      case "month":
-      case "day": {
+      case 'year':
+      case 'month':
+      case 'day': {
         const [isYear, isMonth, isDay] = [
           inputName === 'year',
           inputName === 'month',
           inputName === 'day',
         ];
-        if (isYear || isMonth || isDay) {
-          if (Number.isNaN(Number(value))) {
-            return;
-          }
-          const changedValue = [
-            isYear ? Number(value) : year,
-            isMonth ? Number(value) : month,
-            isDay ? Number(value) : day,
-          ]
-          setBirthDate(changedValue);
-          change('inputName', changedValue);
-        }
+        const valueToNumber = Number(value);
+        if (Number.isNaN(valueToNumber)) return;
+
+        const changedValue = [
+          isYear ? valueToNumber : year,
+          isMonth && valueToNumber >= 0 && valueToNumber <= 12
+            ? valueToNumber
+            : month,
+          isDay && valueToNumber >= 0 && valueToNumber <= 31
+            ? valueToNumber
+            : day,
+        ];
+        setBirthDate(changedValue);
+        change('birthday', changedValue);
         break;
       }
       default:

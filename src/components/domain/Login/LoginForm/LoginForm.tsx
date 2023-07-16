@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useSetAtom } from 'jotai';
 
+import { type ApiErrorInstance } from '@/apis/API';
+import { AuthRepository } from '@/apis/auth';
 import TextInput from '@/components/common/TextInput';
 import Button from '@/components/common/Button';
 import {
@@ -10,7 +12,7 @@ import {
 } from '@/stores/context/LoginContext';
 import { handleTokenAtom } from '@/stores/atom/token/actions';
 
-import * as style from './LoginForm.style';
+import * as styles from './LoginForm.style';
 
 /**
  * 로그인 관련 정보를 입력받는 Form 컴포넌트
@@ -20,6 +22,7 @@ const LoginForm = () => {
 
   const { email, password } = useLoginContextValue();
   const { change, submit, reset } = useLoginContextAction();
+  const [feedbackMessage, setFeedbackMessage] = useState('');
   const handleToken = useSetAtom(handleTokenAtom);
 
   const handleLoginInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,26 +30,39 @@ const LoginForm = () => {
     change(type, value);
   };
 
+  const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!feedbackMessage) setFeedbackMessage('');
+    if (e.key === 'Enter') submitLogin();
+  };
+
   const submitLogin = async () => {
-    if (!email || !password) return;
+    if (!email || !password) {
+      setFeedbackMessage('이메일 혹은 비밀번호를 입력해주세요.');
+      return;
+    }
 
     try {
       const { accessToken, refreshToken } = await submit();
       handleToken({ action: 'LOGIN', value: { accessToken, refreshToken } });
+      await AuthRepository.setJwtCookieAsync({ accessToken, refreshToken });
       router.replace('/');
-    } catch (err) {
+    } catch (error) {
+      const apiError = error as ApiErrorInstance;
+      const [errorMessage] = apiError.messages;
+      setFeedbackMessage(errorMessage);
       reset();
     }
   };
 
   return (
-    <style.Wrapper>
+    <styles.Wrapper>
       <TextInput
         value={email}
         placeholder="E-Mail"
         name="email"
         type="email"
         onChange={handleLoginInput}
+        onKeyDown={handleOnKeyPress}
         className="login-input"
         isRound
       />
@@ -56,6 +72,7 @@ const LoginForm = () => {
         name="password"
         type="password"
         onChange={handleLoginInput}
+        onKeyDown={handleOnKeyPress}
         className="login-input"
         isRound
       />
@@ -67,7 +84,8 @@ const LoginForm = () => {
       >
         로그인
       </Button>
-    </style.Wrapper>
+      {feedbackMessage ? <styles.Feedback>{feedbackMessage}</styles.Feedback> : null}
+    </styles.Wrapper>
   );
 };
 
