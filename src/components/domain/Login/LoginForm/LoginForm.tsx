@@ -10,7 +10,6 @@ import {
   useLoginContextValue,
   useLoginContextAction,
 } from '@/stores/context/LoginContext';
-import { handleTokenAtom } from '@/stores/atom/token/actions';
 
 import * as styles from './LoginForm.style';
 
@@ -23,7 +22,6 @@ const LoginForm = () => {
   const { email, password } = useLoginContextValue();
   const { change, submit, reset } = useLoginContextAction();
   const [feedbackMessage, setFeedbackMessage] = useState('');
-  const handleToken = useSetAtom(handleTokenAtom);
 
   const handleLoginInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { type, value } = e.target;
@@ -43,7 +41,6 @@ const LoginForm = () => {
 
     try {
       const { accessToken, refreshToken } = await submit();
-      handleToken({ action: 'LOGIN', value: { accessToken, refreshToken } });
       await AuthRepository.setJwtCookieAsync({ accessToken, refreshToken });
       router.replace('/');
     } catch (error) {
