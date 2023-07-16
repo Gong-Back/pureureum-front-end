@@ -25,7 +25,7 @@ export class AuthRepository {
     birthday,
     gender,
   }: AuthReqParams['register']) {
-    await postAsync<undefined, AuthReqParams['register']>('/users/register', {
+    const response = await postAsync<AuthResponses['register'], AuthReqParams['register']>('/users/register', {
       email,
       password,
       name,
@@ -33,6 +33,7 @@ export class AuthRepository {
       birthday,
       gender,
     });
+    return response;
   }
 
   /**

@@ -3,7 +3,6 @@ import {
   SocialReqParams,
   AuthResponses,
   SocialResponses,
-  SocialRegisterInput,
 } from '@/constants/types';
 import { API_URL } from '@/constants/apis';
 import { postAsync } from './API';
@@ -16,7 +15,10 @@ export class SocialRepository {
    * @param socialType 로그인을 진행한 소셜 플랫폼 정보
    * @returns 성공 시 200, 실패 시 40X 에러 반환
    */
-  static async loginAsync({ verifyCode, socialType }: SocialReqParams['login']) {
+  static async loginAsync({
+    verifyCode,
+    socialType,
+  }: SocialReqParams['login']) {
     const response = await fetch(`${API_URL}/oauth/login/${socialType}`, {
       method: 'POST',
       headers: {
@@ -27,7 +29,7 @@ export class SocialRepository {
         redirectUrl: `http://localhost:3000/oauth2/redirect/${socialType}`,
       }),
     });
-    return await response.json() as ApiResponse<AuthResponses['login']>;
+    return (await response.json()) as ApiResponse<AuthResponses['login']>;
   }
 
   /**
@@ -49,7 +51,10 @@ export class SocialRepository {
     gender,
     socialType,
   }: Required<SocialReqParams['register']>) {
-    await postAsync<undefined, SocialRegisterInput>(`/oauth/register`, {
+    const response = await postAsync<
+      AuthResponses['register'],
+      SocialReqParams['register']
+    >(`/oauth/register`, {
       email,
       name,
       phoneNumber,
@@ -57,6 +62,7 @@ export class SocialRepository {
       gender,
       socialType,
     });
+    return response;
   }
 
   /**
@@ -73,6 +79,8 @@ export class SocialRepository {
         'Content-Type': 'application/json;charset=UTF-8',
       },
     });
-    return await response.json() as ApiResponse<SocialResponses['tempSearch']>;
+    return (await response.json()) as ApiResponse<
+      SocialResponses['tempSearch']
+    >;
   }
 }

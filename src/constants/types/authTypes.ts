@@ -12,7 +12,7 @@ export type AuthReqParams = {
     name: string;
     email: string;
     phoneNumber: string;
-    birthday: string;
+    birthday: number[];
     gender: GenderType;
     password: string;
     socialType?: SocialPlatformType;
@@ -32,7 +32,7 @@ export type SocialReqParams = {
     name: string;
     email: string;
     phoneNumber: string;
-    birthday: string;
+    birthday: number[];
     gender: GenderType;
     socialType: SocialPlatformType;
   }
@@ -49,6 +49,10 @@ export type VerifyReqParams = {
 
 export type AuthResponses = {
   'login': {
+    accessToken: string;
+    refreshToken: string;
+  }
+  'register': {
     accessToken: string;
     refreshToken: string;
   }
