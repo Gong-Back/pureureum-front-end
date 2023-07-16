@@ -29,7 +29,7 @@ const LoginForm = () => {
   };
 
   const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!feedbackMessage) setFeedbackMessage('');
+    if (feedbackMessage) setFeedbackMessage('');
     if (e.key === 'Enter') submitLogin();
   };
 
