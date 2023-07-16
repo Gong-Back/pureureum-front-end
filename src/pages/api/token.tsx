@@ -3,10 +3,16 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
+    case 'GET': {
+      const { accessToken, refreshToken } = req.cookies;
+      return res.status(200).json({
+        code: 200,
+        messages: [],
+        data: { accessToken, refreshToken }
+      })
+    }
     case 'POST': {
       const { accessToken, refreshToken } = req.body;
-
-
 
       if (!accessToken || !refreshToken) {
         throw new ApiErrorInstance({
