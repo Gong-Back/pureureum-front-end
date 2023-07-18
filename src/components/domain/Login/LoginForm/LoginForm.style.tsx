@@ -16,3 +16,12 @@ export const Wrapper = styled.div`
     width: 100%;
   }
 `;
+
+export const Feedback = styled.p(({ theme }) => {
+  const { colors, fonts } = theme;
+  return {
+    margin: '8px auto',
+    color: colors.caption,
+    ...fonts.pc.caption,
+  };
+});

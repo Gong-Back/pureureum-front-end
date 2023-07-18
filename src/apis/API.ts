@@ -1,7 +1,12 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, {
+  type AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse,
+} from 'axios';
 
-import { ApiError, ApiResponse, ApiResponseData } from '@/constants/types';
-import { API_URL } from '@/constants/apis';
+import { type ApiResponse, ApiError } from '@/constants/types';
+import { API_URL, ERROR_CODE } from '@/constants/apis';
+import { AuthRepository } from './auth';
 
 /**
  * API 요청에서 범용적으로 사용할 Axios Instance 생성
@@ -15,24 +20,59 @@ const API = axios.create({
   },
 });
 
+API.interceptors.response.use(
+  (res: AxiosResponse) => res,
+  async (error: AxiosError) => {
+    // 토큰 만료 에러인지를 확인하고, 만약 맞다면 저장된 리프레시 토큰을 재전송
+    if (
+      error.response &&
+      error.response.status === ERROR_CODE.JWT_INVALID_EXCEPTION
+    ) {
+      try {
+        const { refreshToken } = await AuthRepository.getJwtCookieAsync();
+        const {
+          data: { accessToken: newAccessToken, refreshToken: newRefreshToken },
+        } = await AuthRepository.refreshJwtCookieAsync(refreshToken);
+        await AuthRepository.setJwtCookieAsync({
+          accessToken: newAccessToken,
+          refreshToken: newRefreshToken,
+        });
+        // 새롭게 갱신 받은 엑세스 토큰을 헤더에 삽입한 후 재요청 진행
+        return axios.request({
+          ...error.config,
+          headers: {
+            ...error.config?.headers,
+            authorization: `Bearer ${newRefreshToken}`,
+          },
+        });
+      } catch (err) {
+        // 리프레시 토큰도 만료되었다면, 로그아웃을 진행시킴.
+        window.location.href = '/login';
+      }
+    }
+    return Promise.reject(error);
+  },
+);
+
+API.interceptors.request.use(async (req: AxiosRequestConfig) => {
+  const { accessToken } = await AuthRepository.getJwtCookieAsync();
+  if (accessToken && req.headers)
+    req.headers.authorization = `Bearer ${accessToken}`;
+  return req;
+});
+
 /**
- * API 통신 과정에서 발생한 에러를 클라이언트에 객체로 인계하는 함수
+ * API 통신 과정에서 발생한 에러의 타입을 명시하기 위한 함수 handleApiError
  * @param err API 통신 과정에서 발생한 에러 데이터
  * @returns 클라이언트에게 인계할 에러 객체 (ApiError)
  */
 function handleApiError(err: unknown): ApiError {
   // isAxiosError 조건이 true 라면, err는 AxiosError로 타입이 좁혀진다.
-  if (axios.isAxiosError(err)) {
+  if (axios.isAxiosError<ApiError, undefined>(err)) {
     // 요청을 전송하여 서버에서 응답을 받았으나, 에러가 발생한 경우
     if (err.response) {
       // 서버의 Error Response 의 body를 참고하여 데이터 추가.
-      const { data: errorResponseData }: AxiosResponse<ApiError, undefined> =
-        err.response;
-      return {
-        code: errorResponseData.code,
-        messages: errorResponseData.messages ?? '',
-        data: errorResponseData.data ?? null,
-      };
+      return err.response.data;
     }
     // 요청을 전송하였으나 서버에서 응답을 받지 못한 경우
     if (err.request) {
@@ -51,6 +91,23 @@ function handleApiError(err: unknown): ApiError {
   };
 }
 
+// 서버에서 받은 에러 정보를 Wrapping 한 커스텀 에러 객체 ApiErrorInstance
+export class ApiErrorInstance extends Error {
+  constructor(error: ApiError) {
+    super();
+    this.name = 'ApiError';
+    this.messages = error.messages;
+    this.code = error.code;
+    this.data = error.data;
+  }
+
+  messages: ApiError['messages'];
+
+  code: ApiError['code'];
+
+  data: ApiError['data'];
+}
+
 /**
  * GET 요청을 처리하는 유틸 API 함수 getAsync
  * @param T 요청 결과로 받을 데이터의 타입
@@ -59,21 +116,14 @@ function handleApiError(err: unknown): ApiError {
  * @param config API 요청과 관련된 config (AxiosRequestConfig)
  * @returns API 요청 성공과 실패에 따른 객체 (APIResponse)
  */
-export async function getAsync<T>(
-  url: string,
-  config?: AxiosRequestConfig,
-): ApiResponse<T> {
+export async function getAsync<T>(url: string, config?: AxiosRequestConfig) {
   try {
-    const response = await API.get<
-      T,
-      AxiosResponse<ApiResponseData<T>, any>,
-      any
-    >(url, {
+    const response = await API.get<T>(url, {
       ...config,
     });
-    return { isSuccess: true, result: response.data };
-  } catch (err) {
-    return { isSuccess: false, result: handleApiError(err) };
+    return response.data;
+  } catch (error) {
+    throw new ApiErrorInstance(handleApiError(error));
   }
 }
 
@@ -91,18 +141,18 @@ export async function postAsync<T, D>(
   url: string,
   data: D,
   config?: AxiosRequestConfig,
-): ApiResponse<T> {
+) {
   try {
-    const response = await API.post<T, AxiosResponse<ApiResponseData<T>, D>, D>(
+    const response = await API.post<T, AxiosResponse<ApiResponse<T>, D>, D>(
       url,
       data,
       {
         ...config,
       },
     );
-    return { isSuccess: true, result: response.data };
-  } catch (err) {
-    return { isSuccess: false, result: handleApiError(err) };
+    return response.data;
+  } catch (error) {
+    throw new ApiErrorInstance(handleApiError(error));
   }
 }
 
@@ -120,18 +170,18 @@ export async function patchAsync<T, D>(
   url: string,
   data: D,
   config?: AxiosRequestConfig,
-): ApiResponse<T> {
+) {
   try {
-    const response = await API.patch<
-      T,
-      AxiosResponse<ApiResponseData<T>, D>,
-      D
-    >(url, data, {
-      ...config,
-    });
-    return { isSuccess: true, result: response.data };
-  } catch (err) {
-    return { isSuccess: false, result: handleApiError(err) };
+    const response = await API.patch<T, AxiosResponse<ApiResponse<T>, D>, D>(
+      url,
+      data,
+      {
+        ...config,
+      },
+    );
+    return response.data;
+  } catch (error) {
+    throw new ApiErrorInstance(handleApiError(error));
   }
 }
 
@@ -144,20 +194,13 @@ export async function patchAsync<T, D>(
  * @param config Api 요청과 관련된 config (AxiosRequestConfig)
  * @returns Api 요청 성공과 실패에 따른 객체 (ApiResponse)
  */
-export async function deleteAsync<T>(
-  url: string,
-  config?: AxiosRequestConfig,
-): ApiResponse<T> {
+export async function deleteAsync<T>(url: string, config?: AxiosRequestConfig) {
   try {
-    const response = await API.patch<
-      T,
-      AxiosResponse<ApiResponseData<T>, any>,
-      any
-    >(url, {
+    const response = await API.delete<T>(url, {
       ...config,
     });
-    return { isSuccess: true, result: response.data };
-  } catch (err) {
-    return { isSuccess: false, result: handleApiError(err) };
+    return response.data;
+  } catch (error) {
+    throw new ApiErrorInstance(handleApiError(error));
   }
 }

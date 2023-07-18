@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { useAtom } from 'jotai';
 
 import useModal from '@/hooks/useModal';
-import { modalStateAtom } from '@/stores/atoms';
+import { modalStateAtom } from '@/stores/atom/modal';
 
 import * as style from './ModalPortal.style';
 
