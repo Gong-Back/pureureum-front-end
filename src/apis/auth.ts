@@ -1,11 +1,9 @@
 import {
-  GenderType,
-  LoginInput,
-  LoginOutput,
-  VerifyEmailInput,
-  VerifyPhoneNumberInput,
-  VerifyPhoneNumberOutput,
-  RegisterInput,
+  ApiResponse,
+  AuthReqParams,
+  AuthResponses,
+  VerifyReqParams,
+  VerifyResponses,
 } from '@/constants/types';
 import { postAsync } from './API';
 
@@ -20,25 +18,25 @@ export class AuthRepository {
    * @param gender 유저의 성별 (MALE, FEMALE)
    * @returns 가입 성공 시 201, 실패 시 에러 반환 (400 등)
    */
-  static async registerAsync(
-    email: string,
-    password: string,
-    name: string,
-    phoneNumber: string,
-    birthday: string,
-    gender: GenderType,
-  ) {
-    const response = await postAsync<undefined, RegisterInput>(
-      '/users/register',
-      {
-        email,
-        password,
-        name,
-        phoneNumber,
-        birthday,
-        gender,
-      },
-    );
+  static async registerAsync({
+    email,
+    password,
+    name,
+    phoneNumber,
+    birthday,
+    gender,
+  }: AuthReqParams['register']) {
+    const response = await postAsync<
+      AuthResponses['register'],
+      AuthReqParams['register']
+    >('/users/register', {
+      email,
+      password,
+      name,
+      phoneNumber,
+      birthday,
+      gender,
+    });
     return response;
   }
 
@@ -48,11 +46,11 @@ export class AuthRepository {
    * @param password 유저의 비밀번호
    * @returns 성공 시 JWT 액세스 토큰 인계, 실패 시 에러 객체 반환
    */
-  static async loginAsync(
-    email: string,
-    password: string,
-  ) {
-    const response = await postAsync<LoginOutput, LoginInput>('/users/login', {
+  static async loginAsync({ email, password }: AuthReqParams['login']) {
+    const response = await postAsync<
+      AuthResponses['login'],
+      AuthReqParams['login']
+    >('/users/login', {
       email,
       password,
     });
@@ -65,13 +63,12 @@ export class AuthRepository {
    * @returns 성공일 경우 200, 실패할 경우 40X 에러 반환
    */
   static async verifyEmailAsync(email: string) {
-    const response = await postAsync<undefined, VerifyEmailInput>(
+    await postAsync<undefined, VerifyReqParams['email']>(
       `/users/validate/email`,
       {
         email,
       },
     );
-    return response;
   }
 
   /**
@@ -79,12 +76,10 @@ export class AuthRepository {
    * @param phoneNumber 인증을 진행할 핸드폰 번호
    * @returns 성공일 경우 200, 실패할 경우 40X 에러 반환
    */
-  static async verifyPhoneNumberAsync(
-    phoneNumber: string,
-  ) {
+  static async verifyPhoneNumberAsync(phoneNumber: string) {
     const response = await postAsync<
-      VerifyPhoneNumberOutput,
-      VerifyPhoneNumberInput
+      VerifyResponses['phoneNumber'],
+      VerifyReqParams['phoneNumber']
     >(`/sms/send/certification`, {
       phoneNumber,
     });
@@ -97,15 +92,76 @@ export class AuthRepository {
    * @param value 중복 여부를 확인할 데이터
    * @returns 중복일 경우 409 에러 반환, 미중복일 경우 200
    */
-  static async confirmPhoneNumberAsync(
-    phoneNumber: string,
-  ) {
-    const response = await postAsync<undefined, VerifyPhoneNumberInput>(
+  static async confirmPhoneNumberAsync(phoneNumber: string) {
+    await postAsync<undefined, VerifyReqParams['phoneNumber']>(
       `/sms/complete/certification`,
       {
         phoneNumber,
       },
     );
+  }
+
+  /**
+   * Next Api Route를 통해 프론트 서버에 저장되었던 JWT 토큰을 가져오는 함수 getJwtCookieAsync
+   */
+  static async getJwtCookieAsync() {
+    const response = await fetch('/api/token', {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+    const {
+      data: { accessToken, refreshToken },
+    } = (await response.json()) as ApiResponse<AuthResponses['login']>;
+    return { accessToken, refreshToken };
+  }
+
+  /**
+   * 토큰 갱신이 필요할 시 First-Site Cookie를 세팅하는 함수 setJwtCookieAsync
+   * @param param.accessToken 서버로부터 받은 엑세스 토큰
+   * @param param.refreshToken 서버로부터 받은 리프레시 토큰
+   */
+  static async setJwtCookieAsync({
+    accessToken,
+    refreshToken,
+  }: AuthReqParams['jwt']) {
+    await fetch('/api/token', {
+      method: 'POST',
+      body: JSON.stringify({ accessToken, refreshToken }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
+
+  /**
+   * 리프레시 토큰을 사용하여 서버로부터 새로운 JWT 를 받아오는 함수 refreshJwtCookieAsync
+   * @param refreshToken 토큰 재발급을 위해 필요한 refresh token
+   * @returns
+   */
+  static async refreshJwtCookieAsync(refreshToken: string) {
+    const response = await postAsync<AuthResponses['login'], null>(
+      '/users/login',
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${refreshToken}`,
+        },
+      },
+    );
     return response;
+  }
+
+  /**
+   * 서버로부터 받았던 JWT 를 보관한 Cookie를 삭제하는 함수 removeJwtCookieAsync
+   */
+  static async removeJwtCookieAsync() {
+    await fetch('/api/token', {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
   }
 }

@@ -1,8 +1,8 @@
 import {
   ApiResponse,
-  GenderType,
-  SocialPlatformType,
-  SocialRegisterInput,
+  SocialReqParams,
+  AuthResponses,
+  SocialResponses,
 } from '@/constants/types';
 import { API_URL } from '@/constants/apis';
 import { postAsync } from './API';
@@ -15,29 +15,21 @@ export class SocialRepository {
    * @param socialType 로그인을 진행한 소셜 플랫폼 정보
    * @returns 성공 시 200, 실패 시 40X 에러 반환
    */
-  static async loginAsync(
-    code: string,
-    socialType: SocialPlatformType,
-  ) {
+  static async loginAsync({
+    verifyCode,
+    socialType,
+  }: SocialReqParams['login']) {
     const response = await fetch(`${API_URL}/oauth/login/${socialType}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=UTF-8',
       },
       body: JSON.stringify({
-        code,
+        code: verifyCode,
         redirectUrl: `http://localhost:3000/oauth2/redirect/${socialType}`,
       }),
     });
-    const responseData = await response.json();
-    return {
-      isSuccess: responseData?.code === 200,
-      result: {
-        code: responseData?.code,
-        messages: responseData?.messages,
-        data: responseData?.data,
-      },
-    };
+    return (await response.json()) as ApiResponse<AuthResponses['login']>;
   }
 
   /**
@@ -51,25 +43,26 @@ export class SocialRepository {
    * @param socialType 소셜 플랫폼 타입 (NAVER, KAKAO, GOOGLE)
    * @returns 성공 시 true, 실패 시 false 반환
    */
-  static async registerAsync(
-    email: string,
-    name: string,
-    phoneNumber: string,
-    birthday: string,
-    gender: GenderType,
-    socialType: SocialPlatformType,
-  ) {
-    await postAsync<undefined, SocialRegisterInput>(
-      `/oauth/register`,
-      {
-        email,
-        name,
-        phoneNumber,
-        birthday,
-        gender,
-        socialType,
-      },
-    );
+  static async registerAsync({
+    email,
+    name,
+    phoneNumber,
+    birthday,
+    gender,
+    socialType,
+  }: Required<SocialReqParams['register']>) {
+    const response = await postAsync<
+      AuthResponses['register'],
+      SocialReqParams['register']
+    >(`/oauth/register`, {
+      email,
+      name,
+      phoneNumber,
+      birthday,
+      gender,
+      socialType,
+    });
+    return response;
   }
 
   /**
@@ -79,18 +72,15 @@ export class SocialRepository {
    */
   static async tempSearchUserAsync(
     email: string,
-  ): Promise<ApiResponse<SocialRegisterInput>> {
+  ): Promise<ApiResponse<SocialResponses['tempSearch']>> {
     const response = await fetch(`${API_URL}/oauth/temp/${email}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json;charset=UTF-8',
       },
     });
-    const responseData = await response.json();
-    return {
-      code: responseData?.code,
-      messages: responseData?.messages,
-      data: responseData?.data,
-    };
+    return (await response.json()) as ApiResponse<
+      SocialResponses['tempSearch']
+    >;
   }
 }

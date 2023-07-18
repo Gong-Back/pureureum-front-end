@@ -1,4 +1,4 @@
-import React from 'react';
+import { useCallback, useLayoutEffect } from 'react';
 
 import Text from '@/components/common/Text';
 import Button from '@/components/common/Button';
@@ -6,9 +6,14 @@ import AccountForm from '@/components/domain/Register/AccountForm';
 import PersonalDataForm from '@/components/domain/Register/PersonalDataForm';
 import VerifyPhoneNumberForm from '@/components/domain/Register/VerifyPhoneNumberForm';
 
-import { RegisterFormInput, RegisterVerifyInput } from '@/constants/types';
-
 import { COLORS } from '@/constants/styles';
+import { type RegisterProps } from '@/pages/auth/register';
+import {
+  useRegisterContextAction,
+  useRegisterContextValue,
+} from '@/stores/context/RegisterContext';
+import ValidationUtil from '@/utils/validation';
+
 import * as style from './RegisterTemplate.style';
 
 const RegisterStepHeader = [
@@ -26,30 +31,69 @@ const RegisterStepHeader = [
   },
 ];
 
-export interface RegisterTemplatesProps {
-  currentRegisterStep: number;
-  feedbackRef: React.MutableRefObject<HTMLParagraphElement>;
-  verifyInformation: RegisterVerifyInput;
-  userInformation: RegisterFormInput;
-  handleNextRegisterStep: () => void;
-  setUserInformation: React.Dispatch<React.SetStateAction<RegisterFormInput>>;
-  shouldCheckCurrentStep: boolean[];
-  verifyUserEmail: () => Promise<void>;
-  verifyPhoneNumber: () => Promise<void>;
-}
+const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
+  const {
+    form: {
+      email,
+      password,
+      name,
+      phoneNumber,
+      birthday,
+      confirmPassword,
+      typedCertificationNumber,
+    },
+    verify: { certificationNumber, isCheckPhoneNumber, isCheckUserEmail },
+    step,
+    fallbackMessage,
+  } = useRegisterContextValue();
+  const { change, handleCurrentStep } = useRegisterContextAction();
 
-const RegisterTemplate = ({
-  currentRegisterStep = 0,
-  feedbackRef,
-  verifyInformation,
-  userInformation,
-  handleNextRegisterStep,
-  setUserInformation,
-  shouldCheckCurrentStep,
-  verifyUserEmail,
-  verifyPhoneNumber,
-}: RegisterTemplatesProps) => {
-  const { title, subtitle } = RegisterStepHeader[currentRegisterStep];
+  useLayoutEffect(() => {
+    if (socialType && socialEmail) {
+      change('socialType', socialType);
+      change('email', socialEmail);
+      handleCurrentStep();
+    }
+  }, []);
+
+  const { title, subtitle } = RegisterStepHeader[step];
+
+  // 각 Step 별로 다음 스텝으로 넘어가기 위한 최소 조건을 충족했는지를 판별하는 변수 shouldCheckCurrentStep
+  const shouldCheckCurrentStep = useCallback(
+    () => {
+      switch (step) {
+        case 0:
+          return !!(ValidationUtil.validateEmail(email) &&
+            isCheckUserEmail &&
+            password &&
+            password === confirmPassword)
+        case 1:
+          return !!(ValidationUtil.validateName(name) &&
+          ValidationUtil.validateBirthDay(birthday.join('-')))
+        case 2:
+          return       !!(
+            ValidationUtil.validatePhoneNumber(phoneNumber) &&
+            isCheckPhoneNumber &&
+            certificationNumber === typedCertificationNumber
+          )
+        default:
+          return false;
+      }
+    },
+    [
+      step,
+      birthday,
+      certificationNumber,
+      email,
+      name,
+      password,
+      phoneNumber,
+      confirmPassword,
+      isCheckPhoneNumber,
+      isCheckUserEmail,
+      typedCertificationNumber,
+    ],
+  );
 
   return (
     <style.Wrapper>
@@ -62,40 +106,24 @@ const RegisterTemplate = ({
         </Text>
       </style.Header>
       <style.VisibleSection>
-        <style.Section currentRegisterStep={currentRegisterStep}>
-          <AccountForm
-            email={userInformation.email}
-            password={userInformation.password}
-            confirmPassword={userInformation.confirmPassword}
-            isCheckUserEmail={verifyInformation.isCheckUserEmail}
-            setUserInformation={setUserInformation}
-            verifyUserEmail={verifyUserEmail}
-          />
-          <PersonalDataForm
-            name={userInformation.name}
-            gender={userInformation.gender}
-            setUserInformation={setUserInformation}
-          />
-          <VerifyPhoneNumberForm
-            phoneNumber={userInformation.phoneNumber}
-            certificationNumber={verifyInformation.certificationNumber}
-            typedCertificationNumber={userInformation.typedCertificationNumber}
-            isCheckPhoneNumber={verifyInformation.isCheckPhoneNumber}
-            setUserInformation={setUserInformation}
-            verifyPhoneNumber={verifyPhoneNumber}
-          />
+        <style.Section currentRegisterStep={step}>
+          <AccountForm />
+          <PersonalDataForm />
+          <VerifyPhoneNumberForm />
         </style.Section>
       </style.VisibleSection>
       <style.Footer>
-        <style.Feedback ref={feedbackRef} />
+        {fallbackMessage ? (
+          <style.Feedback>{fallbackMessage}</style.Feedback>
+        ) : null}
         <Button
           themeColor={
-            shouldCheckCurrentStep[currentRegisterStep]
+            shouldCheckCurrentStep()
               ? COLORS.primary.greenDefault
               : COLORS.grayscale.gray400
           }
           isFilled
-          onClick={handleNextRegisterStep}
+          onClick={handleCurrentStep}
           sizeType="large"
           className="confirm-button"
         >

@@ -1,7 +1,12 @@
-import axios, { type AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, {
+  type AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse,
+} from 'axios';
 
 import { type ApiResponse, ApiError } from '@/constants/types';
-import { API_URL } from '@/constants/apis';
+import { API_URL, ERROR_CODE } from '@/constants/apis';
+import { AuthRepository } from './auth';
 
 /**
  * API 요청에서 범용적으로 사용할 Axios Instance 생성
@@ -13,6 +18,47 @@ const API = axios.create({
   headers: {
     'Content-Type': 'application/json;charset=UTF-8',
   },
+});
+
+API.interceptors.response.use(
+  (res: AxiosResponse) => res,
+  async (error: AxiosError) => {
+    // 토큰 만료 에러인지를 확인하고, 만약 맞다면 저장된 리프레시 토큰을 재전송
+    if (
+      error.response &&
+      error.response.status === ERROR_CODE.JWT_INVALID_EXCEPTION
+    ) {
+      try {
+        const { refreshToken } = await AuthRepository.getJwtCookieAsync();
+        const {
+          data: { accessToken: newAccessToken, refreshToken: newRefreshToken },
+        } = await AuthRepository.refreshJwtCookieAsync(refreshToken);
+        await AuthRepository.setJwtCookieAsync({
+          accessToken: newAccessToken,
+          refreshToken: newRefreshToken,
+        });
+        // 새롭게 갱신 받은 엑세스 토큰을 헤더에 삽입한 후 재요청 진행
+        return axios.request({
+          ...error.config,
+          headers: {
+            ...error.config?.headers,
+            authorization: `Bearer ${newRefreshToken}`,
+          },
+        });
+      } catch (err) {
+        // 리프레시 토큰도 만료되었다면, 로그아웃을 진행시킴.
+        window.location.href = '/login';
+      }
+    }
+    return Promise.reject(error);
+  },
+);
+
+API.interceptors.request.use(async (req: AxiosRequestConfig) => {
+  const { accessToken } = await AuthRepository.getJwtCookieAsync();
+  if (accessToken && req.headers)
+    req.headers.authorization = `Bearer ${accessToken}`;
+  return req;
 });
 
 /**
@@ -49,7 +95,7 @@ function handleApiError(err: unknown): ApiError {
 export class ApiErrorInstance extends Error {
   constructor(error: ApiError) {
     super();
-    this.name = 'ApiError'
+    this.name = 'ApiError';
     this.messages = error.messages;
     this.code = error.code;
     this.data = error.data;
@@ -75,7 +121,7 @@ export async function getAsync<T>(url: string, config?: AxiosRequestConfig) {
     const response = await API.get<T>(url, {
       ...config,
     });
-    return response.data; 
+    return response.data;
   } catch (error) {
     throw new ApiErrorInstance(handleApiError(error));
   }

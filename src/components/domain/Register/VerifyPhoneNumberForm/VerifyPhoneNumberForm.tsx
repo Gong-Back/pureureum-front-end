@@ -1,27 +1,20 @@
 import React from 'react';
 import TextInput from '@/components/common/TextInput';
 import Button from '@/components/common/Button';
-import { RegisterFormInput } from '@/constants/types';
+import {
+  useRegisterContextAction,
+  useRegisterContextValue,
+} from '@/stores/context/RegisterContext';
 
 import * as style from './VerifyPhoneNumberForm.style';
 
-export interface VerifyPhoneNumberFormProps {
-  phoneNumber: string;
-  certificationNumber: string | undefined;
-  typedCertificationNumber: string;
-  isCheckPhoneNumber: boolean;
-  setUserInformation: React.Dispatch<React.SetStateAction<RegisterFormInput>>;
-  verifyPhoneNumber: () => Promise<void>;
-}
+const VerifyPhoneNumberForm = () => {
+  const {
+    form: { phoneNumber, typedCertificationNumber },
+    verify: { isCheckPhoneNumber, certificationNumber },
+  } = useRegisterContextValue();
+  const { change, verifyPhoneNumber } = useRegisterContextAction();
 
-const VerifyPhoneNumberForm = ({
-  phoneNumber,
-  certificationNumber,
-  typedCertificationNumber,
-  isCheckPhoneNumber,
-  setUserInformation,
-  verifyPhoneNumber,
-}: VerifyPhoneNumberFormProps) => {
   const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     const isPhoneNumber = name === 'phoneNumber';
@@ -36,10 +29,7 @@ const VerifyPhoneNumberForm = ({
         /^(\d{2,3})(\d{3,4})(\d{4})$/,
         `$1-$2-$3`,
       );
-    setUserInformation((prev) => ({
-      ...prev,
-      [name]: formattedValue,
-    }));
+    change(name, formattedValue);
   };
 
   return (
