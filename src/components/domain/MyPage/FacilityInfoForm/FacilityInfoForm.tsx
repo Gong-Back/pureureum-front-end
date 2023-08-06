@@ -17,6 +17,8 @@ import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
 import useDaumPostCode from '@/hooks/useDaumPostCode';
 import useUploadFile from '@/hooks/useUploadFile';
 
+import FormatUtil from '@/utils/format';
+
 import * as style from './FacilityInfoForm.style';
 
 const FacilityInfoForm = () => {
@@ -49,7 +51,7 @@ const FacilityInfoForm = () => {
           }),
         mismatchExtractType: () =>
           setError('root', {
-            message: '올바른 파일 확장자가 아닙니다',
+            message: '올바른 파일 확장자가 아닙니다. (pdf, hwp, docx, txt)',
           }),
       },
       onSubmit: (uploadedFile) => setValue('certificationDoc', uploadedFile),
@@ -233,9 +235,11 @@ const FacilityInfoForm = () => {
             fieldOption={{ required: true }}
             value={
               currentFormValue.certificationDoc
-                ? `${currentFormValue.certificationDoc.name} (${(
-                    currentFormValue.certificationDoc.size / 1024
-                  ).toFixed(1)}MB)`
+                ? `${
+                    currentFormValue.certificationDoc.name
+                  } (${FormatUtil.formatfileSize(
+                    currentFormValue.certificationDoc.size,
+                  )})`
                 : undefined
             }
             placeholder="시설 인증을 할 수 있는 서류를 첨부해주세요"
