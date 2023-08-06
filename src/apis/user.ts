@@ -1,5 +1,4 @@
 import {
-  ApiResponse,
   PersonalInfoType,
   UpdatePersonalInfoType,
   UpdateUserInfoParamType,
@@ -11,7 +10,7 @@ export class UserRepository {
    * 유저의 회원 정보를 가져오는 함수 getUserInfoAsync
    * @returns 가입 성공 시 200, 실패 시 에러 반환 (400 등)
    */
-  static async getUserInfoAsync(): Promise<PersonalInfoType> {
+  static async getUserInfoAsync() {
     const response = await getAsync<PersonalInfoType>('/users/me');
     if (response.isSuccess) return response.result.data;
     throw Error('failed to load data');
@@ -23,17 +22,17 @@ export class UserRepository {
    * @param updatedValue 변경하고자 하는 정보
    * @returns 성공 시 200 반환, 실패 시 40X 에러 반환
    */
-  static async updateUserInfoAsync({
-    type,
-    updatedValue,
-  }: UpdateUserInfoParamType): ApiResponse<undefined> {
-    const response = await postAsync<undefined, UpdatePersonalInfoType>(
+  static async updateUserInfoAsync(
+    password: string | undefined,
+    phoneNumber: string | undefined,
+    nickname: string | undefined,
+  ) {
+    await postAsync<undefined, UpdatePersonalInfoType>(
       '/users/update/info',
       {
         [type]: updatedValue,
       },
     );
-    return response;
   }
 
   /**
@@ -43,25 +42,8 @@ export class UserRepository {
    */
   static async updateProfileImageAsync(
     profileImageFile: File | undefined,
-  ): ApiResponse<undefined> {
-    const formData = new FormData();
-    // 업로드 하려는 이미지가 존재하는 경우에만 Blob로 변환하여 추가
-    if (profileImageFile) {
-      formData.append(
-        'profile',
-        new Blob(
-          [
-            JSON.stringify({
-              profileImageFile,
-            }),
-          ],
-          {
-            type: 'image/png',
-          },
-        ),
-      );
-    }
-    const response = await postAsync<undefined, FormData>(
+  ) {
+    await postAsync<undefined, UpdateProfileImageType>(
       '/users/update/profile',
       formData,
       {
@@ -70,6 +52,5 @@ export class UserRepository {
         },
       },
     );
-    return response;
   }
 }

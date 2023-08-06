@@ -25,6 +25,7 @@ const MyApp = ({ Component, pageProps }: AppProps<ServiceAppProps>) => {
           queries: {
             refetchOnReconnect: false,
             refetchOnWindowFocus: false,
+            useErrorBoundary: true,
           },
         },
       }),
