@@ -1,4 +1,12 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
+import { useForm, FormProvider, type SubmitHandler } from 'react-hook-form';
+import { useRouter } from 'next/router';
+
+import { ApiErrorInstance } from '@/apis/API';
+import { FacilityRepository } from '@/apis/facility';
+
+import { COLORS } from '@/constants/styles';
+import { type FacilityFormType } from '@/constants/types';
 
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
@@ -7,235 +15,282 @@ import CategoryTag from '@/components/common/CategoryTag';
 
 import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
 import useDaumPostCode from '@/hooks/useDaumPostCode';
+import useUploadFile from '@/hooks/useUploadFile';
 
-import { AddFacilityInputType, CategoryType } from '@/constants/types';
-
-import { COLORS } from '@/constants/styles';
 import * as style from './FacilityInfoForm.style';
 
-interface FacilityInfoFormProps {
-  category: CategoryType;
-  name: string;
-  city: string;
-  county: string;
-  district: string;
-  jibun: string;
-  detail: string;
-  certificationDoc: File | null;
-  setFacilityInformation: React.Dispatch<
-    React.SetStateAction<AddFacilityInputType>
-  >;
-}
+const FacilityInfoForm = () => {
+  const formMethods = useForm<FacilityFormType>({
+    defaultValues: {
+      name: '',
+      detail: '',
+      category: 'YOUTH_FARMING',
+    },
+    mode: 'onChange',
+  });
+  const {
+    watch,
+    setValue,
+    setError,
+    formState: { errors },
+    handleSubmit,
+  } = formMethods;
 
-const MAX_FILE_SIZE = 10 * 1024 * 1024;
-const ALLOWED_FILE_TYPE = ['pdf', 'hwp', 'docx', 'txt'];
-
-const FacilityInfoForm = ({
-  category,
-  name,
-  city,
-  county,
-  district,
-  jibun,
-  detail,
-  certificationDoc,
-  setFacilityInformation,
-}: FacilityInfoFormProps) => {
+  const router = useRouter();
   const currentBreakpoint = useMeasureBreakpoint(['mobile', 'tablet', 'pc']);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { fileInputRef, handleUploadFile, removeUploadedFile, openFileDialog } =
+    useUploadFile({
+      maxFileSize: 10 * 1024 * 1024,
+      allowFileTypes: ['pdf', 'hwp', 'docx', 'txt'],
+      onError: {
+        exceedFileSize: () =>
+          setError('root', {
+            message: '파일 용량은 최대 10MB 입니다.',
+          }),
+        mismatchExtractType: () =>
+          setError('root', {
+            message: '올바른 파일 확장자가 아닙니다',
+          }),
+      },
+      onSubmit: (uploadedFile) => setValue('certificationDoc', uploadedFile),
+      onRemove: () => setValue('certificationDoc', undefined),
+    });
   const { openPostCode, address } = useDaumPostCode();
 
+  const currentFormValue = watch();
+
   useEffect(() => {
-    setFacilityInformation((prev) => ({
-      ...prev,
-      ...address,
-    }));
+    const { city, county, district, jibun, detail } = address;
+    const isValidAddress = [city, county, district, jibun].every(Boolean);
+    if (!isValidAddress) return;
+
+    setValue('address', { city, county, district, jibun });
+    setValue('detail', detail);
   }, [address]);
 
-  const handleFormInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name: inputName, value } = e.target;
-    setFacilityInformation((prev) => ({ ...prev, [inputName]: value }));
-  };
+  const isMobile = currentBreakpoint === 'mobile';
+  const isValidAddress = Object.values(address).every(Boolean);
+  const isPossibleSubmit =
+    isValidAddress &&
+    !!currentFormValue.name &&
+    !!currentFormValue.certificationDoc;
 
-  const handleUploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const [uploadedFile] = e.target.files ?? [];
-    if (!uploadedFile || uploadedFile.size > MAX_FILE_SIZE) return;
+  const submitFacilityInfo: SubmitHandler<FacilityFormType> = async (
+    formValue,
+  ) => {
+    const { address, ...rest } = formValue;
+    if (!address)
+      return setError('root', { message: '주소를 설정하지 않았습니다.' });
 
-    // 파일 확장자를 체크하고, 올바른 타입의 확장자인지를 체크
-    const uploadedFileExtractType = uploadedFile?.name.split('.')[1];
-    if (!ALLOWED_FILE_TYPE.includes(uploadedFileExtractType)) return;
-
-    setFacilityInformation((prev) => ({
-      ...prev,
-      certificationDoc: uploadedFile,
-    }));
-  };
-
-  const handleSelectCategory = (selectedCategory: CategoryType) => {
-    setFacilityInformation((prev) => ({ ...prev, category: selectedCategory }));
-  };
-
-  const openFileUploadDialog = () => fileInputRef.current?.click();
-  const removeUploadedFile = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-      setFacilityInformation((prev) => ({ ...prev, certificationDoc: null }));
+    try {
+      await FacilityRepository.registerFacilityAsync({ ...rest, ...address });
+      router.replace('/mypage/operation/manage');
+    } catch (error) {
+      if (error instanceof ApiErrorInstance) {
+        const [errorMessage] = error.messages;
+        setError('root', { message: errorMessage });
+        return;
+      }
+      throw error;
     }
   };
 
-  const isMobile = currentBreakpoint === 'mobile';
-  const isValidAddress = [city, county, district, jibun].every(Boolean);
-
   return (
-    <style.Wrapper>
-      <style.ProjectTypeSelect>
-        <style.FormTitle className="title">
-          <Text fontStyleName="subtitle2B" color={COLORS.grayscale.gray600}>
-            카테고리
-          </Text>
-          <Text
-            fontStyleName="body1B"
-            color={COLORS.caption}
-            className="asterisk"
+    <FormProvider {...formMethods}>
+      <style.Wrapper>
+        <style.ProjectTypeSelect>
+          <style.FormTitle className="title">
+            <Text fontStyleName="subtitle2B" color={COLORS.grayscale.gray600}>
+              카테고리
+            </Text>
+            <Text
+              fontStyleName="body1B"
+              color={COLORS.caption}
+              className="asterisk"
+            >
+              *
+            </Text>
+          </style.FormTitle>
+          <CategoryTag
+            type="YOUTH_FARMING"
+            sizeType={isMobile ? 'small' : 'big'}
+            className={`youth-farming ${
+              currentFormValue.category !== 'YOUTH_FARMING'
+                ? 'not-selected'
+                : ''
+            }`}
+            onClick={() => setValue('category', 'YOUTH_FARMING')}
+          />
+          <CategoryTag
+            type="FARMING_EXPERIENCE"
+            sizeType={isMobile ? 'small' : 'big'}
+            className={`farming-experience ${
+              currentFormValue.category !== 'FARMING_EXPERIENCE'
+                ? 'not-selected'
+                : ''
+            }`}
+            onClick={() => setValue('category', 'FARMING_EXPERIENCE')}
+          />
+          <CategoryTag
+            type="FARMING_HEALING"
+            sizeType={isMobile ? 'small' : 'big'}
+            className={`farming-healing ${
+              currentFormValue.category !== 'FARMING_HEALING'
+                ? 'not-selected'
+                : ''
+            }`}
+            onClick={() => setValue('category', 'FARMING_HEALING')}
+          />
+          <CategoryTag
+            type="ETC"
+            sizeType={isMobile ? 'small' : 'big'}
+            className={`etc ${
+              currentFormValue.category !== 'ETC' ? 'not-selected' : ''
+            }`}
+            onClick={() => setValue('category', 'ETC')}
+          />
+        </style.ProjectTypeSelect>
+        <style.FacilityNameForm>
+          <style.FormTitle>
+            <Text fontStyleName="subtitle2B" color={COLORS.grayscale.gray600}>
+              시설 이름
+            </Text>
+            <Text
+              fontStyleName="body1B"
+              color={COLORS.caption}
+              className="asterisk"
+            >
+              *
+            </Text>
+          </style.FormTitle>
+          <TextInput
+            fieldId="name"
+            fieldOption={{ required: true, minLength: 1 }}
+            placeholder="시설 이름을 지정해주세요"
+            sizeType="large"
+            className="name-input"
+            isFilled
+          />
+        </style.FacilityNameForm>
+        <style.FacilityLocForm>
+          <style.FormTitle className="title">
+            <Text fontStyleName="subtitle2B" color={COLORS.grayscale.gray600}>
+              시설 위치
+            </Text>
+            <Text
+              fontStyleName="body1B"
+              color={COLORS.caption}
+              className="asterisk"
+            >
+              *
+            </Text>
+          </style.FormTitle>
+          <TextInput
+            fieldId="address"
+            fieldOption={{ required: true, minLength: 1 }}
+            value={
+              isValidAddress
+                ? `${address.county} ${address.city} ${address.district} ${address.jibun}`
+                : undefined
+            }
+            placeholder="주소를 지도에서 검색해주세요"
+            sizeType="large"
+            className="loc-input"
+            readOnly
+            isFilled
+          />
+          <Button isFilled className="search-button" onClick={openPostCode}>
+            지도 검색
+          </Button>
+          <TextInput
+            fieldId="detail"
+            fieldOption={{
+              required: true,
+              minLength: 1,
+              disabled: !isValidAddress,
+            }}
+            placeholder={isValidAddress ? '상세 주소' : ''}
+            sizeType="large"
+            className="detail-input"
+            isFilled
+          />
+        </style.FacilityLocForm>
+        <style.FacilityDocsForm>
+          <style.FormTitle className="title">
+            <Text fontStyleName="subtitle2B" color={COLORS.grayscale.gray600}>
+              증빙 서류
+            </Text>
+            <Text
+              fontStyleName="body1B"
+              color={COLORS.caption}
+              className="asterisk"
+            >
+              *
+            </Text>
+          </style.FormTitle>
+          <TextInput
+            fieldId="certificationDoc"
+            fieldOption={{ required: true }}
+            value={
+              currentFormValue.certificationDoc
+                ? `${currentFormValue.certificationDoc.name} (${(
+                    currentFormValue.certificationDoc.size / 1024
+                  ).toFixed(1)}MB)`
+                : undefined
+            }
+            placeholder="시설 인증을 할 수 있는 서류를 첨부해주세요"
+            sizeType="large"
+            className="file-input"
+            isFilled
+            readOnly
+          />
+          <input
+            ref={fileInputRef}
+            type="file"
+            style={{ display: 'none' }}
+            onChange={handleUploadFile}
+          />
+          <Button
+            isFilled
+            className="find-button"
+            onClick={
+              currentFormValue.certificationDoc
+                ? removeUploadedFile
+                : openFileDialog
+            }
           >
-            *
-          </Text>
-        </style.FormTitle>
-        <CategoryTag
-          type="YOUTH_FARMING"
-          sizeType={isMobile ? 'small' : 'big'}
-          className={`youth-farming ${
-            category !== 'YOUTH_FARMING' ? 'not-selected' : ''
-          }`}
-          onClick={() => handleSelectCategory('YOUTH_FARMING')}
-        />
-        <CategoryTag
-          type="FARMING_EXPERIENCE"
-          sizeType={isMobile ? 'small' : 'big'}
-          className={`farming-experience ${
-            category !== 'FARMING_EXPERIENCE' ? 'not-selected' : ''
-          }`}
-          onClick={() => handleSelectCategory('FARMING_EXPERIENCE')}
-        />
-        <CategoryTag
-          type="FARMING_HEALING"
-          sizeType={isMobile ? 'small' : 'big'}
-          className={`farming-healing ${
-            category !== 'FARMING_HEALING' ? 'not-selected' : ''
-          }`}
-          onClick={() => handleSelectCategory('FARMING_HEALING')}
-        />
-        <CategoryTag
-          type="ETC"
-          sizeType={isMobile ? 'small' : 'big'}
-          className={`etc ${category !== 'ETC' ? 'not-selected' : ''}`}
-          onClick={() => handleSelectCategory('ETC')}
-        />
-      </style.ProjectTypeSelect>
-      <style.FacilityNameForm>
-        <style.FormTitle>
-          <Text fontStyleName="subtitle2B" color={COLORS.grayscale.gray600}>
-            시설 이름
-          </Text>
-          <Text
-            fontStyleName="body1B"
-            color={COLORS.caption}
-            className="asterisk"
-          >
-            *
-          </Text>
-        </style.FormTitle>
-        <TextInput
-          onChange={handleFormInput}
-          value={name}
-          name="name"
-          placeholder="시설 이름을 지정해주세요"
-          sizeType="large"
-          className="name-input"
-          isFilled
-        />
-      </style.FacilityNameForm>
-      <style.FacilityLocForm>
-        <style.FormTitle className="title">
-          <Text fontStyleName="subtitle2B" color={COLORS.grayscale.gray600}>
-            시설 위치
-          </Text>
-          <Text
-            fontStyleName="body1B"
-            color={COLORS.caption}
-            className="asterisk"
-          >
-            *
-          </Text>
-        </style.FormTitle>
-        <TextInput
-          value={
-            isValidAddress
-              ? `${county} ${city} ${district} ${jibun}`
-              : '먼저 지도에서 주소를 검색해주세요'
-          }
-          readOnly
-          placeholder="주소를 지도에서 검색해주세요"
-          sizeType="large"
-          className="loc-input"
-          isFilled
-        />
-        <Button isFilled className="search-button" onClick={openPostCode}>
-          지도 검색
-        </Button>
-        <TextInput
-          onChange={handleFormInput}
-          value={detail}
-          name="detail"
-          disabled={!isValidAddress}
-          placeholder={isValidAddress ? '상세 주소' : ''}
-          sizeType="large"
-          className="detail-input"
-          isFilled
-        />
-      </style.FacilityLocForm>
-      <style.FacilityDocsForm>
-        <style.FormTitle className="title">
-          <Text fontStyleName="subtitle2B" color={COLORS.grayscale.gray600}>
-            증빙 서류
-          </Text>
-          <Text
-            fontStyleName="body1B"
-            color={COLORS.caption}
-            className="asterisk"
-          >
-            *
-          </Text>
-        </style.FormTitle>
-        <TextInput
-          value={
-            certificationDoc
-              ? `${certificationDoc.name} (${(
-                  certificationDoc.size / 1024
-                ).toFixed(1)}MB)`
-              : '시설 인증을 할 수 있는 서류를 첨부해주세요'
-          }
-          placeholder=""
-          sizeType="large"
-          className="file-input"
-          isFilled
-          readOnly
-        />
-        <input
-          ref={fileInputRef}
-          type="file"
-          style={{ display: 'none' }}
-          onChange={handleUploadFile}
-        />
+            {currentFormValue.certificationDoc ? '파일 제거 ' : '파일 찾기'}
+          </Button>
+        </style.FacilityDocsForm>
+      </style.Wrapper>
+      {errors.root ? (
+        <style.Feedback>{errors.root.message}</style.Feedback>
+      ) : null}
+      <style.ButtonBox>
         <Button
+          isRound
           isFilled
-          className="find-button"
-          onClick={certificationDoc ? removeUploadedFile : openFileUploadDialog}
+          themeColor={
+            isPossibleSubmit
+              ? COLORS.primary.greenDefault
+              : COLORS.grayscale.gray400
+          }
+          sizeType="large"
+          className="bottom-btn"
+          onClick={() => handleSubmit(submitFacilityInfo)}
         >
-          {certificationDoc ? '파일 제거 ' : '파일 찾기'}
+          신청 완료
         </Button>
-      </style.FacilityDocsForm>
-    </style.Wrapper>
+        <Button
+          isRound
+          themeColor={COLORS.grayscale.gray400}
+          sizeType="large"
+          className="bottom-btn"
+        >
+          취소
+        </Button>
+      </style.ButtonBox>
+    </FormProvider>
   );
 };
 export default FacilityInfoForm;

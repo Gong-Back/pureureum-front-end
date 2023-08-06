@@ -147,3 +147,28 @@ export const FacilityDocsForm = styled.div`
     }
   }
 `;
+
+export const ButtonBox = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 0px 25px;
+
+  margin: 0 auto 40px auto;
+
+  > .bottom-btn {
+    width: 255px;
+  }
+
+  @media ${MEDIA_QUERIES.mobile} {
+    width: 180px;
+  }
+`;
+
+export const Feedback = styled.p(({ theme }) => {
+  const { colors, fonts } = theme;
+  return {
+    margin: '0px auto 80px auto',
+    color: colors.caption,
+    ...fonts.pc.body2R,
+  };
+});

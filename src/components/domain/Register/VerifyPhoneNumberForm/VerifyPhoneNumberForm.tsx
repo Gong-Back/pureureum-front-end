@@ -1,4 +1,6 @@
 import React from 'react';
+import { useForm, FormProvider } from 'react-hook-form';
+
 import TextInput from '@/components/common/TextInput';
 import Button from '@/components/common/Button';
 import {
@@ -9,6 +11,8 @@ import {
 import * as style from './VerifyPhoneNumberForm.style';
 
 const VerifyPhoneNumberForm = () => {
+  const formMethods = useForm();
+
   const {
     form: { phoneNumber, typedCertificationNumber },
     verify: { isCheckPhoneNumber, certificationNumber },
@@ -33,30 +37,32 @@ const VerifyPhoneNumberForm = () => {
   };
 
   return (
-    <style.Wrapper>
-      <style.Section>
+    <FormProvider {...formMethods}>
+      <style.Wrapper>
+        <style.Section>
+          <TextInput
+            name="phoneNumber"
+            placeholder="핸드폰 번호"
+            value={phoneNumber}
+            width={269}
+            onChange={handleUserInput}
+            disabled={isCheckPhoneNumber}
+            isRound
+          />
+          <Button onClick={verifyPhoneNumber} isFilled>
+            인증번호 요청
+          </Button>
+        </style.Section>
         <TextInput
-          name="phoneNumber"
-          placeholder="핸드폰 번호"
-          value={phoneNumber}
-          width={269}
+          name="typedCertificationNumber"
+          placeholder="인증번호"
+          value={typedCertificationNumber}
           onChange={handleUserInput}
-          disabled={isCheckPhoneNumber}
+          disabled={!certificationNumber}
           isRound
         />
-        <Button onClick={verifyPhoneNumber} isFilled>
-          인증번호 요청
-        </Button>
-      </style.Section>
-      <TextInput
-        name="typedCertificationNumber"
-        placeholder="인증번호"
-        value={typedCertificationNumber}
-        onChange={handleUserInput}
-        disabled={!certificationNumber}
-        isRound
-      />
-    </style.Wrapper>
+      </style.Wrapper>
+    </FormProvider>
   );
 };
 

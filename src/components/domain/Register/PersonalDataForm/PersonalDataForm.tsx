@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useForm, FormProvider } from 'react-hook-form';
 
 import { GenderType } from '@/constants/types';
 
@@ -13,6 +14,8 @@ import {
 import * as style from './PersonalDataForm.style';
 
 const PersonalDataForm = () => {
+  const formMethods = useForm();
+
   const {
     form: { name, gender },
   } = useRegisterContextValue();
@@ -62,73 +65,75 @@ const PersonalDataForm = () => {
   };
 
   return (
-    <style.Wrapper>
-      <style.Section>
-        <TextInput
-          name="name"
-          placeholder="이름"
-          value={name}
-          onChange={handleUserInput}
-          isRound
-        />
-      </style.Section>
-      <style.Section>
-        <Text
-          fontStyleName="body1B"
-          color={COLORS.grayscale.gray500}
-          className="title"
-        >
-          생년월일
-        </Text>
-        <TextInput
-          placeholder="년"
-          name="year"
-          value={String(year).padStart(4, '0')}
-          onChange={handleUserInput}
-          isRound
-          className="input year"
-        />
-        <TextInput
-          placeholder="월"
-          name="month"
-          value={String(month).padStart(2, '0')}
-          onChange={handleUserInput}
-          isRound
-          className="input"
-        />
-        <TextInput
-          placeholder="일"
-          name="day"
-          value={String(day).padStart(2, '0')}
-          onChange={handleUserInput}
-          isRound
-          className="input"
-        />
-      </style.Section>
-      <style.Section>
-        <Text
-          fontStyleName="body1B"
-          color={COLORS.grayscale.gray500}
-          className="title"
-        >
-          성별
-        </Text>
-        <style.ToggleButton
-          name="FEMALE"
-          onClick={() => handleSelectGender('FEMALE')}
-          isSelected={gender === 'FEMALE'}
-        >
-          여자
-        </style.ToggleButton>
-        <style.ToggleButton
-          name="MALE"
-          onClick={() => handleSelectGender('MALE')}
-          isSelected={gender === 'MALE'}
-        >
-          남자
-        </style.ToggleButton>
-      </style.Section>
-    </style.Wrapper>
+    <FormProvider {...formMethods}>
+      <style.Wrapper>
+        <style.Section>
+          <TextInput
+            name="name"
+            placeholder="이름"
+            value={name}
+            onChange={handleUserInput}
+            isRound
+          />
+        </style.Section>
+        <style.Section>
+          <Text
+            fontStyleName="body1B"
+            color={COLORS.grayscale.gray500}
+            className="title"
+          >
+            생년월일
+          </Text>
+          <TextInput
+            placeholder="년"
+            name="year"
+            value={String(year).padStart(4, '0')}
+            onChange={handleUserInput}
+            isRound
+            className="input year"
+          />
+          <TextInput
+            placeholder="월"
+            name="month"
+            value={String(month).padStart(2, '0')}
+            onChange={handleUserInput}
+            isRound
+            className="input"
+          />
+          <TextInput
+            placeholder="일"
+            name="day"
+            value={String(day).padStart(2, '0')}
+            onChange={handleUserInput}
+            isRound
+            className="input"
+          />
+        </style.Section>
+        <style.Section>
+          <Text
+            fontStyleName="body1B"
+            color={COLORS.grayscale.gray500}
+            className="title"
+          >
+            성별
+          </Text>
+          <style.ToggleButton
+            name="FEMALE"
+            onClick={() => handleSelectGender('FEMALE')}
+            isSelected={gender === 'FEMALE'}
+          >
+            여자
+          </style.ToggleButton>
+          <style.ToggleButton
+            name="MALE"
+            onClick={() => handleSelectGender('MALE')}
+            isSelected={gender === 'MALE'}
+          >
+            남자
+          </style.ToggleButton>
+        </style.Section>
+      </style.Wrapper>
+    </FormProvider>
   );
 };
 

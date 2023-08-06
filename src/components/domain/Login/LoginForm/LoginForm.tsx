@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useSetAtom } from 'jotai';
+import { useForm, FormProvider } from 'react-hook-form';
 
 import { type ApiErrorInstance } from '@/apis/API';
 import { AuthRepository } from '@/apis/auth';
@@ -18,6 +18,7 @@ import * as styles from './LoginForm.style';
  */
 const LoginForm = () => {
   const router = useRouter();
+  const formMethods = useForm();
 
   const { email, password } = useLoginContextValue();
   const { change, submit, reset } = useLoginContextAction();
@@ -52,37 +53,41 @@ const LoginForm = () => {
   };
 
   return (
-    <styles.Wrapper>
-      <TextInput
-        value={email}
-        placeholder="E-Mail"
-        name="email"
-        type="email"
-        onChange={handleLoginInput}
-        onKeyDown={handleOnKeyPress}
-        className="login-input"
-        isRound
-      />
-      <TextInput
-        value={password}
-        placeholder="Password"
-        name="password"
-        type="password"
-        onChange={handleLoginInput}
-        onKeyDown={handleOnKeyPress}
-        className="login-input"
-        isRound
-      />
-      <Button
-        onClick={submitLogin}
-        className="login-button"
-        sizeType="large"
-        isFilled
-      >
-        로그인
-      </Button>
-      {feedbackMessage ? <styles.Feedback>{feedbackMessage}</styles.Feedback> : null}
-    </styles.Wrapper>
+    <FormProvider {...formMethods}>
+      <styles.Wrapper>
+        <TextInput
+          value={email}
+          placeholder="E-Mail"
+          name="email"
+          type="email"
+          onChange={handleLoginInput}
+          onKeyDown={handleOnKeyPress}
+          className="login-input"
+          isRound
+        />
+        <TextInput
+          value={password}
+          placeholder="Password"
+          name="password"
+          type="password"
+          onChange={handleLoginInput}
+          onKeyDown={handleOnKeyPress}
+          className="login-input"
+          isRound
+        />
+        <Button
+          onClick={submitLogin}
+          className="login-button"
+          sizeType="large"
+          isFilled
+        >
+          로그인
+        </Button>
+        {feedbackMessage ? (
+          <styles.Feedback>{feedbackMessage}</styles.Feedback>
+        ) : null}
+      </styles.Wrapper>
+    </FormProvider>
   );
 };
 
