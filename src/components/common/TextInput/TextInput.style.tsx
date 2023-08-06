@@ -7,7 +7,7 @@ const DEFAULT_SIZES = {
   large: { width: 500, height: 50, mHeight: 50 },
 };
 
-export const Input = styled.input<Omit<TextInputProps, 'value'>>(
+export const Input = styled.input<Omit<TextInputProps, 'value' | 'fieldId' | 'fieldOption'>>(
   ({ theme, isFilled, isRound, sizeType, width }) => {
     const { colors, fonts, mediaQueries } = theme;
     const isSmallSize = sizeType === 'small';

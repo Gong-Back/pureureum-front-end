@@ -1,4 +1,5 @@
-import React, { DetailedHTMLProps, InputHTMLAttributes } from 'react';
+import { type DetailedHTMLProps, type InputHTMLAttributes } from 'react';
+import { useFormContext, type RegisterOptions } from 'react-hook-form';
 import * as styles from './TextInput.style';
 
 export interface TextInputProps
@@ -16,6 +17,10 @@ export interface TextInputProps
   isFilled?: boolean;
   /** Input 테두리 둥글게 할지 여부 (default : false)  */
   isRound?: boolean;
+  /** react-hook-form 을 통해 등록하려는 field id */
+  fieldId: string;
+  /** react-hook-form register 함수에 인계할 Option */
+  fieldOption?: RegisterOptions,
   className?: string;
 }
 
@@ -29,18 +34,26 @@ const TextInput = ({
   isRound,
   sizeType = 'medium',
   className,
+  fieldId,
+  fieldOption,
   ...inputprops
-}: TextInputProps) => (
-  <styles.Input
-    value={value}
-    sizeType={sizeType}
-    isFilled={isFilled}
-    isRound={isRound}
-    placeholder={placeholder}
-    className={className}
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    {...inputprops}
-  />
-);
+}: TextInputProps) => {
+
+  const { register } = useFormContext();
+
+  return (
+    <styles.Input
+      {...register(fieldId)}
+      value={value}
+      sizeType={sizeType}
+      isFilled={isFilled}
+      isRound={isRound}
+      placeholder={placeholder}
+      className={className}
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...inputprops}
+    />
+  );
+};
 
 export default TextInput;
