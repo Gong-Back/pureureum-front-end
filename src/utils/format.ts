@@ -16,7 +16,7 @@ class FormatUtil {
       case 3:
         return `${(fileSize / 2 ** 30).toFixed(1).toLocaleString()} GB`;
       default:
-        return `${fileSize} Byte`;
+        return `${fileSize.toFixed(1).toLocaleString()} Byte`;
     }
   }
 }
