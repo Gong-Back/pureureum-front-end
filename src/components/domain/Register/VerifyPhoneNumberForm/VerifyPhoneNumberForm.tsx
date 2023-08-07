@@ -1,5 +1,7 @@
 import React from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
+
+import { type AuthFormType } from '@/constants/types';
 
 import TextInput from '@/components/common/TextInput';
 import Button from '@/components/common/Button';
@@ -11,13 +13,24 @@ import {
 import * as style from './VerifyPhoneNumberForm.style';
 
 const VerifyPhoneNumberForm = () => {
-  const formMethods = useForm();
-
+  const formMethods = useFormContext<AuthFormType['register']>();
   const {
-    form: { phoneNumber, typedCertificationNumber },
-    verify: { isCheckPhoneNumber, certificationNumber },
-  } = useRegisterContextValue();
-  const { change, verifyPhoneNumber } = useRegisterContextAction();
+    getValues,
+    setValue,
+    formState: { errors },
+  } = formMethods;
+
+  const [
+    phoneNumber,
+    certificationNumber,
+    typedCertificationNumber,
+    isCheckPhoneNumber,
+  ] = getValues([
+    'phoneNumber',
+    'certificationNumber',
+    'typedCertificationNumber',
+    'isCheckPhoneNumber',
+  ]);
 
   const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -37,32 +50,30 @@ const VerifyPhoneNumberForm = () => {
   };
 
   return (
-    <FormProvider {...formMethods}>
-      <style.Wrapper>
-        <style.Section>
-          <TextInput
-            name="phoneNumber"
-            placeholder="핸드폰 번호"
-            value={phoneNumber}
-            width={269}
-            onChange={handleUserInput}
-            disabled={isCheckPhoneNumber}
-            isRound
-          />
-          <Button onClick={verifyPhoneNumber} isFilled>
-            인증번호 요청
-          </Button>
-        </style.Section>
+    <style.Wrapper>
+      <style.Section>
         <TextInput
-          name="typedCertificationNumber"
-          placeholder="인증번호"
-          value={typedCertificationNumber}
+          fieldId="phoneNumber"
+          placeholder="핸드폰 번호"
+          value={phoneNumber}
+          width={269}
           onChange={handleUserInput}
-          disabled={!certificationNumber}
+          disabled={isCheckPhoneNumber}
           isRound
         />
-      </style.Wrapper>
-    </FormProvider>
+        <Button onClick={verifyPhoneNumber} isFilled>
+          인증번호 요청
+        </Button>
+      </style.Section>
+      <TextInput
+        name="typedCertificationNumber"
+        placeholder="인증번호"
+        value={typedCertificationNumber}
+        onChange={handleUserInput}
+        disabled={!certificationNumber}
+        isRound
+      />
+    </style.Wrapper>
   );
 };
 

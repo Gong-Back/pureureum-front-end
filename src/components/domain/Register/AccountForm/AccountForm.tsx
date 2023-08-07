@@ -1,96 +1,114 @@
 import React from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
+
+import { ApiErrorInstance } from '@/apis/API';
+import { AuthRepository } from '@/apis/auth';
 
 import TextInput from '@/components/common/TextInput';
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 
 import { COLORS } from '@/constants/styles';
-import {
-  useRegisterContextAction,
-  useRegisterContextValue,
-} from '@/stores/context/RegisterContext';
+import { type AuthFormType } from '@/constants/types';
+import REGISTER_FALLBACK from '@/constants/fallback/register';
+
+import ValidationUtil from '@/utils/validation';
 
 import * as style from './AccountForm.style';
 
 const AccountForm = () => {
-  const formMethods = useForm();
+  const { getValues, setValue, setError } =
+    useFormContext<AuthFormType['register']>();
+  const [email, isCheckUserEmail] = getValues(['email', 'isCheckUserEmail']);
 
-  const {
-    form: { email, password, confirmPassword },
-    verify: { isCheckUserEmail },
-  } = useRegisterContextValue();
-  const { change, verifyEmail } = useRegisterContextAction();
-
-  const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name: inputName, value } = e.target;
-    change(inputName, value);
+  const verifyEmail = async () => {
+    if (isCheckUserEmail) {
+      setError('root', { message: REGISTER_FALLBACK.NOT_CHECK_EMAIL });
+      return;
+    }
+    if (!ValidationUtil.validateEmail(email)) {
+      setError('root', { message: REGISTER_FALLBACK.INVALID_EMAIL });
+      return;
+    }
+    try {
+      await AuthRepository.verifyEmailAsync(email);
+      setValue('isCheckUserEmail', true);
+    } catch (error) {
+      if (error instanceof ApiErrorInstance) {
+        const [errorMessage] = error.messages;
+        setError('root', { message: errorMessage });
+      } else {
+        throw error;
+      }
+    }
   };
 
   return (
-    <FormProvider {...formMethods}>
-      <style.Wrapper>
-        <style.Section>
-          <TextInput
-            name="email"
-            placeholder="아이디"
-            value={email}
-            onChange={handleUserInput}
-            disabled={isCheckUserEmail}
-            isRound
-            className="account-input email-input"
-          />
-          <Button
-            onClick={verifyEmail}
-            isFilled
-            themeColor={
-              isCheckUserEmail
-                ? COLORS.grayscale.gray400
-                : COLORS.primary.greenDefault
-            }
-            className="check-button"
-          >
-            {isCheckUserEmail ? '확인 완료' : '중복 확인'}
-          </Button>
-          <Text
-            fontStyleName="caption"
-            color={COLORS.grayscale.gray400}
-            className="description"
-          >
-            8 ~ 15자 영문, 숫자
-          </Text>
-        </style.Section>
-        <style.Section>
-          <TextInput
-            name="password"
-            placeholder="비밀번호"
-            value={password}
-            type="password"
-            onChange={handleUserInput}
-            disabled={!isCheckUserEmail}
-            isRound
-            className="account-input"
-          />
-          <Text
-            fontStyleName="caption"
-            color={COLORS.grayscale.gray400}
-            className="description"
-          >
-            영문, 숫자, 특수 문자 1개 이상 포함, 8자 이상
-          </Text>
-        </style.Section>
+    <style.Wrapper>
+      <style.Section>
         <TextInput
-          name="confirmPassword"
-          placeholder="비밀번호 확인"
-          value={confirmPassword}
+          fieldId="email"
+          fieldOption={{ required: true, minLength: 1 }}
+          placeholder="아이디"
+          disabled={getValues('isCheckUserEmail')}
+          isRound
+          className="account-input email-input"
+        />
+        <Button
+          onClick={verifyEmail}
+          isFilled
+          themeColor={
+            isCheckUserEmail
+              ? COLORS.grayscale.gray400
+              : COLORS.primary.greenDefault
+          }
+          className="check-button"
+        >
+          {isCheckUserEmail ? '확인 완료' : '중복 확인'}
+        </Button>
+        <Text
+          fontStyleName="caption"
+          color={COLORS.grayscale.gray400}
+          className="description"
+        >
+          8 ~ 15자 영문, 숫자
+        </Text>
+      </style.Section>
+      <style.Section>
+        <TextInput
+          fieldId="password"
+          fieldOption={{
+            required: true,
+            minLength: 1,
+            disabled: !isCheckUserEmail,
+          }}
+          placeholder="비밀번호"
           type="password"
-          onChange={handleUserInput}
-          disabled={!isCheckUserEmail}
           isRound
           className="account-input"
         />
-      </style.Wrapper>
-    </FormProvider>
+        <Text
+          fontStyleName="caption"
+          color={COLORS.grayscale.gray400}
+          className="description"
+        >
+          영문, 숫자, 특수 문자 1개 이상 포함, 8자 이상
+        </Text>
+      </style.Section>
+      <TextInput
+        fieldId="confirmPassword"
+        fieldOption={{
+          required: true,
+          minLength: 1,
+          disabled: !isCheckUserEmail,
+        }}
+        placeholder="비밀번호 확인"
+        type="password"
+        disabled={!isCheckUserEmail}
+        isRound
+        className="account-input"
+      />
+    </style.Wrapper>
   );
 };
 
