@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect } from 'react';
 import { useForm, FormProvider, type SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/router';
@@ -31,7 +32,7 @@ const FacilityInfoForm = () => {
     mode: 'onChange',
   });
   const {
-    watch,
+    getValues,
     setValue,
     setError,
     formState: { errors },
@@ -39,27 +40,24 @@ const FacilityInfoForm = () => {
   } = formMethods;
 
   const router = useRouter();
-  const currentBreakpoint = useMeasureBreakpoint(['mobile', 'tablet', 'pc']);
-  const { fileInputRef, handleUploadFile, removeUploadedFile, openFileDialog } =
-    useUploadFile({
-      maxFileSize: 10 * 1024 * 1024,
-      allowFileTypes: ['pdf', 'hwp', 'docx', 'txt'],
-      onError: {
-        exceedFileSize: () =>
-          setError('root', {
-            message: '파일 용량은 최대 10MB 입니다.',
-          }),
-        mismatchExtractType: () =>
-          setError('root', {
-            message: '올바른 파일 확장자가 아닙니다. (pdf, hwp, docx, txt)',
-          }),
-      },
-      onSubmit: (uploadedFile) => setValue('certificationDoc', uploadedFile),
-      onRemove: () => setValue('certificationDoc', undefined),
-    });
   const { openPostCode, address } = useDaumPostCode();
-
-  const currentFormValue = watch();
+  const currentBreakpoint = useMeasureBreakpoint(['mobile', 'tablet', 'pc']);
+  const { fileInputRef, handleUploadFile, removeUploadedFile } = useUploadFile({
+    maxFileSize: 10 * 1024 * 1024,
+    allowFileTypes: ['pdf', 'hwp', 'docx', 'txt'],
+    onError: {
+      exceedFileSize: () =>
+        setError('root', {
+          message: '파일 용량은 최대 10MB 입니다.',
+        }),
+      mismatchExtractType: () =>
+        setError('root', {
+          message: '올바른 파일 확장자가 아닙니다. (pdf, hwp, docx, txt)',
+        }),
+    },
+    onSubmit: (uploadedFile) => setValue('certificationDoc', uploadedFile),
+    onRemove: () => setValue('certificationDoc', undefined),
+  });
 
   useEffect(() => {
     const { city, county, district, jibun, detail } = address;
@@ -68,32 +66,38 @@ const FacilityInfoForm = () => {
 
     setValue('address', { city, county, district, jibun });
     setValue('detail', detail);
-  }, [address]);
+  }, [address, setValue]);
+
+  const currentName = getValues('name');
+  const currentCertificationDoc = getValues('certificationDoc');
 
   const isMobile = currentBreakpoint === 'mobile';
   const isValidAddress = Object.values(address).every(Boolean);
   const isPossibleSubmit =
-    isValidAddress &&
-    !!currentFormValue.name &&
-    !!currentFormValue.certificationDoc;
+    isValidAddress && !!currentName && !!currentCertificationDoc;
 
+  const openFileDialog = () => fileInputRef.current?.click();
   const submitFacilityInfo: SubmitHandler<FacilityFormType> = async (
     formValue,
   ) => {
-    const { address, ...rest } = formValue;
-    if (!address)
-      return setError('root', { message: '주소를 설정하지 않았습니다.' });
-
+    const { address: finalAddress, ...rest } = formValue;
+    if (!finalAddress) {
+      setError('root', { message: '주소를 설정하지 않았습니다.' });
+      return;
+    }
     try {
-      await FacilityRepository.registerFacilityAsync({ ...rest, ...address });
+      await FacilityRepository.registerFacilityAsync({
+        ...rest,
+        ...finalAddress,
+      });
       router.replace('/mypage/operation/manage');
     } catch (error) {
       if (error instanceof ApiErrorInstance) {
         const [errorMessage] = error.messages;
         setError('root', { message: errorMessage });
-        return;
+      } else {
+        throw error;
       }
-      throw error;
     }
   };
 
@@ -117,9 +121,7 @@ const FacilityInfoForm = () => {
             type="YOUTH_FARMING"
             sizeType={isMobile ? 'small' : 'big'}
             className={`youth-farming ${
-              currentFormValue.category !== 'YOUTH_FARMING'
-                ? 'not-selected'
-                : ''
+              getValues('category') !== 'YOUTH_FARMING' ? 'not-selected' : ''
             }`}
             onClick={() => setValue('category', 'YOUTH_FARMING')}
           />
@@ -127,7 +129,7 @@ const FacilityInfoForm = () => {
             type="FARMING_EXPERIENCE"
             sizeType={isMobile ? 'small' : 'big'}
             className={`farming-experience ${
-              currentFormValue.category !== 'FARMING_EXPERIENCE'
+              getValues('category') !== 'FARMING_EXPERIENCE'
                 ? 'not-selected'
                 : ''
             }`}
@@ -137,9 +139,7 @@ const FacilityInfoForm = () => {
             type="FARMING_HEALING"
             sizeType={isMobile ? 'small' : 'big'}
             className={`farming-healing ${
-              currentFormValue.category !== 'FARMING_HEALING'
-                ? 'not-selected'
-                : ''
+              getValues('category') !== 'FARMING_HEALING' ? 'not-selected' : ''
             }`}
             onClick={() => setValue('category', 'FARMING_HEALING')}
           />
@@ -147,7 +147,7 @@ const FacilityInfoForm = () => {
             type="ETC"
             sizeType={isMobile ? 'small' : 'big'}
             className={`etc ${
-              currentFormValue.category !== 'ETC' ? 'not-selected' : ''
+              getValues('category') !== 'ETC' ? 'not-selected' : ''
             }`}
             onClick={() => setValue('category', 'ETC')}
           />
@@ -234,11 +234,9 @@ const FacilityInfoForm = () => {
             fieldId="certificationDoc"
             fieldOption={{ required: true }}
             value={
-              currentFormValue.certificationDoc
-                ? `${
-                    currentFormValue.certificationDoc.name
-                  } (${FormatUtil.formatfileSize(
-                    currentFormValue.certificationDoc.size,
+              currentCertificationDoc
+                ? `${currentCertificationDoc.name} (${FormatUtil.formatfileSize(
+                    currentCertificationDoc.size,
                   )})`
                 : undefined
             }
@@ -258,12 +256,12 @@ const FacilityInfoForm = () => {
             isFilled
             className="find-button"
             onClick={
-              currentFormValue.certificationDoc
+              getValues('certificationDoc')
                 ? removeUploadedFile
                 : openFileDialog
             }
           >
-            {currentFormValue.certificationDoc ? '파일 제거 ' : '파일 찾기'}
+            {getValues('certificationDoc') ? '파일 제거 ' : '파일 찾기'}
           </Button>
         </style.FacilityDocsForm>
       </style.Wrapper>

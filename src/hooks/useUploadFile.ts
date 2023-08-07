@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 
 interface UseUploadFileProps {
   maxFileSize?: number;
@@ -19,7 +19,6 @@ const useUploadFile = ({
   onRemove,
 }: UseUploadFileProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const openFileDialog = () => fileInputRef.current?.click();
 
   const handleUploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const [uploadedFile] = e.target.files ?? [];
@@ -28,7 +27,7 @@ const useUploadFile = ({
       return;
     }
 
-    const [, uploadedFileExtractType] = uploadedFile?.name.split('.');
+    const [, uploadedFileExtractType] = uploadedFile.name.split('.');
     if (allowFileTypes && !allowFileTypes.includes(uploadedFileExtractType)) {
       onError?.mismatchExtractType?.();
       return;
@@ -45,7 +44,6 @@ const useUploadFile = ({
 
   return {
     fileInputRef,
-    openFileDialog,
     handleUploadFile,
     removeUploadedFile,
   };
