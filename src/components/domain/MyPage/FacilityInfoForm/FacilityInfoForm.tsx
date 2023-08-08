@@ -1,13 +1,18 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect } from 'react';
-import { useForm, FormProvider, type SubmitHandler } from 'react-hook-form';
+import {
+  useForm,
+  FormProvider,
+  useWatch,
+  type SubmitHandler,
+} from 'react-hook-form';
 import { useRouter } from 'next/router';
 
 import { ApiErrorInstance } from '@/apis/API';
 import { FacilityRepository } from '@/apis/facility';
 
 import { COLORS } from '@/constants/styles';
-import { type FacilityFormType } from '@/constants/types';
+import { CategoryType, type FacilityFormType } from '@/constants/types';
 
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
@@ -32,6 +37,7 @@ const FacilityInfoForm = () => {
     mode: 'onChange',
   });
   const {
+    control,
     getValues,
     setValue,
     setError,
@@ -68,13 +74,18 @@ const FacilityInfoForm = () => {
     setValue('detail', detail);
   }, [address, setValue]);
 
-  const currentName = getValues('name');
-  const currentCertificationDoc = getValues('certificationDoc');
+  const [category, currentName, currentCertificationDoc] = useWatch({
+    control,
+    name: ['category', 'name', 'certificationDoc'],
+  });
 
   const isMobile = currentBreakpoint === 'mobile';
   const isValidAddress = Object.values(address).every(Boolean);
   const isPossibleSubmit =
     isValidAddress && !!currentName && !!currentCertificationDoc;
+
+  const selectCategory = (selected: CategoryType) => () =>
+    setValue('category', selected);
 
   const openFileDialog = () => fileInputRef.current?.click();
   const submitFacilityInfo: SubmitHandler<FacilityFormType> = async (
@@ -121,35 +132,31 @@ const FacilityInfoForm = () => {
             type="YOUTH_FARMING"
             sizeType={isMobile ? 'small' : 'big'}
             className={`youth-farming ${
-              getValues('category') !== 'YOUTH_FARMING' ? 'not-selected' : ''
+              category !== 'YOUTH_FARMING' ? 'not-selected' : ''
             }`}
-            onClick={() => setValue('category', 'YOUTH_FARMING')}
+            onClick={selectCategory('YOUTH_FARMING')}
           />
           <CategoryTag
             type="FARMING_EXPERIENCE"
             sizeType={isMobile ? 'small' : 'big'}
             className={`farming-experience ${
-              getValues('category') !== 'FARMING_EXPERIENCE'
-                ? 'not-selected'
-                : ''
+              category !== 'FARMING_EXPERIENCE' ? 'not-selected' : ''
             }`}
-            onClick={() => setValue('category', 'FARMING_EXPERIENCE')}
+            onClick={selectCategory('FARMING_EXPERIENCE')}
           />
           <CategoryTag
             type="FARMING_HEALING"
             sizeType={isMobile ? 'small' : 'big'}
             className={`farming-healing ${
-              getValues('category') !== 'FARMING_HEALING' ? 'not-selected' : ''
+              category !== 'FARMING_HEALING' ? 'not-selected' : ''
             }`}
-            onClick={() => setValue('category', 'FARMING_HEALING')}
+            onClick={selectCategory('FARMING_HEALING')}
           />
           <CategoryTag
             type="ETC"
             sizeType={isMobile ? 'small' : 'big'}
-            className={`etc ${
-              getValues('category') !== 'ETC' ? 'not-selected' : ''
-            }`}
-            onClick={() => setValue('category', 'ETC')}
+            className={`etc ${category !== 'ETC' ? 'not-selected' : ''}`}
+            onClick={selectCategory('ETC')}
           />
         </style.ProjectTypeSelect>
         <style.FacilityNameForm>
@@ -279,7 +286,7 @@ const FacilityInfoForm = () => {
           }
           sizeType="large"
           className="bottom-btn"
-          onClick={() => handleSubmit(submitFacilityInfo)}
+          onClick={handleSubmit(submitFacilityInfo)}
         >
           신청 완료
         </Button>

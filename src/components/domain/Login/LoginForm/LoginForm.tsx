@@ -1,6 +1,12 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { useRouter } from 'next/router';
-import { useForm, useWatch, type SubmitHandler } from 'react-hook-form';
+import {
+  useForm,
+  useWatch,
+  FormProvider,
+  type SubmitHandler,
+} from 'react-hook-form';
 
 import { type ApiErrorInstance } from '@/apis/API';
 import { AuthRepository } from '@/apis/auth';
@@ -21,7 +27,8 @@ const LoginForm = () => {
     defaultValues: {
       email: '',
       password: '',
-    }
+    },
+    mode: 'onChange',
   });
 
   const {
@@ -32,65 +39,70 @@ const LoginForm = () => {
     handleSubmit,
   } = formMethods;
 
-  const [ email, password ] = useWatch({control, name: ['email', 'password']});
-
+  const [email, password] = useWatch({ control, name: ['email', 'password'] });
 
   const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') handleSubmit(submitLogin)();
   };
 
-  const submitLogin: SubmitHandler<AuthFormType['login']> = async (submittedData) => {
+  const submitLogin: SubmitHandler<AuthFormType['login']> = async (
+    submittedData,
+  ) => {
     if (!email || !password) {
-      setError('root', {message: '이메일 혹은 비밀번호를 입력해주세요.'});
+      setError('root', { message: '이메일 혹은 비밀번호를 입력해주세요.' });
       return;
     }
 
     try {
-      const { data: { accessToken, refreshToken } } = await AuthRepository.loginAsync(submittedData);
+      const {
+        data: { accessToken, refreshToken },
+      } = await AuthRepository.loginAsync(submittedData);
       await AuthRepository.setJwtCookieAsync({ accessToken, refreshToken });
       router.replace('/');
     } catch (error) {
       const apiError = error as ApiErrorInstance;
       const [errorMessage] = apiError.messages;
-      setError('root', {message: errorMessage});
       reset({
         email: '',
         password: '',
-      })
+      });
+      setError('root', { message: errorMessage });
     }
   };
 
   return (
-    <styles.Wrapper>
-      <TextInput
-        placeholder="E-Mail"
-        fieldId="email"
-        type="email"
-        onKeyDown={handleOnKeyPress}
-        className="login-input"
-        isRound
-      />
-      <TextInput
-        placeholder="Password"
-        fieldId="password"
-        fieldOption={{ required: true }}
-        type="password"
-        onKeyDown={handleOnKeyPress}
-        className="login-input"
-        isRound
-      />
-      <Button
-        onClick={handleSubmit(submitLogin)}
-        className="login-button"
-        sizeType="large"
-        isFilled
-      >
-        로그인
-      </Button>
-      {errors.root ? (
-        <styles.Feedback>{errors.root.message}</styles.Feedback>
-      ) : null}
-    </styles.Wrapper>
+    <FormProvider {...formMethods}>
+      <styles.Wrapper>
+        <TextInput
+          placeholder="E-Mail"
+          fieldId="email"
+          type="email"
+          onKeyDown={handleOnKeyPress}
+          className="login-input"
+          isRound
+        />
+        <TextInput
+          placeholder="Password"
+          fieldId="password"
+          fieldOption={{ required: true }}
+          type="password"
+          onKeyDown={handleOnKeyPress}
+          className="login-input"
+          isRound
+        />
+        <Button
+          onClick={handleSubmit(submitLogin)}
+          className="login-button"
+          sizeType="large"
+          isFilled
+        >
+          로그인
+        </Button>
+        {errors.root ? (
+          <styles.Feedback>{errors.root.message}</styles.Feedback>
+        ) : null}
+      </styles.Wrapper>
+    </FormProvider>
   );
 };
 
