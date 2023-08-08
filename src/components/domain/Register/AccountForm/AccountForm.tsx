@@ -1,5 +1,5 @@
 import React from 'react';
-import { useFormContext } from 'react-hook-form';
+import { type Control, useFormContext, useWatch } from 'react-hook-form';
 
 import { ApiErrorInstance } from '@/apis/API';
 import { AuthRepository } from '@/apis/auth';
@@ -16,17 +16,25 @@ import ValidationUtil from '@/utils/validation';
 
 import * as style from './AccountForm.style';
 
-const AccountForm = () => {
-  const { getValues, setValue, setError } =
+interface AccountFormProps {
+  control: Control<AuthFormType['register']>;
+}
+
+const AccountForm = ({ control }: AccountFormProps) => {
+  const { setValue, setError, watch } =
     useFormContext<AuthFormType['register']>();
 
-  const [email, isCheckUserEmail] = getValues(['email', 'isCheckUserEmail']);
+  const [email, isCheckUserEmail] = useWatch({
+    control,
+    name: ['email', 'isCheckUserEmail'],
+  });
 
   const verifyEmail = async () => {
     if (isCheckUserEmail) {
       setError('root', { message: REGISTER_FALLBACK.NOT_CHECK_EMAIL });
       return;
     }
+    console.log(!ValidationUtil.validateEmail(email));
     if (!ValidationUtil.validateEmail(email)) {
       setError('root', { message: REGISTER_FALLBACK.INVALID_EMAIL });
       return;
@@ -51,7 +59,7 @@ const AccountForm = () => {
           fieldId="email"
           fieldOption={{ required: true, minLength: 1 }}
           placeholder="아이디"
-          disabled={getValues('isCheckUserEmail')}
+          disabled={isCheckUserEmail}
           isRound
           className="account-input email-input"
         />

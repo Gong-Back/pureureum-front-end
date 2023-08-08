@@ -1,5 +1,10 @@
 import { useCallback, useLayoutEffect } from 'react';
-import { useForm, FormProvider, type SubmitHandler } from 'react-hook-form';
+import {
+  useForm,
+  useWatch,
+  FormProvider,
+  type SubmitHandler,
+} from 'react-hook-form';
 
 import { ApiErrorInstance } from '@/apis/API';
 import { AuthRepository } from '@/apis/auth';
@@ -37,10 +42,21 @@ const RegisterStepHeader = [
 ];
 
 const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
-  const formMethods = useForm<AuthFormType['register']>();
+  const formMethods = useForm<AuthFormType['register']>({
+    defaultValues: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+      typedCertificationNumber: '',
+      name: '',
+      phoneNumber: '',
+      birthday: [0, 0, 0],
+      gender: 'MALE',
+      step: 0,
+    },
+  });
   const {
-    watch,
-    getValues,
+    control,
     setValue,
     setError,
     formState: { errors },
@@ -67,19 +83,23 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
     isCheckUserEmail,
     isCheckPhoneNumber,
     currentRegisterStep,
-  ] = getValues([
-    'name',
-    'email',
-    'confirmPassword',
-    'password',
-    'birthday',
-    'phoneNumber',
-    'certificationNumber',
-    'typedCertificationNumber',
-    'isCheckUserEmail',
-    'isCheckPhoneNumber',
-    'step',
-  ]);
+  ] = useWatch({
+    control,
+    name: [
+      'name',
+      'email',
+      'confirmPassword',
+      'password',
+      'birthday',
+      'phoneNumber',
+      'certificationNumber',
+      'typedCertificationNumber',
+      'isCheckUserEmail',
+      'isCheckPhoneNumber',
+      'step',
+    ],
+  });
+
   const { title, subtitle } = RegisterStepHeader[currentRegisterStep];
 
   // 각 Step 별로 다음 스텝으로 넘어가기 위한 최소 조건을 충족했는지를 판별하는 변수 shouldCheckCurrentStep
@@ -120,7 +140,7 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
     typedCertificationNumber,
   ]);
 
-  const onSubmit: SubmitHandler<AuthFormType['register']> = async () => {
+  const register: SubmitHandler<AuthFormType['register']> = async () => {
     if (!isCheckPhoneNumber) {
       setError('root', { message: REGISTER_FALLBACK.NOT_CHECK_SMS_VERIFY });
       return undefined;
@@ -144,6 +164,7 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
       } else {
         throw error;
       }
+      return undefined;
     }
   };
 
@@ -152,7 +173,7 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
       case 0: {
         // NOTE : OAuth2 로그인일 경우 첫 번째 스텝을 스킵하고 두 번째 스텝으로 넘어간다.
         if (socialType) {
-          setValue('step', getValues('step') + 1);
+          setValue('step', currentRegisterStep + 1);
           return;
         }
         if (!isCheckUserEmail) {
@@ -193,7 +214,7 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
           });
           return;
         }
-        handleSubmit(onSubmit);
+        handleSubmit(register)();
         break;
       }
       default:
@@ -215,9 +236,9 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
         </style.Header>
         <style.VisibleSection>
           <style.Section currentRegisterStep={currentRegisterStep}>
-            <AccountForm />
-            <PersonalDataForm />
-            <VerifyPhoneNumberForm />
+            <AccountForm control={control} />
+            <PersonalDataForm control={control} />
+            <VerifyPhoneNumberForm control={control} />
           </style.Section>
         </style.VisibleSection>
         <style.Footer>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useFormContext } from 'react-hook-form';
+import { type Control, useFormContext, useWatch } from 'react-hook-form';
 
 import { ApiErrorInstance } from '@/apis/API';
 import { AuthRepository } from '@/apis/auth';
@@ -14,15 +14,18 @@ import ValidationUtil from '@/utils/validation';
 
 import * as style from './VerifyPhoneNumberForm.style';
 
-const VerifyPhoneNumberForm = () => {
-  const { getValues, setError, setValue } =
+interface VerifyPhoneNumberFormProps {
+  control: Control<AuthFormType['register']>;
+}
+
+const VerifyPhoneNumberForm = ({ control }: VerifyPhoneNumberFormProps) => {
+  const { setError, setValue } =
     useFormContext<AuthFormType['register']>();
 
-  const [certificationNumber, phoneNumber, isCheckPhoneNumber] = getValues([
-    'certificationNumber',
-    'phoneNumber',
-    'isCheckPhoneNumber',
-  ]);
+  const [certificationNumber, phoneNumber, isCheckPhoneNumber] = useWatch({
+    control,
+    name: ['certificationNumber', 'phoneNumber', 'isCheckPhoneNumber'],
+  });
 
   const verifyPhoneNumber = async () => {
     if (isCheckPhoneNumber) {

@@ -1,4 +1,4 @@
-import { useFormContext } from 'react-hook-form';
+import { type Control, useFormContext, useWatch } from 'react-hook-form';
 
 import REGISTER_FALLBACK from '@/constants/fallback/register';
 import { GenderType, type AuthFormType } from '@/constants/types';
@@ -9,13 +9,19 @@ import Text from '@/components/common/Text';
 
 import * as style from './PersonalDataForm.style';
 
-const PersonalDataForm = () => {
-  const { getValues, setValue } = useFormContext<AuthFormType['register']>();
+interface PersonalDataFormProps {
+  control: Control<AuthFormType['register']>;
+}
 
-  const gender = getValues('gender');
+const PersonalDataForm = ({ control }: PersonalDataFormProps) => {
+  const { watch, setValue } = useFormContext<AuthFormType['register']>();
+  const gender = useWatch({ control, name: ['gender'] });
 
   const selectGenderType = (selected: GenderType) => () =>
     setValue('gender', selected);
+
+  const isSelectedGender = (selected: GenderType) =>
+    watch('gender') === selected;
 
   return (
     <style.Wrapper>
@@ -46,7 +52,6 @@ const PersonalDataForm = () => {
           fieldOption={{
             required: true,
             maxLength: 4,
-            setValueAs: (value) => String(value).padStart(4, '0'),
             pattern: {
               value: /^(19[0-9][0-9]|20\d{2})$/,
               message: REGISTER_FALLBACK.INVALID_BIRTHDAY,
@@ -61,7 +66,6 @@ const PersonalDataForm = () => {
           fieldOption={{
             required: true,
             maxLength: 2,
-            setValueAs: (value) => String(value).padStart(2, '0'),
             pattern: {
               value: /^(0[0-9]|1[0-2])$/,
               message: REGISTER_FALLBACK.INVALID_BIRTHDAY,
@@ -76,7 +80,6 @@ const PersonalDataForm = () => {
           fieldOption={{
             required: true,
             maxLength: 2,
-            setValueAs: (value) => String(value).padStart(2, '0'),
             pattern: {
               value: /^(0[1-9]|[1-2][0-9]|3[0-1])$/,
               message: REGISTER_FALLBACK.INVALID_BIRTHDAY,
@@ -97,14 +100,14 @@ const PersonalDataForm = () => {
         <style.ToggleButton
           name="FEMALE"
           onClick={selectGenderType('FEMALE')}
-          isSelected={gender === 'FEMALE'}
+          isSelected={isSelectedGender('FEMALE')}
         >
           여자
         </style.ToggleButton>
         <style.ToggleButton
           name="MALE"
           onClick={selectGenderType('MALE')}
-          isSelected={gender === 'MALE'}
+          isSelected={isSelectedGender('MALE')}
         >
           남자
         </style.ToggleButton>
