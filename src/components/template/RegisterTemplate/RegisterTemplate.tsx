@@ -140,7 +140,7 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
     typedCertificationNumber,
   ]);
 
-  const register: SubmitHandler<AuthFormType['register']> = async () => {
+  const register: SubmitHandler<AuthFormType['register']> = async (submittedData) => {
     if (!isCheckPhoneNumber) {
       setError('root', { message: REGISTER_FALLBACK.NOT_CHECK_SMS_VERIFY });
       return undefined;
@@ -149,13 +149,12 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
       // 먼저, SMS 인증이 완료되었다는 사실을 백엔드 서버에 전송해야 한다.
       await AuthRepository.confirmPhoneNumberAsync(phoneNumber);
       // 이후 최종적으로 유저의 정보를 인계하여 회원가입 처리를 완료시킨다.
-      const registerFormData = watch();
       const { data: token } = socialType
         ? await SocialRepository.registerAsync({
-            ...registerFormData,
+            ...submittedData,
             socialType,
           })
-        : await AuthRepository.registerAsync(registerFormData);
+        : await AuthRepository.registerAsync(submittedData);
       return token;
     } catch (error) {
       if (error instanceof ApiErrorInstance) {

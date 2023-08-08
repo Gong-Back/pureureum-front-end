@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm, useWatch, type SubmitHandler } from 'react-hook-form';
 
 import { type ApiErrorInstance } from '@/apis/API';
 import { AuthRepository } from '@/apis/auth';
+
+import { type AuthFormType } from '@/constants/types';
+
 import TextInput from '@/components/common/TextInput';
 import Button from '@/components/common/Button';
-import {
-  useLoginContextValue,
-  useLoginContextAction,
-} from '@/stores/context/LoginContext';
 
 import * as styles from './LoginForm.style';
 
@@ -18,76 +17,80 @@ import * as styles from './LoginForm.style';
  */
 const LoginForm = () => {
   const router = useRouter();
-  const formMethods = useForm();
+  const formMethods = useForm<AuthFormType['login']>({
+    defaultValues: {
+      email: '',
+      password: '',
+    }
+  });
 
-  const { email, password } = useLoginContextValue();
-  const { change, submit, reset } = useLoginContextAction();
-  const [feedbackMessage, setFeedbackMessage] = useState('');
+  const {
+    control,
+    reset,
+    setError,
+    formState: { errors },
+    handleSubmit,
+  } = formMethods;
 
-  const handleLoginInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { type, value } = e.target;
-    change(type, value);
-  };
+  const [ email, password ] = useWatch({control, name: ['email', 'password']});
+
 
   const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (feedbackMessage) setFeedbackMessage('');
-    if (e.key === 'Enter') submitLogin();
+    if (e.key === 'Enter') handleSubmit(submitLogin)();
   };
 
-  const submitLogin = async () => {
+  const submitLogin: SubmitHandler<AuthFormType['login']> = async (submittedData) => {
     if (!email || !password) {
-      setFeedbackMessage('이메일 혹은 비밀번호를 입력해주세요.');
+      setError('root', {message: '이메일 혹은 비밀번호를 입력해주세요.'});
       return;
     }
 
     try {
-      const { accessToken, refreshToken } = await submit();
+      const { data: { accessToken, refreshToken } } = await AuthRepository.loginAsync(submittedData);
       await AuthRepository.setJwtCookieAsync({ accessToken, refreshToken });
       router.replace('/');
     } catch (error) {
       const apiError = error as ApiErrorInstance;
       const [errorMessage] = apiError.messages;
-      setFeedbackMessage(errorMessage);
-      reset();
+      setError('root', {message: errorMessage});
+      reset({
+        email: '',
+        password: '',
+      })
     }
   };
 
   return (
-    <FormProvider {...formMethods}>
-      <styles.Wrapper>
-        <TextInput
-          value={email}
-          placeholder="E-Mail"
-          name="email"
-          type="email"
-          onChange={handleLoginInput}
-          onKeyDown={handleOnKeyPress}
-          className="login-input"
-          isRound
-        />
-        <TextInput
-          value={password}
-          placeholder="Password"
-          name="password"
-          type="password"
-          onChange={handleLoginInput}
-          onKeyDown={handleOnKeyPress}
-          className="login-input"
-          isRound
-        />
-        <Button
-          onClick={submitLogin}
-          className="login-button"
-          sizeType="large"
-          isFilled
-        >
-          로그인
-        </Button>
-        {feedbackMessage ? (
-          <styles.Feedback>{feedbackMessage}</styles.Feedback>
-        ) : null}
-      </styles.Wrapper>
-    </FormProvider>
+    <styles.Wrapper>
+      <TextInput
+        placeholder="E-Mail"
+        fieldId="email"
+        type="email"
+        onKeyDown={handleOnKeyPress}
+        className="login-input"
+        isRound
+      />
+      <TextInput
+        placeholder="Password"
+        fieldId="password"
+        fieldOption={{ required: true }}
+        type="password"
+        onKeyDown={handleOnKeyPress}
+        className="login-input"
+        isRound
+      />
+      <Button
+        onClick={handleSubmit(submitLogin)}
+        className="login-button"
+        sizeType="large"
+        isFilled
+      >
+        로그인
+      </Button>
+      {errors.root ? (
+        <styles.Feedback>{errors.root.message}</styles.Feedback>
+      ) : null}
+    </styles.Wrapper>
   );
 };
 
