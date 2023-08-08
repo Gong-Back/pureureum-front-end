@@ -19,6 +19,7 @@ import * as style from './AccountForm.style';
 const AccountForm = () => {
   const { getValues, setValue, setError } =
     useFormContext<AuthFormType['register']>();
+
   const [email, isCheckUserEmail] = getValues(['email', 'isCheckUserEmail']);
 
   const verifyEmail = async () => {
@@ -37,9 +38,9 @@ const AccountForm = () => {
       if (error instanceof ApiErrorInstance) {
         const [errorMessage] = error.messages;
         setError('root', { message: errorMessage });
-      } else {
-        throw error;
+        return;
       }
+      throw error;
     }
   };
 

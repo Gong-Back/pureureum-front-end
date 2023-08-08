@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { type AuthFormType } from '@/constants/types';
+import REGISTER_FALLBACK from '@/constants/fallback/register';
+import { GenderType, type AuthFormType } from '@/constants/types';
 import { COLORS } from '@/constants/styles';
 
 import TextInput from '@/components/common/TextInput';
@@ -10,63 +10,25 @@ import Text from '@/components/common/Text';
 import * as style from './PersonalDataForm.style';
 
 const PersonalDataForm = () => {
-  const formMethods = useFormContext<AuthFormType['register']>();
-  const {
-    getValues,
-    setValue,
-    formState: { errors },
-  } = formMethods;
+  const { getValues, setValue } = useFormContext<AuthFormType['register']>();
 
-  const [name, gender] = getValues(['name', 'gender']);
+  const gender = getValues('gender');
 
-  const [birthDate, setBirthDate] = useState([0, 0, 0]);
-  const [year, month, day] = birthDate;
-
-  const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name: inputName, value } = e.target;
-    switch (inputName) {
-      case 'name': {
-        setValue(inputName, value);
-        break;
-      }
-      case 'year':
-      case 'month':
-      case 'day': {
-        const [isYear, isMonth, isDay] = [
-          inputName === 'year',
-          inputName === 'month',
-          inputName === 'day',
-        ];
-        const valueToNumber = Number(value);
-        if (Number.isNaN(valueToNumber)) return;
-
-        const changedValue = [
-          isYear ? valueToNumber : year,
-          isMonth && valueToNumber >= 0 && valueToNumber <= 12
-            ? valueToNumber
-            : month,
-          isDay && valueToNumber >= 0 && valueToNumber <= 31
-            ? valueToNumber
-            : day,
-        ];
-        setBirthDate(changedValue);
-        change('birthday', changedValue);
-        break;
-      }
-      default:
-        break;
-    }
-  };
+  const selectGenderType = (selected: GenderType) => () =>
+    setValue('gender', selected);
 
   return (
     <style.Wrapper>
       <style.Section>
         <TextInput
           fieldId="name"
-          fieldOption={{ required: true, minLength: 2 }}
+          fieldOption={{
+            required: true,
+            minLength: 2,
+            maxLength: 6,
+            pattern: /^(?:[가-힣]{2,})|(?:[a-zA-Z]{2,}\s[a-zA-Z]{2,})$/,
+          }}
           placeholder="이름"
-          value={name}
-          onChange={handleUserInput}
           isRound
         />
       </style.Section>
@@ -80,22 +42,46 @@ const PersonalDataForm = () => {
         </Text>
         <TextInput
           placeholder="년"
-          name="year"
-          value={String(year).padStart(4, '0')}
+          fieldId="birthday.0"
+          fieldOption={{
+            required: true,
+            maxLength: 4,
+            setValueAs: (value) => String(value).padStart(4, '0'),
+            pattern: {
+              value: /^(19[0-9][0-9]|20\d{2})$/,
+              message: REGISTER_FALLBACK.INVALID_BIRTHDAY,
+            },
+          }}
           isRound
-          className="input year"
+          className="input"
         />
         <TextInput
           placeholder="월"
-          name="month"
-          value={String(month).padStart(2, '0')}
+          fieldId="birthday.1"
+          fieldOption={{
+            required: true,
+            maxLength: 2,
+            setValueAs: (value) => String(value).padStart(2, '0'),
+            pattern: {
+              value: /^(0[0-9]|1[0-2])$/,
+              message: REGISTER_FALLBACK.INVALID_BIRTHDAY,
+            },
+          }}
           isRound
           className="input"
         />
         <TextInput
           placeholder="일"
-          name="day"
-          value={String(day).padStart(2, '0')}
+          fieldId="birthday.2"
+          fieldOption={{
+            required: true,
+            maxLength: 2,
+            setValueAs: (value) => String(value).padStart(2, '0'),
+            pattern: {
+              value: /^(0[1-9]|[1-2][0-9]|3[0-1])$/,
+              message: REGISTER_FALLBACK.INVALID_BIRTHDAY,
+            },
+          }}
           isRound
           className="input"
         />
@@ -110,14 +96,14 @@ const PersonalDataForm = () => {
         </Text>
         <style.ToggleButton
           name="FEMALE"
-          onClick={() => setValue('gender', 'FEMALE')}
+          onClick={selectGenderType('FEMALE')}
           isSelected={gender === 'FEMALE'}
         >
           여자
         </style.ToggleButton>
         <style.ToggleButton
           name="MALE"
-          onClick={() => setValue('gender', 'MALE')}
+          onClick={selectGenderType('MALE')}
           isSelected={gender === 'MALE'}
         >
           남자
