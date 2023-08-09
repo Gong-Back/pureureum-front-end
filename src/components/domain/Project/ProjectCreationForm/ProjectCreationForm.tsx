@@ -11,6 +11,7 @@ import Text from '@/components/common/Text';
 import TextInput from '@/components/common/TextInput';
 import LocationBox from '@/components/common/LocationBox';
 import FormLabel from '@/components/common/FormLabel';
+import CategoryTag from '@/components/common/CategoryTag';
 import { ProjectAgeInput, ProjectPeriodInput } from './ProjectRangeInput';
 
 import * as style from './ProjectCreationForm.style';
@@ -36,7 +37,7 @@ export const Step1 = ({ title, guide, handleFormInput }: Step1Props) => (
     />
     <style.Section>
       <FormLabel text="카테고리" />
-      <div>TAG</div>
+      <CategoryTag sizeType="big" type="YOUTH_FARMING" />
     </style.Section>
     <style.Section>
       <FormLabel text="진행시설" />
