@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import Text from '@/components/common/Text';
 import DropdownMenu from '@/components/common/DropdownMenu';
-import ProjectItem from '@/components/domain/Project/ProjecItem';
-
 import { COLORS } from '@/constants/styles';
 import { projectsDummydata } from 'src/dummyData';
 
+import ProjectList from '@/components/domain/Project/ProjectList';
 import * as style from './ProjectListTemplate.style';
 
 const ProjectListTemplate = () => {
@@ -28,7 +27,6 @@ const ProjectListTemplate = () => {
             다양한 프로젝트들을 구경해보고 프로젝트에 참여해보세요!
           </Text>
         </style.TitleWrap>
-
         <DropdownMenu
           menuList={projectSortMethods}
           selectedMenu={sortMethod}
@@ -36,24 +34,7 @@ const ProjectListTemplate = () => {
           className="sort-method-dropdown-menu"
         />
       </style.HeaderWrap>
-
-      <style.ProjectListWrap>
-        {projectsDummydata.map((project) => (
-          <ProjectItem
-            key={project.projectId}
-            type={project.type}
-            thumbnail={project.thumbnail}
-            title={project.title}
-            introduction={project.introduction}
-            onwerName={project.onwerName}
-            currentRecruit={project.currentRecruit}
-            totalRecruit={project.totalRecruit}
-            location={project.location}
-            startDate={project.startDate}
-            endDate={project.endDate}
-          />
-        ))}
-      </style.ProjectListWrap>
+      <ProjectList data={projectsDummydata} />
     </style.Wrapper>
   );
 };
