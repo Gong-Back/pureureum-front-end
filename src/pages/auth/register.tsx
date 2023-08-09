@@ -1,7 +1,6 @@
 import { GetServerSideProps } from 'next';
 
 import { SocialPlatformType } from '@/constants/types';
-import { RegisterContextProvider } from '@/stores/context/RegisterContext';
 
 import RegisterTemplate from '@/components/template/RegisterTemplate';
 
@@ -21,9 +20,7 @@ export interface RegisterProps {
 }
 
 const Register = ({ socialType, socialEmail }: RegisterProps) => (
-    <RegisterContextProvider>
-      <RegisterTemplate socialEmail={socialEmail} socialType={socialType}/>
-    </RegisterContextProvider>
-  );
+  <RegisterTemplate socialEmail={socialEmail} socialType={socialType} />
+);
 
 export default Register;

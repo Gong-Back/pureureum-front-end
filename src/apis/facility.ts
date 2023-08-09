@@ -1,6 +1,6 @@
 import {
-  SearchFacilityOutputType,
-  ApiResponse,
+  FacilityReqParams,
+  FacilityResponses,
   CategoryType,
 } from '@/constants/types';
 import { getAsync, postAsync } from './API';
@@ -18,16 +18,16 @@ export class FacilityRepository {
    * @param certificationDoc 시설 인증 서류
    * @returns 성공 시 200, 실패 시 40X 에러 반환
    */
-  static async registerFacilityAsync(
-    category: CategoryType,
-    name: string,
-    city: string,
-    county: string,
-    district: string,
-    jibun: string,
-    detail: string,
-    certificationDoc: File | null,
-  ): ApiResponse<undefined> {
+  static async registerFacilityAsync({
+    category,
+    name,
+    city,
+    county,
+    district,
+    jibun,
+    detail,
+    certificationDoc,
+  }: FacilityReqParams['register']) {
     const formData = new FormData();
     formData.append(
       'facilityReq',
@@ -50,7 +50,7 @@ export class FacilityRepository {
     );
     if (certificationDoc) formData.append('certificationDoc', certificationDoc);
 
-    const response = await postAsync<undefined, FormData>(
+    await postAsync<undefined, FormData>(
       '/facilities/register',
       formData,
       {
@@ -59,7 +59,6 @@ export class FacilityRepository {
         },
       },
     );
-    return response;
   }
 
   /**
@@ -68,7 +67,7 @@ export class FacilityRepository {
    * @returns 시설 목록이 담긴 배열 (SearchFacilityOutputType[])
    */
   static async getApprovedFacilitiesAsync(category: CategoryType) {
-    const response = await getAsync<SearchFacilityOutputType[]>(
+    const response = await getAsync<FacilityResponses['searchByCategory']>(
       'facilities/me',
       {
         params: { category },
@@ -82,7 +81,7 @@ export class FacilityRepository {
    * @returns 시설 목록이 담긴 배열 (SearchFacilityOutputType[])
    */
   static async getAllFacilitiesAsync() {
-    const response = await getAsync<SearchFacilityOutputType[]>(
+    const response = await getAsync<FacilityResponses['searchAll']>(
       'facilities/all',
     );
     return response;

@@ -25,7 +25,7 @@ const useDaumPostCode = () => {
     );
 
     const kakaoMapScript = document.createElement('script');
-    kakaoMapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_APP_KEY}&autoload=false`;
+    kakaoMapScript.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_APP_KEY}&autoload=false`;
     kakaoMapScript.addEventListener('load', () =>
       setSdkScriptLoaded((prev) => ({ ...prev, kakaoMap: true })),
     );
