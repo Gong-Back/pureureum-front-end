@@ -1,7 +1,7 @@
-import { type Control, useFormContext, useWatch } from 'react-hook-form';
+import { useFormContext, useWatch, Controller } from 'react-hook-form';
 
 import REGISTER_FALLBACK from '@/constants/fallback/register';
-import { GenderType, type AuthFormType } from '@/constants/types';
+import { type AuthFormType } from '@/constants/types';
 import { COLORS } from '@/constants/styles';
 
 import TextInput from '@/components/common/TextInput';
@@ -9,26 +9,16 @@ import Text from '@/components/common/Text';
 
 import * as style from './PersonalDataForm.style';
 
-interface PersonalDataFormProps {
-  control: Control<AuthFormType['register']>;
-}
-
-const PersonalDataForm = ({ control }: PersonalDataFormProps) => {
-  const { watch, setValue } = useFormContext<AuthFormType['register']>();
-  const gender = useWatch({ control, name: ['gender'] });
-
-  const selectGenderType = (selected: GenderType) => () =>
-    setValue('gender', selected);
-
-  const isSelectedGender = (selected: GenderType) =>
-    watch('gender') === selected;
+const PersonalDataForm = () => {
+  const { control } = useFormContext<AuthFormType['register']>();
+  const [year, month, day] = useWatch({ control, name: 'birthday' });
 
   return (
     <style.Wrapper>
       <style.Section>
         <TextInput
-          fieldId="name"
-          fieldOption={{
+          name="name"
+          rules={{
             required: true,
             minLength: 2,
             maxLength: 6,
@@ -48,8 +38,8 @@ const PersonalDataForm = ({ control }: PersonalDataFormProps) => {
         </Text>
         <TextInput
           placeholder="년"
-          fieldId="birthday.0"
-          fieldOption={{
+          name="birthday.0"
+          rules={{
             required: true,
             maxLength: 4,
             pattern: {
@@ -57,13 +47,20 @@ const PersonalDataForm = ({ control }: PersonalDataFormProps) => {
               message: REGISTER_FALLBACK.INVALID_BIRTHDAY,
             },
           }}
+          formatValue={(changedYear) => {
+            const convertedYear = Number(changedYear);
+            const currentYear = new Date().getFullYear();
+            return Number.isNaN(convertedYear) || convertedYear > currentYear
+              ? year
+              : convertedYear;
+          }}
           isRound
           className="input"
         />
         <TextInput
           placeholder="월"
-          fieldId="birthday.1"
-          fieldOption={{
+          name="birthday.1"
+          rules={{
             required: true,
             maxLength: 2,
             pattern: {
@@ -71,13 +68,20 @@ const PersonalDataForm = ({ control }: PersonalDataFormProps) => {
               message: REGISTER_FALLBACK.INVALID_BIRTHDAY,
             },
           }}
+          formatValue={(changedMonth) => {
+            const convertedMonth = Number(changedMonth);
+            if (Number.isNaN(convertedMonth)) return month;
+            if (Number.isNaN(convertedMonth) || convertedMonth < 1) return 1;
+            if (convertedMonth > 12) return 12;
+            return convertedMonth;
+          }}
           isRound
           className="input"
         />
         <TextInput
           placeholder="일"
-          fieldId="birthday.2"
-          fieldOption={{
+          name="birthday.2"
+          rules={{
             required: true,
             maxLength: 2,
             pattern: {
@@ -85,33 +89,47 @@ const PersonalDataForm = ({ control }: PersonalDataFormProps) => {
               message: REGISTER_FALLBACK.INVALID_BIRTHDAY,
             },
           }}
+          formatValue={(changedDay) => {
+            const convertedDay = Number(changedDay);
+            if (Number.isNaN(convertedDay)) return day;
+            if (convertedDay < 1) return 1;
+            if (convertedDay > 31) return 31;
+            return convertedDay;
+          }}
           isRound
           className="input"
         />
       </style.Section>
-      <style.Section>
-        <Text
-          fontStyleName="body1B"
-          color={COLORS.grayscale.gray500}
-          className="title"
-        >
-          성별
-        </Text>
-        <style.ToggleButton
-          name="FEMALE"
-          onClick={selectGenderType('FEMALE')}
-          isSelected={isSelectedGender('FEMALE')}
-        >
-          여자
-        </style.ToggleButton>
-        <style.ToggleButton
-          name="MALE"
-          onClick={selectGenderType('MALE')}
-          isSelected={isSelectedGender('MALE')}
-        >
-          남자
-        </style.ToggleButton>
-      </style.Section>
+      <Controller
+        name="gender"
+        control={control}
+        defaultValue="MALE"
+        render={({ field: { onChange, value: selectedGender } }) => (
+          <style.Section>
+            <Text
+              fontStyleName="body1B"
+              color={COLORS.grayscale.gray500}
+              className="title"
+            >
+              성별
+            </Text>
+            <style.ToggleButton
+              name="FEMALE"
+              onClick={() => onChange('FEMALE')}
+              isSelected={selectedGender === 'FEMALE'}
+            >
+              여자
+            </style.ToggleButton>
+            <style.ToggleButton
+              name="MALE"
+              onClick={() => onChange('MALE')}
+              isSelected={selectedGender === 'MALE'}
+            >
+              남자
+            </style.ToggleButton>
+          </style.Section>
+        )}
+      />
     </style.Wrapper>
   );
 };

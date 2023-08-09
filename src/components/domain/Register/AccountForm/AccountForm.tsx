@@ -1,5 +1,5 @@
 import React from 'react';
-import { type Control, useFormContext, useWatch } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 
 import { ApiErrorInstance } from '@/apis/API';
 import { AuthRepository } from '@/apis/auth';
@@ -16,12 +16,8 @@ import ValidationUtil from '@/utils/validation';
 
 import * as style from './AccountForm.style';
 
-interface AccountFormProps {
-  control: Control<AuthFormType['register']>;
-}
-
-const AccountForm = ({ control }: AccountFormProps) => {
-  const { setValue, setError, watch } =
+const AccountForm = () => {
+  const { control, setValue, setError } =
     useFormContext<AuthFormType['register']>();
 
   const [email, isCheckUserEmail] = useWatch({
@@ -56,8 +52,8 @@ const AccountForm = ({ control }: AccountFormProps) => {
     <style.Wrapper>
       <style.Section>
         <TextInput
-          fieldId="email"
-          fieldOption={{ required: true, minLength: 1 }}
+          name="email"
+          rules={{ required: true, minLength: 1 }}
           placeholder="아이디"
           disabled={isCheckUserEmail}
           isRound
@@ -85,12 +81,12 @@ const AccountForm = ({ control }: AccountFormProps) => {
       </style.Section>
       <style.Section>
         <TextInput
-          fieldId="password"
-          fieldOption={{
+          name="password"
+          rules={{
             required: true,
             minLength: 1,
-            disabled: !isCheckUserEmail,
           }}
+          disabled={!isCheckUserEmail}
           placeholder="비밀번호"
           type="password"
           isRound
@@ -105,11 +101,10 @@ const AccountForm = ({ control }: AccountFormProps) => {
         </Text>
       </style.Section>
       <TextInput
-        fieldId="confirmPassword"
-        fieldOption={{
+        name="confirmPassword"
+        rules={{
           required: true,
           minLength: 1,
-          disabled: !isCheckUserEmail,
         }}
         placeholder="비밀번호 확인"
         type="password"

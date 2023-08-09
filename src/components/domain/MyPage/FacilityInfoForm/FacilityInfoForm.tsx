@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import {
   useForm,
+  Controller,
   FormProvider,
   useWatch,
   type SubmitHandler,
@@ -12,7 +13,7 @@ import { ApiErrorInstance } from '@/apis/API';
 import { FacilityRepository } from '@/apis/facility';
 
 import { COLORS } from '@/constants/styles';
-import { CategoryType, type FacilityFormType } from '@/constants/types';
+import { type FacilityFormType, type CategoryType } from '@/constants/types';
 
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
@@ -27,11 +28,24 @@ import FormatUtil from '@/utils/format';
 
 import * as style from './FacilityInfoForm.style';
 
+const FACILITY_CATEGORIES: CategoryType[] = [
+  'YOUTH_FARMING',
+  'FARMING_EXPERIENCE',
+  'FARMING_HEALING',
+  'ETC',
+];
+
 const FacilityInfoForm = () => {
   const formMethods = useForm<FacilityFormType>({
     defaultValues: {
       name: '',
-      detail: '',
+      address: {
+        city: '',
+        county: '',
+        district: '',
+        jibun: '',
+        detail: '',
+      },
       category: 'YOUTH_FARMING',
     },
     mode: 'onChange',
@@ -43,7 +57,10 @@ const FacilityInfoForm = () => {
     setError,
     formState: { errors },
     handleSubmit,
+    watch,
   } = formMethods;
+
+  console.log(watch());
 
   const router = useRouter();
   const { openPostCode, address } = useDaumPostCode();
@@ -64,15 +81,6 @@ const FacilityInfoForm = () => {
     onSubmit: (uploadedFile) => setValue('certificationDoc', uploadedFile),
     onRemove: () => setValue('certificationDoc', undefined),
   });
-
-  useEffect(() => {
-    const { city, county, district, jibun, detail } = address;
-    const isValidAddress = [city, county, district, jibun].every(Boolean);
-    if (!isValidAddress) return;
-
-    setValue('address', { city, county, district, jibun });
-    setValue('detail', detail);
-  }, [address, setValue]);
 
   const [category, currentName, currentCertificationDoc] = useWatch({
     control,
@@ -112,6 +120,11 @@ const FacilityInfoForm = () => {
     }
   };
 
+  useEffect(() => {
+    if (!isValidAddress) return;
+    setValue('address', address);
+  }, [address, isValidAddress, setValue]);
+
   return (
     <FormProvider {...formMethods}>
       <style.Wrapper>
@@ -128,6 +141,25 @@ const FacilityInfoForm = () => {
               *
             </Text>
           </style.FormTitle>
+          <Controller
+            control={control}
+            name="category"
+            defaultValue="YOUTH_FARMING"
+            render={({ field: { onChange, value: selectedOption } }) => (
+              <>
+                {FACILITY_CATEGORIES.map((option) => (
+                  <CategoryTag
+                    type="YOUTH_FARMING"
+                    sizeType={isMobile ? 'small' : 'big'}
+                    className={`${option.toLowerCase().replace('_', '-')} ${
+                      selectedOption !== option ? 'not-selected' : ''
+                    }`}
+                    onClick={() => onChange(option)}
+                  />
+                ))}
+              </>
+            )}
+          />
           <CategoryTag
             type="YOUTH_FARMING"
             sizeType={isMobile ? 'small' : 'big'}
@@ -173,8 +205,8 @@ const FacilityInfoForm = () => {
             </Text>
           </style.FormTitle>
           <TextInput
-            fieldId="name"
-            fieldOption={{ required: true, minLength: 1 }}
+            name="name"
+            rules={{ required: true, minLength: 1 }}
             placeholder="시설 이름을 지정해주세요"
             sizeType="large"
             className="name-input"
@@ -195,11 +227,11 @@ const FacilityInfoForm = () => {
             </Text>
           </style.FormTitle>
           <TextInput
-            fieldId="address"
-            fieldOption={{ required: true, minLength: 1 }}
-            value={
+            name="address"
+            rules={{ required: true, minLength: 1 }}
+            formatValue={(changedAddress) =>
               isValidAddress
-                ? `${address.county} ${address.city} ${address.district} ${address.jibun}`
+                ? `${changedAddress.county} ${changedAddress.city} ${changedAddress.district} ${changedAddress.jibun}`
                 : undefined
             }
             placeholder="주소를 지도에서 검색해주세요"
@@ -212,12 +244,12 @@ const FacilityInfoForm = () => {
             지도 검색
           </Button>
           <TextInput
-            fieldId="detail"
-            fieldOption={{
+            name="detail"
+            rules={{
               required: true,
               minLength: 1,
-              disabled: !isValidAddress,
             }}
+            disabled={!isValidAddress}
             placeholder={isValidAddress ? '상세 주소' : ''}
             sizeType="large"
             className="detail-input"
@@ -238,8 +270,8 @@ const FacilityInfoForm = () => {
             </Text>
           </style.FormTitle>
           <TextInput
-            fieldId="certificationDoc"
-            fieldOption={{ required: true }}
+            name="certificationDoc"
+            rules={{ required: true }}
             value={
               currentCertificationDoc
                 ? `${currentCertificationDoc.name} (${FormatUtil.formatfileSize(

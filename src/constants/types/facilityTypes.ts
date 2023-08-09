@@ -52,9 +52,8 @@ export interface AddressType {
 }
 
 export interface FacilityFormType {
-  address: Omit<AddressType, 'detail'> | null,
+  address: AddressType,
   category: CategoryType;
   name: string;
-  detail: string;
   certificationDoc: File | undefined;
 }

@@ -75,7 +75,7 @@ const LoginForm = () => {
       <styles.Wrapper>
         <TextInput
           placeholder="E-Mail"
-          fieldId="email"
+          name="email"
           type="email"
           onKeyDown={handleOnKeyPress}
           className="login-input"
@@ -83,8 +83,8 @@ const LoginForm = () => {
         />
         <TextInput
           placeholder="Password"
-          fieldId="password"
-          fieldOption={{ required: true }}
+          name="password"
+          rules={{ required: true }}
           type="password"
           onKeyDown={handleOnKeyPress}
           className="login-input"

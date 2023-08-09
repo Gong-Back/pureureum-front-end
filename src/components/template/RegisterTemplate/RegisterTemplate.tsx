@@ -50,12 +50,13 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
       typedCertificationNumber: '',
       name: '',
       phoneNumber: '',
-      birthday: [0, 0, 0],
+      birthday: [0, 1, 1],
       gender: 'MALE',
       step: 0,
     },
   });
   const {
+    watch,
     control,
     setValue,
     setError,
@@ -63,13 +64,7 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
     handleSubmit,
   } = formMethods;
 
-  useLayoutEffect(() => {
-    if (socialType && socialEmail) {
-      setValue('socialType', socialType);
-      setValue('email', socialEmail);
-      handleCurrentStep();
-    }
-  }, []);
+  console.log(watch());
 
   const [
     name,
@@ -221,6 +216,15 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
     }
   };
 
+  useLayoutEffect(() => {
+    if (socialType && socialEmail) {
+      setValue('socialType', socialType);
+      setValue('email', socialEmail);
+      handleCurrentStep();
+    }
+  }, [])
+
+
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
     <FormProvider {...formMethods}>
@@ -235,9 +239,9 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
         </style.Header>
         <style.VisibleSection>
           <style.Section currentRegisterStep={currentRegisterStep}>
-            <AccountForm control={control} />
-            <PersonalDataForm control={control} />
-            <VerifyPhoneNumberForm control={control} />
+            <AccountForm />
+            <PersonalDataForm />
+            <VerifyPhoneNumberForm />
           </style.Section>
         </style.VisibleSection>
         <style.Footer>

@@ -1,7 +1,5 @@
 import LoginTemplate from '@/components/template/LoginTemplate';
 
-import { LoginContextProvider } from '@/stores/context/LoginContext';
-
 export async function getStaticProps() {
   return {
     props: {
@@ -10,9 +8,5 @@ export async function getStaticProps() {
   };
 }
 
-const Login = () => (
-  <LoginContextProvider>
-    <LoginTemplate />
-  </LoginContextProvider>
-);
+const Login = () => <LoginTemplate />;
 export default Login;

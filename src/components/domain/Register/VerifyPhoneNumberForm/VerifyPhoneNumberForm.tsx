@@ -1,5 +1,5 @@
 import React from 'react';
-import { type Control, useFormContext, useWatch } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 
 import { ApiErrorInstance } from '@/apis/API';
 import { AuthRepository } from '@/apis/auth';
@@ -14,12 +14,8 @@ import ValidationUtil from '@/utils/validation';
 
 import * as style from './VerifyPhoneNumberForm.style';
 
-interface VerifyPhoneNumberFormProps {
-  control: Control<AuthFormType['register']>;
-}
-
-const VerifyPhoneNumberForm = ({ control }: VerifyPhoneNumberFormProps) => {
-  const { setError, setValue } =
+const VerifyPhoneNumberForm = () => {
+  const { control, setError, setValue } =
     useFormContext<AuthFormType['register']>();
 
   const [certificationNumber, phoneNumber, isCheckPhoneNumber] = useWatch({
@@ -53,20 +49,20 @@ const VerifyPhoneNumberForm = ({ control }: VerifyPhoneNumberFormProps) => {
     <style.Wrapper>
       <style.Section>
         <TextInput
-          fieldId="phoneNumber"
-          fieldOption={{
+          name="phoneNumber"
+          rules={{
             required: true,
-            disabled: isCheckPhoneNumber,
-            setValueAs: (value: string) =>
-              value
-                .replace(/[^0-9]/g, '')
-                .slice(0, 11)
-                .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`),
             pattern: {
               value: /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/,
               message: REGISTER_FALLBACK.INVALID_PHONE_NUMBER,
             },
           }}
+          formatValue={(value) =>
+              value
+                .replace(/[^0-9]/g, '')
+                .slice(0, 11)
+                .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`)}
+          disabled={isCheckPhoneNumber}
           placeholder="핸드폰 번호"
           width={269}
           isRound
@@ -76,8 +72,9 @@ const VerifyPhoneNumberForm = ({ control }: VerifyPhoneNumberFormProps) => {
         </Button>
       </style.Section>
       <TextInput
-        fieldId="typedCertificationNumber"
-        fieldOption={{ required: true, disabled: !certificationNumber }}
+        name="typedCertificationNumber"
+        rules={{ required: true, minLength: 6 }}
+        disabled={!certificationNumber}
         placeholder="인증번호"
         isRound
       />
