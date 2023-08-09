@@ -6,7 +6,6 @@ class FormatUtil {
    */
   static formatfileSize(fileSize: number) {
     const unit = Math.floor(Math.log2(fileSize) / 10);
-    console.log(unit);
 
     switch (unit) {
       case 1:

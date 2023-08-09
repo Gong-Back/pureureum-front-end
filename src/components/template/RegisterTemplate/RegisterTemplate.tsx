@@ -56,15 +56,12 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
     },
   });
   const {
-    watch,
     control,
     setValue,
     setError,
     formState: { errors },
     handleSubmit,
   } = formMethods;
-
-  console.log(watch());
 
   const [
     name,

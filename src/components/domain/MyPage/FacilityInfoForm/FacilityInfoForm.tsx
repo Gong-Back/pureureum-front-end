@@ -57,10 +57,7 @@ const FacilityInfoForm = () => {
     setError,
     formState: { errors },
     handleSubmit,
-    watch,
   } = formMethods;
-
-  console.log(watch());
 
   const router = useRouter();
   const { openPostCode, address } = useDaumPostCode();
