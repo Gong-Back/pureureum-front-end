@@ -226,9 +226,9 @@ const FacilityInfoForm = () => {
           <TextInput
             name="address"
             rules={{ required: true, minLength: 1 }}
-            formatValue={(changedAddress) =>
+            formatValue={() =>
               isValidAddress
-                ? `${changedAddress.county} ${changedAddress.city} ${changedAddress.district} ${changedAddress.jibun}`
+                ? `${address.county} ${address.city} ${address.district} ${address.jibun}`
                 : undefined
             }
             placeholder="주소를 지도에서 검색해주세요"
@@ -241,7 +241,7 @@ const FacilityInfoForm = () => {
             지도 검색
           </Button>
           <TextInput
-            name="detail"
+            name="address.detail"
             rules={{
               required: true,
               minLength: 1,
