@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { MEDIA_QUERIES } from '@/constants/styles';
 
 export const Wrapper = styled.div`
   display: flex;

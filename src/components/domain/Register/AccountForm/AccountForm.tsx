@@ -1,36 +1,60 @@
 import React from 'react';
-import TextInput from '@/components/common/TextInput';
+import { useFormContext, useWatch } from 'react-hook-form';
+
+import { ApiErrorInstance } from '@/apis/API';
+import { AuthRepository } from '@/apis/auth';
+
+import NewTextInput from '@/components/common/TextInput/NewTextInput';
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 
 import { COLORS } from '@/constants/styles';
-import {
-  useRegisterContextAction,
-  useRegisterContextValue,
-} from '@/stores/context/RegisterContext';
+import { type AuthFormType } from '@/constants/types';
+import REGISTER_FALLBACK from '@/constants/fallback/register';
+
+import ValidationUtil from '@/utils/validation';
 
 import * as style from './AccountForm.style';
 
 const AccountForm = () => {
-  const {
-    form: { email, password, confirmPassword },
-    verify: { isCheckUserEmail },
-  } = useRegisterContextValue();
-  const { change, verifyEmail } = useRegisterContextAction();
+  const { control, setValue, setError } =
+    useFormContext<AuthFormType['register']>();
 
-  const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name: inputName, value } = e.target;
-    change(inputName, value);
+  const [email, isCheckUserEmail] = useWatch({
+    control,
+    name: ['email', 'isCheckUserEmail'],
+  });
+
+  const verifyEmail = async () => {
+    if (isCheckUserEmail) {
+      setError('root', { message: REGISTER_FALLBACK.NOT_CHECK_EMAIL });
+      return;
+    }
+    console.log(!ValidationUtil.validateEmail(email));
+    if (!ValidationUtil.validateEmail(email)) {
+      setError('root', { message: REGISTER_FALLBACK.INVALID_EMAIL });
+      return;
+    }
+    try {
+      await AuthRepository.verifyEmailAsync(email);
+      setValue('isCheckUserEmail', true);
+    } catch (error) {
+      if (error instanceof ApiErrorInstance) {
+        const [errorMessage] = error.messages;
+        setError('root', { message: errorMessage });
+        return;
+      }
+      throw error;
+    }
   };
 
   return (
     <style.Wrapper>
       <style.Section>
-        <TextInput
+        <NewTextInput
           name="email"
+          rules={{ required: true, minLength: 1 }}
           placeholder="아이디"
-          value={email}
-          onChange={handleUserInput}
           disabled={isCheckUserEmail}
           isRound
           className="account-input email-input"
@@ -56,13 +80,15 @@ const AccountForm = () => {
         </Text>
       </style.Section>
       <style.Section>
-        <TextInput
+        <NewTextInput
           name="password"
-          placeholder="비밀번호"
-          value={password}
-          type="password"
-          onChange={handleUserInput}
+          rules={{
+            required: true,
+            minLength: 1,
+          }}
           disabled={!isCheckUserEmail}
+          placeholder="비밀번호"
+          type="password"
           isRound
           className="account-input"
         />
@@ -74,12 +100,14 @@ const AccountForm = () => {
           영문, 숫자, 특수 문자 1개 이상 포함, 8자 이상
         </Text>
       </style.Section>
-      <TextInput
+      <NewTextInput
         name="confirmPassword"
+        rules={{
+          required: true,
+          minLength: 1,
+        }}
         placeholder="비밀번호 확인"
-        value={confirmPassword}
         type="password"
-        onChange={handleUserInput}
         disabled={!isCheckUserEmail}
         isRound
         className="account-input"

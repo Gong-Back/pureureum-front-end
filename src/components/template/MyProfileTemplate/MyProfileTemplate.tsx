@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { GenderType } from '@/constants/types';
-
 import PersonalInfoList from '@/components/domain/MyPage/PersonalInfoList';
 import ProfileEditor from '@/components/domain/MyPage/ProfileEditor';
 import UpdatePhoneModal from '@/components/domain/MyPage/UpdatePhoneModal';
@@ -13,31 +11,13 @@ import Text from '@/components/common/Text';
 
 import useModal from '@/hooks/useModal';
 import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
+import { useProfileInfo } from '@/hooks/useFetchProfileInfo';
 
 import { COLORS } from '@/constants/styles';
 import * as style from './MyProfileTemplate.style';
 
-interface MyProfileTemplatesProps {
-  name: string;
-  email: string;
-  gender: GenderType;
-  birthday: string;
-  phoneNumber: string;
-  profileUrl: string;
-  nickname: string;
-}
-
-const MyProfileTemplate = ({
-  name,
-  email,
-  gender,
-  birthday,
-  phoneNumber,
-  profileUrl,
-  nickname,
-}: MyProfileTemplatesProps) => {
-  // TODO : 정규식의 경우 추후 Util 로 묶을 수 있다면 일괄적으로 수정해야 함.
-  const maskedPhoneNumber = phoneNumber.replace(/-[0-9]{4}-/g, '-****-');
+const MyProfileTemplate = () => {
+  const { data } = useProfileInfo();
 
   const { openModal } = useModal();
   const currentBreakpoint = useMeasureBreakpoint(['mobile', 'pc']);
@@ -48,17 +28,23 @@ const MyProfileTemplate = ({
 
   const handleSaveChange = () => {};
 
+  if (!data) return null;
+
+  // TODO : 정규식의 경우 추후 Util 로 묶을 수 있다면 일괄적으로 수정해야 함.
+  const maskedPhoneNumber = data.phoneNumber.replace(/-[0-9]{4}-/g, '-****-');
+
+
   return (
     <style.Wrapper>
       {currentBreakpoint === 'pc' && <SideNavigationBar />}
       <style.Aside>
-        <ProfileEditor profileUrl={profileUrl} nickname={nickname} />
+        <ProfileEditor profileUrl={data.profileUrl} nickname={data.nickname} />
         <style.PersonalSection>
           <PersonalInfoList
-            name={name}
-            email={email}
-            gender={gender}
-            birthday={birthday}
+            name={data.name}
+            email={data.email}
+            gender={data.gender}
+            birthday={data.birthday}
           />
           <style.Section>
             <Text

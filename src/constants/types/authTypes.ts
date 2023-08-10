@@ -68,3 +68,25 @@ export type VerifyResponses = {
     certificationNumber: string;
   }
 }
+
+export type AuthFormType = {
+  'login': {
+    email: string;
+    password: string;
+  },
+  'register': {
+    email: string;
+    password: string;
+    confirmPassword: string;
+    typedCertificationNumber: string;
+    name: string;
+    phoneNumber: string;
+    birthday: number[];
+    gender: GenderType;
+    socialType?: SocialPlatformType;
+    certificationNumber: string | undefined;
+    isCheckUserEmail: boolean;
+    isCheckPhoneNumber: boolean;
+    step: number;
+  }
+}
