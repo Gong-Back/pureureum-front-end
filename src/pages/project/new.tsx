@@ -4,10 +4,13 @@ import ProjectCreationTemplate from '@/components/template/ProjectCreationTempla
 import { ProjectCreationInputType } from '@/constants/types';
 import { ProjectRepository } from '@/apis/project';
 import ValidationUtil from '@/utils/validation';
+import { useRouter } from 'next/router';
+import { ApiErrorInstance } from '@/apis/API';
 
 const ProjectCreationPage: NextPage = () => {
   const feedbackRef =
     useRef<HTMLParagraphElement>() as React.MutableRefObject<HTMLParagraphElement>;
+  const router = useRouter();
 
   const [currentStep, setCurrentStep] = useState(1);
   const [projectInformation, setProjectInformation] =
@@ -44,17 +47,27 @@ const ProjectCreationPage: NextPage = () => {
     const toDateStr = (date: { year: string; month: string; day: string }) =>
       `${date.year}-${date.month}-${date.day}`;
 
-    const res = await ProjectRepository.registerProjectAsync(
-      title,
-      introduction,
-      content,
-      toDateStr(projectStartDate),
-      toDateStr(projectEndDate),
-      totalRecruits,
-      minAge,
-      maxAge,
-    );
-    console.log(res);
+    try {
+      await ProjectRepository.registerProjectAsync(
+        title,
+        introduction,
+        content,
+        toDateStr(projectStartDate),
+        toDateStr(projectEndDate),
+        totalRecruits,
+        minAge,
+        maxAge,
+      );
+      router.replace('/mypage/operation/project');
+    } catch (error) {
+      if (error instanceof ApiErrorInstance) {
+        const [errorMessage] = error.messages;
+        // eslint-disable-next-line no-alert
+        alert(errorMessage);
+      } else {
+        throw error;
+      }
+    }
   };
 
   const handleNextStep = () => {
