@@ -11,17 +11,10 @@ const ProjectList = ({ data }: ProjectListProps) => (
   <style.ProjectListWrap>
     {data.map((project) => (
       <ProjectItem
-        key={project.projectId}
-        type={project.type}
-        thumbnail={project.thumbnail}
-        title={project.title}
-        introduction={project.introduction}
-        onwerName={project.onwerName}
-        currentRecruit={project.currentRecruit}
-        totalRecruit={project.totalRecruit}
-        location={project.location}
-        startDate={project.startDate}
-        endDate={project.endDate}
+        key={project.projectPartInformation.id}
+        category={project.projectCategory}
+        thumbnail={project.thumbnailFileRes?.projectFileUrl ?? ''}
+        info={project.projectPartInformation}
       />
     ))}
   </style.ProjectListWrap>
