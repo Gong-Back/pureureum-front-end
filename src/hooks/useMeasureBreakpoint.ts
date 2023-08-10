@@ -61,7 +61,7 @@ const useMeasureBreakpoint = (
 
     // eslint-disable-next-line consistent-return
     return () => resizeObserverRef.current?.disconnect();
-  }, []);
+  }, [customBreakpoints]);
 
   return currentBreakpoint;
 };

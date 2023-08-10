@@ -22,13 +22,17 @@ class ValidationUtil {
 
   /**
    * 유효한 생년월일인지를 검사하기 위한 함수 validateBirthDay
-   * @param birthday 유효성 검사를 진행할 생년월일 문자열 birthday
+   * @param birthday 유효성 검사를 진행할 생년월일  birthday
    * @returns 유효하다면 true, 그렇지 않다면 false
    */
-  static validateBirthDay(birthday: string) {
-    const regexp =
-      /^(19[0-9][0-9]|20\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
-    return regexp.test(birthday);
+  static validateBirthDay(birthday: [number, number, number]) {
+    const [year, month, day] = birthday;
+    const currentYear = new Date().getFullYear();
+
+    if (year > currentYear) return false;
+    if (month < 1 || month > 12) return false;
+    if (day < 1 || day > 31) return false;
+    return true;
   }
 
   /**

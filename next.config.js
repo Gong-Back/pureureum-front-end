@@ -11,19 +11,32 @@ const {
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  async rewrites() {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'pureureum.s3.ap-northeast-2.amazonaws.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
+  async redirects() {
     return [
       {
         source: '/oauth2/kakao',
-        destination: `https://kauth.kakao.com/oauth2/kakao/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URL}&response_type=code`,
+        destination: `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URL}&response_type=code`,
+        permanent: false,
       },
       {
         source: '/oauth2/naver',
         destination: `https://nid.naver.com/oauth2.0/authorize?client_id=${NAVER_CLIENT_ID}&redirect_uri=${NAVER_REDIRECT_URL}&response_type=code&state=state`,
+        permanent: false,
       },
       {
         source: '/oauth2/google',
         destination: `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URL}&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&response_type=code`,
+        permanent: false,
       },
     ];
   },

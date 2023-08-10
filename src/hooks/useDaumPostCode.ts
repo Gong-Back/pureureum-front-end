@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 
-import { AddressType } from '@/constants/types';
-import { COLORS } from '@/constants/styles';
+import { type AddressType, type CoordinateType } from '@/constants/types';
 
 const useDaumPostCode = () => {
-  const [postCodeLoaded, setPostCodeLoaded] = useState(false);
+  const [sdkScriptLoaded, setSdkScriptLoaded] = useState({
+    daumPostCode: false,
+    kakaoMap: false,
+  });
   const [address, setAddress] = useState<AddressType>({
     county: '',
     city: '',
@@ -12,30 +14,39 @@ const useDaumPostCode = () => {
     detail: '',
     jibun: '',
   });
+  const [coordinate, setCoordinate] = useState<CoordinateType>({
+    longitude: '',
+    latitude: '',
+  });
 
-  // Daum PostCode API Script 로드
+  // TODO : 두 개의 Script 를 useEffect 에서 로드하는 것 말고, next/script로 로드하는 방법 강구해보기.
   useEffect(() => {
-    const $script = document.createElement('script');
-    $script.src = `https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js`;
-    $script.addEventListener('load', () => setPostCodeLoaded(true));
-    document.head.appendChild($script);
+    const postCodeScript = document.createElement('script');
+    postCodeScript.src = `https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js`;
+    postCodeScript.addEventListener('load', () =>
+      setSdkScriptLoaded((prev) => ({ ...prev, daumPostCode: true })),
+    );
+
+    const kakaoMapScript = document.createElement('script');
+    kakaoMapScript.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_APP_KEY}&autoload=false&libraries=services`;
+    kakaoMapScript.addEventListener('load', () =>
+      setSdkScriptLoaded((prev) => ({ ...prev, kakaoMap: true })),
+    );
+
+    document.head.appendChild(postCodeScript);
+    document.head.appendChild(kakaoMapScript);
   }, []);
 
-  const openPostCode = () => {
-    if (typeof window === 'undefined' || !postCodeLoaded) return;
+  const isAllScriptLoaded = Object.values(sdkScriptLoaded).every(Boolean);
 
-    new window.daum.Postcode({
-      // theme: {
-      //   bgColor: COLORS.background2,
-      //   searchBgColor: COLORS.primary.green600,
-      //   pageBgColor: COLORS.grayscale.cremeWhite,
-      //   textColor: COLORS.grayscale.gray700,
-      //   queryTextColor: COLORS.background,
-      //   postcodeTextColor: COLORS.caption,
-      //   emphTextColor: COLORS.primary.green600,
-      //   outlineColor: COLORS.grayscale.gray100,
-      // },
+  const openPostCode = () => {
+    if (typeof window === 'undefined' || !isAllScriptLoaded) return;
+
+    const { kakao, daum } = window;
+
+    new daum.Postcode({
       oncomplete(data: {
+        address: string;
         sido: string;
         sigungu: string;
         bname: string;
@@ -56,6 +67,14 @@ const useDaumPostCode = () => {
           jibun,
           detail,
         });
+        kakao.maps.load(() => {
+          const geocoder = new kakao.maps.services.Geocoder();
+          geocoder.addressSearch(
+            data.jibunAddress,
+            ([{ x: longitude, y: latitude }]: { x: string; y: string }[]) =>
+              setCoordinate({ longitude, latitude }),
+          );
+        });
       },
     }).open({
       left: window.screen.width / 2 - 250,
@@ -65,7 +84,7 @@ const useDaumPostCode = () => {
     });
   };
 
-  return { openPostCode, address };
+  return { openPostCode, address, coordinate };
 };
 
 export default useDaumPostCode;

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { MEDIA_QUERIES } from '@/constants/styles';
+import { COLORS, MEDIA_QUERIES } from '@/constants/styles';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -37,7 +37,7 @@ export const Header = styled.div`
 export const Main = styled.main`
   display: flex;
   flex-direction: column;
-  gap: 126px 0;
+  gap: 32px 0;
 
   width: 1000px;
   margin: auto;
@@ -48,21 +48,5 @@ export const Main = styled.main`
 
   @media ${MEDIA_QUERIES.tablet} {
     width: 670px;
-  }
-`;
-
-export const ButtonBox = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 0px 25px;
-
-  margin: 0 auto 40px auto;
-
-  > .bottom-btn {
-    width: 255px;
-  }
-
-  @media ${MEDIA_QUERIES.mobile} {
-    width: 180px;
   }
 `;

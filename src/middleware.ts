@@ -54,7 +54,10 @@ export async function middleware(request: NextRequest) {
 
     try {
       // OAuth2 로그인을 먼저 진행하고, 성공했다면 메인 페이지로 리다이렉트 시킨다.
-      const { data } = await SocialRepository.loginAsync({verifyCode, socialType});
+      const { code, data } = await SocialRepository.loginAsync({verifyCode, socialType});
+      if (code !== 200) {
+        throw new ApiErrorInstance({code, data, messages: []});
+      }
       await AuthRepository.setJwtCookieAsync(data);
       return NextResponse.redirect(origin);
 

@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import {
+  ProjectCreationInputType,
   Step1InputType,
   Step2InputType,
   Step3InputType,
@@ -24,7 +25,6 @@ interface FormCommonProps {
 
 interface Step1Props extends FormCommonProps, Step1InputType {}
 
-// TODO 카테고리 태그 교체 필요해요`
 export const Step1 = ({ title, guide, handleFormInput }: Step1Props) => (
   <style.Wrapper>
     <TextInput
@@ -73,76 +73,89 @@ export const Step2 = ({
   stepRef,
   handleFormInput,
   setProjectInformation,
-}: Step2Props) => (
-  <style.Wrapper ref={stepRef}>
-    <style.Section>
-      <FormLabel text="한 줄 소개" isEssential />
-      <TextInput
-        value={introduction}
-        name="introduction"
-        maxLength={200}
-        onChange={handleFormInput}
-        placeholder="프로젝트를 한 줄로 소개해주세요."
-        isFilled
-      />
-    </style.Section>
-    <style.HorizonalWrap className="step2-horizonal-wrap">
-      <style.Section className="count-section">
-        <FormLabel text="모집 인원" isEssential />
-        <style.HorizonalWrap>
-          <TextInput
-            type="number"
-            value={totalRecruits === 0 ? '' : totalRecruits}
-            placeholder="모집 인원 수"
-            isFilled
-            className="count-input"
-            name="totalRecruits"
-            onChange={handleFormInput}
-          />
-          <style.CheckboxWrap>
-            <style.Checkbox type="checkbox" name="" />
-            제한 없음
-          </style.CheckboxWrap>
-        </style.HorizonalWrap>
-      </style.Section>
+}: Step2Props) => {
+  const handleAgeCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setProjectInformation((prev: ProjectCreationInputType) => ({
+      ...prev,
+      totalRecruits: e.target.checked ? -1 : 0,
+    }));
+  };
+  return (
+    <style.Wrapper ref={stepRef}>
       <style.Section>
-        <FormLabel text="나이 제한" />
-        <ProjectAgeInput
-          minAge={minAge}
-          maxAge={maxAge}
-          handleFormInput={handleFormInput}
+        <FormLabel text="한 줄 소개" isEssential />
+        <TextInput
+          value={introduction}
+          name="introduction"
+          maxLength={200}
+          onChange={handleFormInput}
+          placeholder="프로젝트를 한 줄로 소개해주세요."
+          isFilled
         />
       </style.Section>
-    </style.HorizonalWrap>
-    <style.Section>
-      <FormLabel text="진행 기간" isEssential />
-      <ProjectPeriodInput
-        projectStartDate={projectStartDate}
-        projectEndDate={projectEndDate}
-        setProjectInformation={setProjectInformation}
-      />
-    </style.Section>
-    <style.Section>
-      <FormLabel text="프로젝트 내용" isEssential />
-      <style.TextArea
-        value={content}
-        name="content"
-        onChange={handleFormInput}
-        placeholder="프로젝트 관련 소개, 스케줄, 안내 사항 등 다양한 내용을 기재해 주세요."
-        className="content-input"
-      />
-    </style.Section>
-    <style.Section>
-      <FormLabel text="유의사항" isEssential />
-      <style.TextArea
-        value={notice}
-        name="notice"
-        onChange={handleFormInput}
-        placeholder="프로젝트와 관련된 유의사항을 기재해 주세요."
-      />
-    </style.Section>
-  </style.Wrapper>
-);
+      <style.HorizonalWrap className="step2-horizonal-wrap">
+        <style.Section className="count-section">
+          <FormLabel text="모집 인원" isEssential />
+          <style.HorizonalWrap>
+            <TextInput
+              type="number"
+              value={totalRecruits === -1 ? '' : totalRecruits}
+              disabled={totalRecruits === -1}
+              placeholder="모집 인원 수"
+              isFilled
+              className="count-input"
+              name="totalRecruits"
+              onChange={handleFormInput}
+            />
+            <style.CheckboxWrap>
+              <style.Checkbox
+                type="checkbox"
+                name="noAgelimit"
+                onChange={handleAgeCheckbox}
+              />
+              제한 없음
+            </style.CheckboxWrap>
+          </style.HorizonalWrap>
+        </style.Section>
+        <style.Section>
+          <FormLabel text="나이 제한" />
+          <ProjectAgeInput
+            minAge={minAge}
+            maxAge={maxAge}
+            handleFormInput={handleFormInput}
+          />
+        </style.Section>
+      </style.HorizonalWrap>
+      <style.Section>
+        <FormLabel text="진행 기간" isEssential />
+        <ProjectPeriodInput
+          projectStartDate={projectStartDate}
+          projectEndDate={projectEndDate}
+          setProjectInformation={setProjectInformation}
+        />
+      </style.Section>
+      <style.Section>
+        <FormLabel text="프로젝트 내용" isEssential />
+        <style.TextArea
+          value={content}
+          name="content"
+          onChange={handleFormInput}
+          placeholder="프로젝트 관련 소개, 스케줄, 안내 사항 등 다양한 내용을 기재해 주세요."
+          className="content-input"
+        />
+      </style.Section>
+      <style.Section>
+        <FormLabel text="유의사항" isEssential />
+        <style.TextArea
+          value={notice}
+          name="notice"
+          onChange={handleFormInput}
+          placeholder="프로젝트와 관련된 유의사항을 기재해 주세요."
+        />
+      </style.Section>
+    </style.Wrapper>
+  );
+};
 
 interface Step3Props extends FormCommonProps, Step3InputType {
   stepRef: (node: HTMLDivElement) => void;
