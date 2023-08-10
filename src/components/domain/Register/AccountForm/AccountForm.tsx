@@ -30,7 +30,6 @@ const AccountForm = () => {
       setError('root', { message: REGISTER_FALLBACK.NOT_CHECK_EMAIL });
       return;
     }
-    console.log(!ValidationUtil.validateEmail(email));
     if (!ValidationUtil.validateEmail(email)) {
       setError('root', { message: REGISTER_FALLBACK.INVALID_EMAIL });
       return;

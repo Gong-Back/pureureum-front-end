@@ -54,6 +54,7 @@ const PersonalDataForm = () => {
               ? year
               : convertedYear;
           }}
+          displayedValue={String(year).padStart(4, '0')}
           isRound
           className="input"
         />
@@ -63,18 +64,14 @@ const PersonalDataForm = () => {
           rules={{
             required: true,
             maxLength: 2,
-            pattern: {
-              value: /^(0[0-9]|1[0-2])$/,
-              message: REGISTER_FALLBACK.INVALID_BIRTHDAY,
-            },
           }}
           formatValue={(changedMonth) => {
             const convertedMonth = Number(changedMonth);
             if (Number.isNaN(convertedMonth)) return month;
-            if (Number.isNaN(convertedMonth) || convertedMonth < 1) return 1;
             if (convertedMonth > 12) return 12;
             return convertedMonth;
           }}
+          displayedValue={String(month).padStart(2, '0')}
           isRound
           className="input"
         />
@@ -84,18 +81,14 @@ const PersonalDataForm = () => {
           rules={{
             required: true,
             maxLength: 2,
-            pattern: {
-              value: /^(0[1-9]|[1-2][0-9]|3[0-1])$/,
-              message: REGISTER_FALLBACK.INVALID_BIRTHDAY,
-            },
           }}
           formatValue={(changedDay) => {
             const convertedDay = Number(changedDay);
             if (Number.isNaN(convertedDay)) return day;
-            if (convertedDay < 1) return 1;
             if (convertedDay > 31) return 31;
             return convertedDay;
           }}
+          displayedValue={String(day).padStart(2, '0')}
           isRound
           className="input"
         />
