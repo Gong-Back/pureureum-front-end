@@ -1,9 +1,4 @@
-import {
-  PersonalInfoType,
-  UpdatePersonalInfoType,
-  UpdateUserInfoParamType,
-  UserReqParams,
-} from '@/constants/types';
+import { UserReqParams, UserResponses, ApiResponse } from '@/constants/types';
 import { getAsync, postAsync } from './API';
 
 export class UserRepository {
@@ -12,9 +7,10 @@ export class UserRepository {
    * @returns 가입 성공 시 200, 실패 시 에러 반환 (400 등)
    */
   static async getUserInfoAsync() {
-    const response = await getAsync<PersonalInfoType>('/users/me');
-    if (response.isSuccess) return response.result.data;
-    throw Error('failed to load data');
+    const response = await getAsync<ApiResponse<UserResponses['info']>>(
+      '/users/me',
+    );
+    return response.data;
   }
 
   /**
@@ -27,9 +23,12 @@ export class UserRepository {
     type,
     updatedValue,
   }: UserReqParams['updateInfo']) {
-    await postAsync<undefined, UpdatePersonalInfoType>('/users/update/info', {
-      [type]: updatedValue,
-    });
+    await postAsync<undefined, { [key in string]: string }>(
+      '/users/update/info',
+      {
+        [type]: updatedValue,
+      },
+    );
   }
 
   /**
@@ -38,14 +37,13 @@ export class UserRepository {
    * @returns 성공 시 200 반환, 실패 시 40X 에러 반환
    */
   static async updateProfileImageAsync(profileImageFile: File | undefined) {
-    await postAsync<undefined, UpdateProfileImageType>(
-      '/users/update/profile',
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+    const formData = new FormData();
+    if (profileImageFile) formData.append('profileImageFile', profileImageFile);
+
+    await postAsync<undefined, FormData>('/users/update/profile', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
       },
-    );
+    });
   }
 }

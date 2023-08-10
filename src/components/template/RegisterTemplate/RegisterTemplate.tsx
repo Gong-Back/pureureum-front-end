@@ -1,4 +1,5 @@
 import { useCallback, useLayoutEffect } from 'react';
+import { useRouter } from 'next/router';
 import {
   useForm,
   useWatch,
@@ -42,6 +43,7 @@ const RegisterStepHeader = [
 ];
 
 const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
+  const router = useRouter();
   const formMethods = useForm<AuthFormType['register']>({
     defaultValues: {
       email: '',
@@ -147,7 +149,8 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
             socialType,
           })
         : await AuthRepository.registerAsync(submittedData);
-      return token;
+        router.replace('/');
+        return token;
     } catch (error) {
       if (error instanceof ApiErrorInstance) {
         const [errorMessage] = error.messages;

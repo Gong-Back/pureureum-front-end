@@ -19,9 +19,6 @@ import * as style from './MyProfileTemplate.style';
 const MyProfileTemplate = () => {
   const { data } = useProfileInfo();
 
-  // TODO : 정규식의 경우 추후 Util 로 묶을 수 있다면 일괄적으로 수정해야 함.
-  const maskedPhoneNumber = phoneNumber.replace(/-[0-9]{4}-/g, '-****-');
-
   const { openModal } = useModal();
   const currentBreakpoint = useMeasureBreakpoint(['mobile', 'pc']);
 
@@ -31,17 +28,23 @@ const MyProfileTemplate = () => {
 
   const handleSaveChange = () => {};
 
+  if (!data) return null;
+
+  // TODO : 정규식의 경우 추후 Util 로 묶을 수 있다면 일괄적으로 수정해야 함.
+  const maskedPhoneNumber = data.phoneNumber.replace(/-[0-9]{4}-/g, '-****-');
+
+
   return (
     <style.Wrapper>
       {currentBreakpoint === 'pc' && <SideNavigationBar />}
       <style.Aside>
-        <ProfileEditor profileUrl={profileUrl} nickname={nickname} />
+        <ProfileEditor profileUrl={data.profileUrl} nickname={data.nickname} />
         <style.PersonalSection>
           <PersonalInfoList
-            name={name}
-            email={email}
-            gender={gender}
-            birthday={birthday}
+            name={data.name}
+            email={data.email}
+            gender={data.gender}
+            birthday={data.birthday}
           />
           <style.Section>
             <Text

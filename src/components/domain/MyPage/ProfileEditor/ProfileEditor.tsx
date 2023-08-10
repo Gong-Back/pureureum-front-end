@@ -33,7 +33,13 @@ const ProfileEditor = ({ profileUrl, nickname }: ProfileEditorProps) => {
   return (
     <styles.Wrapper>
       {profileUrl ? (
-        <Image src={profileUrl} alt="profileImg" />
+        <Image
+          src={profileUrl}
+          alt="profileImg"
+          width={120}
+          height={120}
+          layout="fill"
+        />
       ) : (
         <styles.DefaultProfileImg />
       )}

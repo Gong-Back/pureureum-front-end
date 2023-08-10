@@ -47,8 +47,8 @@ const FacilityInfoForm = () => {
         detail: '',
       },
       category: 'YOUTH_FARMING',
+      certificationDoc: undefined,
     },
-    mode: 'onChange',
   });
   const {
     control,
@@ -79,18 +79,15 @@ const FacilityInfoForm = () => {
     onRemove: () => setValue('certificationDoc', undefined),
   });
 
-  const [category, currentName, currentCertificationDoc] = useWatch({
+  const [currentName, currentCertificationDoc] = useWatch({
     control,
-    name: ['category', 'name', 'certificationDoc'],
+    name: ['name', 'certificationDoc'],
   });
 
   const isMobile = currentBreakpoint === 'mobile';
   const isValidAddress = Object.values(address).every(Boolean);
   const isPossibleSubmit =
     isValidAddress && !!currentName && !!currentCertificationDoc;
-
-  const selectCategory = (selected: CategoryType) => () =>
-    setValue('category', selected);
 
   const openFileDialog = () => fileInputRef.current?.click();
   const submitFacilityInfo: SubmitHandler<FacilityFormType> = async (
@@ -146,7 +143,7 @@ const FacilityInfoForm = () => {
               <>
                 {FACILITY_CATEGORIES.map((option) => (
                   <CategoryTag
-                    type="YOUTH_FARMING"
+                    type={option}
                     sizeType={isMobile ? 'small' : 'big'}
                     className={`${option.toLowerCase().replace('_', '-')} ${
                       selectedOption !== option ? 'not-selected' : ''
@@ -156,36 +153,6 @@ const FacilityInfoForm = () => {
                 ))}
               </>
             )}
-          />
-          <CategoryTag
-            type="YOUTH_FARMING"
-            sizeType={isMobile ? 'small' : 'big'}
-            className={`youth-farming ${
-              category !== 'YOUTH_FARMING' ? 'not-selected' : ''
-            }`}
-            onClick={selectCategory('YOUTH_FARMING')}
-          />
-          <CategoryTag
-            type="FARMING_EXPERIENCE"
-            sizeType={isMobile ? 'small' : 'big'}
-            className={`farming-experience ${
-              category !== 'FARMING_EXPERIENCE' ? 'not-selected' : ''
-            }`}
-            onClick={selectCategory('FARMING_EXPERIENCE')}
-          />
-          <CategoryTag
-            type="FARMING_HEALING"
-            sizeType={isMobile ? 'small' : 'big'}
-            className={`farming-healing ${
-              category !== 'FARMING_HEALING' ? 'not-selected' : ''
-            }`}
-            onClick={selectCategory('FARMING_HEALING')}
-          />
-          <CategoryTag
-            type="ETC"
-            sizeType={isMobile ? 'small' : 'big'}
-            className={`etc ${category !== 'ETC' ? 'not-selected' : ''}`}
-            onClick={selectCategory('ETC')}
           />
         </style.ProjectTypeSelect>
         <style.FacilityNameForm>
@@ -269,12 +236,12 @@ const FacilityInfoForm = () => {
           <TextInput
             name="certificationDoc"
             rules={{ required: true }}
-            value={
+            formatValue={() =>
               currentCertificationDoc
                 ? `${currentCertificationDoc.name} (${FormatUtil.formatfileSize(
                     currentCertificationDoc.size,
                   )})`
-                : undefined
+                : ''
             }
             placeholder="시설 인증을 할 수 있는 서류를 첨부해주세요"
             sizeType="large"
@@ -292,12 +259,12 @@ const FacilityInfoForm = () => {
             isFilled
             className="find-button"
             onClick={
-              getValues('certificationDoc')
+              currentCertificationDoc
                 ? removeUploadedFile
                 : openFileDialog
             }
           >
-            {getValues('certificationDoc') ? '파일 제거 ' : '파일 찾기'}
+            {currentCertificationDoc ? '파일 제거 ' : '파일 찾기'}
           </Button>
         </style.FacilityDocsForm>
       </style.Wrapper>
