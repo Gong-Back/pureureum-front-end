@@ -56,6 +56,7 @@ const ProjectCreationTemplate = ({
       [inputName]: value,
     }));
   };
+
   return (
     <>
       <style.Wrapper>
@@ -107,7 +108,7 @@ const ProjectCreationTemplate = ({
           {currentStep !== 3 ? '다음' : '신청 완료'}
         </Button>
         <Button
-          onClick={() => {}}
+          onClick={() => router.back()}
           isRound
           themeColor={COLORS.grayscale.gray400}
         >
