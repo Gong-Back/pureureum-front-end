@@ -15,9 +15,12 @@ import { UserRepository } from '@/apis/user';
 import { COLORS } from '@/constants/styles';
 import { type UserFormType } from '@/constants/types';
 
+import useModal from '@/hooks/useModal';
+
 import * as style from './UpdatePasswordModal.style';
 
 const UpdatePasswordModal = () => {
+  const { closeModal } = useModal();
   const formMethods = useForm<UserFormType['updatePassword']>({
     defaultValues: {
       currentPassword: '',
@@ -44,16 +47,26 @@ const UpdatePasswordModal = () => {
       setError('root', { message: '비밀번호가 서로 일치하지 않습니다.' });
       return;
     }
+
+    if (changedPassword !== currentPassword) {
+      setError('root', {
+        message: '변경하려는 비밀번호가 현재 비밀번호와 같습니다.',
+      });
+      return;
+    }
+
     await UserRepository.updateUserInfoAsync({
       type: 'password',
       updatedValue: changedPassword,
     });
+    closeModal();
   };
 
   const isPossibleToConfirm = [
     currentPassword,
     changedPassword,
     confirmedPassword,
+    currentPassword === changedPassword,
   ].every(Boolean);
 
   return (
@@ -65,18 +78,21 @@ const UpdatePasswordModal = () => {
             name="currentPassword"
             isRound
             sizeType="medium"
+            type="password"
           />
           <NewTextInput
             placeholder="변경할 비밀번호"
             name="changedPassword"
             isRound
             sizeType="medium"
+            type="password"
           />
           <NewTextInput
             placeholder="변경할 비밀번호 확인"
             name="confirmedPassword"
             isRound
             sizeType="medium"
+            type="password"
           />
           <Button
             isFilled
