@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { AddressType } from '@/constants/types';
-import { COLORS } from '@/constants/styles';
+import { type AddressType, type CoordinateType } from '@/constants/types';
 
 const useDaumPostCode = () => {
   const [sdkScriptLoaded, setSdkScriptLoaded] = useState({
@@ -14,6 +13,10 @@ const useDaumPostCode = () => {
     district: '',
     detail: '',
     jibun: '',
+  });
+  const [coordinate, setCoordinate] = useState<CoordinateType>({
+    longitude: '',
+    latitude: '',
   });
 
   // TODO : 두 개의 Script 를 useEffect 에서 로드하는 것 말고, next/script로 로드하는 방법 강구해보기.
@@ -40,7 +43,7 @@ const useDaumPostCode = () => {
     if (typeof window === 'undefined' || !isAllScriptLoaded) return;
 
     const { kakao, daum } = window;
-  
+
     new daum.Postcode({
       oncomplete(data: {
         address: string;
@@ -66,7 +69,11 @@ const useDaumPostCode = () => {
         });
         kakao.maps.load(() => {
           const geocoder = new kakao.maps.services.Geocoder();
-          geocoder.addressSearch(data.jibunAddress, (result: ({x: string, y: string})[]) => );
+          geocoder.addressSearch(
+            data.jibunAddress,
+            ([{ x: longitude, y: latitude }]: { x: string; y: string }[]) =>
+              setCoordinate({ longitude, latitude }),
+          );
         });
       },
     }).open({
@@ -77,7 +84,7 @@ const useDaumPostCode = () => {
     });
   };
 
-  return { openPostCode, address };
+  return { openPostCode, address, coordinate };
 };
 
 export default useDaumPostCode;

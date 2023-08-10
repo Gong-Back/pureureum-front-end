@@ -29,7 +29,7 @@ const useUploadFile = ({
     }
 
     const [, uploadedFileExtractType] = uploadedFile.name.split('.');
-    if (allowFileTypes && !allowFileTypes.includes(uploadedFileExtractType)) {
+    if (allowFileTypes && !allowFileTypes.includes(uploadedFileExtractType.toLowerCase())) {
       onError?.mismatchExtractType?.();
       return;
     }

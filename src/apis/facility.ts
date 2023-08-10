@@ -15,6 +15,8 @@ export class FacilityRepository {
    * @param district 시설 주소 (동, 읍, 면)
    * @param jibun 시설 주소 (지번)
    * @param detail 시설 상세 주소
+   * @param longitude 시설 위도
+   * @param latitude 시설 경도
    * @param certificationDoc 시설 인증 서류
    * @returns 성공 시 200, 실패 시 40X 에러 반환
    */
@@ -26,6 +28,8 @@ export class FacilityRepository {
     district,
     jibun,
     detail,
+    longitude,
+    latitude,
     certificationDoc,
   }: FacilityReqParams['register']) {
     const formData = new FormData();
@@ -41,6 +45,8 @@ export class FacilityRepository {
             district,
             jibun,
             detail,
+            longitude,
+            latitude,
           }),
         ],
         {
@@ -49,6 +55,7 @@ export class FacilityRepository {
       ),
     );
     if (certificationDoc) formData.append('certificationDoc', certificationDoc);
+    console.log(formData);
 
     await postAsync<undefined, FormData>(
       '/facilities/register',

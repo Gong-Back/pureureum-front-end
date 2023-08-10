@@ -46,6 +46,10 @@ const FacilityInfoForm = () => {
         jibun: '',
         detail: '',
       },
+      coordinate: {
+        longitude: '',
+        latitude: '',
+      },
       category: 'YOUTH_FARMING',
       certificationDoc: undefined,
     },
@@ -59,11 +63,11 @@ const FacilityInfoForm = () => {
   } = formMethods;
 
   const router = useRouter();
-  const { openPostCode, address } = useDaumPostCode();
+  const { openPostCode, address, coordinate } = useDaumPostCode();
   const currentBreakpoint = useMeasureBreakpoint(['mobile', 'tablet', 'pc']);
   const { fileInputRef, handleUploadFile, removeUploadedFile } = useUploadFile({
     maxFileSize: 10 * 1024 * 1024,
-    allowFileTypes: ['pdf', 'hwp', 'docx', 'txt'],
+    allowFileTypes: ['png', 'jpg'],
     onError: {
       exceedFileSize: () =>
         setError('root', {
@@ -71,7 +75,7 @@ const FacilityInfoForm = () => {
         }),
       mismatchExtractType: () =>
         setError('root', {
-          message: '올바른 파일 확장자가 아닙니다. (pdf, hwp, docx, txt)',
+          message: '올바른 파일 확장자가 아닙니다. (png, jpg)',
         }),
     },
     onSubmit: (uploadedFile) => setValue('certificationDoc', uploadedFile),
@@ -92,7 +96,11 @@ const FacilityInfoForm = () => {
   const submitFacilityInfo: SubmitHandler<FacilityFormType> = async (
     formValue,
   ) => {
-    const { address: finalAddress, ...rest } = formValue;
+    const {
+      address: finalAddress,
+      coordinate: finalCoordinate,
+      ...rest
+    } = formValue;
     if (!finalAddress) {
       setError('root', { message: '주소를 설정하지 않았습니다.' });
       return;
@@ -101,6 +109,7 @@ const FacilityInfoForm = () => {
       await FacilityRepository.registerFacilityAsync({
         ...rest,
         ...finalAddress,
+        ...finalCoordinate,
       });
       router.replace('/mypage/operation/manage');
     } catch (error) {
@@ -115,9 +124,9 @@ const FacilityInfoForm = () => {
 
   useEffect(() => {
     if (!isValidAddress) return;
-    console.log(address);
     setValue('address', address);
-  }, [address, isValidAddress, setValue]);
+    setValue('coordinate', coordinate);
+  }, [address, coordinate, isValidAddress, setValue]);
 
   return (
     <FormProvider {...formMethods}>
