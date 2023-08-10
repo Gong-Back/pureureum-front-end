@@ -1,6 +1,5 @@
 import { CategoryType, ProjectItemType } from '@/constants/types';
 import { getAsync, postAsync } from './API';
-import { AuthRepository } from './auth';
 
 interface MainProjectListOutput {
   page: number;
@@ -29,7 +28,6 @@ export class ProjectRepository {
   }
 
   /**
-
    * 새로운 프로젝트를 생성하는 함수 registerProjectAsync
    * @param title 프로젝트 제목
    * @param introduction 프로젝트 한줄 소개
@@ -101,15 +99,12 @@ export class ProjectRepository {
     // if (thumbnailImage) { //  formData.append('THUMBNAIL', thumbnailImage); // }
     // if (commonImage) { //  formData.append('COMMON', commonImage); // }
 
-    const { accessToken } = await AuthRepository.getJwtCookieAsync();
-
     const response = await postAsync<any, FormData>(
       '/api/v1/projects',
       formData,
       {
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${accessToken}`,
         },
       },
     );
