@@ -1,1 +1,1 @@
-export const API_URL = 'https://api.pureureum.site' as const;
+export const API_URL = 'https://api.pureureum.site/api/v1' as const;

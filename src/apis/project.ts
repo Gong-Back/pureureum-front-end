@@ -17,7 +17,7 @@ export class ProjectRepository {
     searchType: 'POPULAR' | 'LATEST',
     category?: CategoryType,
   ) {
-    const response = await getAsync<MainProjectListOutput>(`/api/v1/projects`, {
+    const response = await getAsync<MainProjectListOutput>(`/projects`, {
       params: {
         searchType,
         category,
@@ -47,7 +47,7 @@ export class ProjectRepository {
    * @param thumbnailImage
    * @param commonImage
    * @returns
-     */
+   */
   static async registerProjectAsync(
     title: string,
     introduction: string,
@@ -99,15 +99,11 @@ export class ProjectRepository {
     // if (thumbnailImage) { //  formData.append('THUMBNAIL', thumbnailImage); // }
     // if (commonImage) { //  formData.append('COMMON', commonImage); // }
 
-    const response = await postAsync<any, FormData>(
-      '/api/v1/projects',
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+    const response = await postAsync<any, FormData>('/projects', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
       },
-    );
+    });
 
     return response;
   }
