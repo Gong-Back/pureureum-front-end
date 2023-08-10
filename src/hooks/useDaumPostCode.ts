@@ -25,7 +25,7 @@ const useDaumPostCode = () => {
     );
 
     const kakaoMapScript = document.createElement('script');
-    kakaoMapScript.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_APP_KEY}&autoload=false`;
+    kakaoMapScript.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_APP_KEY}&autoload=false&libraries=services`;
     kakaoMapScript.addEventListener('load', () =>
       setSdkScriptLoaded((prev) => ({ ...prev, kakaoMap: true })),
     );
@@ -40,7 +40,7 @@ const useDaumPostCode = () => {
     if (typeof window === 'undefined' || !isAllScriptLoaded) return;
 
     const { kakao, daum } = window;
-
+  
     new daum.Postcode({
       oncomplete(data: {
         address: string;
@@ -64,17 +64,16 @@ const useDaumPostCode = () => {
           jibun,
           detail,
         });
+        kakao.maps.load(() => {
+          const geocoder = new kakao.maps.services.Geocoder();
+          geocoder.addressSearch(data.jibunAddress, (result: ({x: string, y: string})[]) => );
+        });
       },
     }).open({
       left: window.screen.width / 2 - 250,
       top: window.screen.height / 2 - 300,
       autoClose: true,
       popupTitle: '신규 등록 시설 주소 검색',
-    });
-
-    kakao.maps.load(() => {
-      const geocoder = new kakao.maps.services.Geocoder();
-      geocoder.addressSearch();
     });
   };
 

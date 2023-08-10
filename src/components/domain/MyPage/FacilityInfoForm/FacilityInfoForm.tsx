@@ -115,6 +115,7 @@ const FacilityInfoForm = () => {
 
   useEffect(() => {
     if (!isValidAddress) return;
+    console.log(address);
     setValue('address', address);
   }, [address, isValidAddress, setValue]);
 
@@ -142,6 +143,7 @@ const FacilityInfoForm = () => {
               <>
                 {FACILITY_CATEGORIES.map((option) => (
                   <CategoryTag
+                    key={option}
                     type={option}
                     sizeType={isMobile ? 'small' : 'big'}
                     className={`${option.toLowerCase().replace('_', '-')} ${
@@ -192,10 +194,10 @@ const FacilityInfoForm = () => {
           <NewTextInput
             name="address"
             rules={{ required: true, minLength: 1 }}
-            formatValue={() =>
+            displayedValue={
               isValidAddress
                 ? `${address.county} ${address.city} ${address.district} ${address.jibun}`
-                : undefined
+                : '주소를 지도에서 검색해주세요'
             }
             placeholder="주소를 지도에서 검색해주세요"
             sizeType="large"
@@ -208,10 +210,6 @@ const FacilityInfoForm = () => {
           </Button>
           <NewTextInput
             name="address.detail"
-            rules={{
-              required: true,
-              minLength: 1,
-            }}
             disabled={!isValidAddress}
             placeholder={isValidAddress ? '상세 주소' : ''}
             sizeType="large"
@@ -235,7 +233,7 @@ const FacilityInfoForm = () => {
           <NewTextInput
             name="certificationDoc"
             rules={{ required: true }}
-            formatValue={() =>
+            displayedValue={
               currentCertificationDoc
                 ? `${currentCertificationDoc.name} (${FormatUtil.formatfileSize(
                     currentCertificationDoc.size,
@@ -258,9 +256,7 @@ const FacilityInfoForm = () => {
             isFilled
             className="find-button"
             onClick={
-              currentCertificationDoc
-                ? removeUploadedFile
-                : openFileDialog
+              currentCertificationDoc ? removeUploadedFile : openFileDialog
             }
           >
             {currentCertificationDoc ? '파일 제거 ' : '파일 찾기'}

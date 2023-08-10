@@ -146,20 +146,21 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
   ) => {
     if (!isCheckPhoneNumber) {
       setError('root', { message: REGISTER_FALLBACK.NOT_CHECK_SMS_VERIFY });
-      return undefined;
+      return;
     }
     try {
       // 먼저, SMS 인증이 완료되었다는 사실을 백엔드 서버에 전송해야 한다.
       await AuthRepository.confirmPhoneNumberAsync(phoneNumber);
       // 이후 최종적으로 유저의 정보를 인계하여 회원가입 처리를 완료시킨다.
-      const { data: token } = socialType
-        ? await SocialRepository.registerAsync({
-            ...submittedData,
-            socialType,
-          })
-        : await AuthRepository.registerAsync(submittedData);
-      router.replace('/');
-      return token;
+      if (socialType) {
+        await SocialRepository.registerAsync({
+          ...submittedData, 
+          socialType,
+        })
+      } else {
+        await AuthRepository.registerAsync(submittedData);
+      }
+      router.replace('/auth/login');
     } catch (error) {
       if (error instanceof ApiErrorInstance) {
         const [errorMessage] = error.messages;
@@ -167,7 +168,6 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
       } else {
         throw error;
       }
-      return undefined;
     }
   };
 
