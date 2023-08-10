@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import {
   useForm,
@@ -61,7 +61,7 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
       phoneNumber: '',
       birthday: [currentYear, currentMonth, currentDay],
       gender: 'MALE',
-      step: 0,
+      step: socialType && socialEmail ? 1 : 0,
     },
   });
   const {
@@ -225,13 +225,12 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
     }
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (socialType && socialEmail) {
       setValue('socialType', socialType);
       setValue('email', socialEmail);
-      handleCurrentStep();
     }
-  }, [socialEmail, socialType]);
+  }, [setValue, socialEmail, socialType]);
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading

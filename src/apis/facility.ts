@@ -55,7 +55,6 @@ export class FacilityRepository {
       ),
     );
     if (certificationDoc) formData.append('certificationDoc', certificationDoc);
-    console.log(formData);
 
     await postAsync<undefined, FormData>(
       '/facilities/register',
