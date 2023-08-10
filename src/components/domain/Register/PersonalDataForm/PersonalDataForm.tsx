@@ -4,7 +4,7 @@ import REGISTER_FALLBACK from '@/constants/fallback/register';
 import { type AuthFormType } from '@/constants/types';
 import { COLORS } from '@/constants/styles';
 
-import TextInput from '@/components/common/TextInput';
+import NewTextInput from '@/components/common/TextInput/NewTextInput';
 import Text from '@/components/common/Text';
 
 import * as style from './PersonalDataForm.style';
@@ -16,7 +16,7 @@ const PersonalDataForm = () => {
   return (
     <style.Wrapper>
       <style.Section>
-        <TextInput
+        <NewTextInput
           name="name"
           rules={{
             required: true,
@@ -36,7 +36,7 @@ const PersonalDataForm = () => {
         >
           생년월일
         </Text>
-        <TextInput
+        <NewTextInput
           placeholder="년"
           name="birthday.0"
           rules={{
@@ -57,7 +57,7 @@ const PersonalDataForm = () => {
           isRound
           className="input"
         />
-        <TextInput
+        <NewTextInput
           placeholder="월"
           name="birthday.1"
           rules={{
@@ -78,7 +78,7 @@ const PersonalDataForm = () => {
           isRound
           className="input"
         />
-        <TextInput
+        <NewTextInput
           placeholder="일"
           name="birthday.2"
           rules={{

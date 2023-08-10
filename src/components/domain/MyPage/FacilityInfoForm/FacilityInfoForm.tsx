@@ -17,7 +17,7 @@ import { type FacilityFormType, type CategoryType } from '@/constants/types';
 
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
-import TextInput from '@/components/common/TextInput';
+import NewTextInput from '@/components/common/TextInput/NewTextInput';
 import CategoryTag from '@/components/common/CategoryTag';
 
 import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
@@ -167,7 +167,7 @@ const FacilityInfoForm = () => {
               *
             </Text>
           </style.FormTitle>
-          <TextInput
+          <NewTextInput
             name="name"
             rules={{ required: true, minLength: 1 }}
             placeholder="시설 이름을 지정해주세요"
@@ -189,7 +189,7 @@ const FacilityInfoForm = () => {
               *
             </Text>
           </style.FormTitle>
-          <TextInput
+          <NewTextInput
             name="address"
             rules={{ required: true, minLength: 1 }}
             formatValue={() =>
@@ -206,7 +206,7 @@ const FacilityInfoForm = () => {
           <Button isFilled className="search-button" onClick={openPostCode}>
             지도 검색
           </Button>
-          <TextInput
+          <NewTextInput
             name="address.detail"
             rules={{
               required: true,
@@ -232,7 +232,7 @@ const FacilityInfoForm = () => {
               *
             </Text>
           </style.FormTitle>
-          <TextInput
+          <NewTextInput
             name="certificationDoc"
             rules={{ required: true }}
             formatValue={() =>

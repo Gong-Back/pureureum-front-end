@@ -10,7 +10,7 @@ import {
 
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
-import TextInput from '@/components/common/TextInput';
+import NewTextInput from '@/components/common/TextInput/NewTextInput';
 import ModalTemplate from '@/components/common/ModalTemplate';
 
 import { type UserFormType } from '@/constants/types';
@@ -112,7 +112,7 @@ const UpdatePhoneModal = () => {
           >
             변경할 번호를 입력해주시고 SMS 인증을 진행해주세요
           </Text>
-          <TextInput
+          <NewTextInput
             placeholder="전화번호"
             name="changedPhoneNumber"
             formatValue={(value) =>
@@ -139,7 +139,7 @@ const UpdatePhoneModal = () => {
           >
             {!isSendingVerifyNum ? '인증번호 요청' : '요청 전송됨'}
           </Button>
-          <TextInput
+          <NewTextInput
             placeholder="인증번호"
             name="confirmedNumber"
             isRound

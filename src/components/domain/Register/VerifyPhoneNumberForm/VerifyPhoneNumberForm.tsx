@@ -7,7 +7,7 @@ import { AuthRepository } from '@/apis/auth';
 import { type AuthFormType } from '@/constants/types';
 import REGISTER_FALLBACK from '@/constants/fallback/register';
 
-import TextInput from '@/components/common/TextInput';
+import NewTextInput from '@/components/common/TextInput/NewTextInput';
 import Button from '@/components/common/Button';
 
 import ValidationUtil from '@/utils/validation';
@@ -48,7 +48,7 @@ const VerifyPhoneNumberForm = () => {
   return (
     <style.Wrapper>
       <style.Section>
-        <TextInput
+        <NewTextInput
           name="phoneNumber"
           rules={{
             required: true,
@@ -71,7 +71,7 @@ const VerifyPhoneNumberForm = () => {
           인증번호 요청
         </Button>
       </style.Section>
-      <TextInput
+      <NewTextInput
         name="typedCertificationNumber"
         rules={{ required: true, minLength: 6 }}
         disabled={!certificationNumber}

@@ -13,7 +13,7 @@ import { AuthRepository } from '@/apis/auth';
 
 import { type AuthFormType } from '@/constants/types';
 
-import TextInput from '@/components/common/TextInput';
+import NewTextInput from '@/components/common/TextInput/NewTextInput';
 import Button from '@/components/common/Button';
 
 import * as styles from './LoginForm.style';
@@ -73,7 +73,7 @@ const LoginForm = () => {
   return (
     <FormProvider {...formMethods}>
       <styles.Wrapper>
-        <TextInput
+        <NewTextInput
           placeholder="E-Mail"
           name="email"
           type="email"
@@ -81,7 +81,7 @@ const LoginForm = () => {
           className="login-input"
           isRound
         />
-        <TextInput
+        <NewTextInput
           placeholder="Password"
           name="password"
           rules={{ required: true }}

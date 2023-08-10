@@ -7,7 +7,7 @@ import {
 } from 'react-hook-form';
 
 import Button from '@/components/common/Button';
-import TextInput from '@/components/common/TextInput';
+import NewTextInput from '@/components/common/TextInput/NewTextInput';
 import ModalTemplate from '@/components/common/ModalTemplate';
 
 import { UserRepository } from '@/apis/user';
@@ -60,19 +60,19 @@ const UpdatePasswordModal = () => {
     <FormProvider {...formMethods}>
       <ModalTemplate title="비밀번호 변경하기">
         <style.Wrapper>
-          <TextInput
+          <NewTextInput
             placeholder="기존 비밀번호"
             name="currentPassword"
             isRound
             sizeType="medium"
           />
-          <TextInput
+          <NewTextInput
             placeholder="변경할 비밀번호"
             name="changedPassword"
             isRound
             sizeType="medium"
           />
-          <TextInput
+          <NewTextInput
             placeholder="변경할 비밀번호 확인"
             name="confirmedPassword"
             isRound

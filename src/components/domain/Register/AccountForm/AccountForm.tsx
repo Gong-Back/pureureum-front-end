@@ -4,7 +4,7 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import { ApiErrorInstance } from '@/apis/API';
 import { AuthRepository } from '@/apis/auth';
 
-import TextInput from '@/components/common/TextInput';
+import NewTextInput from '@/components/common/TextInput/NewTextInput';
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 
@@ -51,7 +51,7 @@ const AccountForm = () => {
   return (
     <style.Wrapper>
       <style.Section>
-        <TextInput
+        <NewTextInput
           name="email"
           rules={{ required: true, minLength: 1 }}
           placeholder="아이디"
@@ -80,7 +80,7 @@ const AccountForm = () => {
         </Text>
       </style.Section>
       <style.Section>
-        <TextInput
+        <NewTextInput
           name="password"
           rules={{
             required: true,
@@ -100,7 +100,7 @@ const AccountForm = () => {
           영문, 숫자, 특수 문자 1개 이상 포함, 8자 이상
         </Text>
       </style.Section>
-      <TextInput
+      <NewTextInput
         name="confirmPassword"
         rules={{
           required: true,
