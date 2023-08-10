@@ -73,8 +73,6 @@ export async function middleware(request: NextRequest) {
 
       if (data) {
         const userSocialEmail = data.email;
-        console.log(socialType, userSocialEmail);
-
         registerPageUrl.searchParams.set('socialType', socialType);
         registerPageUrl.searchParams.set('email', userSocialEmail);
       }
