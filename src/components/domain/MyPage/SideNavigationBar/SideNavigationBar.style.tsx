@@ -6,8 +6,8 @@ export const Wrapper = styled.aside`
   flex-direction: column;
   gap: 69px 0px;
 
-  width: 220px;
-  min-height: 100vh;
+  min-width: 220px;
+  min-height: calc(100vh - 60px);
 
   padding: 68px 50px 0px 50px;
 
