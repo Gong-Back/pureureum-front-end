@@ -42,6 +42,13 @@ const RegisterStepHeader = [
   },
 ];
 
+const today = new Date();
+const [currentYear, currentMonth, currentDay] = [
+  today.getUTCFullYear(),
+  today.getUTCMonth() + 1,
+  today.getUTCDate(),
+];
+
 const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
   const router = useRouter();
   const formMethods = useForm<AuthFormType['register']>({
@@ -52,7 +59,7 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
       typedCertificationNumber: '',
       name: '',
       phoneNumber: '',
-      birthday: [0, 1, 1],
+      birthday: [currentYear, currentMonth, currentDay],
       gender: 'MALE',
       step: 0,
     },
@@ -109,7 +116,7 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
       case 1:
         return !!(
           ValidationUtil.validateName(name) &&
-          ValidationUtil.validateBirthDay(birthday.join('-'))
+          ValidationUtil.validateBirthDay(birthday)
         );
       case 2:
         return !!(
@@ -134,7 +141,9 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
     typedCertificationNumber,
   ]);
 
-  const register: SubmitHandler<AuthFormType['register']> = async (submittedData) => {
+  const register: SubmitHandler<AuthFormType['register']> = async (
+    submittedData,
+  ) => {
     if (!isCheckPhoneNumber) {
       setError('root', { message: REGISTER_FALLBACK.NOT_CHECK_SMS_VERIFY });
       return undefined;
@@ -149,8 +158,8 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
             socialType,
           })
         : await AuthRepository.registerAsync(submittedData);
-        router.replace('/');
-        return token;
+      router.replace('/');
+      return token;
     } catch (error) {
       if (error instanceof ApiErrorInstance) {
         const [errorMessage] = error.messages;
@@ -190,7 +199,7 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
           setError('root', { message: REGISTER_FALLBACK.INVALID_NAME });
           return;
         }
-        if (!ValidationUtil.validateBirthDay(birthday.join('-'))) {
+        if (!ValidationUtil.validateBirthDay(birthday)) {
           setError('root', { message: REGISTER_FALLBACK.INVALID_BIRTHDAY });
           return;
         }
@@ -222,8 +231,7 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
       setValue('email', socialEmail);
       handleCurrentStep();
     }
-  }, [socialEmail, socialType])
-
+  }, [socialEmail, socialType]);
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
