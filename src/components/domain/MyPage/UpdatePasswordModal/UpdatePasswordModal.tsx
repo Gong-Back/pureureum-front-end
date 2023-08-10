@@ -1,4 +1,10 @@
-import React, { useState, useRef } from 'react';
+/* eslint-disable react/jsx-props-no-spreading */
+import {
+  useForm,
+  useWatch,
+  FormProvider,
+  SubmitHandler,
+} from 'react-hook-form';
 
 import Button from '@/components/common/Button';
 import TextInput from '@/components/common/TextInput';
@@ -7,32 +13,41 @@ import ModalTemplate from '@/components/common/ModalTemplate';
 import { UserRepository } from '@/apis/user';
 
 import { COLORS } from '@/constants/styles';
+import { type UserFormType } from '@/constants/types';
+
 import * as style from './UpdatePasswordModal.style';
 
 const UpdatePasswordModal = () => {
-  const [feedbackMsg, setFeedbackMsg] = useState('');
-  const [changedPasswordInfo, setChangedPasswordInfo] = useState({
-    currentPassword: '',
-    changedPassword: '',
-    confirmedPassword: '',
+  const formMethods = useForm<UserFormType['updatePassword']>({
+    defaultValues: {
+      currentPassword: '',
+      changedPassword: '',
+      confirmedPassword: '',
+    },
   });
-  const { currentPassword, changedPassword, confirmedPassword } =
-    changedPasswordInfo;
+  const {
+    control,
+    setError,
+    formState: { errors },
+    handleSubmit,
+  } = formMethods;
 
-  const handleFormInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name: inputName, value } = e.target;
-    setChangedPasswordInfo((prev) => ({ ...prev, [inputName]: value }));
-  };
+  const [changedPassword, confirmedPassword, currentPassword] = useWatch({
+    control,
+    name: ['changedPassword', 'confirmedPassword', 'currentPassword'],
+  });
 
-  const confirmUpdatePassword = async () => {
+  const confirmUpdatePassword: SubmitHandler<
+    UserFormType['updatePassword']
+  > = async () => {
     if (changedPassword !== confirmedPassword) {
-      setFeedbackMsg('비밀번호가 서로 일치하지 않습니다.');
+      setError('root', { message: '비밀번호가 서로 일치하지 않습니다.' });
       return;
     }
-    const response = await UserRepository.updateUserInfoAsync(
-      'password',
-      changedPassword,
-    );
+    await UserRepository.updateUserInfoAsync({
+      type: 'password',
+      updatedValue: changedPassword,
+    });
   };
 
   const isPossibleToConfirm = [
@@ -42,48 +57,44 @@ const UpdatePasswordModal = () => {
   ].every(Boolean);
 
   return (
-    <ModalTemplate title="비밀번호 변경하기">
-      <style.Wrapper>
-        <TextInput
-          placeholder="기존 비밀번호"
-          name="currentPassword"
-          value={currentPassword}
-          isRound
-          sizeType="medium"
-          onChange={handleFormInput}
-        />
-        <TextInput
-          placeholder="변경할 비밀번호"
-          name="changedPassword"
-          value={changedPassword}
-          isRound
-          sizeType="medium"
-          onChange={handleFormInput}
-        />
-        <TextInput
-          placeholder="변경할 비밀번호 확인"
-          name="confirmedPassword"
-          value={confirmedPassword}
-          isRound
-          sizeType="medium"
-          onChange={handleFormInput}
-        />
-        <Button
-          isFilled
-          themeColor={
-            isPossibleToConfirm
-              ? COLORS.primary.greenDefault
-              : COLORS.grayscale.gray400
-          }
-          sizeType="small"
-          className="confirm-btn"
-          onClick={confirmUpdatePassword}
-        >
-          비밀번호 변경
-        </Button>
-        {feedbackMsg && <p>{feedbackMsg}</p>}
-      </style.Wrapper>
-    </ModalTemplate>
+    <FormProvider {...formMethods}>
+      <ModalTemplate title="비밀번호 변경하기">
+        <style.Wrapper>
+          <TextInput
+            placeholder="기존 비밀번호"
+            name="currentPassword"
+            isRound
+            sizeType="medium"
+          />
+          <TextInput
+            placeholder="변경할 비밀번호"
+            name="changedPassword"
+            isRound
+            sizeType="medium"
+          />
+          <TextInput
+            placeholder="변경할 비밀번호 확인"
+            name="confirmedPassword"
+            isRound
+            sizeType="medium"
+          />
+          <Button
+            isFilled
+            themeColor={
+              isPossibleToConfirm
+                ? COLORS.primary.greenDefault
+                : COLORS.grayscale.gray400
+            }
+            sizeType="small"
+            className="confirm-btn"
+            onClick={() => handleSubmit(confirmUpdatePassword)()}
+          >
+            비밀번호 변경
+          </Button>
+          {errors.root && <p>{errors.root.message}</p>}
+        </style.Wrapper>
+      </ModalTemplate>
+    </FormProvider>
   );
 };
 

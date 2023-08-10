@@ -15,18 +15,12 @@ interface ProfileEditorProps {
 }
 
 const ProfileEditor = ({ profileUrl, nickname }: ProfileEditorProps) => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const openFileUploadDialog = () => fileInputRef.current?.click();
-  const uploadProfileImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files);
-    const [uploadedFile] = e.target.files ?? [];
-    if (!uploadedFile) return;
-    if (!uploadedFile.type.includes('image')) return;
-
-    const response = await UserRepository.updateProfileImageAsync(uploadedFile);
-    console.log(response);
-  };
+  const { fileInputRef, handleUploadFile, removeUploadedFile } = useUploadFile({
+    maxFileSize: 10 * 1024 * 1024,
+    allowFileTypes: ['png', 'jpg'],
+    onSubmit: (uploadedFile) => setValue('certificationDoc', uploadedFile),
+    onRemove: () => setValue('certificationDoc', undefined),
+  });
 
   const handleChangeNickname = () => {
     console.log('test');

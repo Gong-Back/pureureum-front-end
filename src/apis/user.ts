@@ -2,6 +2,7 @@ import {
   PersonalInfoType,
   UpdatePersonalInfoType,
   UpdateUserInfoParamType,
+  UserReqParams,
 } from '@/constants/types';
 import { getAsync, postAsync } from './API';
 
@@ -22,17 +23,13 @@ export class UserRepository {
    * @param updatedValue 변경하고자 하는 정보
    * @returns 성공 시 200 반환, 실패 시 40X 에러 반환
    */
-  static async updateUserInfoAsync(
-    password: string | undefined,
-    phoneNumber: string | undefined,
-    nickname: string | undefined,
-  ) {
-    await postAsync<undefined, UpdatePersonalInfoType>(
-      '/users/update/info',
-      {
-        [type]: updatedValue,
-      },
-    );
+  static async updateUserInfoAsync({
+    type,
+    updatedValue,
+  }: UserReqParams['updateInfo']) {
+    await postAsync<undefined, UpdatePersonalInfoType>('/users/update/info', {
+      [type]: updatedValue,
+    });
   }
 
   /**
@@ -40,9 +37,7 @@ export class UserRepository {
    * @param profileImageFile 새롭게 업데이트 하려는 프로필 이미지 (undefined인 경우, 기본 이미지로 롤백)
    * @returns 성공 시 200 반환, 실패 시 40X 에러 반환
    */
-  static async updateProfileImageAsync(
-    profileImageFile: File | undefined,
-  ) {
+  static async updateProfileImageAsync(profileImageFile: File | undefined) {
     await postAsync<undefined, UpdateProfileImageType>(
       '/users/update/profile',
       formData,

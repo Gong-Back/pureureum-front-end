@@ -1,26 +1,31 @@
 import { GenderType } from './authTypes';
 
-export interface PersonalInfoType {
-  email: string;
-  phoneNumber: string;
-  name: string;
-  nickname: string;
-  gender: GenderType;
-  birthday: string;
-  profileUrl: string;
+export type UserReqParams = {
+  updateInfo: {
+    type: 'password' | 'phoneNumber' | 'nickname'
+    updatedValue: string;
+  }
+  updateProfile: {
+    profileImageFile: File | undefined;
+  }
 }
 
-export interface UpdatePersonalInfoType {
-  password?: string;
-  phoneNumber?: string;
-  nickname?: string;
+export type UserResponses = {
+  info: {
+    email: string;
+    phoneNumber: string;
+    name: string;
+    nickname: string;
+    gender: GenderType;
+    birthday: string;
+    profileUrl: string;
+  }
 }
 
-export interface UpdateProfileImageType {
-  profileImageFile: File | undefined;
+export type UserFormType = {
+  updatePassword: {
+    currentPassword: string;
+    changedPassword: string;
+    confirmedPassword: string;
+  }
 }
-
-export type UpdateUserInfoParamType = {
-  type: 'password' | 'phoneNumber' | 'nickname';
-  updatedValue: string;
-};
