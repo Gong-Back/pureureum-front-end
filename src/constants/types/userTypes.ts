@@ -27,5 +27,11 @@ export type UserFormType = {
     currentPassword: string;
     changedPassword: string;
     confirmedPassword: string;
+  },
+  updatePhoneNumber: {
+    changedPhoneNumber: string,
+    confirmedNumber: string,
+    certificationNumber: string,
+    isSendingVerifyNum: boolean,
   }
 }

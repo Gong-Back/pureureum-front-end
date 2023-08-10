@@ -1,34 +1,62 @@
 import React, { useState } from 'react';
+import {
+  useForm,
+  FormProvider,
+  useWatch,
+  SubmitHandler,
+} from 'react-hook-form';
+
+import { AuthRepository } from '@/apis/auth';
+import { UserRepository } from '@/apis/user';
 
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 import TextInput from '@/components/common/TextInput';
 import ModalTemplate from '@/components/common/ModalTemplate';
 
-import { AuthRepository } from '@/apis/auth';
-import { UserRepository } from '@/apis/user';
+import { type UserFormType } from '@/constants/types';
+import { COLORS } from '@/constants/styles';
+
 import useModal from '@/hooks/useModal';
 import ValidationUtil from '@/utils/validation';
 
-import { COLORS } from '@/constants/styles';
 import * as style from './UpdatePhoneModal.style';
+
 
 const UpdatePhoneModal = () => {
   const { closeModal } = useModal();
-  const [feedbackMsg, setFeedbackMsg] = useState('');
-  const [changedPhoneNumInfo, setchangedPhoneNumInfo] = useState({
-    changedPhoneNumber: '',
-    confirmedNumber: '',
-    certificationNumber: '',
-    isSendingVerifyNum: false,
+
+  const formMethods = useForm<UserFormType['updatePhoneNumber']>({
+    defaultValues: {
+      changedPhoneNumber: '',
+      confirmedNumber: '',
+      certificationNumber: '',
+      isSendingVerifyNum: false,
+    },
   });
 
   const {
+    control,
+    handleSubmit,
+    setError,
+    setValue,
+    formState: { errors },
+  } = formMethods;
+
+  const [
     changedPhoneNumber,
     certificationNumber,
     confirmedNumber,
     isSendingVerifyNum,
-  } = changedPhoneNumInfo;
+  ] = useWatch({
+    control,
+    name: [
+      'changedPhoneNumber',
+      'certificationNumber',
+      'confirmedNumber',
+      'isSendingVerifyNum',
+    ],
+  });
 
   const isPossibleToConfirm = [
     changedPhoneNumber,
@@ -40,57 +68,39 @@ const UpdatePhoneModal = () => {
   const isValidPhoneNumber =
     ValidationUtil.validatePhoneNumber(changedPhoneNumber);
 
-  const handleFormInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name: inputName, value } = e.target;
-    const isPhoneNumber = inputName === 'changedPhoneNumber';
-
-    // 전화번호의 경우, 숫자만을 입력 받게 하며 자동으로 하이픈 (-) 을 추가시킴.
-    if (isPhoneNumber) {
-      let formattedValue = value
-        .replace(/[^0-9]/g, '')
-        .slice(0, changedPhoneNumber ? 11 : 6);
-      formattedValue = formattedValue.replace(
-        /^(\d{2,3})(\d{3,4})(\d{4})$/,
-        `$1-$2-$3`,
-      );
-      setchangedPhoneNumInfo((prev) => ({
-        ...prev,
-        [inputName]: formattedValue,
-      }));
-      return;
-    }
-
-    setchangedPhoneNumInfo((prev) => ({ ...prev, [inputName]: value }));
-  };
-
   const sendSmsCertificationNumber = async () => {
     if (!isValidPhoneNumber) return;
 
-    const response = await AuthRepository.verifyPhoneNumberAsync(
-      changedPhoneNumber,
-    );
-
-    if (!response.isSuccess) return;
-
-    const { certificationNumber: newCertificatedNumber } = response.result.data;
-    setchangedPhoneNumInfo((prev) => ({
-      ...prev,
-      certificationNumber: newCertificatedNumber,
-      isSendingVerifyNum: true,
-    }));
+    try {
+      const {
+        data: { certificationNumber: receivedCertNumber },
+      } = await AuthRepository.verifyPhoneNumberAsync(changedPhoneNumber);
+      setValue('isSendingVerifyNum', true);
+      setValue('certificationNumber', receivedCertNumber);
+    } catch (error) {
+      setError('root', {
+        message: '통신 과정에서 문제가 생겼습니다. 다시 시도해주세요.',
+      });
+    }
   };
 
-  const confirmUpdatePhoneNumber = async () => {
-    if (!isSendingVerifyNum) return;
+  const confirmUpdatePhoneNumber: SubmitHandler<
+    UserFormType['updatePhoneNumber']
+  > = async () => {
+    if (isSendingVerifyNum) return;
     if (certificationNumber !== confirmedNumber) return;
 
-    const response = await UserRepository.updateUserInfoAsync(
-      'phoneNumber',
-      changedPhoneNumber,
-    );
-
-    if (!response.isSuccess) return;
-    closeModal();
+    try {
+      await UserRepository.updateUserInfoAsync({
+        type: 'phoneNumber',
+        updatedValue: changedPhoneNumber,
+      });
+      closeModal();
+    } catch (error) {
+      setError('root', {
+        message: '통신 과정에서 문제가 생겼습니다. 다시 시도해주세요.',
+      });
+    }
   };
 
   return (
@@ -106,11 +116,15 @@ const UpdatePhoneModal = () => {
         <TextInput
           placeholder="전화번호"
           name="changedPhoneNumber"
-          value={changedPhoneNumber}
+          formatValue={(value) =>
+            value
+              .replace(/[^0-9]/g, '')
+              .slice(0, 11)
+              .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`)
+          }
           isRound
           sizeType="medium"
           className="phone-input"
-          onChange={handleFormInput}
           disabled={isSendingVerifyNum}
         />
         <Button
@@ -129,12 +143,11 @@ const UpdatePhoneModal = () => {
         <TextInput
           placeholder="인증번호"
           name="confirmedNumber"
-          value={confirmedNumber}
           isRound
           sizeType="medium"
           className="verify-input"
           disabled={!isSendingVerifyNum}
-          onChange={handleFormInput}
+          formatValue={(value) => value.replace(/[^0-9]/g, '').slice(0, 6)}
           maxLength={6}
         />
         <Button
@@ -146,7 +159,7 @@ const UpdatePhoneModal = () => {
           }
           sizeType="small"
           className="confirm-btn"
-          onClick={confirmUpdatePhoneNumber}
+          onClick={handleSubmit(confirmUpdatePhoneNumber)}
         >
           변경 완료
         </Button>
