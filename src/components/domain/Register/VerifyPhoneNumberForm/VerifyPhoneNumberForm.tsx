@@ -15,7 +15,7 @@ import ValidationUtil from '@/utils/validation';
 import * as style from './VerifyPhoneNumberForm.style';
 
 const VerifyPhoneNumberForm = () => {
-  const { control, setError, setValue } =
+  const { watch, control, setError, setValue } =
     useFormContext<AuthFormType['register']>();
 
   const [certificationNumber, phoneNumber, isCheckPhoneNumber] = useWatch({
@@ -58,10 +58,11 @@ const VerifyPhoneNumberForm = () => {
             },
           }}
           formatValue={(value) =>
-              value
-                .replace(/[^0-9]/g, '')
-                .slice(0, 11)
-                .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`)}
+            value
+              .replace(/[^0-9]/g, '')
+              .slice(0, 11)
+              .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`)
+          }
           disabled={isCheckPhoneNumber}
           placeholder="핸드폰 번호"
           width={269}
@@ -74,6 +75,7 @@ const VerifyPhoneNumberForm = () => {
       <NewTextInput
         name="typedCertificationNumber"
         rules={{ required: true, minLength: 6 }}
+        formatValue={(value) => value.replace(/[^0-9]/g, '').slice(0, 6)}
         disabled={!certificationNumber}
         placeholder="인증번호"
         isRound

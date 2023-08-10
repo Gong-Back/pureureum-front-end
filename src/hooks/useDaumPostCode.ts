@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { AddressType } from '@/constants/types';
-import { COLORS } from '@/constants/styles';
+import { type AddressType, type CoordinateType } from '@/constants/types';
 
 const useDaumPostCode = () => {
   const [sdkScriptLoaded, setSdkScriptLoaded] = useState({
@@ -15,6 +14,10 @@ const useDaumPostCode = () => {
     detail: '',
     jibun: '',
   });
+  const [coordinate, setCoordinate] = useState<CoordinateType>({
+    longitude: '',
+    latitude: '',
+  });
 
   // TODO : 두 개의 Script 를 useEffect 에서 로드하는 것 말고, next/script로 로드하는 방법 강구해보기.
   useEffect(() => {
@@ -25,7 +28,7 @@ const useDaumPostCode = () => {
     );
 
     const kakaoMapScript = document.createElement('script');
-    kakaoMapScript.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_APP_KEY}&autoload=false`;
+    kakaoMapScript.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_APP_KEY}&autoload=false&libraries=services`;
     kakaoMapScript.addEventListener('load', () =>
       setSdkScriptLoaded((prev) => ({ ...prev, kakaoMap: true })),
     );
@@ -64,6 +67,14 @@ const useDaumPostCode = () => {
           jibun,
           detail,
         });
+        kakao.maps.load(() => {
+          const geocoder = new kakao.maps.services.Geocoder();
+          geocoder.addressSearch(
+            data.jibunAddress,
+            ([{ x: longitude, y: latitude }]: { x: string; y: string }[]) =>
+              setCoordinate({ longitude, latitude }),
+          );
+        });
       },
     }).open({
       left: window.screen.width / 2 - 250,
@@ -71,14 +82,9 @@ const useDaumPostCode = () => {
       autoClose: true,
       popupTitle: '신규 등록 시설 주소 검색',
     });
-
-    kakao.maps.load(() => {
-      const geocoder = new kakao.maps.services.Geocoder();
-      geocoder.addressSearch();
-    });
   };
 
-  return { openPostCode, address };
+  return { openPostCode, address, coordinate };
 };
 
 export default useDaumPostCode;

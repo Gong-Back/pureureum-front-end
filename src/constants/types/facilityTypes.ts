@@ -43,6 +43,11 @@ export type FacilityResponses = {
   }[]
 }
 
+export interface CoordinateType {
+  latitude: string,
+  longitude: string,
+}
+
 export interface AddressType {
   city: string;
   county: string;
@@ -53,6 +58,7 @@ export interface AddressType {
 
 export interface FacilityFormType {
   address: AddressType,
+  coordinate: CoordinateType,
   category: CategoryType;
   name: string;
   certificationDoc: File | undefined;

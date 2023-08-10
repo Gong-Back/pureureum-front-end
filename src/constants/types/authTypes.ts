@@ -10,7 +10,7 @@ export type AuthReqParams = {
     name: string;
     email: string;
     phoneNumber: string;
-    birthday: number[];
+    birthday: [number, number, number];
     gender: GenderType;
     password: string;
     socialType?: SocialPlatformType;
@@ -30,7 +30,7 @@ export type SocialReqParams = {
     name: string;
     email: string;
     phoneNumber: string;
-    birthday: number[];
+    birthday: [number, number, number];
     gender: GenderType;
     socialType: SocialPlatformType;
   }
@@ -81,7 +81,7 @@ export type AuthFormType = {
     typedCertificationNumber: string;
     name: string;
     phoneNumber: string;
-    birthday: number[];
+    birthday: [number, number, number];
     gender: GenderType;
     socialType?: SocialPlatformType;
     certificationNumber: string | undefined;

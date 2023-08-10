@@ -2,6 +2,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import { NextPage } from 'next';
 import ProjectCreationTemplate from '@/components/template/ProjectCreationTemplate';
 import { ProjectCreationInputType } from '@/constants/types';
+import { ProjectRepository } from '@/apis/project';
 import ValidationUtil from '@/utils/validation';
 
 const ProjectCreationPage: NextPage = () => {
@@ -31,11 +32,30 @@ const ProjectCreationPage: NextPage = () => {
   const {
     title,
     introduction,
-    totalRecruits,
+    content,
     projectStartDate,
     projectEndDate,
-    notice,
+    totalRecruits,
+    minAge,
+    maxAge,
   } = projectInformation;
+
+  const onSubmitProjectFrom = async () => {
+    const toDateStr = (date: { year: string; month: string; day: string }) =>
+      `${date.year}-${date.month}-${date.day}`;
+
+    const res = await ProjectRepository.registerProjectAsync(
+      title,
+      introduction,
+      content,
+      toDateStr(projectStartDate),
+      toDateStr(projectEndDate),
+      totalRecruits,
+      minAge,
+      maxAge,
+    );
+    console.log(res);
+  };
 
   const handleNextStep = () => {
     if (currentStep === 1) {
@@ -68,11 +88,13 @@ const ProjectCreationPage: NextPage = () => {
           '유효한 프로젝트 시작 혹은 종료 날짜를 설정해주세요.';
         return;
       }
-      if (notice === '') {
-        feedbackRef.current.innerText =
-          '프로젝트 관련 유의사항을 기재해 주세요.';
-        return;
-      }
+      // if (notice === '') {
+      //  feedbackRef.current.innerText =
+      //    '프로젝트 관련 유의사항을 기재해 주세요.';
+      //  return;
+      // }
+    } else {
+      onSubmitProjectFrom();
     }
 
     feedbackRef.current.innerText = '';

@@ -118,7 +118,7 @@ export class ApiErrorInstance extends Error {
  */
 export async function getAsync<T>(url: string, config?: AxiosRequestConfig) {
   try {
-    const response = await API.get<T>(url, {
+    const response = await API.get<T, AxiosResponse<ApiResponse<T>>>(url, {
       ...config,
     });
     return response.data;

@@ -21,6 +21,8 @@ export type NewTextInputProps<
     isFilled?: boolean;
     /** Input 테두리 둥글게 할지 여부 (default : false)  */
     isRound?: boolean;
+    /** 실제 value 와는 다르지만 Input 태그에 표시될 값 */
+    displayedValue?: string;
     /** 입력받은 값을 포맷팅하는 함수 formatValue */
     // eslint-disable-next-line no-unused-vars
     formatValue?: (value: string) => any;
@@ -40,6 +42,7 @@ const NewTextInput = ({
   rules,
   control,
   formatValue,
+  displayedValue,
   ...inputProps
 }: NewTextInputProps) => {
   const {
@@ -60,7 +63,7 @@ const NewTextInput = ({
           ? onChange(formatValue(event.target.value))
           : onChange(event.target.value)
       }
-      value={value}
+      value={displayedValue ?? value}
     />
   );
 };
