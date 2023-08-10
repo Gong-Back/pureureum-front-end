@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 export const Wrapper = styled.section`
   display: flex;
   justify-content: space-between;
+
+  height: calc(100vh - 60px);
 `;
 
 export const Aside = styled.div`
@@ -10,5 +12,21 @@ export const Aside = styled.div`
   flex-direction: column;
   gap: 32px;
 
+  width: 100%;
+  height: calc(100vh - 60px);
   padding: 60px;
 `;
+
+export const EmptyNotice = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px 0;
+
+  .seek-button {
+    width: unset;
+    padding: 8px 46px;
+  }
+
+  margin: auto;
+`
