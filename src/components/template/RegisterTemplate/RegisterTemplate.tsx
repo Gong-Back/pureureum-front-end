@@ -222,7 +222,7 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
       setValue('email', socialEmail);
       handleCurrentStep();
     }
-  }, [])
+  }, [socialEmail, socialType])
 
 
   return (

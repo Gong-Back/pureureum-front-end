@@ -1,10 +1,11 @@
-import { useState } from 'react';
 import Image from 'next/image';
 
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 
 import useUploadFile from '@/hooks/useUploadFile';
+import { useUpdateProfileImage } from '@/hooks/useFetchProfileInfo';
+
 
 import { COLORS } from '@/constants/styles';
 import * as styles from './ProfileEditor.style';
@@ -15,13 +16,12 @@ interface ProfileEditorProps {
 }
 
 const ProfileEditor = ({ profileUrl, nickname }: ProfileEditorProps) => {
-  const [uploadedProfile, setUploadedProfile] = useState<File | null>(null);
+  const { mutate } = useUpdateProfileImage();
 
-  const { fileInputRef, handleUploadFile, removeUploadedFile } = useUploadFile({
+  const { fileInputRef, handleUploadFile } = useUploadFile({
     maxFileSize: 10 * 1024 * 1024,
     allowFileTypes: ['png', 'jpg'],
-    onSubmit: (uploadedFile) => setUploadedProfile(uploadedFile),
-    onRemove: () => setUploadedProfile(null),
+    onSubmit: (uploadedFile) => mutate(uploadedFile),
   });
 
   const openFileUploadDialog = () => fileInputRef.current?.click();

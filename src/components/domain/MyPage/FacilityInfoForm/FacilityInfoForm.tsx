@@ -52,7 +52,6 @@ const FacilityInfoForm = () => {
   });
   const {
     control,
-    getValues,
     setValue,
     setError,
     formState: { errors },

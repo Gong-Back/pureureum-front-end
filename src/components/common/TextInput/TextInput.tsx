@@ -21,7 +21,8 @@ export type TextInputProps<
     isFilled?: boolean;
     /** Input 테두리 둥글게 할지 여부 (default : false)  */
     isRound?: boolean;
-    /**  */
+    /** 입력받은 값을 포맷팅하는 함수 formatValue */
+    // eslint-disable-next-line no-unused-vars
     formatValue?: (value: string) => any;
     className?: string;
   };

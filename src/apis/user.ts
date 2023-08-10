@@ -23,6 +23,7 @@ export class UserRepository {
     type,
     updatedValue,
   }: UserReqParams['updateInfo']) {
+    // eslint-disable-next-line no-unused-vars
     await postAsync<undefined, { [key in string]: string }>(
       '/users/update/info',
       {

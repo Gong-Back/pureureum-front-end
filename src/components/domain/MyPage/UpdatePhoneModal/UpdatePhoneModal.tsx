@@ -38,7 +38,6 @@ const UpdatePhoneModal = () => {
     handleSubmit,
     setError,
     setValue,
-    formState: { errors },
   } = formMethods;
 
   const [
