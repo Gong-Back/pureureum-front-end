@@ -29,7 +29,7 @@ const SIDE_NAV_ELEMENT = {
     {
       title: '승인 대기 중인',
       icon: <NotificationIcon />,
-      path: '/mypage/project/wait',
+      path: '/mypage/project/pending',
     },
     {
       title: '내가 관심 있는',
@@ -68,7 +68,7 @@ const SIDE_NAV_ELEMENT = {
     {
       title: '시설 관리',
       icon: <NoteIcon />,
-      path: '/mypage/operation/manage',
+      path: '/mypage/operation/facilities',
     },
   ],
 } as const;

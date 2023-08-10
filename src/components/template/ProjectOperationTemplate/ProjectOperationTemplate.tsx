@@ -10,9 +10,9 @@ import { COLORS } from '@/constants/styles';
 import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
 
 import { projectsDummydata } from 'src/dummyData';
-import * as style from './ProjectPendingTemplate.style';
+import * as style from './ProjectOperationTemplate.style';
 
-const ProjectPendingTemplate = () => {
+const ProjectOperationTemplate = () => {
   const router = useRouter();
   const currentBreakpoint = useMeasureBreakpoint(['mobile', 'pc']);
   // FIXME : 추후 API 연동 시 isEmpty flag 제거 필요
@@ -25,15 +25,15 @@ const ProjectPendingTemplate = () => {
       {currentBreakpoint === 'pc' && <SideNavigationBar />}
       <style.Aside>
         <Text fontStyleName="title" color={COLORS.grayscale.gray600}>
-          승인 대기 중인 프로젝트
+          나의 프로젝트
         </Text>
         {isEmpty ? (
           <style.EmptyNotice>
             <Text fontStyleName="subtitle2R" color={COLORS.grayscale.gray500}>
-              아직 대기 중인 프로젝트가 없습니다!
+              아직 생성하신 프로젝트가 없습니다!
             </Text>
-            <Button isRound className='seek-button'>
-              프로젝트 둘러보기
+            <Button isRound className='seek-button' onClick={moveToProjectCreation}>
+              프로젝트 생생하기
             </Button>
           </style.EmptyNotice>
         ) : (
@@ -44,4 +44,4 @@ const ProjectPendingTemplate = () => {
   );
 };
 
-export default ProjectPendingTemplate;
+export default ProjectOperationTemplate;
