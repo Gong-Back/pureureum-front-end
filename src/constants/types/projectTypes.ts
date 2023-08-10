@@ -32,26 +32,35 @@ export interface Step3InputType {
 export interface ProjectCreationInputType
   extends Step1InputType,
     Step2InputType,
-    Step3InputType {
-  // category: CategoryType;
-  // locationInfo: {
-  //  name: string;
-  //  address: string;
-  //  latitude: number;
-  //  longitude: number;
-  // };
+    Step3InputType {}
+
+export interface FacilityAddressType {
+  city: string;
+  county: string;
+  district: string;
+  jibun: string;
+  detail: string;
+  longitude: string;
+  latitude: string;
 }
 
-export interface ProjectItemType {
-  projectId: number;
-  type: CategoryType;
-  thumbnail: string;
+export interface ProjectBasicInfoType {
+  id: number;
   title: string;
-  introduction: string;
-  onwerName: string;
-  currentRecruit: number;
-  totalRecruit: number;
-  location: string;
-  startDate: string;
-  endDate: string;
+  likeCount: number;
+  projectStartDate: string;
+  projectEndDate: string;
+  recruits: number;
+  totalRecruits: number;
+  facilityAddress: FacilityAddressType;
+}
+
+/** 프로젝트 정보 */
+export interface ProjectItemType {
+  projectPartInformation: ProjectBasicInfoType;
+  projectCategory: CategoryType;
+  thumbnailFileRes: {
+    projectFileUrl: string;
+    projectFileType: string;
+  } | null;
 }
