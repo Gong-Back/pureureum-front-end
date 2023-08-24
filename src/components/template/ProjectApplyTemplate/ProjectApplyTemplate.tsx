@@ -1,6 +1,8 @@
 import Text from '@/components/common/Text';
 import { COLORS } from '@/constants/styles';
 
+import * as styles from './ProjectApplyTemplate.style'
+
 const ProjectApplyTemplate = () => {
   const aaa = 'aaa';
 
@@ -12,7 +14,7 @@ const ProjectApplyTemplate = () => {
           <Text fontStyleName="subtitle1" color={COLORS.grayscale.gray600}>
             참가자 정보
           </Text>
-          <div>
+          <styles.InfoSection>
             <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
               이름
             </Text>
@@ -43,7 +45,7 @@ const ProjectApplyTemplate = () => {
             <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
               010-1234-1234
             </Text>
-          </div>
+          </styles.InfoSection>
         </div>
         <div>
           <Text fontStyleName="subtitle1" color={COLORS.grayscale.gray600}>
@@ -53,7 +55,7 @@ const ProjectApplyTemplate = () => {
             푸르름은 아직 결제 서비스를 지원하지 않습니다. 하단에 기재되어 있는
             계좌로 참가비를 송금해주세요.
           </Text>
-          <div>
+          <styles.BankingSection>
             <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
               계좌
             </Text>
@@ -84,9 +86,9 @@ const ProjectApplyTemplate = () => {
             <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
               010-1234-1234
             </Text>
-          </div>
+          </styles.BankingSection>
         </div>
-        <div>
+        <styles.CheckBoxSection>
           <input type="checkbox" />
           <Text fontStyleName="body1R" color={COLORS.grayscale.gray500}>
             참가비용을 입금했나요?
@@ -95,7 +97,7 @@ const ProjectApplyTemplate = () => {
           <Text fontStyleName="body1R" color={COLORS.grayscale.gray500}>
             프로젝트 유의사항을 제대로 확인했나요?
           </Text>
-        </div>
+        </styles.CheckBoxSection>
         <aside>
           <Text fontStyleName="subtitle2B" color={COLORS.primary.logo}>
             우리 함께 감자 농장 체험해요!
