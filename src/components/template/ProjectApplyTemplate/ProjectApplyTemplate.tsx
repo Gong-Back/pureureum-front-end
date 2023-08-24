@@ -98,7 +98,7 @@ const ProjectApplyTemplate = () => {
             프로젝트 유의사항을 제대로 확인했나요?
           </Text>
         </styles.CheckBoxSection>
-        <aside>
+        <styles.Aside>
           <Text fontStyleName="subtitle2B" color={COLORS.primary.logo}>
             우리 함께 감자 농장 체험해요!
           </Text>
@@ -139,7 +139,7 @@ const ProjectApplyTemplate = () => {
               URL 공유
             </Text>
           </div>
-        </aside>
+        </styles.Aside>
       </section>
     </div>
   );
