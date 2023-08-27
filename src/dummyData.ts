@@ -19,9 +19,8 @@ export const projectItemDummyData: ProjectResponses['main'] = {
     likeCount: 10,
     projectStartDate: '2023-03-10',
     projectEndDate: '2023-03-15',
-    recruits: 10,
-    totalRecruits: 100,
-    ownerName: 'owner',
+    recruits: 0,
+    totalRecruits: 10,
     facilityAddress: {
       city: '고양시',
       county: '대화역',
@@ -31,6 +30,7 @@ export const projectItemDummyData: ProjectResponses['main'] = {
       longitude: '',
       latitude: '',
     },
+    ownerName:'owner',
   },
   projectCategory: 'FARMING_HEALING',
   thumbnailFileRes: {
