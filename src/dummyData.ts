@@ -1,14 +1,14 @@
-import { ProjectItemType } from './constants/types';
+import { ProjectResponses } from './constants/types';
 
-export const projectItemDummyData: ProjectItemType = {
+export const projectItemDummyData: ProjectResponses['main'] = {
   projectPartInformation: {
-    id: 0,
-    title: '',
-    likeCount: 0,
+    id: 1,
+    title: '우리 봄에 감자 농장 체험해요!',
+    likeCount: 10,
     projectStartDate: '2023-03-10',
     projectEndDate: '2023-03-15',
-    recruits: 0,
-    totalRecruits: 10,
+    recruits: 10,
+    totalRecruits: 100,
     facilityAddress: {
       city: '',
       county: '',
@@ -26,6 +26,6 @@ export const projectItemDummyData: ProjectItemType = {
   },
 };
 
-export const projectsDummydata: ProjectItemType[] = Array(10)
+export const projectsDummydata = Array(10)
   .fill(0)
   .map((v, i) => ({ ...projectItemDummyData, id: i }));

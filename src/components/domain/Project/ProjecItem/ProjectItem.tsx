@@ -6,15 +6,14 @@ import LocationIconSvg from '@/assets/icons/locationIcon.svg';
 import CalendarIconSvg from '@/assets/icons/calendarIcon.svg';
 import GrassIconSvg from '@/assets/icons/grassIcon.svg';
 
-import { CategoryType, ProjectBasicInfoType } from '@/constants/types';
+import { CategoryType, ProjectPartInfoType } from '@/constants/types';
 import { COLORS } from '@/constants/styles';
-
 import * as style from './ProjectItem.style';
 
 export interface ProjectItemProps {
   category: CategoryType;
   thumbnail: string;
-  info: ProjectBasicInfoType;
+  info: ProjectPartInfoType;
 }
 
 // TODO 멤버 모집률을 반영한 GrassIcon 상태 변화는 추후에 수정하겠습니다
