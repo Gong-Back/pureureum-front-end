@@ -5,33 +5,32 @@ import HeartIconSvg from '@/assets/icons/heartIcon.svg';
 import BookmarkIconSvg from '@/assets/icons/bookmarkIcon.svg';
 import ShareURLIconSvg from '@/assets/icons/shareURLIcon.svg';
 
+import { ProjectInfoType } from '@/constants/types';
+import FormatUtil from '@/utils/format';
 import * as style from './FloatingMenu.style';
 
 export interface FloatingMenuProps {
-  info: {
-    title: string;
-    introduction: string;
-    owner: string;
-    projectStartDate: string;
-    projectEndDate: string;
-    facility: string;
-  };
+  /** 프로젝트 관련 상세 정보 */
+  info: ProjectInfoType;
 }
 
 const FloatingMenu = ({ info }: FloatingMenuProps) => {
   const {
     title,
     introduction,
-    owner,
-    facility,
+    ownerName,
+    facilityAddress,
     projectStartDate,
     projectEndDate,
   } = info;
 
   const infoList = [
-    { label: '주관', content: owner },
-    { label: '위치', content: facility },
-    { label: '기간', content: `${projectStartDate} ~ ${projectEndDate}` },
+    { label: '주관', content: ownerName },
+    { label: '위치', content: FormatUtil.formatLocation(facilityAddress) },
+    {
+      label: '기간',
+      content: FormatUtil.formatDuration(projectStartDate, projectEndDate),
+    },
   ];
 
   const menuList = [
