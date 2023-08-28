@@ -1,3 +1,5 @@
+import { AddressType, CoordinateType } from './facilityTypes';
+
 /** 프로젝트 카테고리 */
 export type CategoryType =
   | 'YOUTH_FARMING'
@@ -43,21 +45,14 @@ export interface ProjectCreationInputType
     Step3InputType {}
 
 /** 주소 정보 Type */
-export interface FacilityAddressType {
-  city: string;
-  county: string;
-  district: string;
-  jibun: string;
-  detail: string;
-  longitude: string;
-  latitude: string;
-}
+export interface FacilityAddressType extends AddressType, CoordinateType {}
 
 /** 프로젝트와 관련된 주요 정보 Type */
 export interface ProjectPartInfoType {
   id: number;
   title: string;
   likeCount: number;
+  ownerName: string;
   projectStartDate: string;
   projectEndDate: string;
   recruits: number;
