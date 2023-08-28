@@ -8,13 +8,13 @@ const ProjectApplyTemplate = () => {
 
   return (
     <div>
-      <h3>프로젝트 신청</h3>
-      <section>
-        <div>
+      <styles.Wrapper>
+        <styles.Title>프로젝트 신청</styles.Title>
+        <styles.InfoSection>
           <Text fontStyleName="subtitle1" color={COLORS.grayscale.gray600}>
             참가자 정보
           </Text>
-          <styles.InfoSection>
+          <styles.InfoDetail>
             <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
               이름
             </Text>
@@ -45,9 +45,9 @@ const ProjectApplyTemplate = () => {
             <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
               010-1234-1234
             </Text>
-          </styles.InfoSection>
-        </div>
-        <div>
+          </styles.InfoDetail>
+        </styles.InfoSection>
+        <styles.BankingSection>
           <Text fontStyleName="subtitle1" color={COLORS.grayscale.gray600}>
             참가비용 입금
           </Text>
@@ -55,7 +55,7 @@ const ProjectApplyTemplate = () => {
             푸르름은 아직 결제 서비스를 지원하지 않습니다. 하단에 기재되어 있는
             계좌로 참가비를 송금해주세요.
           </Text>
-          <styles.BankingSection>
+          <styles.BankingDetail>
             <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
               계좌
             </Text>
@@ -86,8 +86,8 @@ const ProjectApplyTemplate = () => {
             <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
               010-1234-1234
             </Text>
-          </styles.BankingSection>
-        </div>
+          </styles.BankingDetail>
+        </styles.BankingSection>
         <styles.CheckBoxSection>
           <input type="checkbox" />
           <Text fontStyleName="body1R" color={COLORS.grayscale.gray500}>
@@ -99,7 +99,7 @@ const ProjectApplyTemplate = () => {
           </Text>
         </styles.CheckBoxSection>
         <styles.Aside>
-          <Text fontStyleName="subtitle2B" color={COLORS.primary.logo}>
+          <Text fontStyleName="subtitle2B" color={COLORS.primary.greenDefault}>
             우리 함께 감자 농장 체험해요!
           </Text>
           <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
@@ -108,7 +108,7 @@ const ProjectApplyTemplate = () => {
             기술들을 함께 사용해야 할지 선택하기 어렵습니다. 기능이 점점
             증가하면서 더 많은 설정들이 필요해지기 시작했습니다.
           </Text>
-          <div>
+          <styles.FacilityDetail>
             <Text fontStyleName="body2B" color={COLORS.primary.greenDefault}>
               주관
             </Text>
@@ -127,8 +127,8 @@ const ProjectApplyTemplate = () => {
             <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
               2023.03.01 ~ 2023.04.01
             </Text>
-          </div>
-          <div>
+          </styles.FacilityDetail>
+          <styles.ShareSection>
             <Text fontStyleName="body2B" color={COLORS.grayscale.gray600}>
               좋아요
             </Text>
@@ -138,9 +138,9 @@ const ProjectApplyTemplate = () => {
             <Text fontStyleName="body2B" color={COLORS.grayscale.gray600}>
               URL 공유
             </Text>
-          </div>
+          </styles.ShareSection>
         </styles.Aside>
-      </section>
+      </styles.Wrapper>
     </div>
   );
 };
