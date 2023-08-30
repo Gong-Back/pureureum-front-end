@@ -19,37 +19,28 @@ export const Wrapper = styled.div`
 export const RangeInputWrap = styled.div(({ theme }) => {
   const { colors, fonts } = theme;
   return {
-    '> .year-input': {
-      width: 63,
-    },
-    '> .month-input, > .day-input': {
-      width: 35,
-    },
-    '> .age-input': {
-      width: 30,
+    '.input': {
+      backgroundColor: 'transparent',
+      border: 'none',
+      padding: 0,
+      letterSpacing: 2,
+      ...fonts.pc.subtitle3,
+
       '::placeholder': {
         color: colors.grayscale.gray300,
         ...fonts.pc.subtitle3,
+        letterSpacing: -0.8,
       },
     },
-  };
-});
 
-export const RangeInput = styled.input(({ theme }) => {
-  const { colors, fonts } = theme;
-  return {
-    backgroundColor: 'transparent',
-    border: 'none',
-    padding: 0,
-
-    color: colors.grayscale.gray500,
-    ...fonts.pc.subtitle2B,
-    letterSpacing: 2,
-
-    '::placeholder': {
-      color: colors.grayscale.gray300,
-      ...fonts.pc.subtitle3,
-      letterSpacing: -0.8,
+    '.year-input': {
+      width: 63,
+    },
+    '.month-input, .day-input': {
+      width: 35,
+    },
+    '.age-input': {
+      width: 30,
     },
   };
 });

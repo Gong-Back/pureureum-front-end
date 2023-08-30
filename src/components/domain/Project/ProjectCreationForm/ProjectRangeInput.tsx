@@ -1,126 +1,96 @@
 import React from 'react';
+import NewTextInput from '@/components/common/TextInput/NewTextInput';
+
 import * as style from './ProjectRangeInput.style';
 
-interface ProjectPeriodInputProps {
-  projectStartDate: { year: string; month: string; day: string };
-  projectEndDate: { year: string; month: string; day: string };
-  setProjectInformation: any;
-}
-
-export const ProjectPeriodInput = ({
-  projectStartDate,
-  projectEndDate,
-  setProjectInformation,
-}: ProjectPeriodInputProps) => {
-  const handleInput = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    type: 'projectStartDate' | 'projectEndDate',
-  ) => {
-    const { name: inputName, value } = e.target;
-    setProjectInformation((prev: any) => ({
-      ...prev,
-      [type]: { ...prev[type], [inputName]: value },
-    }));
-  };
-
-  return (
-    <style.Wrapper>
-      <style.RangeInputWrap>
-        <style.RangeInput
-          value={projectStartDate.year}
-          placeholder="YYYY"
-          maxLength={4}
-          name="year"
-          className="year-input"
-          onChange={(e) => handleInput(e, 'projectStartDate')}
-        />
-        <span>.</span>
-        <style.RangeInput
-          value={projectStartDate.month}
-          placeholder="MM"
-          maxLength={2}
-          name="month"
-          className="month-input"
-          onChange={(e) => handleInput(e, 'projectStartDate')}
-        />
-        <span>.</span>
-        <style.RangeInput
-          value={projectStartDate.day}
-          placeholder="DD"
-          maxLength={2}
-          name="day"
-          className="day-input"
-          onChange={(e) => handleInput(e, 'projectStartDate')}
-        />
-      </style.RangeInputWrap>
-      <span className="slash">-</span>
-      <style.RangeInputWrap>
-        <style.RangeInput
-          value={projectEndDate.year}
-          placeholder="YYYY"
-          maxLength={4}
-          name="year"
-          className="year-input"
-          onChange={(e) => handleInput(e, 'projectEndDate')}
-        />
-        <span>.</span>
-        <style.RangeInput
-          value={projectEndDate.month}
-          placeholder="MM"
-          maxLength={2}
-          name="month"
-          className="month-input"
-          onChange={(e) => handleInput(e, 'projectEndDate')}
-        />
-        <span>.</span>
-        <style.RangeInput
-          value={projectEndDate.day}
-          placeholder="DD"
-          maxLength={2}
-          name="day"
-          className="day-input"
-          onChange={(e) => handleInput(e, 'projectEndDate')}
-        />
-      </style.RangeInputWrap>
-    </style.Wrapper>
-  );
-};
+export const ProjectPeriodInput = () => (
+  <style.Wrapper>
+    <style.RangeInputWrap>
+      <NewTextInput
+        type="number"
+        name="projectStartDate.year"
+        rules={{ maxLength: 4 }}
+        placeholder="YYYY"
+        className="input year-input"
+      />
+      <span>.</span>
+      <NewTextInput
+        type="number"
+        name="projectStartDate.month"
+        placeholder="MM"
+        rules={{ maxLength: 2 }}
+        className="input month-input"
+      />
+      <span>.</span>
+      <NewTextInput
+        type="number"
+        name="projectStartDate.day"
+        rules={{ maxLength: 4 }}
+        placeholder="DD"
+        className="input day-input"
+      />
+    </style.RangeInputWrap>
+    <span className="slash">-</span>
+    <style.RangeInputWrap>
+      <NewTextInput
+        type="number"
+        name="projectEndDate.year"
+        rules={{ maxLength: 4 }}
+        placeholder="YYYY"
+        maxLength={4}
+        className="input year-input"
+      />
+      <span>.</span>
+      <NewTextInput
+        type="number"
+        name="projectEndDate.month"
+        rules={{ maxLength: 2 }}
+        placeholder="MM"
+        className="input month-input"
+      />
+      <span>.</span>
+      <NewTextInput
+        type="number"
+        name="projectEndDate.day"
+        rules={{ maxLength: 2 }}
+        placeholder="DD"
+        className="input day-input"
+      />
+    </style.RangeInputWrap>
+  </style.Wrapper>
+);
 
 interface ProjectAgeInputProps {
   minAge: number;
   maxAge: number;
-  handleFormInput: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => void;
 }
 
-export const ProjectAgeInput = ({
-  minAge,
-  maxAge,
-  handleFormInput,
-}: ProjectAgeInputProps) => (
+export const ProjectAgeInput = ({ minAge, maxAge }: ProjectAgeInputProps) => (
   <style.Wrapper>
     <style.RangeInputWrap>
-      <style.RangeInput
-        value={minAge === -1 ? '' : minAge}
-        placeholder="00"
-        maxLength={2}
+      <NewTextInput
+        type="number"
         name="minAge"
-        className="age-input"
-        onChange={handleFormInput}
+        rules={{ maxLength: 2 }}
+        placeholder="00"
+        displayedValue={minAge < 0 ? '' : String(minAge)}
+        className="input age-input"
+        isFilled
       />
       <span>세</span>
     </style.RangeInputWrap>
     <span className="slash">-</span>
     <style.RangeInputWrap>
-      <style.RangeInput
-        value={maxAge === -1 ? '' : maxAge}
-        placeholder="00"
-        maxLength={2}
+      <NewTextInput
+        type="number"
         name="maxAge"
-        className="age-input"
-        onChange={handleFormInput}
+        rules={{ maxLength: 2 }}
+        placeholder="00"
+        displayedValue={maxAge < 0 ? '' : String(maxAge)}
+        className="input age-input"
+        isFilled
       />
+
       <span>세</span>
     </style.RangeInputWrap>
   </style.Wrapper>
