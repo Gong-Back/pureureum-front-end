@@ -1,5 +1,6 @@
 import React from 'react';
 import NewTextInput from '@/components/common/TextInput/NewTextInput';
+
 import * as style from './ProjectRangeInput.style';
 
 export const ProjectPeriodInput = () => (
