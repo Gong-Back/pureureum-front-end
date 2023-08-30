@@ -17,9 +17,9 @@ export type ProjectFileType = {
 };
 
 /** 프로젝트 진행 상태 여부 */
-export type ProjectStatusType = 'NOT_STARTED' | 'PROGRESSED' | 'FINISHED'
+export type ProjectStatusType = 'NOT_STARTED' | 'PROGRESSED' | 'FINISHED';
 
-export interface ProjectFormType {
+export interface Step1InputType {
   title: string;
   guide: string;
   introduction: string;
