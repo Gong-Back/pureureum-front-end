@@ -1,4 +1,8 @@
-import { CategoryType, ProjectResponses } from '@/constants/types';
+import {
+  CategoryType,
+  ProjectResponses,
+  ProjectReqParams,
+} from '@/constants/types';
 import { getAsync, postAsync } from './API';
 
 interface MainProjectListOutput {
@@ -48,25 +52,25 @@ export class ProjectRepository {
    * @param commonImage
    * @returns
    */
-  static async registerProjectAsync(
-    title: string,
-    introduction: string,
-    content: string,
-    projectStartDate: string,
-    projectEndDate: string,
-    totalRecruits: number,
-    minAge: number,
-    maxAge: number,
-    // guide: string | null,
-    // notice: string | null,
-    // paymentType: 'NONE' | 'DEPOSIT' | 'ENTRY_FEE',
-    // amount: number | null,
-    // refundInstruction: string | null,
-    // depositInformation: string | null,
-    // facilityId: number,
-    // thumbnailImage?: string,
-    // commonImage?: string,
-  ) {
+  static async registerProjectAsync({
+    title,
+    introduction,
+    content,
+    projectStartDate,
+    projectEndDate,
+    totalRecruits,
+    minAge,
+    maxAge,
+  }: // notice,
+  // guide,
+  // paymentType,
+  // amount,
+  // refundInstruction,
+  // depositInformation,
+  // facilityId,
+  // thumbnailImage,
+  // commonImage,
+  ProjectReqParams['register']) {
     const formData = new FormData();
     formData.append(
       'projectRegisterReq',
