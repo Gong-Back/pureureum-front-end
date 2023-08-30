@@ -4,7 +4,6 @@ import { COLORS } from '@/constants/styles';
 export const Header = styled.div`
   display: flex;
   align-items: center;
-  /*margin-left: -50px;*/
   gap: 20px;
 `;
 

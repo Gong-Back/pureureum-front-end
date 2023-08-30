@@ -1,27 +1,13 @@
 /* eslint-disable no-unused-vars */
-import React, { useCallback, useRef, useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
-import { FieldErrors } from 'react-hook-form';
 import LeftIconSvg from '@/assets/icons/leftIcon.svg';
 
 import Text from '@/components/common/Text';
-import Button from '@/components/common/Button';
 import ProjectInfoForm from '@/components/domain/Project/ProjectCreationForm';
 import { COLORS } from '@/constants/styles';
-import { ProjectFormType } from '@/constants/types';
 
 import * as style from './ProjectCreationTemplate.style';
-
-interface SubmitFunc {
-  submitForm:
-    | (() => void)
-    | ((
-        e?: React.BaseSyntheticEvent<object, any, any> | undefined,
-      ) => Promise<void>);
-  errors: FieldErrors<ProjectFormType>;
-}
-
-// export interface ProjectCreationTemplateProps {}
 
 const ProjectCreationTemplate = () => {
   const router = useRouter();
