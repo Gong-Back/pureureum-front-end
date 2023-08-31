@@ -7,6 +7,13 @@ export const COLORS = {
     green400: '#2AB05D',
     green500: '#048435',
     green600: '#083A1B',
+    dark: '#158469',
+    bright: '#91E1CE',
+  },
+  green: {
+    default: '#54C3A8',
+    dark: '#158469',
+    bright: '#91E1CE',
   },
   grayscale: {
     white: '#FFFFFF',

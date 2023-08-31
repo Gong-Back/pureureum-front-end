@@ -3,13 +3,36 @@ import { COLORS, MEDIA_QUERIES } from '@/constants/styles';
 
 export const Wrapper = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `
 
+export const Header = styled.div`
+  display: flex;
+  gap: 0 20px;
+
+  margin-left: -50px;
+
+  > svg {
+    margin: auto 0;
+    cursor: pointer;
+  }
+
+  @media ${MEDIA_QUERIES.mobile} {
+    margin-left: unset;
+  }
+
+  @media ${MEDIA_QUERIES.tablet} {
+    margin-left: unset;
+  }
+`;
+
 export const MainSection = styled.main`
-  margin: 130px 100px;
+  max-width: calc(100% - 200px);
+  margin: 130px auto;
 
   display: grid;
-  justify-content: space-between;
   grid-template-rows: repeat(4, fit-content(100%));
   grid-template-columns: repeat(2, fit-content(100%));
   grid-template-areas:
@@ -20,6 +43,8 @@ export const MainSection = styled.main`
   gap: 60px 125px;
 
   @media ${MEDIA_QUERIES.tablet} {
+    margin: 130px 100px;
+
     grid-template-rows: repeat(5, fit-content(100%));
     grid-template-columns: fit-content(100%);
     grid-template-areas:
@@ -91,6 +116,11 @@ export const BankingDetail = styled.div`
   background-color: ${COLORS.grayscale.cremeWhite};
   border-radius: 5px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+  @media ${MEDIA_QUERIES.tablet} {
+    border: 1px solid ${COLORS.grayscale.gray300};
+    box-shadow: unset;
+  }
 `;
 
 export const CheckBoxSection = styled.div`
@@ -148,6 +178,10 @@ export const FacilityDetail = styled.div`
   grid-template-rows: repeat(3, fit-content(100%));
 
   padding: 10px 0;
+
+  @media ${MEDIA_QUERIES.tablet} {
+    gap: 10px;
+  }
 `;
 
 export const ShareSection = styled.div`

@@ -1,3 +1,6 @@
+import { useRouter } from 'next/router';
+
+import ChevronLeftIconSvg from '@/assets/icons/ChevronLeftIcon.svg';
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 import { COLORS } from '@/constants/styles';
@@ -5,12 +8,15 @@ import { COLORS } from '@/constants/styles';
 import * as styles from './ProjectApplyTemplate.style'
 
 const ProjectApplyTemplate = () => {
-  const aaa = 'aaa';
+  const router = useRouter();
 
   return (
     <styles.Wrapper>
       <styles.MainSection>
-        <styles.Title>프로젝트 신청</styles.Title>
+      <styles.Header>
+        <ChevronLeftIconSvg onClick={() => router.back()} />
+        <Text fontStyleName="title" color={COLORS.grayscale.gray700}>프로젝트 신청</Text>
+      </styles.Header>
         <styles.InfoSection>
           <Text fontStyleName="subtitle1" color={COLORS.grayscale.gray600}>
             참가자 정보
@@ -78,7 +84,7 @@ const ProjectApplyTemplate = () => {
             <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
               금액
             </Text>
-            <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
+            <Text fontStyleName="body1R" color={COLORS.primary.dark}>
               KRW 10,000
             </Text>
             <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
@@ -100,7 +106,7 @@ const ProjectApplyTemplate = () => {
           </Text>
         </styles.CheckBoxSection>
         <styles.Aside>
-          <Text fontStyleName="subtitle2B" color={COLORS.primary.greenDefault}>
+          <Text fontStyleName="subtitle2B" color={COLORS.green.dark}>
             우리 함께 감자 농장 체험해요!
           </Text>
           <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
@@ -110,19 +116,19 @@ const ProjectApplyTemplate = () => {
             증가하면서 더 많은 설정들이 필요해지기 시작했습니다.
           </Text>
           <styles.FacilityDetail>
-            <Text fontStyleName="body2B" color={COLORS.primary.greenDefault}>
+            <Text fontStyleName="body2B" color={COLORS.green.default}>
               주관
             </Text>
             <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
               감자농장 소유주
             </Text>
-            <Text fontStyleName="body2B" color={COLORS.primary.greenDefault}>
+            <Text fontStyleName="body2B" color={COLORS.green.default}>
               위치
             </Text>
             <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
               고양시 송산읍 감자농장
             </Text>
-            <Text fontStyleName="body2B" color={COLORS.primary.greenDefault}>
+            <Text fontStyleName="body2B" color={COLORS.green.default}>
               기간
             </Text>
             <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
