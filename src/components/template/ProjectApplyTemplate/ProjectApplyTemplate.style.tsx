@@ -29,7 +29,7 @@ export const Header = styled.div`
 `;
 
 export const MainSection = styled.main`
-  max-width: calc(100% - 200px);
+  max-width: calc(100% - 140px);
   margin: 130px auto;
 
   display: grid;
@@ -40,7 +40,7 @@ export const MainSection = styled.main`
     'personal aside'
     'banking aside'
     'checkbox aside';
-  gap: 60px 125px;
+  gap: 60px 100px;
 
   @media ${MEDIA_QUERIES.tablet} {
     margin: 130px 100px;
@@ -191,6 +191,12 @@ export const ShareSection = styled.div`
   margin: 0 auto;
 `
 
+export const ShareField = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+`;
+
 export const ButtonSection = styled.div`
   display: flex;
   column-gap: 25px;
@@ -198,4 +204,23 @@ export const ButtonSection = styled.div`
 
   width: 100%;
   margin: 0 auto 55px auto;
+
+  & > button {
+    width: 256px;
+    padding: 9px 96px;
+  }
+
+  @media ${MEDIA_QUERIES.mobile} {
+    & > button {
+      width: 150px;
+      padding: 10px auto;
+    }
+  }
+
+  @media ${MEDIA_QUERIES.tablet} {
+    & > button {
+      width: 256px;
+      padding: 9px 96px;
+    }
+  }
 `

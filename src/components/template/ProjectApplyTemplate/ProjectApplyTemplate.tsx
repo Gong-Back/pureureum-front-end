@@ -1,11 +1,21 @@
 import { useRouter } from 'next/router';
 
 import ChevronLeftIconSvg from '@/assets/icons/ChevronLeftIcon.svg';
+import HeartIconSvg from '@/assets/icons/heartIcon.svg';
+import BookmarkIconSvg from '@/assets/icons/bookmarkIcon.svg';
+import ShareURLIconSvg from '@/assets/icons/shareURLIcon.svg';
+
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 import { COLORS } from '@/constants/styles';
 
-import * as styles from './ProjectApplyTemplate.style'
+import * as styles from './ProjectApplyTemplate.style';
+
+const menuList = [
+  { label: '좋아요', icon: HeartIconSvg, onClick: () => {} },
+  { label: '관심 등록', icon: BookmarkIconSvg, onClick: () => {} },
+  { label: 'URL 공유', icon: ShareURLIconSvg, onClick: () => {} },
+];
 
 const ProjectApplyTemplate = () => {
   const router = useRouter();
@@ -13,10 +23,12 @@ const ProjectApplyTemplate = () => {
   return (
     <styles.Wrapper>
       <styles.MainSection>
-      <styles.Header>
-        <ChevronLeftIconSvg onClick={() => router.back()} />
-        <Text fontStyleName="title" color={COLORS.grayscale.gray700}>프로젝트 신청</Text>
-      </styles.Header>
+        <styles.Header>
+          <ChevronLeftIconSvg onClick={() => router.back()} />
+          <Text fontStyleName="title" color={COLORS.grayscale.gray700}>
+            프로젝트 신청
+          </Text>
+        </styles.Header>
         <styles.InfoSection>
           <Text fontStyleName="subtitle1" color={COLORS.grayscale.gray600}>
             참가자 정보
@@ -136,21 +148,33 @@ const ProjectApplyTemplate = () => {
             </Text>
           </styles.FacilityDetail>
           <styles.ShareSection>
-            <Text fontStyleName="body2B" color={COLORS.grayscale.gray600}>
-              좋아요
-            </Text>
-            <Text fontStyleName="body2B" color={COLORS.grayscale.gray600}>
-              관심 등록
-            </Text>
-            <Text fontStyleName="body2B" color={COLORS.grayscale.gray600}>
-              URL 공유
-            </Text>
+            {menuList.map(({ icon: Icon, label, onClick }) => (
+              <styles.ShareField key={label} onClick={onClick}>
+                <Icon />
+                <Text fontStyleName="body2B" color={COLORS.grayscale.gray600}>
+                  {label}
+                </Text>
+              </styles.ShareField>
+            ))}
           </styles.ShareSection>
         </styles.Aside>
       </styles.MainSection>
       <styles.ButtonSection>
-        <Button themeColor={COLORS.primary.greenDefault} sizeType='medium' isFilled isRound >신청 완료</Button>
-        <Button themeColor={COLORS.grayscale.gray200} sizeType='medium' isRound >이전으로</Button>
+        <Button
+          themeColor={COLORS.primary.greenDefault}
+          sizeType="medium"
+          isFilled
+          isRound
+        >
+          <Text fontStyleName="body2B" color={COLORS.grayscale.white}>
+            신청 완료
+          </Text>
+        </Button>
+        <Button themeColor={COLORS.grayscale.gray200} sizeType="medium" isRound>
+          <Text fontStyleName="body2B" color={COLORS.grayscale.gray200}>
+            이전으로
+          </Text>
+        </Button>
       </styles.ButtonSection>
     </styles.Wrapper>
   );
