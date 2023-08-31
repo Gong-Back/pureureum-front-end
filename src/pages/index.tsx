@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import HomeTemplate from '@/components/template/HomeTemplate';
-import { ProjectItemType } from '@/constants/types';
 import { useEffect, useState } from 'react';
 import { ProjectRepository } from '@/apis/project';
+import { ProjectResponses } from '@/constants/types';
 
 // TODO 서버 사이드 애러 핸들링
 // export const getServerSideProps = async () => {
@@ -22,8 +22,12 @@ import { ProjectRepository } from '@/apis/project';
 // };
 
 const Home = () => {
-  const [popularProjects, setPopularProjects] = useState<ProjectItemType[]>([]);
-  const [latestProjects, setLatestProjects] = useState<ProjectItemType[]>([]);
+  const [popularProjects, setPopularProjects] = useState<
+    Array<ProjectResponses['main']>
+  >([]);
+  const [latestProjects, setLatestProjects] = useState<
+    Array<ProjectResponses['main']>
+  >([]);
 
   useEffect(() => {
     const getMainData = async () => {

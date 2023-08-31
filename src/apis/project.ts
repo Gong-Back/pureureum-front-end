@@ -1,11 +1,11 @@
-import { CategoryType, ProjectItemType } from '@/constants/types';
+import { CategoryType, ProjectResponses } from '@/constants/types';
 import { getAsync, postAsync } from './API';
 
 interface MainProjectListOutput {
   page: number;
-  projectList: ProjectItemType[];
   size: number;
   totalPages: number;
+  projectList: Array<ProjectResponses['main']>;
 }
 
 export class ProjectRepository {

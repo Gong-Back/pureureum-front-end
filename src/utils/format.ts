@@ -1,3 +1,5 @@
+import { AddressType, FacilityAddressType } from '@/constants/types';
+
 class FormatUtil {
   /**
    * 파일 용량을 KB, MB, GB 단위로 변환해주는 함수 formatfileSize
@@ -17,6 +19,30 @@ class FormatUtil {
       default:
         return `${fileSize.toFixed(1).toLocaleString()} Byte`;
     }
+  }
+
+  /**
+   * 주소 정보를 `시 군 구` 형식으로 변환해주는 함수 formatLocation
+   * @param address 주소 데이터 객체
+   * @returns `시 군 구`
+   */
+  static formatLocation(address: AddressType | FacilityAddressType) {
+    const { city, county, district } = address;
+    return `${city} ${county} ${district}`;
+  }
+
+  /**
+   * 시작 날짜, 종료 날짜를 기간 형식으로 변환해주는 함수 formatDuration
+   * @param startDate 시작 날짜
+   * @param endDate 종료 날짜
+   * @returns `시작 날짜 ~ 종료 날짜`
+   */
+  static formatDuration(startDate: string, endDate: string) {
+    const [sDate, eDate] = [
+      startDate.replaceAll('-', '.'),
+      endDate.replaceAll('-', '.'),
+    ];
+    return `${sDate} ~ ${eDate}`;
   }
 }
 
