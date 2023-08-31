@@ -1,3 +1,4 @@
+import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 import { COLORS } from '@/constants/styles';
 
@@ -7,8 +8,8 @@ const ProjectApplyTemplate = () => {
   const aaa = 'aaa';
 
   return (
-    <div>
-      <styles.Wrapper>
+    <styles.Wrapper>
+      <styles.MainSection>
         <styles.Title>프로젝트 신청</styles.Title>
         <styles.InfoSection>
           <Text fontStyleName="subtitle1" color={COLORS.grayscale.gray600}>
@@ -140,8 +141,12 @@ const ProjectApplyTemplate = () => {
             </Text>
           </styles.ShareSection>
         </styles.Aside>
-      </styles.Wrapper>
-    </div>
+      </styles.MainSection>
+      <styles.ButtonSection>
+        <Button themeColor={COLORS.primary.greenDefault} sizeType='medium' isFilled isRound >신청 완료</Button>
+        <Button themeColor={COLORS.grayscale.gray200} sizeType='medium' isRound >이전으로</Button>
+      </styles.ButtonSection>
+    </styles.Wrapper>
   );
 };
 
