@@ -1,10 +1,10 @@
 import ProjectItem from '@/components/domain/Project/ProjecItem';
-import { ProjectItemType } from '@/constants/types';
+import { ProjectResponses } from '@/constants/types';
 
 import * as style from './ProjectList.style';
 
 interface ProjectListProps {
-  data: ProjectItemType[];
+  data: Array<ProjectResponses['main']>;
 }
 
 const ProjectList = ({ data }: ProjectListProps) => (

@@ -2,13 +2,13 @@ import React from 'react';
 import Text from '@/components/common/Text';
 import ProjectList from '@/components/domain/Project/ProjectList/ProjectList';
 import { COLORS } from '@/constants/styles';
-import { ProjectItemType } from '@/constants/types';
+import { ProjectResponses } from '@/constants/types';
 
 import * as style from './HomeTemplate.style';
 
 export interface HomeTemplateProps {
-  popularProjects: ProjectItemType[];
-  newProjects: ProjectItemType[];
+  popularProjects: Array<ProjectResponses['main']>;
+  newProjects: Array<ProjectResponses['main']>;
 }
 
 const HomeTemplate = ({ popularProjects, newProjects }: HomeTemplateProps) => (
