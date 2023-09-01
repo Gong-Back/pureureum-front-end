@@ -12,7 +12,7 @@ export const Header = styled.div`
   display: flex;
   gap: 0 20px;
 
-  margin-left: -50px;
+  margin-left: -56px;
 
   > svg {
     margin: auto 0;
@@ -42,8 +42,8 @@ export const MainSection = styled.main`
     'checkbox aside';
   gap: 60px 100px;
 
-  @media ${MEDIA_QUERIES.tablet} {
-    margin: 130px 100px;
+  @media ${MEDIA_QUERIES.mobile} {
+    margin: 130px 80px;
 
     grid-template-rows: repeat(5, fit-content(100%));
     grid-template-columns: fit-content(100%);
@@ -172,15 +172,17 @@ export const FacilitySection = styled.div`
 `;
 
 export const FacilityDetail = styled.div`
-  display: grid;
-  gap: 20px 10px;
-  grid-template-columns: repeat(2, fit-content(100%));
-  grid-template-rows: repeat(3, fit-content(100%));
+  display: flex;
+  flex-direction: column;
 
-  padding: 10px 0;
-
-  @media ${MEDIA_QUERIES.tablet} {
-    gap: 10px;
+  .option {
+    display: flex;
+    gap: 0 10px;
+    padding: 10px 0;
+  
+    &:not(:last-child) {
+      border-bottom: 1px solid ${COLORS.grayscale.gray100};
+    }
   }
 `;
 
@@ -205,22 +207,20 @@ export const ButtonSection = styled.div`
   width: 100%;
   margin: 0 auto 55px auto;
 
-  & > button {
-    width: 256px;
+  .button {
+    width: unset;
     padding: 9px 96px;
   }
 
   @media ${MEDIA_QUERIES.mobile} {
-    & > button {
-      width: 150px;
-      padding: 10px auto;
+    .button {
+      padding: 10px 48px;
     }
   }
 
   @media ${MEDIA_QUERIES.tablet} {
-    & > button {
-      width: 256px;
-      padding: 9px 96px;
+    .button {
+      padding: 9px 72px;
     }
   }
 `

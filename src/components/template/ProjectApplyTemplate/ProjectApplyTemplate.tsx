@@ -128,24 +128,30 @@ const ProjectApplyTemplate = () => {
             증가하면서 더 많은 설정들이 필요해지기 시작했습니다.
           </Text>
           <styles.FacilityDetail>
-            <Text fontStyleName="body2B" color={COLORS.green.default}>
-              주관
-            </Text>
-            <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
-              감자농장 소유주
-            </Text>
-            <Text fontStyleName="body2B" color={COLORS.green.default}>
-              위치
-            </Text>
-            <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
-              고양시 송산읍 감자농장
-            </Text>
-            <Text fontStyleName="body2B" color={COLORS.green.default}>
-              기간
-            </Text>
-            <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
-              2023.03.01 ~ 2023.04.01
-            </Text>
+            <div className="option">
+              <Text fontStyleName="body2B" color={COLORS.green.default}>
+                주관
+              </Text>
+              <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
+                감자농장 소유주
+              </Text>
+            </div>
+            <div className="option">
+              <Text fontStyleName="body2B" color={COLORS.green.default}>
+                위치
+              </Text>
+              <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
+                고양시 송산읍 감자농장
+              </Text>
+            </div>
+            <div className="option">
+              <Text fontStyleName="body2B" color={COLORS.green.default}>
+                기간
+              </Text>
+              <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
+                2023.03.01 ~ 2023.04.01
+              </Text>
+            </div>
           </styles.FacilityDetail>
           <styles.ShareSection>
             {menuList.map(({ icon: Icon, label, onClick }) => (
@@ -163,6 +169,7 @@ const ProjectApplyTemplate = () => {
         <Button
           themeColor={COLORS.primary.greenDefault}
           sizeType="medium"
+          className="button"
           isFilled
           isRound
         >
@@ -170,7 +177,12 @@ const ProjectApplyTemplate = () => {
             신청 완료
           </Text>
         </Button>
-        <Button themeColor={COLORS.grayscale.gray200} sizeType="medium" isRound>
+        <Button
+          themeColor={COLORS.grayscale.gray200}
+          sizeType="medium"
+          className="button"
+          isRound
+        >
           <Text fontStyleName="body2B" color={COLORS.grayscale.gray200}>
             이전으로
           </Text>
