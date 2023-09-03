@@ -6,7 +6,6 @@ import Text from '@/components/common/Text';
 import useUploadFile from '@/hooks/useUploadFile';
 import { useUpdateProfileImage } from '@/hooks/useFetchProfileInfo';
 
-
 import { COLORS } from '@/constants/styles';
 import * as styles from './ProfileEditor.style';
 
@@ -52,7 +51,12 @@ const ProfileEditor = ({ profileUrl, nickname }: ProfileEditorProps) => {
           {nickname || 'test_userId'}
         </Text>
         <styles.ButtonBox>
-          <Button onClick={handleChangeNickname} isRound sizeType="small">
+          <Button
+            onClick={handleChangeNickname}
+            isRound
+            sizeType="small"
+            themeColor={COLORS.green.default}
+          >
             닉네임 변경
           </Button>
           <input
@@ -64,6 +68,7 @@ const ProfileEditor = ({ profileUrl, nickname }: ProfileEditorProps) => {
           />
           <Button
             onClick={openFileUploadDialog}
+            themeColor={COLORS.green.default}
             isRound
             sizeType="small"
             className="profile-img"
