@@ -11,14 +11,14 @@ import Text from '@/components/common/Text';
 
 import useModal from '@/hooks/useModal';
 import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
-import { useProfileInfo } from '@/hooks/useFetchProfileInfo';
 
 import { COLORS } from '@/constants/styles';
+
+import { profileDummyData } from 'src/dummyData';
 import * as style from './MyProfileTemplate.style';
 
 const MyProfileTemplate = () => {
-  const { data } = useProfileInfo();
-
+  const data = profileDummyData;
   const { openModal } = useModal();
   const currentBreakpoint = useMeasureBreakpoint(['mobile', 'pc']);
 
@@ -63,6 +63,7 @@ const MyProfileTemplate = () => {
             </Text>
             <Button
               onClick={openChangePhoneModal}
+              themeColor={COLORS.green.default}
               isRound
               sizeType="small"
               className="phone-button"
@@ -80,6 +81,7 @@ const MyProfileTemplate = () => {
             </Text>
             <Button
               onClick={openChangePasswordModal}
+              themeColor={COLORS.green.default}
               isRound
               sizeType="small"
               className="profile-button"
@@ -90,6 +92,7 @@ const MyProfileTemplate = () => {
         </style.PersonalSection>
         <Button
           sizeType="large"
+          themeColor={COLORS.green.default}
           onClick={handleSaveChange}
           isFilled
           className="confirm-button"

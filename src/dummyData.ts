@@ -1,4 +1,15 @@
-import { ProjectResponses } from './constants/types';
+import { ProjectResponses, UserResponses } from '@/constants/types';
+
+// 마이페이지 접속 시
+export const profileDummyData: UserResponses['info'] = {
+  email: 'gwangin1999@naver.com',
+  phoneNumber: '010-7167-0851',
+  name: '백광인',
+  nickname: 'RookieAND',
+  gender: 'MALE',
+  birthday: '1999-01-26',
+  profileUrl: '',
+}
 
 // 프로젝트 리스트 조회 시
 export const projectItemDummyData: ProjectResponses['main'] = {
