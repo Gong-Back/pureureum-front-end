@@ -1,6 +1,6 @@
 import React from 'react';
 import { NextPage } from 'next';
-import ProjectCreationTemplate from '@/components/template/ProjectCreationTemplate';
+import ProjectRegisterTemplate from '@/components/template/ProjectRegisterTemplate';
 
-const ProjectCreationPage: NextPage = () => <ProjectCreationTemplate />;
-export default ProjectCreationPage;
+const ProjectRegisterPage: NextPage = () => <ProjectRegisterTemplate />;
+export default ProjectRegisterPage;

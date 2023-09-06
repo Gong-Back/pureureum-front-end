@@ -4,10 +4,10 @@ import { useRouter } from 'next/router';
 import LeftIconSvg from '@/assets/icons/leftIcon.svg';
 
 import Text from '@/components/common/Text';
-import ProjectInfoForm from '@/components/domain/Project/ProjectCreationForm';
+import ProjectInfoForm from '@/components/domain/Project/ProjectInfoForm';
 import { COLORS } from '@/constants/styles';
 
-import * as style from './ProjectCreationTemplate.style';
+import * as style from './ProjectRegisterTemplate.style';
 
 const ProjectCreationTemplate = () => {
   const router = useRouter();
