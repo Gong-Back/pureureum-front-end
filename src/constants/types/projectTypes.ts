@@ -16,6 +16,9 @@ export type ProjectFileType = {
   projectFileUrl: string;
 };
 
+/** 프로젝트 진행 상태 여부 */
+export type ProjectStatusType = 'NOT_STARTED' | 'PROGRESSED' | 'FINISHED'
+
 export interface Step1InputType {
   title: string;
   guide: string;
