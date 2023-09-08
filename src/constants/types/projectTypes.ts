@@ -10,9 +10,6 @@ export type CategoryType =
 /** 지불 방식 */
 export type PaymentType = 'NONE' | 'DEPOSIT' | 'ENTRY_FEE';
 
-/** 프로젝트 컨텐츠 종류 */
-export type ProjectContentType = 'intro' | 'cost' | 'location' | 'qna';
-
 /** 프로젝트 관련 이미지 파일 */
 export type ProjectFileType = {
   projectFileType: 'THUMBNAIL' | 'COMMON';
@@ -22,7 +19,10 @@ export type ProjectFileType = {
 /** 프로젝트 진행 상태 여부 */
 export type ProjectStatusType = 'NOT_STARTED' | 'PROGRESSED' | 'FINISHED';
 
-export interface Step1InputType {
+/** 프로젝트 컨텐츠 종류 */
+export type ProjectContentType = 'INTRO' | 'COST' | 'LOCATION' | 'QNA';
+
+export interface ProjectFormType {
   title: string;
   guide: string;
   introduction: string;
@@ -82,26 +82,18 @@ export interface ProjectPartInfoType {
   ownerName: string;
   projectStartDate: string;
   projectEndDate: string;
-  /** 현재 모집된 인원 */
   recruits: number;
-  /** 총 모집 인원 */
   totalRecruits: number;
   facilityAddress: FacilityAddressType;
 }
 
 /** 프로젝트와 관련된 상세 정보 Type (주요 정보 포함) */
 export interface ProjectInfoType extends Omit<ProjectPartInfoType, 'id'> {
-  /** 프로젝트 한줄 소개 */
   introduction: string;
-  /** 프로젝트 내용 */
   content: string;
-  /** 나이 제한 최솟값 (-1: 제한 없음) */
   minAge: number;
-  /** 나이 제한 최대값 (-1: 제한 없음) */
   maxAge: number;
-  /** 찾아오시는 길 */
   guide: string | null;
-  /** 유의 사항 */
   notice: string | null;
 }
 
