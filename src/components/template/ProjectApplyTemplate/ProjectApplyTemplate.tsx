@@ -1,14 +1,12 @@
 import { useRouter } from 'next/router';
-
 import ChevronLeftIconSvg from '@/assets/icons/ChevronLeftIcon.svg';
-import HeartIconSvg from '@/assets/icons/heartIcon.svg';
 import BookmarkIconSvg from '@/assets/icons/bookmarkIcon.svg';
+import HeartIconSvg from '@/assets/icons/heartIcon.svg';
 import ShareURLIconSvg from '@/assets/icons/shareURLIcon.svg';
-
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 import { COLORS } from '@/constants/styles';
-
+import { UserResponses } from '@/constants/types';
 import * as styles from './ProjectApplyTemplate.style';
 
 const menuList = [
@@ -17,8 +15,15 @@ const menuList = [
   { label: 'URL 공유', icon: ShareURLIconSvg, onClick: () => {} },
 ];
 
-const ProjectApplyTemplate = () => {
+interface ProjectApplyTemplateProps {
+  userData: UserResponses['info'];
+}
+
+const ProjectApplyTemplate = ({ userData }: ProjectApplyTemplateProps) => {
   const router = useRouter();
+  const { name, nickname, birthday, gender, phoneNumber } = userData;
+
+  const age = new Date().getFullYear() - new Date(birthday).getFullYear() + 1;
 
   return (
     <styles.Wrapper>
@@ -38,31 +43,31 @@ const ProjectApplyTemplate = () => {
               이름
             </Text>
             <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
-              공백
+              {name}
             </Text>
             <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
               닉네임
             </Text>
             <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
-              gongback
+              {nickname}
             </Text>
             <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
               나이
             </Text>
             <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
-              25세
+              {age}
             </Text>
             <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
               성별
             </Text>
             <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
-              여
+              {gender}
             </Text>
             <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
               전화번호
             </Text>
             <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
-              010-1234-1234
+              {phoneNumber}
             </Text>
           </styles.InfoDetail>
         </styles.InfoSection>

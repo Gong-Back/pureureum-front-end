@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Button from '@/components/common/Button';
 import CategoryTag from '@/components/common/CategoryTag';
@@ -22,6 +23,7 @@ interface ProjectDetailTemplateProps {
 }
 
 const ProjectDetailTemplate = ({ data }: ProjectDetailTemplateProps) => {
+  const router = useRouter();
   const { projectInformation, projectCategory, projectFiles, projectPayment } =
     data;
   const {
@@ -150,6 +152,7 @@ const ProjectDetailTemplate = ({ data }: ProjectDetailTemplateProps) => {
           sizeType="large"
           themeColor={COLORS.primary.greenDefault}
           isFilled
+          onClick={() => router.push('/project/apply')}
         >
           프로젝트 참여하기
         </Button>
