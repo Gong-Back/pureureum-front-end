@@ -10,7 +10,7 @@ import useKakaoMap from '@/hooks/useKakaoMap';
 import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
 import * as style from './ProjectDetailTemplate.style';
 
-const CONTENT_MENU: { type: ProjectContentType; label: string }[] = [
+export const CONTENT_MENU: { type: ProjectContentType; label: string }[] = [
   { type: 'INTRO', label: '프로젝트 소개' },
   { type: 'COST', label: '유의사항 및 금액' },
   { type: 'LOCATION', label: '찾아오시는 길' },
