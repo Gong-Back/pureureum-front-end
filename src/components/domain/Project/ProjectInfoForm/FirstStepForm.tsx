@@ -1,10 +1,10 @@
 import React from 'react';
-import NewTextInput from '@/components/common/TextInput/NewTextInput';
-import FormLabel from '@/components/common/FormLabel';
-import CategoryTag from '@/components/common/CategoryTag';
-import LocationBox from '@/components/common/LocationBox';
-
 import { Control, Controller } from 'react-hook-form';
+import CategoryTag from '@/components/common/CategoryTag';
+import FormLabel from '@/components/common/FormLabel';
+import LocationBox from '@/components/common/LocationBox';
+import NewTextInput from '@/components/common/TextInput/NewTextInput';
+import PROJECT_REGISTER_FALLBACK from '@/constants/fallback/projectRegister';
 import { ProjectFormType } from '@/constants/types';
 import * as style from './ProjectInfoForm.style';
 
@@ -16,7 +16,10 @@ export const FirstStepForm = ({ control }: FirstStepFormProps) => (
   <style.Wrapper>
     <NewTextInput
       name="title"
-      rules={{ required: '제목을 반드시 입력해주세요', minLength: 1 }}
+      rules={{
+        required: PROJECT_REGISTER_FALLBACK.REQUIRED_TITLE,
+        minLength: 1,
+      }}
       placeholder="제목을 입력해주세요"
       maxLength={200}
       className="title-input"

@@ -1,27 +1,24 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
+import React, { useCallback, useState } from 'react';
 import {
   FormProvider,
   SubmitHandler,
   useForm,
   useWatch,
 } from 'react-hook-form';
-import { ProjectRepository } from '@/apis/project';
 import { ApiErrorInstance } from '@/apis/API';
-
-import { ProjectFormType } from '@/constants/types';
-import { COLORS } from '@/constants/styles';
-import ValidationUtil from '@/utils/validation';
+import { ProjectRepository } from '@/apis/project';
 import Button from '@/components/common/Button';
+import PROJECT_REGISTER_FALLBACK from '@/constants/fallback/projectRegister';
+import { COLORS } from '@/constants/styles';
+import { ProjectFormType } from '@/constants/types';
+import FormatUtil from '@/utils/format';
+import ValidationUtil from '@/utils/validation';
 import FirstStepForm from './FirstStepForm';
+import * as style from './ProjectInfoForm.style';
 import SecondStepForm from './SecondStepForm';
 import ThirdStepForm from './ThirdStepForm';
-
-import * as style from './ProjectInfoForm.style';
-
-const toDateStr = (date: { year: string; month: string; day: string }) =>
-  `${date.year}-${date.month}-${date.day}`;
 
 const ProjectInfoForm = () => {
   const router = useRouter();
@@ -80,7 +77,7 @@ const ProjectInfoForm = () => {
         ))
     ) {
       setError('root', {
-        message: '유효한 프로젝트 시작 혹은 종료 날짜를 설정해주세요.',
+        message: PROJECT_REGISTER_FALLBACK.INVALID_DATE_RANGE,
       });
       return;
     }
@@ -95,8 +92,10 @@ const ProjectInfoForm = () => {
       await ProjectRepository.registerProjectAsync({
         ...formValue,
         totalRecruits: totalRecruits < 1 ? -1 : totalRecruits,
-        projectStartDate: toDateStr(formValue.projectStartDate),
-        projectEndDate: toDateStr(formValue.projectEndDate),
+        projectStartDate: FormatUtil.formatDateFromObj(
+          formValue.projectStartDate,
+        ),
+        projectEndDate: FormatUtil.formatDateFromObj(formValue.projectEndDate),
       });
       router.replace('/mypage/operation/project');
     } catch (error) {

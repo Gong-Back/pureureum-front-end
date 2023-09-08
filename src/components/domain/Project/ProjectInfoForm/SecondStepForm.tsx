@@ -1,11 +1,11 @@
 import React from 'react';
+import { Control, Controller, UseFormSetValue } from 'react-hook-form';
 import FormLabel from '@/components/common/FormLabel';
 import NewTextInput from '@/components/common/TextInput/NewTextInput';
-import { Control, Controller, UseFormSetValue } from 'react-hook-form';
+import PROJECT_REGISTER_FALLBACK from '@/constants/fallback/projectRegister';
 import { ProjectFormType } from '@/constants/types';
-import { ProjectAgeInput, ProjectPeriodInput } from './ProjectRangeInput';
-
 import * as style from './ProjectInfoForm.style';
+import { ProjectAgeInput, ProjectPeriodInput } from './ProjectRangeInput';
 
 interface SecondStepFormProps {
   scrollRef: (node: HTMLDivElement) => void;
@@ -35,7 +35,7 @@ export const SecondStepForm = ({
         <NewTextInput
           name="introduction"
           rules={{
-            required: '프로젝트 한 줄 소개를 반드시 입력해주세요',
+            required: PROJECT_REGISTER_FALLBACK.REQUIRED_INTRODUCTION,
             maxLength: 200,
           }}
           placeholder="프로젝트를 한 줄로 소개해주세요."
@@ -49,7 +49,7 @@ export const SecondStepForm = ({
             <NewTextInput
               type="number"
               name="totalRecruits"
-              rules={{ required: '모집 인원을 반드시 설정해주세요' }}
+              rules={{ required: PROJECT_REGISTER_FALLBACK.REQUIRED_RECRUITS }}
               displayedValue={totalRecruits < 0 ? '' : String(totalRecruits)}
               disabled={totalRecruits < 0}
               placeholder="모집 인원 수"
