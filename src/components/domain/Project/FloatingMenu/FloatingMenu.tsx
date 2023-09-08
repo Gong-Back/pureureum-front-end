@@ -1,20 +1,20 @@
+import BookmarkIconSvg from '@/assets/icons/bookmarkIcon.svg';
+import HeartIconSvg from '@/assets/icons/heartIcon.svg';
+import ShareURLIconSvg from '@/assets/icons/shareURLIcon.svg';
 import Text from '@/components/common/Text';
 import { COLORS } from '@/constants/styles';
-
-import HeartIconSvg from '@/assets/icons/heartIcon.svg';
-import BookmarkIconSvg from '@/assets/icons/bookmarkIcon.svg';
-import ShareURLIconSvg from '@/assets/icons/shareURLIcon.svg';
-
 import { ProjectInfoType } from '@/constants/types';
 import FormatUtil from '@/utils/format';
 import * as style from './FloatingMenu.style';
 
 export interface FloatingMenuProps {
   /** 프로젝트 관련 상세 정보 */
-  info: ProjectInfoType;
+  projectInfo: ProjectInfoType;
+  /** 추가 스타일링을 위한 클래스명 */
+  className?: string;
 }
 
-const FloatingMenu = ({ info }: FloatingMenuProps) => {
+const FloatingMenu = ({ projectInfo, className }: FloatingMenuProps) => {
   const {
     title,
     introduction,
@@ -22,7 +22,7 @@ const FloatingMenu = ({ info }: FloatingMenuProps) => {
     facilityAddress,
     projectStartDate,
     projectEndDate,
-  } = info;
+  } = projectInfo;
 
   const infoList = [
     { label: '주관', content: ownerName },
@@ -40,7 +40,7 @@ const FloatingMenu = ({ info }: FloatingMenuProps) => {
   ];
 
   return (
-    <style.Wrapper>
+    <style.Wrapper className={className}>
       <Text fontStyleName="subtitle2B" color={COLORS.primary.greenDefault}>
         {title}
       </Text>

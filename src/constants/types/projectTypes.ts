@@ -80,7 +80,6 @@ export interface ProjectPartInfoType {
   title: string;
   likeCount: number;
   ownerName: string;
-  ownerName: string;
   projectStartDate: string;
   projectEndDate: string;
   /** 현재 모집된 인원 */
@@ -102,7 +101,7 @@ export interface ProjectInfoType extends Omit<ProjectPartInfoType, 'id'> {
   maxAge: number;
   /** 찾아오시는 길 */
   guide: string | null;
-  /** 찾아오시는 길 */
+  /** 유의 사항 */
   notice: string | null;
 }
 
