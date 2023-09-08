@@ -4,7 +4,6 @@ import { COLORS } from '@/constants/styles';
 export const Header = styled.div`
   display: flex;
   align-items: center;
-  /*margin-left: -50px;*/
   gap: 20px;
 `;
 
@@ -29,33 +28,3 @@ export const Wrapper = styled.section`
     }
   }
 `;
-
-export const BottomBar = styled.div`
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 80px;
-  background-color: rgba(255, 255, 255, 0.8);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 25px;
-
-  > button {
-    width: 255px;
-  }
-`;
-
-export const Feedback = styled.p(({ theme }) => {
-  const { colors, fonts } = theme;
-  return {
-    margin: '0px',
-    color: colors.caption,
-    ...fonts.pc.body2R,
-
-    position: 'absolute',
-    top: '-30px',
-  };
-});

@@ -44,6 +44,15 @@ class FormatUtil {
     ];
     return `${sDate} ~ ${eDate}`;
   }
+
+  /**
+   * 년,월,일 정보를 담은 객체를 문자열로 변환하는 함수 formatDateFromObj
+   * @param date {year, month, day}
+   * @returns `year-month-day`
+   */
+  static formatDateFromObj(date: { year: string; month: string; day: string }) {
+    return `${date.year}-${date.month}-${date.day}`;
+  }
 }
 
 export default FormatUtil;

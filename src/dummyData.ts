@@ -9,7 +9,7 @@ export const profileDummyData: UserResponses['info'] = {
   gender: 'MALE',
   birthday: '1999-01-26',
   profileUrl: '',
-}
+};
 
 // 프로젝트 리스트 조회 시
 export const projectItemDummyData: ProjectResponses['main'] = {

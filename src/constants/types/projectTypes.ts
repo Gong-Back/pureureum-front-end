@@ -19,11 +19,9 @@ export type ProjectFileType = {
 /** 프로젝트 진행 상태 여부 */
 export type ProjectStatusType = 'NOT_STARTED' | 'PROGRESSED' | 'FINISHED'
 
-export interface Step1InputType {
+export interface ProjectFormType {
   title: string;
   guide: string;
-}
-export interface Step2InputType {
   introduction: string;
   content: string;
   projectStartDate: { year: string; month: string; day: string };
@@ -31,21 +29,44 @@ export interface Step2InputType {
   totalRecruits: number;
   minAge: number;
   maxAge: number;
-  notice: string;
-  thumnail: any;
-}
-
-export interface Step3InputType {
   paymentType: PaymentType;
+  notice?: string;
+  thumbnailImage?: string;
+  commonImage?: string;
   refundInstruction?: string;
   depositionInformation?: string;
   amount?: number;
 }
 
-export interface ProjectCreationInputType
-  extends Step1InputType,
-    Step2InputType,
-    Step3InputType {}
+export type ProjectReqParams = {
+  register: {
+    title: string;
+    introduction: string;
+    content: string;
+    projectStartDate: string;
+    projectEndDate: string;
+    totalRecruits: number;
+    minAge: number;
+    maxAge: number;
+    // paymentType: PaymentType;
+    /// ** 유의 사항 */
+    // notice: string | null;
+    /// ** 찾아오시는 길 */
+    // guide: string | null;
+    /// ** 촘 금액 */
+    // amount: number | null;
+    /// ** 환불 정책 */
+    // refundInstruction: string | null;
+    /// ** 예금 정보 */
+    // depositInformation: string | null;
+    /// ** 시설 ID */
+    // facilityId: number;
+    /// ** 대표 이미지  */
+    // thumbnailImage?: string;
+    /// ** 일반 이미지  */
+    // commonImage?: string;
+  };
+};
 
 /** 주소 정보 Type */
 export interface FacilityAddressType extends AddressType, CoordinateType {}
@@ -73,8 +94,6 @@ export interface ProjectInfoType extends Omit<ProjectPartInfoType, 'id'> {
   notice: string | null;
 }
 
-// TODO id 및 소유주 정보 추가 필요
-// TODO project Status -> union
 export type ProjectResponses = {
   main: {
     projectPartInformation: ProjectPartInfoType;
