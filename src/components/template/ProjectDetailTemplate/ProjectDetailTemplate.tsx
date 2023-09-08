@@ -2,24 +2,20 @@ import Image from 'next/image';
 import { useState } from 'react';
 import Button from '@/components/common/Button';
 import CategoryTag from '@/components/common/CategoryTag';
-import LocationBox from '@/components/common/LocationBox';
 import Text from '@/components/common/Text';
 import FloatingMenu from '@/components/domain/Project/FloatingMenu';
 import { COLORS } from '@/constants/styles';
-import { ProjectResponses } from '@/constants/types';
+import { ProjectContentType, ProjectResponses } from '@/constants/types';
 import useKakaoMap from '@/hooks/useKakaoMap';
 import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
 import * as style from './ProjectDetailTemplate.style';
 
-const DETAIL_MENU = ['intro', 'cost', 'location', 'qna'] as const;
-const DETAIL_MENU_NAME = [
-  '프로젝트 소개',
-  '유의사항 및 금액',
-  '찾아오시는 길',
-  '문의하기',
+const CONTENT_MENU: { type: ProjectContentType; label: string }[] = [
+  { type: 'INTRO', label: '프로젝트 소개' },
+  { type: 'COST', label: '유의사항 및 금액' },
+  { type: 'LOCATION', label: '찾아오시는 길' },
+  { type: 'QNA', label: '문의하기' },
 ];
-
-type DetailMenuType = typeof DETAIL_MENU[number];
 
 interface ProjectDetailTemplateProps {
   data: ProjectResponses['detail'];
@@ -38,9 +34,10 @@ const ProjectDetailTemplate = ({ data }: ProjectDetailTemplateProps) => {
     facilityAddress: { latitude, longitude },
   } = projectInformation;
 
-  const [activeMenu, setActiveMenu] = useState<DetailMenuType>('intro');
+  const [activeMenu, setActiveMenu] = useState<ProjectContentType>('INTRO');
   const mapRef = useKakaoMap(Number(latitude), Number(longitude));
 
+  console.log(mapRef.current);
   const currentBreakpoint = useMeasureBreakpoint();
   const isPC = currentBreakpoint === 'pc';
 
@@ -48,18 +45,18 @@ const ProjectDetailTemplate = ({ data }: ProjectDetailTemplateProps) => {
     projectFiles.length > 0
       ? projectFiles.filter((p) => p.projectFileType === 'THUMBNAIL')[0]
           .projectFileUrl
-      : '/';
+      : '/projectThumbnail.jpg';
 
   const renderDetailContent = () => {
     switch (activeMenu) {
-      case 'intro': {
+      case 'INTRO': {
         return (
           <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
             {content}
           </Text>
         );
       }
-      case 'cost': {
+      case 'COST': {
         return (
           <>
             <Text fontStyleName="subtitle2B" color={COLORS.grayscale.dark}>
@@ -85,18 +82,15 @@ const ProjectDetailTemplate = ({ data }: ProjectDetailTemplateProps) => {
           </>
         );
       }
-      case 'location': {
+      case 'LOCATION': {
         return (
-          <>
-            <style.MapContainer ref={mapRef} />
-            <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
-              {guide}
-            </Text>
-          </>
+          <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
+            {guide}
+          </Text>
         );
       }
-      case 'qna': {
-        return <>qna</>;
+      case 'QNA': {
+        return <>문의하기 기능은 준비중이에요!</>;
       }
       default: {
         return <>NOT FOUND</>;
@@ -121,20 +115,21 @@ const ProjectDetailTemplate = ({ data }: ProjectDetailTemplateProps) => {
           />
         )}
         <style.MenuWrapper>
-          {DETAIL_MENU.map((menu, idx) => (
-            <style.Menu key={menu} onClick={() => setActiveMenu(menu)}>
+          {CONTENT_MENU.map(({ type, label }) => (
+            <style.Menu key={type} onClick={() => setActiveMenu(type)}>
               <Text
-                fontStyleName={menu === activeMenu ? 'body1B' : 'body1R'}
+                fontStyleName={type === activeMenu ? 'body1B' : 'body1R'}
                 color={
-                  COLORS.grayscale[menu === activeMenu ? 'gray700' : 'gray500']
+                  COLORS.grayscale[type === activeMenu ? 'gray700' : 'gray500']
                 }
               >
-                {DETAIL_MENU_NAME[idx]}
+                {label}
               </Text>
             </style.Menu>
           ))}
         </style.MenuWrapper>
         {renderDetailContent()}
+        <style.MapContainer ref={mapRef} visible={activeMenu === 'LOCATION'} />
       </style.ContentWrapper>
       <style.FloatingWrapper className={`${currentBreakpoint}-menu`}>
         {isPC && (

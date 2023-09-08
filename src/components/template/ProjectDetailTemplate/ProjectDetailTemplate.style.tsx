@@ -85,8 +85,11 @@ export const Menu = styled.div`
 `;
 
 export const MapContainer = styled.div`
-  width: 360px;
-  height: 187px;
+  width: 100%;
+  height: 250px;
+
+  display: ${(props: { visible: boolean }) =>
+    props.visible ? 'flex' : 'none'};
 `;
 
 export const FloatingWrapper = styled.div`
