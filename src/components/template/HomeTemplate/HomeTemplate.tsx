@@ -1,19 +1,30 @@
 import React from 'react';
 import Text from '@/components/common/Text';
+import CategoryFilter from '@/components/domain/Main/CategoryFilter';
 import ProjectList from '@/components/domain/Project/ProjectList/ProjectList';
 import { COLORS } from '@/constants/styles';
-import { ProjectResponses } from '@/constants/types';
-
+import { CategoryType, ProjectResponses } from '@/constants/types';
 import * as style from './HomeTemplate.style';
 
 export interface HomeTemplateProps {
   popularProjects: Array<ProjectResponses['main']>;
   newProjects: Array<ProjectResponses['main']>;
+  categoryFilter?: CategoryType;
+  onClickCategoryFilter: (c: CategoryType) => void;
 }
 
-const HomeTemplate = ({ popularProjects, newProjects }: HomeTemplateProps) => (
+const HomeTemplate = ({
+  popularProjects,
+  newProjects,
+  categoryFilter,
+  onClickCategoryFilter,
+}: HomeTemplateProps) => (
   <style.Wrapper>
     <style.Carousel />
+    <CategoryFilter
+      activeCategory={categoryFilter}
+      onClickCategory={onClickCategoryFilter}
+    />
     <style.ProjectListWrap>
       <Text
         fontStyleName="title"

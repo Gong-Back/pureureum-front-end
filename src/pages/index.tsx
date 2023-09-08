@@ -1,8 +1,8 @@
 import Head from 'next/head';
-import HomeTemplate from '@/components/template/HomeTemplate';
 import { useEffect, useState } from 'react';
 import { ProjectRepository } from '@/apis/project';
-import { ProjectResponses } from '@/constants/types';
+import HomeTemplate from '@/components/template/HomeTemplate';
+import { CategoryType, ProjectResponses } from '@/constants/types';
 
 // TODO 서버 사이드 애러 핸들링
 // export const getServerSideProps = async () => {
@@ -22,6 +22,7 @@ import { ProjectResponses } from '@/constants/types';
 // };
 
 const Home = () => {
+  const [categoryFilter, setCategoryFilter] = useState<CategoryType>();
   const [popularProjects, setPopularProjects] = useState<
     Array<ProjectResponses['main']>
   >([]);
@@ -32,14 +33,18 @@ const Home = () => {
   useEffect(() => {
     const getMainData = async () => {
       const [popRes, latRes] = await Promise.all([
-        ProjectRepository.getMainProjectListAsync('POPULAR'),
-        ProjectRepository.getMainProjectListAsync('LATEST'),
+        ProjectRepository.getMainProjectListAsync('POPULAR', categoryFilter),
+        ProjectRepository.getMainProjectListAsync('LATEST', categoryFilter),
       ]);
       setPopularProjects(popRes.data.projectList);
       setLatestProjects(latRes.data.projectList);
     };
     getMainData();
-  }, []);
+  }, [categoryFilter]);
+
+  const onClickCategoryFilter = (c: CategoryType) => {
+    setCategoryFilter(c === categoryFilter ? undefined : c);
+  };
 
   return (
     <>
@@ -53,6 +58,8 @@ const Home = () => {
         <HomeTemplate
           popularProjects={popularProjects}
           newProjects={latestProjects}
+          categoryFilter={categoryFilter}
+          onClickCategoryFilter={onClickCategoryFilter}
         />
       )}
     </>
