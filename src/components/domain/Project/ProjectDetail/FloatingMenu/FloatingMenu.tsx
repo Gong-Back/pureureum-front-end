@@ -1,36 +1,37 @@
-import BookmarkIconSvg from '@/assets/icons/bookmarkIcon.svg';
-import HeartIconSvg from '@/assets/icons/heartIcon.svg';
-import ShareURLIconSvg from '@/assets/icons/shareURLIcon.svg';
 import Text from '@/components/common/Text';
 import { COLORS } from '@/constants/styles';
-import { ProjectInfoType } from '@/constants/types';
-import FormatUtil from '@/utils/format';
+
+import HeartIconSvg from '@/assets/icons/heartIcon.svg';
+import BookmarkIconSvg from '@/assets/icons/bookmarkIcon.svg';
+import ShareURLIconSvg from '@/assets/icons/shareURLIcon.svg';
+
 import * as style from './FloatingMenu.style';
 
 export interface FloatingMenuProps {
-  /** 프로젝트 관련 상세 정보 */
-  projectInfo: ProjectInfoType;
-  /** 추가 스타일링을 위한 클래스명 */
-  className?: string;
+  info: {
+    title: string;
+    introduction: string;
+    owner: string;
+    projectStartDate: string;
+    projectEndDate: string;
+    facility: string;
+  };
 }
 
-const FloatingMenu = ({ projectInfo, className }: FloatingMenuProps) => {
+const FloatingMenu = ({ info }: FloatingMenuProps) => {
   const {
     title,
     introduction,
-    ownerName,
-    facilityAddress,
+    owner,
+    facility,
     projectStartDate,
     projectEndDate,
-  } = projectInfo;
+  } = info;
 
   const infoList = [
-    { label: '주관', content: ownerName },
-    { label: '위치', content: FormatUtil.formatLocation(facilityAddress) },
-    {
-      label: '기간',
-      content: FormatUtil.formatDuration(projectStartDate, projectEndDate),
-    },
+    { label: '주관', content: owner },
+    { label: '위치', content: facility },
+    { label: '기간', content: `${projectStartDate} ~ ${projectEndDate}` },
   ];
 
   const menuList = [
@@ -40,7 +41,7 @@ const FloatingMenu = ({ projectInfo, className }: FloatingMenuProps) => {
   ];
 
   return (
-    <style.Wrapper className={className}>
+    <style.Wrapper>
       <Text fontStyleName="subtitle2B" color={COLORS.primary.greenDefault}>
         {title}
       </Text>

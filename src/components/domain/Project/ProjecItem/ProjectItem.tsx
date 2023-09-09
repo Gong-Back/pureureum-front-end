@@ -9,6 +9,7 @@ import GrassIconSvg from '@/assets/icons/grassIcon.svg';
 import { CategoryType, ProjectPartInfoType } from '@/constants/types';
 import { COLORS } from '@/constants/styles';
 import FormatUtil from '@/utils/format';
+import { useRouter } from 'next/router';
 import * as style from './ProjectItem.style';
 
 export interface ProjectItemProps {
@@ -19,15 +20,14 @@ export interface ProjectItemProps {
 
 // TODO 멤버 모집률을 반영한 GrassIcon 상태 변화는 추후에 수정하겠습니다
 const ProjectItem = ({ category, thumbnail, info }: ProjectItemProps) => {
+  const router= useRouter();
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const onHover = () => setIsHovering((prev) => !prev);
 
-  const { facilityAddress, projectStartDate, projectEndDate } = info;
-
-  console.log(facilityAddress);
+  const { id, facilityAddress, projectStartDate, projectEndDate } = info;
 
   return (
-    <style.Wrapper onMouseOver={onHover} onMouseOut={onHover}>
+    <style.Wrapper onMouseOver={onHover} onMouseOut={onHover} onClick={() => router.push(`/project/${id}`)}>
       <style.ThumbnailWrap>
         {isHovering && (
           <style.HoveringContentWrap>

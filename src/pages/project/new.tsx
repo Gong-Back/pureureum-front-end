@@ -1,4 +1,3 @@
-import React from 'react';
 import { NextPage } from 'next';
 import ProjectRegisterTemplate from '@/components/template/ProjectRegisterTemplate';
 

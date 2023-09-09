@@ -17,7 +17,10 @@ export type ProjectFileType = {
 };
 
 /** 프로젝트 진행 상태 여부 */
-export type ProjectStatusType = 'NOT_STARTED' | 'PROGRESSED' | 'FINISHED'
+export type ProjectStatusType = 'NOT_STARTED' | 'PROGRESSED' | 'FINISHED';
+
+/** 프로젝트 컨텐츠 종류 */
+export type ProjectContentType = 'INTRO' | 'COST' | 'LOCATION' | 'QNA';
 
 export interface ProjectFormType {
   title: string;
