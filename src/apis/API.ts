@@ -3,9 +3,8 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse,
 } from 'axios';
-
-import { type ApiResponse, ApiError } from '@/constants/types';
 import { API_URL, ERROR_CODE } from '@/constants/apis';
+import { type ApiResponse, ApiError } from '@/constants/types';
 import { AuthRepository } from './auth';
 
 /**
@@ -18,6 +17,7 @@ const API = axios.create({
   headers: {
     'Content-Type': 'application/json;charset=UTF-8',
   },
+  withCredentials: true,
 });
 
 API.interceptors.response.use(
