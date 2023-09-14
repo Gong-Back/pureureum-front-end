@@ -5,7 +5,7 @@ export const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   gap: 70px;
-  margin-bottom: 70px;
+  padding-bottom: 70px;
 `;
 
 export const Carousel = styled.div`
