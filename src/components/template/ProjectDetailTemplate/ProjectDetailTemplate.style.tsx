@@ -61,6 +61,11 @@ export const ContentWrapper = styled.div`
     background-color: ${COLORS.grayscale.gray100};
   }
 
+  .content {
+    word-break: break-all;
+    word-wrap: break-word;
+  }
+
   .cost-content {
     margin: 15px 0px 75px;
   }
@@ -107,7 +112,7 @@ export const FloatingWrapper = styled.div`
   }
 
   span {
-    color: ${COLORS.primary.greenDefault};
+    color: ${COLORS.primary.default};
     font-weight: 600;
   }
 
