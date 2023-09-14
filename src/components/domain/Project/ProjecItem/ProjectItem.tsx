@@ -1,15 +1,14 @@
-import { useState } from 'react';
 import Image from 'next/image';
-import Text from '@/components/common/Text';
-import CategoryTag from '@/components/common/CategoryTag';
-import LocationIconSvg from '@/assets/icons/locationIcon.svg';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 import CalendarIconSvg from '@/assets/icons/calendarIcon.svg';
 import GrassIconSvg from '@/assets/icons/grassIcon.svg';
-
-import { CategoryType, ProjectPartInfoType } from '@/constants/types';
+import LocationIconSvg from '@/assets/icons/locationIcon.svg';
+import CategoryTag from '@/components/common/CategoryTag';
+import Text from '@/components/common/Text';
 import { COLORS } from '@/constants/styles';
+import { CategoryType, ProjectPartInfoType } from '@/constants/types';
 import FormatUtil from '@/utils/format';
-import { useRouter } from 'next/router';
 import * as style from './ProjectItem.style';
 
 export interface ProjectItemProps {
@@ -20,14 +19,18 @@ export interface ProjectItemProps {
 
 // TODO 멤버 모집률을 반영한 GrassIcon 상태 변화는 추후에 수정하겠습니다
 const ProjectItem = ({ category, thumbnail, info }: ProjectItemProps) => {
-  const router= useRouter();
+  const router = useRouter();
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const onHover = () => setIsHovering((prev) => !prev);
 
   const { id, facilityAddress, projectStartDate, projectEndDate } = info;
 
   return (
-    <style.Wrapper onMouseOver={onHover} onMouseOut={onHover} onClick={() => router.push(`/project/${id}`)}>
+    <style.Wrapper
+      onMouseOver={onHover}
+      onMouseOut={onHover}
+      onClick={() => router.push(`/project/${id}`)}
+    >
       <style.ThumbnailWrap>
         {isHovering && (
           <style.HoveringContentWrap>
@@ -64,8 +67,8 @@ const ProjectItem = ({ category, thumbnail, info }: ProjectItemProps) => {
         {info.title}
       </Text>
       <style.InfoWrap>
-        <LocationIconSvg color={COLORS.primary.greenDefault} />
-        <Text fontStyleName="body2R" color={COLORS.primary.greenDefault}>
+        <LocationIconSvg color={COLORS.primary.default} />
+        <Text fontStyleName="body2R" color={COLORS.primary.default}>
           {FormatUtil.formatLocation(facilityAddress)}
         </Text>
       </style.InfoWrap>

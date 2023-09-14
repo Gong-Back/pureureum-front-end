@@ -1,12 +1,9 @@
 import Image from 'next/image';
-
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
-
-import useUploadFile from '@/hooks/useUploadFile';
-import { useUpdateProfileImage } from '@/hooks/useFetchProfileInfo';
-
 import { COLORS } from '@/constants/styles';
+import { useUpdateProfileImage } from '@/hooks/useFetchProfileInfo';
+import useUploadFile from '@/hooks/useUploadFile';
 import * as styles from './ProfileEditor.style';
 
 interface ProfileEditorProps {
@@ -55,7 +52,7 @@ const ProfileEditor = ({ profileUrl, nickname }: ProfileEditorProps) => {
             onClick={handleChangeNickname}
             isRound
             sizeType="small"
-            themeColor={COLORS.green.default}
+            themeColor={COLORS.primary.default}
           >
             닉네임 변경
           </Button>
@@ -68,7 +65,7 @@ const ProfileEditor = ({ profileUrl, nickname }: ProfileEditorProps) => {
           />
           <Button
             onClick={openFileUploadDialog}
-            themeColor={COLORS.green.default}
+            themeColor={COLORS.primary.default}
             isRound
             sizeType="small"
             className="profile-img"

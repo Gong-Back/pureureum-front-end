@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import Text from '@/components/common/Text';
-import DropdownMenu from '@/components/common/DropdownMenu';
-import { COLORS } from '@/constants/styles';
 import { projectsDummydata } from 'src/dummyData';
-
+import DropdownMenu from '@/components/common/DropdownMenu';
+import Text from '@/components/common/Text';
 import ProjectList from '@/components/domain/Project/ProjectList';
+import { COLORS } from '@/constants/styles';
 import * as style from './ProjectListTemplate.style';
 
 const ProjectListTemplate = () => {
@@ -16,7 +15,7 @@ const ProjectListTemplate = () => {
     <style.Wrapper>
       <style.HeaderWrap>
         <style.TitleWrap>
-          <Text fontStyleName="title" color={COLORS.grayscale.gray600}>
+          <Text fontStyleName="title" color={COLORS.grayscale.dark}>
             세상의 푸르름을 위한 프로젝트
           </Text>
           <Text

@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
-import ChevronLeftIconSvg from '@/assets/icons/ChevronLeftIcon.svg';
 import BookmarkIconSvg from '@/assets/icons/bookmarkIcon.svg';
 import HeartIconSvg from '@/assets/icons/heartIcon.svg';
+import LeftIconSvg from '@/assets/icons/leftIcon.svg';
 import ShareURLIconSvg from '@/assets/icons/shareURLIcon.svg';
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
@@ -29,7 +29,12 @@ const ProjectApplyTemplate = ({ userData }: ProjectApplyTemplateProps) => {
     <styles.Wrapper>
       <styles.MainSection>
         <styles.Header>
-          <ChevronLeftIconSvg onClick={() => router.back()} />
+          <LeftIconSvg
+            width={35}
+            height={35}
+            fill={COLORS.grayscale.gray700}
+            onClick={() => router.back()}
+          />
           <Text fontStyleName="title" color={COLORS.grayscale.gray700}>
             프로젝트 신청
           </Text>
@@ -123,7 +128,7 @@ const ProjectApplyTemplate = ({ userData }: ProjectApplyTemplateProps) => {
           </Text>
         </styles.CheckBoxSection>
         <styles.Aside>
-          <Text fontStyleName="subtitle2B" color={COLORS.green.dark}>
+          <Text fontStyleName="subtitle2B" color={COLORS.primary.dark}>
             우리 함께 감자 농장 체험해요!
           </Text>
           <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
@@ -134,7 +139,7 @@ const ProjectApplyTemplate = ({ userData }: ProjectApplyTemplateProps) => {
           </Text>
           <styles.FacilityDetail>
             <div className="option">
-              <Text fontStyleName="body2B" color={COLORS.green.default}>
+              <Text fontStyleName="body2B" color={COLORS.primary.default}>
                 주관
               </Text>
               <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
@@ -142,7 +147,7 @@ const ProjectApplyTemplate = ({ userData }: ProjectApplyTemplateProps) => {
               </Text>
             </div>
             <div className="option">
-              <Text fontStyleName="body2B" color={COLORS.green.default}>
+              <Text fontStyleName="body2B" color={COLORS.primary.default}>
                 위치
               </Text>
               <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
@@ -150,7 +155,7 @@ const ProjectApplyTemplate = ({ userData }: ProjectApplyTemplateProps) => {
               </Text>
             </div>
             <div className="option">
-              <Text fontStyleName="body2B" color={COLORS.green.default}>
+              <Text fontStyleName="body2B" color={COLORS.primary.default}>
                 기간
               </Text>
               <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
@@ -172,7 +177,7 @@ const ProjectApplyTemplate = ({ userData }: ProjectApplyTemplateProps) => {
       </styles.MainSection>
       <styles.ButtonSection>
         <Button
-          themeColor={COLORS.primary.greenDefault}
+          themeColor={COLORS.primary.default}
           sizeType="medium"
           className="button"
           isFilled

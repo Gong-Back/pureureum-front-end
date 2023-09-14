@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import { COLORS } from '@/constants/styles';
+import type { Meta, StoryObj } from '@storybook/react';
 import Button from './Button';
 
 const meta: Meta<typeof Button> = {
@@ -32,6 +32,6 @@ export const LargeTransparent: Story = {
   args: {
     sizeType: 'large',
     children: 'button',
-    themeColor: COLORS.primary.greenDefault,
+    themeColor: COLORS.primary.default,
   },
 };

@@ -32,14 +32,14 @@ const LINE_HEIGHT_RATIO = 1.6;
  */
 export const FONT_STYLE_PC: Record<FontStyleName, FontStyle> = {
   [FONT_STYLE_NAME.title]: {
-    fontSize: 30,
+    fontSize: 27,
     fontWeight: 800,
-    lineHeight: `${LINE_HEIGHT_RATIO * 30}px`,
+    lineHeight: `${LINE_HEIGHT_RATIO * 27}px`,
   },
   [FONT_STYLE_NAME.subtitle1]: {
-    fontSize: 27,
+    fontSize: 25,
     fontWeight: 700,
-    lineHeight: `${LINE_HEIGHT_RATIO * 27}px`,
+    lineHeight: `${LINE_HEIGHT_RATIO * 25}px`,
   },
   [FONT_STYLE_NAME.subtitle2B]: {
     fontSize: 23,
@@ -93,18 +93,18 @@ export const FONT_STYLE_PC: Record<FontStyleName, FontStyle> = {
  */
 export const FONT_STYLE_MOBILE: Record<FontStyleName, FontStyle> = {
   [FONT_STYLE_NAME.title]: {
-    fontSize: 27,
+    fontSize: 24,
     fontWeight: 800,
-    lineHeight: `${LINE_HEIGHT_RATIO * 27}px`,
+    lineHeight: `${LINE_HEIGHT_RATIO * 24}px`,
   },
   [FONT_STYLE_NAME.subtitle1]: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: 700,
-    lineHeight: `${LINE_HEIGHT_RATIO * 24}px`,
+    lineHeight: `${LINE_HEIGHT_RATIO * 22}px`,
   },
   [FONT_STYLE_NAME.subtitle2B]: {
     fontSize: 20,
-    fontWeight: 600,
+    fontWeight: 700,
     lineHeight: `${LINE_HEIGHT_RATIO * 20}px`,
   },
   [FONT_STYLE_NAME.subtitle2R]: {
@@ -119,7 +119,7 @@ export const FONT_STYLE_MOBILE: Record<FontStyleName, FontStyle> = {
   },
   [FONT_STYLE_NAME.body1B]: {
     fontSize: 18,
-    fontWeight: 700,
+    fontWeight: 600,
     lineHeight: `${LINE_HEIGHT_RATIO * 18}px`,
   },
   [FONT_STYLE_NAME.body1R]: {

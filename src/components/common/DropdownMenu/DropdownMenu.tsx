@@ -1,9 +1,8 @@
-import LeftIconSvg from '@/assets/icons/leftIcon.svg';
-
-import { COLORS } from '@/constants/styles';
 import React, { useState } from 'react';
-import * as style from './DropdownMenu.style';
+import LeftIconSvg from '@/assets/icons/leftIcon.svg';
+import { COLORS } from '@/constants/styles';
 import Text from '../Text';
+import * as style from './DropdownMenu.style';
 
 interface DropdownMenuProps {
   menuList: readonly string[];
@@ -26,7 +25,7 @@ const DropdownMenu = ({
       className={className}
     >
       <style.MenuWrap>
-        <Text fontStyleName="body2B" color={COLORS.primary.greenDefault}>
+        <Text fontStyleName="body2B" color={COLORS.primary.default}>
           {selectedMenu}
         </Text>
       </style.MenuWrap>
@@ -39,12 +38,12 @@ const DropdownMenu = ({
               onClick={() => setSelectedMenu(menu)}
               className="non-selected-menu"
             >
-              <Text fontStyleName="body2B" color={COLORS.primary.greenDefault}>
+              <Text fontStyleName="body2B" color={COLORS.primary.default}>
                 {menu}
               </Text>
             </style.MenuWrap>
           ))}
-      <LeftIconSvg color={COLORS.primary.greenDefault} />
+      <LeftIconSvg color={COLORS.primary.default} />
     </style.Wrapper>
   );
 };

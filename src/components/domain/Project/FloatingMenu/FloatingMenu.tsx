@@ -41,7 +41,7 @@ const FloatingMenu = ({ projectInfo, className }: FloatingMenuProps) => {
 
   return (
     <style.Wrapper className={className}>
-      <Text fontStyleName="subtitle2B" color={COLORS.primary.greenDefault}>
+      <Text fontStyleName="subtitle2B" color={COLORS.primary.default}>
         {title}
       </Text>
       <Text
@@ -54,7 +54,7 @@ const FloatingMenu = ({ projectInfo, className }: FloatingMenuProps) => {
       <style.InfoWrapper>
         {infoList.map(({ label, content }) => (
           <style.InfoField key={label}>
-            <Text fontStyleName="body2B" color={COLORS.primary.greenDefault}>
+            <Text fontStyleName="body2B" color={COLORS.primary.default}>
               {label}
             </Text>
             <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>

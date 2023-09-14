@@ -1,29 +1,21 @@
 import React from 'react';
-
-import PersonalInfoList from '@/components/domain/MyPage/PersonalInfoList';
-import ProfileEditor from '@/components/domain/MyPage/ProfileEditor';
-import UpdatePhoneModal from '@/components/domain/MyPage/UpdatePhoneModal';
-import UpdatePasswordModal from '@/components/domain/MyPage/UpdatePasswordModal';
-import SideNavigationBar from '@/components/domain/MyPage/SideNavigationBar';
-
+import { profileDummyData } from 'src/dummyData';
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
-
-import useModal from '@/hooks/useModal';
-import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
-
+import MyPageLayout from '@/components/domain/MyPage/MyPageLayout';
+import PersonalInfoList from '@/components/domain/MyPage/PersonalInfoList';
+import ProfileEditor from '@/components/domain/MyPage/ProfileEditor';
+import UpdatePasswordModal from '@/components/domain/MyPage/UpdatePasswordModal';
+import UpdatePhoneModal from '@/components/domain/MyPage/UpdatePhoneModal';
 import { COLORS } from '@/constants/styles';
-
-import { profileDummyData } from 'src/dummyData';
+import useModal from '@/hooks/useModal';
 import * as style from './MyProfileTemplate.style';
 
 const MyProfileTemplate = () => {
   const data = profileDummyData;
+
   const { openModal } = useModal();
-  const currentBreakpoint = useMeasureBreakpoint(['mobile', 'pc']);
-
   const openChangePhoneModal = () => openModal(<UpdatePhoneModal />);
-
   const openChangePasswordModal = () => openModal(<UpdatePasswordModal />);
 
   const handleSaveChange = () => {};
@@ -33,74 +25,70 @@ const MyProfileTemplate = () => {
   // TODO : 정규식의 경우 추후 Util 로 묶을 수 있다면 일괄적으로 수정해야 함.
   const maskedPhoneNumber = data.phoneNumber.replace(/-[0-9]{4}-/g, '-****-');
 
-
   return (
-    <style.Wrapper>
-      {currentBreakpoint === 'pc' && <SideNavigationBar />}
-      <style.Aside>
-        <ProfileEditor profileUrl={data.profileUrl} nickname={data.nickname} />
-        <style.PersonalSection>
-          <PersonalInfoList
-            name={data.name}
-            email={data.email}
-            gender={data.gender}
-            birthday={data.birthday}
-          />
-          <style.Section>
-            <Text
-              className="info-label"
-              color={COLORS.grayscale.gray700}
-              fontStyleName="body2B"
-            >
-              휴대폰 번호
-            </Text>
-            <Text
-              className="info-content"
-              color={COLORS.grayscale.gray700}
-              fontStyleName="body2R"
-            >
-              {maskedPhoneNumber}
-            </Text>
-            <Button
-              onClick={openChangePhoneModal}
-              themeColor={COLORS.green.default}
-              isRound
-              sizeType="small"
-              className="phone-button"
-            >
-              번호 변경
-            </Button>
-          </style.Section>
-          <style.Section>
-            <Text
-              className="info-label"
-              color={COLORS.grayscale.gray700}
-              fontStyleName="body2B"
-            >
-              비밀번호
-            </Text>
-            <Button
-              onClick={openChangePasswordModal}
-              themeColor={COLORS.green.default}
-              isRound
-              sizeType="small"
-              className="profile-button"
-            >
-              비밀번호 변경
-            </Button>
-          </style.Section>
-        </style.PersonalSection>
-        <Button
-          sizeType="large"
-          themeColor={COLORS.green.default}
-          onClick={handleSaveChange}
-          isFilled
-          className="confirm-button"
-        >
-          저장하기
-        </Button>
-      </style.Aside>
-    </style.Wrapper>
+    <MyPageLayout>
+      <ProfileEditor profileUrl={data.profileUrl} nickname={data.nickname} />
+      <style.PersonalSection>
+        <PersonalInfoList
+          name={data.name}
+          email={data.email}
+          gender={data.gender}
+          birthday={data.birthday}
+        />
+        <style.Section>
+          <Text
+            className="info-label"
+            color={COLORS.grayscale.gray700}
+            fontStyleName="body2B"
+          >
+            휴대폰 번호
+          </Text>
+          <Text
+            className="info-content"
+            color={COLORS.grayscale.gray700}
+            fontStyleName="body2R"
+          >
+            {maskedPhoneNumber}
+          </Text>
+          <Button
+            onClick={openChangePhoneModal}
+            themeColor={COLORS.primary.default}
+            isRound
+            sizeType="small"
+            className="phone-button"
+          >
+            번호 변경
+          </Button>
+        </style.Section>
+        <style.Section>
+          <Text
+            className="info-label"
+            color={COLORS.grayscale.gray700}
+            fontStyleName="body2B"
+          >
+            비밀번호
+          </Text>
+          <Button
+            onClick={openChangePasswordModal}
+            themeColor={COLORS.primary.default}
+            isRound
+            sizeType="small"
+            className="profile-button"
+          >
+            비밀번호 변경
+          </Button>
+        </style.Section>
+      </style.PersonalSection>
+      <Button
+        sizeType="large"
+        themeColor={COLORS.primary.default}
+        onClick={handleSaveChange}
+        isFilled
+        className="confirm-button"
+      >
+        저장하기
+      </Button>
+    </MyPageLayout>
   );
 };
 

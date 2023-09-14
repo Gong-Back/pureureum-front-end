@@ -5,18 +5,13 @@ import {
   FormProvider,
   SubmitHandler,
 } from 'react-hook-form';
-
-import Button from '@/components/common/Button';
-import NewTextInput from '@/components/common/TextInput/NewTextInput';
-import ModalTemplate from '@/components/common/ModalTemplate';
-
 import { UserRepository } from '@/apis/user';
-
+import Button from '@/components/common/Button';
+import ModalTemplate from '@/components/common/ModalTemplate';
+import NewTextInput from '@/components/common/TextInput/NewTextInput';
 import { COLORS } from '@/constants/styles';
 import { type UserFormType } from '@/constants/types';
-
 import useModal from '@/hooks/useModal';
-
 import * as style from './UpdatePasswordModal.style';
 
 const UpdatePasswordModal = () => {
@@ -98,7 +93,7 @@ const UpdatePasswordModal = () => {
             isFilled
             themeColor={
               isPossibleToConfirm
-                ? COLORS.primary.greenDefault
+                ? COLORS.primary.default
                 : COLORS.grayscale.gray400
             }
             sizeType="small"
