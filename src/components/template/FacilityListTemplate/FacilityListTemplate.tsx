@@ -1,6 +1,6 @@
 import { projectsDummydata } from 'src/dummyData';
 import Text from '@/components/common/Text';
-import MyPageLayout from '@/components/domain/MyPage/MyPageLayout';
+import Layout from '@/components/domain/MyPage/Layout';
 import ProjectList from '@/components/domain/Project/ProjectList';
 import { COLORS } from '@/constants/styles';
 import * as style from './FacilityListTemplate.style';
@@ -10,7 +10,7 @@ const FacilityListTemplate = () => {
   const isEmpty = true;
 
   return (
-    <MyPageLayout title="시설 관리">
+    <Layout title="시설 관리">
       {isEmpty ? (
         <style.EmptyNotice>
           <Text
@@ -24,7 +24,7 @@ const FacilityListTemplate = () => {
       ) : (
         <ProjectList data={projectsDummydata} />
       )}
-    </MyPageLayout>
+    </Layout>
   );
 };
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { profileDummyData } from 'src/dummyData';
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
-import MyPageLayout from '@/components/domain/MyPage/MyPageLayout';
+import Layout from '@/components/domain/MyPage/Layout';
 import PersonalInfoList from '@/components/domain/MyPage/PersonalInfoList';
 import ProfileEditor from '@/components/domain/MyPage/ProfileEditor';
 import UpdatePasswordModal from '@/components/domain/MyPage/UpdatePasswordModal';
@@ -26,7 +26,7 @@ const MyProfileTemplate = () => {
   const maskedPhoneNumber = data.phoneNumber.replace(/-[0-9]{4}-/g, '-****-');
 
   return (
-    <MyPageLayout>
+    <Layout>
       <ProfileEditor profileUrl={data.profileUrl} nickname={data.nickname} />
       <style.PersonalSection>
         <PersonalInfoList
@@ -88,7 +88,7 @@ const MyProfileTemplate = () => {
       >
         저장하기
       </Button>
-    </MyPageLayout>
+    </Layout>
   );
 };
 

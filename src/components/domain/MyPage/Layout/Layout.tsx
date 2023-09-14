@@ -1,17 +1,14 @@
 import { PropsWithChildren } from 'react';
 import Text from '@/components/common/Text';
 import { COLORS } from '@/constants/styles';
-import * as style from './MyPageLayout.style';
+import * as style from './Layout.style';
 import SideNavigationBar from './SideNavigationBar';
 
-interface MyPageLayoutProps {
+interface LayoutProps {
   title?: string;
 }
 
-const MyPageLayout = ({
-  children,
-  title,
-}: PropsWithChildren<MyPageLayoutProps>) => (
+const Layout = ({ children, title }: PropsWithChildren<LayoutProps>) => (
   <style.Wrapper>
     <SideNavigationBar />
     <style.ContentWrapper>
@@ -29,4 +26,4 @@ const MyPageLayout = ({
   </style.Wrapper>
 );
 
-export default MyPageLayout;
+export default Layout;

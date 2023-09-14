@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { projectsDummydata } from 'src/dummyData';
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
-import MyPageLayout from '@/components/domain/MyPage/MyPageLayout';
+import Layout from '@/components/domain/MyPage/Layout';
 import ProjectOperationItem from '@/components/domain/Project/ProjectOperationItem';
 import { COLORS } from '@/constants/styles';
 import * as style from './ProjectOperationTemplate.style';
@@ -15,7 +15,7 @@ const ProjectOperationTemplate = () => {
   const moveToProjectCreation = () => router.push('/project/new');
 
   return (
-    <MyPageLayout title="프로젝트 관리">
+    <Layout title="프로젝트 관리">
       {isEmpty ? (
         <style.EmptyNotice>
           <Text fontStyleName="subtitle2R" color={COLORS.grayscale.gray500}>
@@ -38,7 +38,7 @@ const ProjectOperationTemplate = () => {
           ))}
         </style.ProjectListSection>
       )}
-    </MyPageLayout>
+    </Layout>
   );
 };
 
