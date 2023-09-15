@@ -1,54 +1,11 @@
-import { ReactElement } from 'react';
-import CommunityIcon from '@/assets/icons/communityIcon.svg';
-import HomeIcon from '@/assets/icons/homeIcon.svg';
 import NoteDeleteIcon from '@/assets/icons/noteDeleteIcon.svg';
 import NoteIcon from '@/assets/icons/noteIcon.svg';
 import NotificationBellIcon from '@/assets/icons/notificationBellIcon.svg';
 import NotificationIcon from '@/assets/icons/notificationIcon.svg';
 import PresentationIcon from '@/assets/icons/presentationIcon.svg';
-import ProjectIcon from '@/assets/icons/projectIcon.svg';
 import SavedIcon from '@/assets/icons/savedIcon.svg';
 import UserIcon from '@/assets/icons/userIcon.svg';
 
-export type NAV_ITEM_NAME = 'home' | 'mypage' | 'project' | 'community';
-
-// 전체 네비게이션 관련 정보
-export const NavInfo: Record<
-  NAV_ITEM_NAME,
-  { path: string; text: string; icon?: ReactElement }
-> = {
-  home: {
-    path: '/',
-    text: '홈',
-    icon: <HomeIcon />,
-  },
-  mypage: {
-    path: '/mypage/project/pending',
-    text: '나의 푸르름',
-    icon: <UserIcon />,
-  },
-  project: {
-    path: '/project',
-    text: '프로젝트',
-    icon: <ProjectIcon />,
-  },
-  community: {
-    path: '/community',
-    text: '커뮤니티',
-    icon: <CommunityIcon />,
-  },
-};
-
-export const PcNavList = ['mypage', 'project', 'community'] as NAV_ITEM_NAME[];
-
-export const MobileNavList = [
-  'home',
-  'project',
-  'community',
-  'mypage',
-] as NAV_ITEM_NAME[];
-
-// 마이 페이지 내 네비게이션 관련 정보
 export const MyPageNavInfo = {
   project: [
     {
