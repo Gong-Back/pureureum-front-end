@@ -1,20 +1,11 @@
 export const COLORS = {
   primary: {
-    logo: 'linear-gradient(162.16deg, #A4E9FF 8.64%, #43C16E 94.99%, #86DEA4 94.99%)',
-    green100: '#BCF0D0',
-    green200: '#7BDFA1',
-    greenDefault: '#5EBF83',
-    green400: '#2AB05D',
-    green500: '#048435',
-    green600: '#083A1B',
-    dark: '#158469',
-    bright: '#91E1CE',
-  },
-  green: {
+    logo: 'linear-gradient(162deg, #87C7E1 8.64%, #43C16E 94.99%, #59B080 94.99%)',
     default: '#54C3A8',
     dark: '#158469',
     bright: '#91E1CE',
   },
+
   grayscale: {
     white: '#FFFFFF',
     cremeWhite: '#FCFBFA',

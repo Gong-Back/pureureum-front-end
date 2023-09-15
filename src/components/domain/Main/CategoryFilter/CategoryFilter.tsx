@@ -27,12 +27,12 @@ const CategoryFilter = ({
           <style.Image isActive={c === activeCategory} />
           <Text
             fontStyleName="subtitle2B"
-            color={COLORS.grayscale.gray600}
+            color={COLORS.grayscale.gray700}
             className="title"
           >
             {CategoryInfo[c].title}
           </Text>
-          <Text fontStyleName="body1R" color={COLORS.grayscale.gray600}>
+          <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
             {CategoryInfo[c].description}
           </Text>
         </style.FilterItem>

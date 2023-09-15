@@ -14,7 +14,7 @@ export interface ButtonProps
   isRound?: boolean;
   /** 배경색 채울지에 대한 여부 (default: false) */
   isFilled?: boolean;
-  /** 버튼 색상 (default: colors.primary.greenDefault) */
+  /** 버튼 색상 (default: COLORS.primary.default) */
   themeColor?: string;
   className?: string;
   onClick?: () => void;
@@ -25,7 +25,7 @@ export interface ButtonProps
  */
 const Button = ({
   sizeType = 'medium',
-  themeColor = COLORS.primary.greenDefault,
+  themeColor = COLORS.primary.default,
   isFilled,
   isRound,
   className,

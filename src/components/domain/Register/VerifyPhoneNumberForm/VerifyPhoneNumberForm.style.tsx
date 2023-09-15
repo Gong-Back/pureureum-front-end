@@ -42,7 +42,7 @@ export const CheckButton = styled.button(({ theme }) => {
     ...fonts.pc.body2R,
     textAlign: 'center',
 
-    background: colors.primary.greenDefault,
+    background: colors.primary.default,
     borderRadius: '5px',
   };
 });

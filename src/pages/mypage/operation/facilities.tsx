@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import FacilityListTemplate from '@/components/template/FacilityListTemplate';
 
-const FacilitiesListPage: NextPage = () => <FacilityListTemplate />;
+const FacilityListPage: NextPage = () => <FacilityListTemplate />;
 
-export default FacilitiesListPage;
+export default FacilityListPage;

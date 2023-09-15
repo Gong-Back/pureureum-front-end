@@ -1,5 +1,5 @@
-import styled from '@emotion/styled';
 import { COLORS } from '@/constants/styles';
+import styled from '@emotion/styled';
 
 export const Wrapper = styled.div`
   width: 360px;
@@ -35,6 +35,6 @@ export const CheckBox = styled.input`
   outline: none;
 
   & checked {
-    /*background-color: ${COLORS.primary.greenDefault};*/
+    /*background-color: ${COLORS.primary.default};*/
   }
 `;

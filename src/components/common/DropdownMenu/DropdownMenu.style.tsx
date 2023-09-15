@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
   width: 140px;
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 8px;
-  border: 1.5px solid ${COLORS.primary.greenDefault};
+  border: 1.5px solid ${COLORS.primary.default};
   position: relative;
   cursor: pointer;
 
@@ -19,7 +19,7 @@ export const Wrapper = styled.div`
   }
 
   > .non-selected-menu {
-    border-top: 1.5px solid ${COLORS.primary.greenDefault};
+    border-top: 1.5px solid ${COLORS.primary.default};
   }
 `;
 

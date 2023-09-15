@@ -1,5 +1,5 @@
-import styled from '@emotion/styled';
 import { COLORS } from '@/constants/styles';
+import styled from '@emotion/styled';
 
 export const Header = styled.div`
   display: flex;
@@ -10,7 +10,7 @@ export const Header = styled.div`
 export const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
-  margin: 70px auto 0px;
+  margin: 70px auto 55px;
   padding: 0 40px;
   max-width: 1100px;
 

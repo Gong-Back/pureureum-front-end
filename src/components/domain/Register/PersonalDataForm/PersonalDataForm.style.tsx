@@ -49,7 +49,7 @@ export const ToggleButton = styled.button<{ isSelected?: boolean }>(
       textAlign: 'center',
 
       background: isSelected
-        ? colors.primary.greenDefault
+        ? colors.primary.default
         : colors.grayscale.gray100,
       borderRadius: '25px',
     };

@@ -1,30 +1,24 @@
-import { useCallback, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { useCallback, useEffect } from 'react';
 import {
   useForm,
   useWatch,
   FormProvider,
   type SubmitHandler,
 } from 'react-hook-form';
-
 import { ApiErrorInstance } from '@/apis/API';
 import { AuthRepository } from '@/apis/auth';
 import { SocialRepository } from '@/apis/social';
-
-import Text from '@/components/common/Text';
 import Button from '@/components/common/Button';
+import Text from '@/components/common/Text';
 import AccountForm from '@/components/domain/Register/AccountForm';
 import PersonalDataForm from '@/components/domain/Register/PersonalDataForm';
 import VerifyPhoneNumberForm from '@/components/domain/Register/VerifyPhoneNumberForm';
-
+import REGISTER_FALLBACK from '@/constants/fallback/register';
 import { COLORS } from '@/constants/styles';
 import { type AuthFormType } from '@/constants/types';
-import REGISTER_FALLBACK from '@/constants/fallback/register';
-
 import { type RegisterProps } from '@/pages/auth/register';
-
 import ValidationUtil from '@/utils/validation';
-
 import * as style from './RegisterTemplate.style';
 
 const RegisterStepHeader = [
@@ -154,9 +148,9 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
       // 이후 최종적으로 유저의 정보를 인계하여 회원가입 처리를 완료시킨다.
       if (socialType) {
         await SocialRepository.registerAsync({
-          ...submittedData, 
+          ...submittedData,
           socialType,
-        })
+        });
       } else {
         await AuthRepository.registerAsync(submittedData);
       }
@@ -258,7 +252,7 @@ const RegisterTemplate = ({ socialType, socialEmail }: RegisterProps) => {
           <Button
             themeColor={
               shouldCheckCurrentStep()
-                ? COLORS.primary.greenDefault
+                ? COLORS.primary.default
                 : COLORS.grayscale.gray400
             }
             isFilled

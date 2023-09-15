@@ -1,19 +1,14 @@
 import React from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
-
 import { ApiErrorInstance } from '@/apis/API';
 import { AuthRepository } from '@/apis/auth';
-
-import NewTextInput from '@/components/common/TextInput/NewTextInput';
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
-
+import NewTextInput from '@/components/common/TextInput/NewTextInput';
+import REGISTER_FALLBACK from '@/constants/fallback/register';
 import { COLORS } from '@/constants/styles';
 import { type AuthFormType } from '@/constants/types';
-import REGISTER_FALLBACK from '@/constants/fallback/register';
-
 import ValidationUtil from '@/utils/validation';
-
 import * as style from './AccountForm.style';
 
 const AccountForm = () => {
@@ -62,9 +57,7 @@ const AccountForm = () => {
           onClick={verifyEmail}
           isFilled
           themeColor={
-            isCheckUserEmail
-              ? COLORS.grayscale.gray400
-              : COLORS.primary.greenDefault
+            isCheckUserEmail ? COLORS.grayscale.gray400 : COLORS.primary.default
           }
           className="check-button"
         >

@@ -14,7 +14,8 @@ export const Wrapper = styled.section`
     margin-top: 30px;
     padding: 0px;
     color: ${COLORS.grayscale.gray700};
-    font-size: 30px;
+
+    font-size: 27px;
     font-weight: 800;
 
     &::placeholder {
@@ -26,6 +27,10 @@ export const Wrapper = styled.section`
     > .step2-horizonal-wrap {
       flex-direction: column;
       align-items: flex-start;
+    }
+
+    > .title-input {
+      font-size: 24px;
     }
   }
 `;

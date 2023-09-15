@@ -1,9 +1,7 @@
-import { ProjectPartInfoType, ProjectStatusType } from '@/constants/types';
-
 import Text from '@/components/common/Text';
 import { COLORS } from '@/constants/styles';
+import { ProjectPartInfoType, ProjectStatusType } from '@/constants/types';
 import FormatUtil from '@/utils/format';
-
 import * as style from './ProjectOperationItem.style';
 
 export interface ProjectOperationItemProps {
@@ -37,7 +35,7 @@ const ProjectOperationItem = ({ projectInfo }: ProjectOperationItemProps) => {
       <Text fontStyleName="subtitle1" color={COLORS.grayscale.gray700}>
         {projectInfo.title}
       </Text>
-      <Text fontStyleName="body2R" color={COLORS.green.default}>
+      <Text fontStyleName="body2R" color={COLORS.primary.default}>
         {FormatUtil.formatLocation(projectInfo.facilityAddress)}
       </Text>
     </style.Wrapper>

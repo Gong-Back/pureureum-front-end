@@ -1,5 +1,5 @@
-import styled from '@emotion/styled';
 import { COLORS, MEDIA_QUERIES } from '@/constants/styles';
+import styled from '@emotion/styled';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -18,15 +18,6 @@ export const Wrapper = styled.div`
   }
 `;
 
-export const FormTitle = styled.div`
-  display: flex;
-  gap: 0px 10px;
-
-  > .asterisk {
-    margin: auto 0px;
-  }
-`;
-
 export const ProjectTypeSelect = styled.div`
   display: grid;
   grid-template-rows: repeat(2, fit-content(100%));
@@ -39,6 +30,7 @@ export const ProjectTypeSelect = styled.div`
 
   > .title {
     grid-area: title;
+    margin-bottom: 0px;
   }
 
   > .not-selected {
@@ -73,7 +65,10 @@ export const ProjectTypeSelect = styled.div`
 export const FacilityNameForm = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px 0px;
+
+  > .title {
+    margin-bottom: 20px;
+  }
 
   > .name-input {
     width: 100%;
@@ -92,6 +87,7 @@ export const FacilityLocForm = styled.div`
 
   > .title {
     grid-area: title;
+    margin-bottom: 0px;
   }
 
   > .loc-input {
@@ -128,6 +124,7 @@ export const FacilityDocsForm = styled.div`
 
   > .title {
     grid-area: title;
+    margin-bottom: 0px;
   }
 
   > .file-input {
