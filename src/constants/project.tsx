@@ -2,6 +2,7 @@ import EtcIcon from '@/assets/icons/category/etcIcon.svg';
 import FarmingExperienceIcon from '@/assets/icons/category/farmingExperienceIcon.svg';
 import FarmingHealingIcon from '@/assets/icons/category/farmingHealingIcon.svg';
 import YouthFarmingIcon from '@/assets/icons/category/youthFarmingIcon.svg';
+
 import { CategoryType } from './types';
 
 export const CategoryInfo: Record<

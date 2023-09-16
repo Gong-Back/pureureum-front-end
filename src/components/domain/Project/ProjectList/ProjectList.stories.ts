@@ -1,5 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import { projectsDummydata } from 'src/dummyData';
+
+import type { Meta, StoryObj } from '@storybook/react';
+
 import ProjectList from './ProjectList';
 
 const meta: Meta<typeof ProjectList> = {

@@ -1,10 +1,12 @@
 /* eslint-disable no-unused-vars */
 import { useRouter } from 'next/router';
 import React from 'react';
+
 import LeftIconSvg from '@/assets/icons/leftIcon.svg';
 import Text from '@/components/common/Text';
 import ProjectInfoForm from '@/components/domain/Project/ProjectInfoForm';
 import { COLORS } from '@/constants/styles';
+
 import * as style from './ProjectRegisterTemplate.style';
 
 const ProjectCreationTemplate = () => {

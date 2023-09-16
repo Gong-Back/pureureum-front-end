@@ -3,6 +3,7 @@ import { CategoryInfo } from '@/constants/project';
 import { COLORS } from '@/constants/styles';
 import { CategoryType } from '@/constants/types';
 import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
+
 import * as style from './CategoryFilter.style';
 
 const CATEGORIES = Object.keys(CategoryInfo) as CategoryType[];

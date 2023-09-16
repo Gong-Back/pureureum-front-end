@@ -1,8 +1,7 @@
 import { GetServerSideProps } from 'next';
 
-import { SocialPlatformType } from '@/constants/types';
-
 import RegisterTemplate from '@/components/template/RegisterTemplate';
+import { SocialPlatformType } from '@/constants/types';
 
 // NOTICE: Server - Side 에서 사전에 OAuth2 로 가입되었는지를 체크하고, 관련 정보를 주입한다.
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

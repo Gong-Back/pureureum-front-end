@@ -1,7 +1,9 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+
 import { MobileNavList, NavInfo } from '@/constants/navigation';
 import { COLORS } from '@/constants/styles';
+
 import Text from '../Text';
 import * as style from './BottomNavigationBar.style';
 

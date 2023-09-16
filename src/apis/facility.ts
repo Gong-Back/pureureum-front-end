@@ -1,8 +1,9 @@
 import {
+  CategoryType,
   FacilityReqParams,
   FacilityResponses,
-  CategoryType,
 } from '@/constants/types';
+
 import { getAsync, postAsync } from './API';
 
 export class FacilityRepository {
@@ -56,15 +57,11 @@ export class FacilityRepository {
     );
     if (certificationDoc) formData.append('certificationDoc', certificationDoc);
 
-    await postAsync<undefined, FormData>(
-      '/facilities/register',
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+    await postAsync<undefined, FormData>('/facilities/register', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
       },
-    );
+    });
   }
 
   /**

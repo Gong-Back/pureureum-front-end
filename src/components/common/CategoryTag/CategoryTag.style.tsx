@@ -1,6 +1,6 @@
-import styled from '@emotion/styled';
 import { MEDIA_QUERIES } from '@/constants/styles';
 import { CategoryType } from '@/constants/types';
+import styled from '@emotion/styled';
 
 const COLORS: Record<CategoryType, { background: string; text: string }> = {
   YOUTH_FARMING: { background: '#FFE2B1', text: '#6A4300' },

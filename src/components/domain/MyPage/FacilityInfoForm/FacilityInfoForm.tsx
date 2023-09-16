@@ -1,13 +1,15 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
+
 import {
-  useForm,
   Controller,
   FormProvider,
-  useWatch,
   type SubmitHandler,
+  useForm,
+  useWatch,
 } from 'react-hook-form';
+
 import { ApiErrorInstance } from '@/apis/API';
 import { FacilityRepository } from '@/apis/facility';
 import Button from '@/components/common/Button';
@@ -15,11 +17,12 @@ import CategoryTag from '@/components/common/CategoryTag';
 import FormLabel from '@/components/common/FormLabel';
 import NewTextInput from '@/components/common/TextInput/NewTextInput';
 import { COLORS } from '@/constants/styles';
-import { type FacilityFormType, type CategoryType } from '@/constants/types';
+import { type CategoryType, type FacilityFormType } from '@/constants/types';
 import useDaumPostCode from '@/hooks/useDaumPostCode';
 import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
 import useUploadFile from '@/hooks/useUploadFile';
 import FormatUtil from '@/utils/format';
+
 import * as style from './FacilityInfoForm.style';
 
 const FACILITY_CATEGORIES: CategoryType[] = [

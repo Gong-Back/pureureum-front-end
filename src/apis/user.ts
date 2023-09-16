@@ -1,4 +1,5 @@
-import { UserReqParams, UserResponses, ApiResponse } from '@/constants/types';
+import { ApiResponse, UserReqParams, UserResponses } from '@/constants/types';
+
 import { getAsync, postAsync } from './API';
 
 export class UserRepository {

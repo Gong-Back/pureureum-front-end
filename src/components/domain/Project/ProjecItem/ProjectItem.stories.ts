@@ -1,5 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import { projectItemDummyData } from 'src/dummyData';
+
+import type { Meta, StoryObj } from '@storybook/react';
+
 import ProjectItem from './ProjectItem';
 
 const meta: Meta<typeof ProjectItem> = {

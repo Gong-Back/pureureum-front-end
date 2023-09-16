@@ -28,7 +28,7 @@ export const HeaderWrap = styled.div`
     padding: 6px 46px;
     margin: auto 0;
   }
-`
+`;
 
 export const EmptyNotice = styled.div`
   display: flex;
@@ -40,4 +40,4 @@ export const EmptyNotice = styled.div`
   }
 
   height: 100%;
-`
+`;

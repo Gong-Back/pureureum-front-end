@@ -1,5 +1,6 @@
-import { ApiErrorInstance } from '@/apis/API';
 import { NextApiRequest, NextApiResponse } from 'next';
+
+import { ApiErrorInstance } from '@/apis/API';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
@@ -8,8 +9,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(200).json({
         code: 200,
         messages: [],
-        data: { accessToken, refreshToken }
-      })
+        data: { accessToken, refreshToken },
+      });
     }
     case 'POST': {
       const { accessToken, refreshToken } = req.body;

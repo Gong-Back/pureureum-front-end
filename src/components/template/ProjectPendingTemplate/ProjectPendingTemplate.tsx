@@ -1,10 +1,13 @@
 import { useRouter } from 'next/router';
+
 import { projectsDummydata } from 'src/dummyData';
+
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 import Layout from '@/components/domain/MyPage/Layout';
 import ProjectList from '@/components/domain/Project/ProjectList';
 import { COLORS } from '@/constants/styles';
+
 import * as style from './ProjectPendingTemplate.style';
 
 const ProjectPendingTemplate = () => {

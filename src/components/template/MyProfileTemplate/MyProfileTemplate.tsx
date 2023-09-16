@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { profileDummyData } from 'src/dummyData';
+
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 import Layout from '@/components/domain/MyPage/Layout';
@@ -9,6 +11,7 @@ import UpdatePasswordModal from '@/components/domain/MyPage/UpdatePasswordModal'
 import UpdatePhoneModal from '@/components/domain/MyPage/UpdatePhoneModal';
 import { COLORS } from '@/constants/styles';
 import useModal from '@/hooks/useModal';
+
 import * as style from './MyProfileTemplate.style';
 
 const MyProfileTemplate = () => {

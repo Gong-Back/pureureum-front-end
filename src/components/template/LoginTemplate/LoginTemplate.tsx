@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
+
 import GoogleCircleIconSvg from '@/assets/icons/googleCircleIcon.svg';
 import KakaoCircleIconSvg from '@/assets/icons/kakaoCircleIcon.svg';
 import NaverCircleIconSvg from '@/assets/icons/naverCircleIcon.svg';
@@ -8,6 +9,7 @@ import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 import LoginForm from '@/components/domain/Login/LoginForm';
 import { COLORS } from '@/constants/styles';
+
 import * as style from './LoginTemplate.style';
 
 const LoginTemplate = () => (

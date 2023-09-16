@@ -1,7 +1,8 @@
 import React from 'react';
+
 import Text from '@/components/common/Text';
-import useKakaoMap from '@/hooks/useKakaoMap';
 import { COLORS } from '@/constants/styles';
+import useKakaoMap from '@/hooks/useKakaoMap';
 
 import * as style from './LocationBox.style';
 

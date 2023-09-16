@@ -1,5 +1,6 @@
-import { useAtom } from 'jotai';
 import type { ReactNode } from 'react';
+
+import { useAtom } from 'jotai';
 
 import { handleModalAtom } from '@/stores/atom/modal';
 

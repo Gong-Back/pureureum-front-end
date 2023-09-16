@@ -29,4 +29,4 @@ export const EmptyNotice = styled.div`
   }
 
   margin: auto;
-`
+`;

@@ -1,11 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { type DetailedHTMLProps, type InputHTMLAttributes } from 'react';
+
 import {
-  useController,
-  type UseControllerProps,
-  type FieldValues,
   type FieldPath,
+  type FieldValues,
+  type UseControllerProps,
+  useController,
 } from 'react-hook-form';
+
 import * as styles from './TextInput.style';
 
 export type NewTextInputProps<

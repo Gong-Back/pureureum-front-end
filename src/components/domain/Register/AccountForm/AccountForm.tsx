@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { useFormContext, useWatch } from 'react-hook-form';
+
 import { ApiErrorInstance } from '@/apis/API';
 import { AuthRepository } from '@/apis/auth';
 import Button from '@/components/common/Button';
@@ -9,6 +11,7 @@ import REGISTER_FALLBACK from '@/constants/fallback/register';
 import { COLORS } from '@/constants/styles';
 import { type AuthFormType } from '@/constants/types';
 import ValidationUtil from '@/utils/validation';
+
 import * as style from './AccountForm.style';
 
 const AccountForm = () => {

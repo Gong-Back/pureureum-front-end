@@ -1,7 +1,7 @@
 import React from 'react';
 
-import useModal from '@/hooks/useModal';
 import ModalCloseIconSvg from '@/assets/icons/modalCloseIcon.svg';
+import useModal from '@/hooks/useModal';
 
 import * as styles from './ModalTemplate.style';
 

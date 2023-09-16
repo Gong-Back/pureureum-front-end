@@ -1,12 +1,11 @@
 // middleware.ts
-
 import { NextRequest, NextResponse } from 'next/server';
 
 import { ApiErrorInstance } from '@/apis/API';
 import { AuthRepository } from '@/apis/auth';
 import { SocialRepository } from '@/apis/social';
+import { ERROR_CODE, SOCIAL_PLATFORM_LIST } from '@/constants/apis';
 import { SocialPlatformType } from '@/constants/types';
-import { SOCIAL_PLATFORM_LIST, ERROR_CODE } from '@/constants/apis';
 
 export async function middleware(request: NextRequest) {
   const accessToken = request.cookies.get('accessToken');
@@ -54,13 +53,15 @@ export async function middleware(request: NextRequest) {
 
     try {
       // OAuth2 로그인을 먼저 진행하고, 성공했다면 메인 페이지로 리다이렉트 시킨다.
-      const { code, data } = await SocialRepository.loginAsync({verifyCode, socialType});
+      const { code, data } = await SocialRepository.loginAsync({
+        verifyCode,
+        socialType,
+      });
       if (code !== 200) {
-        throw new ApiErrorInstance({code, data, messages: []});
+        throw new ApiErrorInstance({ code, data, messages: [] });
       }
       await AuthRepository.setJwtCookieAsync(data);
       return NextResponse.redirect(origin);
-
     } catch (error) {
       const { code, data } = error as ApiErrorInstance;
 
@@ -76,9 +77,9 @@ export async function middleware(request: NextRequest) {
         registerPageUrl.searchParams.set('socialType', socialType);
         registerPageUrl.searchParams.set('email', userSocialEmail);
       }
-  
+
       return NextResponse.redirect(registerPageUrl);
-    } 
+    }
   }
 
   return NextResponse.next();

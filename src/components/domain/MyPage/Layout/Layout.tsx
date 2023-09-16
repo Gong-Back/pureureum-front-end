@@ -1,6 +1,8 @@
 import { PropsWithChildren } from 'react';
+
 import Text from '@/components/common/Text';
 import { COLORS } from '@/constants/styles';
+
 import * as style from './Layout.style';
 import SideNavigationBar from './SideNavigationBar';
 

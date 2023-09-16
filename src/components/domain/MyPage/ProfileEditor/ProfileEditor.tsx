@@ -1,9 +1,11 @@
 import Image from 'next/image';
+
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 import { COLORS } from '@/constants/styles';
 import { useUpdateProfileImage } from '@/hooks/useFetchProfileInfo';
 import useUploadFile from '@/hooks/useUploadFile';
+
 import * as styles from './ProfileEditor.style';
 
 interface ProfileEditorProps {

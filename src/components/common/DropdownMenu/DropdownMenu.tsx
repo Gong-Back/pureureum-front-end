@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+
 import LeftIconSvg from '@/assets/icons/leftIcon.svg';
 import { COLORS } from '@/constants/styles';
+
 import Text from '../Text';
 import * as style from './DropdownMenu.style';
 

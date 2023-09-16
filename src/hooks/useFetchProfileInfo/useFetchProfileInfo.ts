@@ -1,13 +1,12 @@
-import {
-  useQueryClient,
-  useQuery,
-  QueryOptions,
-  useMutation,
-  UseQueryResult,
-} from '@tanstack/react-query';
-
 import { UserRepository } from '@/apis/user';
 import { type UserResponses } from '@/constants/types';
+import {
+  QueryOptions,
+  UseQueryResult,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 
 import PROFILE_KEYS from './queryKey';
 

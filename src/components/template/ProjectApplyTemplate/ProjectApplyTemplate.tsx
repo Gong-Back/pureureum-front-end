@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+
 import BookmarkIconSvg from '@/assets/icons/bookmarkIcon.svg';
 import HeartIconSvg from '@/assets/icons/heartIcon.svg';
 import LeftIconSvg from '@/assets/icons/leftIcon.svg';
@@ -7,6 +8,7 @@ import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 import { COLORS } from '@/constants/styles';
 import { UserResponses } from '@/constants/types';
+
 import * as styles from './ProjectApplyTemplate.style';
 
 const menuList = [

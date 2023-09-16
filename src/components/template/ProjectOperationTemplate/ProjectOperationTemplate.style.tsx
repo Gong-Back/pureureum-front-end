@@ -23,7 +23,7 @@ export const ProjectListSection = styled.div`
   gap: 25px 0;
 
   width: 100%;
-`
+`;
 
 export const EmptyNotice = styled.div`
   display: flex;
@@ -37,4 +37,4 @@ export const EmptyNotice = styled.div`
   }
 
   margin: auto;
-`
+`;

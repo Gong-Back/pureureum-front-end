@@ -1,12 +1,12 @@
-import styled from '@emotion/styled';
 import { COLORS, MEDIA_QUERIES } from '@/constants/styles';
+import styled from '@emotion/styled';
 
 export const Wrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-`
+`;
 
 export const Header = styled.div`
   display: flex;
@@ -53,7 +53,7 @@ export const MainSection = styled.main`
       'personal'
       'banking'
       'checkbox';
-    }
+  }
 `;
 
 export const Title = styled.h3`
@@ -179,7 +179,7 @@ export const FacilityDetail = styled.div`
     display: flex;
     gap: 0 10px;
     padding: 10px 0;
-  
+
     &:not(:last-child) {
       border-bottom: 1px solid ${COLORS.grayscale.gray100};
     }
@@ -191,7 +191,7 @@ export const ShareSection = styled.div`
   column-gap: 15px;
 
   margin: 0 auto;
-`
+`;
 
 export const ShareField = styled.div`
   display: flex;
@@ -223,4 +223,4 @@ export const ButtonSection = styled.div`
       padding: 9px 72px;
     }
   }
-`
+`;

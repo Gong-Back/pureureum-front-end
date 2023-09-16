@@ -1,9 +1,12 @@
 import { useState } from 'react';
+
 import { projectsDummydata } from 'src/dummyData';
+
 import DropdownMenu from '@/components/common/DropdownMenu';
 import Text from '@/components/common/Text';
 import ProjectList from '@/components/domain/Project/ProjectList';
 import { COLORS } from '@/constants/styles';
+
 import * as style from './ProjectListTemplate.style';
 
 const ProjectListTemplate = () => {

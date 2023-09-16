@@ -2,6 +2,7 @@ import Text from '@/components/common/Text';
 import { COLORS } from '@/constants/styles';
 import { ProjectPartInfoType, ProjectStatusType } from '@/constants/types';
 import FormatUtil from '@/utils/format';
+
 import * as style from './ProjectOperationItem.style';
 
 export interface ProjectOperationItemProps {

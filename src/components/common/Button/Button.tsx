@@ -1,5 +1,7 @@
 import React, { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
+
 import { COLORS } from '@/constants/styles';
+
 import * as styles from './Button.style';
 
 export interface ButtonProps

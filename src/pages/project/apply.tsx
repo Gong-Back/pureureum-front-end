@@ -1,6 +1,7 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+
 import { UserRepository } from '@/apis/user';
 import ProjectApplyTemplate from '@/components/template/ProjectApplyTemplate';
 import { UserResponses } from '@/constants/types';

@@ -1,5 +1,6 @@
 import { COLORS, FONT_STYLE_NAME } from '@/constants/styles';
 import type { Meta, StoryObj } from '@storybook/react';
+
 import Text from './Text';
 
 const meta: Meta<typeof Text> = {

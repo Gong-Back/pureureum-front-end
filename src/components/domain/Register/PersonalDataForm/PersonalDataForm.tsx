@@ -1,11 +1,10 @@
-import { useFormContext, useWatch, Controller } from 'react-hook-form';
+import { Controller, useFormContext, useWatch } from 'react-hook-form';
 
-import REGISTER_FALLBACK from '@/constants/fallback/register';
-import { type AuthFormType } from '@/constants/types';
-import { COLORS } from '@/constants/styles';
-
-import NewTextInput from '@/components/common/TextInput/NewTextInput';
 import Text from '@/components/common/Text';
+import NewTextInput from '@/components/common/TextInput/NewTextInput';
+import REGISTER_FALLBACK from '@/constants/fallback/register';
+import { COLORS } from '@/constants/styles';
+import { type AuthFormType } from '@/constants/types';
 
 import * as style from './PersonalDataForm.style';
 

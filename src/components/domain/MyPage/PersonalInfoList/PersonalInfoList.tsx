@@ -1,8 +1,7 @@
+import Text from '@/components/common/Text';
+import { COLORS } from '@/constants/styles';
 import { GenderType } from '@/constants/types';
 
-import Text from '@/components/common/Text';
-
-import { COLORS } from '@/constants/styles';
 import * as style from './PersonalInfoList.style';
 
 const PersonalInfoName = new Map([

@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+
 import { ProjectRepository } from '@/apis/project';
 import ProjectDetailTemplate from '@/components/template/ProjectDetailTemplate';
 import { ProjectResponses } from '@/constants/types';

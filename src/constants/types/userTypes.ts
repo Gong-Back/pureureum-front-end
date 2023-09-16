@@ -2,13 +2,13 @@ import { GenderType } from './authTypes';
 
 export type UserReqParams = {
   updateInfo: {
-    type: 'password' | 'phoneNumber' | 'nickname'
+    type: 'password' | 'phoneNumber' | 'nickname';
     updatedValue: string;
-  }
+  };
   updateProfile: {
     profileImageFile: File | undefined;
-  }
-}
+  };
+};
 
 export type UserResponses = {
   info: {
@@ -19,19 +19,19 @@ export type UserResponses = {
     gender: GenderType;
     birthday: string;
     profileUrl: string;
-  }
-}
+  };
+};
 
 export type UserFormType = {
   updatePassword: {
     currentPassword: string;
     changedPassword: string;
     confirmedPassword: string;
-  },
+  };
   updatePhoneNumber: {
-    changedPhoneNumber: string,
-    confirmedNumber: string,
-    certificationNumber: string,
-    isSendingVerifyNum: boolean,
-  }
-}
+    changedPhoneNumber: string;
+    confirmedNumber: string;
+    certificationNumber: string;
+    isSendingVerifyNum: boolean;
+  };
+};

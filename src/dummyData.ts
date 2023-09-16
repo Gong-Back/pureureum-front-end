@@ -30,7 +30,7 @@ export const projectItemDummyData: ProjectResponses['main'] = {
       longitude: '',
       latitude: '',
     },
-    ownerName:'owner',
+    ownerName: 'owner',
   },
   projectCategory: 'FARMING_HEALING',
   thumbnailFileRes: {

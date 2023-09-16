@@ -1,11 +1,14 @@
 import React from 'react';
+
 import { Control, Controller } from 'react-hook-form';
+
 import CategoryTag from '@/components/common/CategoryTag';
 import FormLabel from '@/components/common/FormLabel';
 import LocationBox from '@/components/common/LocationBox';
 import NewTextInput from '@/components/common/TextInput/NewTextInput';
 import PROJECT_REGISTER_FALLBACK from '@/constants/fallback/projectRegister';
 import { ProjectFormType } from '@/constants/types';
+
 import * as style from './ProjectInfoForm.style';
 
 interface FirstStepFormProps {

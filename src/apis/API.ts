@@ -3,8 +3,10 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse,
 } from 'axios';
+
 import { API_URL, ERROR_CODE } from '@/constants/apis';
-import { type ApiResponse, ApiError } from '@/constants/types';
+import { ApiError, type ApiResponse } from '@/constants/types';
+
 import { AuthRepository } from './auth';
 
 /**

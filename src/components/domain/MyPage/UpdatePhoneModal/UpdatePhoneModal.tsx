@@ -1,9 +1,10 @@
 import {
-  useForm,
   FormProvider,
-  useWatch,
   SubmitHandler,
+  useForm,
+  useWatch,
 } from 'react-hook-form';
+
 import { AuthRepository } from '@/apis/auth';
 import { UserRepository } from '@/apis/user';
 import Button from '@/components/common/Button';
@@ -14,6 +15,7 @@ import { COLORS } from '@/constants/styles';
 import { type UserFormType } from '@/constants/types';
 import useModal from '@/hooks/useModal';
 import ValidationUtil from '@/utils/validation';
+
 import * as style from './UpdatePhoneModal.style';
 
 const UpdatePhoneModal = () => {

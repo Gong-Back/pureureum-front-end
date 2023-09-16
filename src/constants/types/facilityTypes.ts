@@ -1,7 +1,7 @@
 import { CategoryType } from '@/constants/types';
 
 export type FacilityReqParams = {
-  'register': {
+  register: {
     category: CategoryType;
     name: string;
     city: string;
@@ -12,12 +12,12 @@ export type FacilityReqParams = {
     longitude?: string;
     latitude?: string;
     certificationDoc?: File;
-  }
-}
+  };
+};
 
 export type FacilityResponses = {
-  'searchByCategory': {
-    id: number,
+  searchByCategory: {
+    id: number;
     category: CategoryType;
     name: string;
     city: string;
@@ -27,9 +27,9 @@ export type FacilityResponses = {
     detail: string;
     longitude: string;
     latitude: string;
-  }
-  'searchAll': {
-    id: number,
+  };
+  searchAll: {
+    id: number;
     category: CategoryType;
     name: string;
     city: string;
@@ -40,12 +40,12 @@ export type FacilityResponses = {
     longitude: string;
     latitude: string;
     progress: string;
-  }[]
-}
+  }[];
+};
 
 export interface CoordinateType {
-  latitude: string,
-  longitude: string,
+  latitude: string;
+  longitude: string;
 }
 
 export interface AddressType {
@@ -57,8 +57,8 @@ export interface AddressType {
 }
 
 export interface FacilityFormType {
-  address: AddressType,
-  coordinate: CoordinateType,
+  address: AddressType;
+  coordinate: CoordinateType;
   category: CategoryType;
   name: string;
   certificationDoc: File | undefined;

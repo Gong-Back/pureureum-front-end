@@ -2,11 +2,11 @@ export type GenderType = 'MALE' | 'FEMALE';
 export type SocialPlatformType = 'naver' | 'kakao' | 'google';
 
 export type AuthReqParams = {
-  'login': {
+  login: {
     email: string;
     password: string;
-  }
-  'register': {
+  };
+  register: {
     name: string;
     email: string;
     phoneNumber: string;
@@ -14,67 +14,67 @@ export type AuthReqParams = {
     gender: GenderType;
     password: string;
     socialType?: SocialPlatformType;
-  }
-  'jwt': {
+  };
+  jwt: {
     accessToken: string;
     refreshToken: string;
-  }
-}
+  };
+};
 
 export type SocialReqParams = {
-  'login': {
+  login: {
     verifyCode: string;
     socialType: string;
-  }
-  'register': {
+  };
+  register: {
     name: string;
     email: string;
     phoneNumber: string;
     birthday: [number, number, number];
     gender: GenderType;
     socialType: SocialPlatformType;
-  }
-}
+  };
+};
 
 export type VerifyReqParams = {
-  'phoneNumber': {
+  phoneNumber: {
     phoneNumber: string;
-  }
-  'email': {
+  };
+  email: {
     email: string;
-  }
-}
+  };
+};
 
 export type AuthResponses = {
-  'login': {
+  login: {
     accessToken: string;
     refreshToken: string;
-  }
-  'register': {
+  };
+  register: {
     accessToken: string;
     refreshToken: string;
-  }
-}
+  };
+};
 
 export type SocialResponses = {
-  'tempSearch': {
+  tempSearch: {
     email: string;
     socialType: SocialPlatformType;
-  }
-}
+  };
+};
 
 export type VerifyResponses = {
-  'phoneNumber': {
+  phoneNumber: {
     certificationNumber: string;
-  }
-}
+  };
+};
 
 export type AuthFormType = {
-  'login': {
+  login: {
     email: string;
     password: string;
-  },
-  'register': {
+  };
+  register: {
     email: string;
     password: string;
     confirmPassword: string;
@@ -88,5 +88,5 @@ export type AuthFormType = {
     isCheckUserEmail: boolean;
     isCheckPhoneNumber: boolean;
     step: number;
-  }
-}
+  };
+};

@@ -1,9 +1,12 @@
 import React from 'react';
+
 import { Control, Controller, UseFormSetValue } from 'react-hook-form';
+
 import FormLabel from '@/components/common/FormLabel';
 import NewTextInput from '@/components/common/TextInput/NewTextInput';
 import PROJECT_REGISTER_FALLBACK from '@/constants/fallback/projectRegister';
 import { ProjectFormType } from '@/constants/types';
+
 import * as style from './ProjectInfoForm.style';
 import { ProjectAgeInput, ProjectPeriodInput } from './ProjectRangeInput';
 

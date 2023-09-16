@@ -1,20 +1,19 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
 import { useRouter } from 'next/router';
+import React from 'react';
+
 import {
-  useForm,
-  useWatch,
   FormProvider,
   type SubmitHandler,
+  useForm,
+  useWatch,
 } from 'react-hook-form';
 
 import { type ApiErrorInstance } from '@/apis/API';
 import { AuthRepository } from '@/apis/auth';
-
-import { type AuthFormType } from '@/constants/types';
-
-import NewTextInput from '@/components/common/TextInput/NewTextInput';
 import Button from '@/components/common/Button';
+import NewTextInput from '@/components/common/TextInput/NewTextInput';
+import { type AuthFormType } from '@/constants/types';
 
 import * as styles from './LoginForm.style';
 

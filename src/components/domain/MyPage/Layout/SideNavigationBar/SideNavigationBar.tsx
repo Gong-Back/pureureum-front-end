@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+
 import MenuIcon from '@/assets/icons/menuIcon.svg';
 import { COLORS } from '@/constants/styles';
 import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
+
 import NavContent from './NavContent';
 import * as style from './SideNavigationBar.style';
 

@@ -1,5 +1,7 @@
 import { projectContentDummyData } from 'src/dummyData';
+
 import type { Meta, StoryObj } from '@storybook/react';
+
 import FloatingMenu from './FloatingMenu';
 
 const meta: Meta<typeof FloatingMenu> = {

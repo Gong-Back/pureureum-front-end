@@ -5,6 +5,7 @@ import {
   VerifyReqParams,
   VerifyResponses,
 } from '@/constants/types';
+
 import { postAsync } from './API';
 
 export class AuthRepository {

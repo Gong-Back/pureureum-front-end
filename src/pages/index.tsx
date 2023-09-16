@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
+
 import { ProjectRepository } from '@/apis/project';
 import HomeTemplate from '@/components/template/HomeTemplate';
 import { CategoryType, ProjectResponses } from '@/constants/types';

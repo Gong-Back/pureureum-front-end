@@ -1,15 +1,13 @@
 import React from 'react';
+
 import { useFormContext, useWatch } from 'react-hook-form';
 
 import { ApiErrorInstance } from '@/apis/API';
 import { AuthRepository } from '@/apis/auth';
-
-import { type AuthFormType } from '@/constants/types';
-import REGISTER_FALLBACK from '@/constants/fallback/register';
-
-import NewTextInput from '@/components/common/TextInput/NewTextInput';
 import Button from '@/components/common/Button';
-
+import NewTextInput from '@/components/common/TextInput/NewTextInput';
+import REGISTER_FALLBACK from '@/constants/fallback/register';
+import { type AuthFormType } from '@/constants/types';
 import ValidationUtil from '@/utils/validation';
 
 import * as style from './VerifyPhoneNumberForm.style';

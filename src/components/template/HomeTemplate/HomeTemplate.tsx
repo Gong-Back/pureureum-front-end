@@ -1,9 +1,11 @@
 import React from 'react';
+
 import Text from '@/components/common/Text';
 import CategoryFilter from '@/components/domain/Main/CategoryFilter';
 import ProjectList from '@/components/domain/Project/ProjectList/ProjectList';
 import { COLORS } from '@/constants/styles';
 import { CategoryType, ProjectResponses } from '@/constants/types';
+
 import * as style from './HomeTemplate.style';
 
 export interface HomeTemplateProps {

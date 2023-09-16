@@ -1,11 +1,13 @@
 import { useRouter } from 'next/router';
 import { useCallback, useEffect } from 'react';
+
 import {
-  useForm,
-  useWatch,
   FormProvider,
   type SubmitHandler,
+  useForm,
+  useWatch,
 } from 'react-hook-form';
+
 import { ApiErrorInstance } from '@/apis/API';
 import { AuthRepository } from '@/apis/auth';
 import { SocialRepository } from '@/apis/social';
@@ -19,6 +21,7 @@ import { COLORS } from '@/constants/styles';
 import { type AuthFormType } from '@/constants/types';
 import { type RegisterProps } from '@/pages/auth/register';
 import ValidationUtil from '@/utils/validation';
+
 import * as style from './RegisterTemplate.style';
 
 const RegisterStepHeader = [

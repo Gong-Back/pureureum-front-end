@@ -1,10 +1,11 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import {
-  useForm,
-  useWatch,
   FormProvider,
   SubmitHandler,
+  useForm,
+  useWatch,
 } from 'react-hook-form';
+
 import { UserRepository } from '@/apis/user';
 import Button from '@/components/common/Button';
 import ModalTemplate from '@/components/common/ModalTemplate';
@@ -12,6 +13,7 @@ import NewTextInput from '@/components/common/TextInput/NewTextInput';
 import { COLORS } from '@/constants/styles';
 import { type UserFormType } from '@/constants/types';
 import useModal from '@/hooks/useModal';
+
 import * as style from './UpdatePasswordModal.style';
 
 const UpdatePasswordModal = () => {

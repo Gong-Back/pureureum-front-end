@@ -7,7 +7,7 @@ interface UseUploadFileProps {
   onError?: {
     exceedFileSize?: (...args: any) => any;
     mismatchExtractType: (...args: any) => any;
-  }
+  };
   onSubmit?: (uploadedFile: File) => any;
   onRemove?: (...args: any) => any;
 }
@@ -29,12 +29,15 @@ const useUploadFile = ({
     }
 
     const [, uploadedFileExtractType] = uploadedFile.name.split('.');
-    if (allowFileTypes && !allowFileTypes.includes(uploadedFileExtractType.toLowerCase())) {
+    if (
+      allowFileTypes &&
+      !allowFileTypes.includes(uploadedFileExtractType.toLowerCase())
+    ) {
       onError?.mismatchExtractType?.();
       return;
     }
 
-   onSubmit?.(uploadedFile);
+    onSubmit?.(uploadedFile);
   };
 
   const removeUploadedFile = () => {

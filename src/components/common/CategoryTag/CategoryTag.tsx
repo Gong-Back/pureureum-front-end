@@ -1,5 +1,6 @@
 import { CategoryInfo } from '@/constants/project';
 import { CategoryType } from '@/constants/types';
+
 import Text from '../Text';
 import * as style from './CategoryTag.style';
 

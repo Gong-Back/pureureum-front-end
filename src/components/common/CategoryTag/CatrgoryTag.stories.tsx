@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+
 import CategoryTag from './CategoryTag';
 
 const meta: Meta<typeof CategoryTag> = {

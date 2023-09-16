@@ -16,7 +16,6 @@ export const Header = styled.header`
   margin-bottom: 70px;
 `;
 
-
 export const Register = styled.div`
   display: flex;
   flex-direction: column;

@@ -1,8 +1,9 @@
 import Image from 'next/image';
+
 import DefaultProfilePng from '@/assets/images/defaultProfile.png';
 import Text from '@/components/common/Text';
-
 import { COLORS, FONT_STYLE_NAME } from '@/constants/styles';
+
 import * as style from './UserProfile.style';
 
 interface UserProfileProps {

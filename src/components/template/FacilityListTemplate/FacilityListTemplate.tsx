@@ -1,8 +1,10 @@
 import { projectsDummydata } from 'src/dummyData';
+
 import Text from '@/components/common/Text';
 import Layout from '@/components/domain/MyPage/Layout';
 import ProjectList from '@/components/domain/Project/ProjectList';
 import { COLORS } from '@/constants/styles';
+
 import * as style from './FacilityListTemplate.style';
 
 const FacilityListTemplate = () => {

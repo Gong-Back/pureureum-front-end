@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+
 import CalendarIconSvg from '@/assets/icons/calendarIcon.svg';
 import GrassIconSvg from '@/assets/icons/grassIcon.svg';
 import LocationIconSvg from '@/assets/icons/locationIcon.svg';
@@ -9,6 +10,7 @@ import Text from '@/components/common/Text';
 import { COLORS } from '@/constants/styles';
 import { CategoryType, ProjectPartInfoType } from '@/constants/types';
 import FormatUtil from '@/utils/format';
+
 import * as style from './ProjectItem.style';
 
 export interface ProjectItemProps {

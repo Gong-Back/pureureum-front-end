@@ -1,8 +1,9 @@
 import {
   CategoryType,
-  ProjectResponses,
   ProjectReqParams,
+  ProjectResponses,
 } from '@/constants/types';
+
 import { getAsync, postAsync } from './API';
 
 interface MainProjectListOutput {
@@ -36,12 +37,12 @@ export class ProjectRepository {
   /**
    * 프로젝트 상세 페이지에서 보여줄 데이터를 조회하는 함수 getProjectDetailAsync
    * @param id 프로젝트 id
-   * @returns id 값에 해당하는 프로젝트의 상세 데이터 
+   * @returns id 값에 해당하는 프로젝트의 상세 데이터
    */
-  static async getProjectDetailDataAsync(
-    id:number
-  ) {
-    const response = await getAsync<ProjectResponses['detail']>(`/projects/${id}`);
+  static async getProjectDetailDataAsync(id: number) {
+    const response = await getAsync<ProjectResponses['detail']>(
+      `/projects/${id}`,
+    );
     return response;
   }
 

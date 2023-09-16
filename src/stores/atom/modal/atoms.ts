@@ -1,5 +1,6 @@
-import { atom } from 'jotai';
 import type { ReactNode } from 'react';
+
+import { atom } from 'jotai';
 
 export interface ModalStateType {
   /** 현재 모달이 열렸는지, 닫혔는지를 나타내는 상태 */

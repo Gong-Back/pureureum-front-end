@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+
 import Button from '@/components/common/Button';
 import CategoryTag from '@/components/common/CategoryTag';
 import Text from '@/components/common/Text';
@@ -9,6 +10,7 @@ import { COLORS } from '@/constants/styles';
 import { ProjectContentType, ProjectResponses } from '@/constants/types';
 import useKakaoMap from '@/hooks/useKakaoMap';
 import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
+
 import * as style from './ProjectDetailTemplate.style';
 
 export const CONTENT_MENU: { type: ProjectContentType; label: string }[] = [

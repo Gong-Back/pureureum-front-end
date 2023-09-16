@@ -1,10 +1,11 @@
+import { API_URL } from '@/constants/apis';
 import {
   ApiResponse,
-  SocialReqParams,
   AuthResponses,
+  SocialReqParams,
   SocialResponses,
 } from '@/constants/types';
-import { API_URL } from '@/constants/apis';
+
 import { postAsync } from './API';
 
 export class SocialRepository {

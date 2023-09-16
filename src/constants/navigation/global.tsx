@@ -1,4 +1,5 @@
 import { ReactElement } from 'react';
+
 import CommunityIcon from '@/assets/icons/communityIcon.svg';
 import HomeIcon from '@/assets/icons/homeIcon.svg';
 import ProjectIcon from '@/assets/icons/projectIcon.svg';

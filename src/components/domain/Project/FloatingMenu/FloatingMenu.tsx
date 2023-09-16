@@ -5,6 +5,7 @@ import Text from '@/components/common/Text';
 import { COLORS } from '@/constants/styles';
 import { ProjectInfoType } from '@/constants/types';
 import FormatUtil from '@/utils/format';
+
 import * as style from './FloatingMenu.style';
 
 export interface FloatingMenuProps {

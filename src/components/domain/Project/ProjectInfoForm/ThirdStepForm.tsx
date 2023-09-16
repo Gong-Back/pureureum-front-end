@@ -1,8 +1,10 @@
 import React from 'react';
+
 import { Control, Controller } from 'react-hook-form';
+
 import FormLabel from '@/components/common/FormLabel';
-import NewTextInput from '@/components/common/TextInput/NewTextInput';
 import Text from '@/components/common/Text';
+import NewTextInput from '@/components/common/TextInput/NewTextInput';
 import { COLORS } from '@/constants/styles';
 import { PaymentType, ProjectFormType } from '@/constants/types';
 
