@@ -43,10 +43,7 @@ export const Main = styled.main`
   margin: auto;
 
   @media ${MEDIA_QUERIES.mobile} {
-    width: 400px;
-  }
-
-  @media ${MEDIA_QUERIES.tablet} {
-    width: 670px;
+    width: unset;
+    min-width: 400px;
   }
 `;
