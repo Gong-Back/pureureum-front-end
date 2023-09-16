@@ -10,11 +10,8 @@ export const Wrapper = styled.div`
   margin: auto;
 
   @media ${MEDIA_QUERIES.mobile} {
-    width: 400px;
-  }
-
-  @media ${MEDIA_QUERIES.tablet} {
-    width: 670px;
+    width: unset;
+    min-width: 400px;
   }
 `;
 
@@ -157,7 +154,9 @@ export const ButtonBox = styled.div`
   }
 
   @media ${MEDIA_QUERIES.mobile} {
-    width: 180px;
+    > .bottom-btn {
+      width: 180px;
+    }
   }
 `;
 
