@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-
 import { type AddressType, type CoordinateType } from '@/constants/types';
 
 const useDaumPostCode = () => {
@@ -51,9 +50,11 @@ const useDaumPostCode = () => {
         sigungu: string;
         bname: string;
         jibunAddress: string;
+        autoJibunAddress: string;
         buildingName: string;
       }) {
-        const jibun = data.jibunAddress.split(' ').at(-1) ?? '';
+        const jibun =
+          (data.jibunAddress || data.autoJibunAddress).split(' ').at(-1) ?? '';
         const {
           sido: county,
           sigungu: city,
