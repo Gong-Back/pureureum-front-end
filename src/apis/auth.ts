@@ -1,4 +1,3 @@
-import { NEXT_HOST_URL } from '@/constants/apis';
 import {
   ApiResponse,
   AuthReqParams,
