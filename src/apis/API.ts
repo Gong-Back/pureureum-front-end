@@ -26,27 +26,22 @@ API.interceptors.response.use(
   (res: AxiosResponse) => res,
   async (error: AxiosError) => {
     // 토큰 만료 에러인지를 확인하고, 만약 맞다면 저장된 리프레시 토큰을 재전송
-    if (
-      error.response &&
-      error.response.status === ERROR_CODE.JWT_INVALID_EXCEPTION
-    ) {
+    if (error.response?.status === ERROR_CODE.JWT_INVALID_EXCEPTION) {
       try {
-        const {
-          data: { accessToken: newAccessToken },
-        } = await AuthRepository.refreshJwtCookieAsync();
-        await AuthRepository.setJwtCookieAsync({
-          accessToken: newAccessToken,
-        });
-        // 새롭게 갱신 받은 엑세스 토큰을 헤더에 삽입한 후 재요청 진행
-        return axios.request({
+        // 똑같은 요청을 재전송 하여 refresh token 을 재인증하는 과정도 거친다
+        const retryResponse = await axios.request({
           ...error.config,
-          headers: {
-            ...error.config?.headers,
-            authorization: `Bearer ${newAccessToken}`,
-          },
         });
+        // 재요청을 통해 들어온 access token 을 수집하여 
+        const { data: { accessToken : newAccessToken } } = retryResponse;
+
+        // 재요청의 응답에 refresh token 이 없을 경우, 로그아웃을 진행해야 한다.
+        if (!newAccessToken) throw new Error('리프레시 토큰이 만료되어 로그아웃이 필요합니다.');
+
+        await AuthRepository.setJwtCookieAsync(newAccessToken);
+        return retryResponse;
       } catch (err) {
-        // 리프레시 토큰도 만료되었다면, 로그아웃을 진행시킴.
+        await AuthRepository.removeJwtCookieAsync();
         window.location.href = '/login';
       }
     }
@@ -55,7 +50,7 @@ API.interceptors.response.use(
 );
 
 API.interceptors.request.use(async (req: AxiosRequestConfig) => {
-  const { accessToken } = await AuthRepository.getJwtCookieAsync();
+  const accessToken = await AuthRepository.getJwtCookieAsync();
   if (accessToken && req.headers)
     req.headers.authorization = `Bearer ${accessToken}`;
   return req;
