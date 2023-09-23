@@ -59,7 +59,9 @@ MyApp.getInitialProps = async ({Component, ctx}: AppContext) => {
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx);
   }
-  const isLogin = ctx.req?.headers.cookie?.includes('accessToken');
+
+  const cookie = ctx.req?.headers.cookie || window.document.cookie;
+  const isLogin = cookie?.includes('accessToken');
   pageProps = { ... pageProps, isLogin }
   
   return { pageProps };
