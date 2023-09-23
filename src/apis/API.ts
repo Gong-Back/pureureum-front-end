@@ -4,10 +4,9 @@ import axios, {
   AxiosResponse,
 } from 'axios';
 
+import { AuthRepository } from '@/apis/auth';
 import { API_URL, ERROR_CODE } from '@/constants/apis';
 import { ApiError, type ApiResponse } from '@/constants/types';
-
-import { AuthRepository } from './auth';
 
 /**
  * API 요청에서 범용적으로 사용할 Axios Instance 생성
@@ -32,11 +31,14 @@ API.interceptors.response.use(
         const retryResponse = await axios.request({
           ...error.config,
         });
-        // 재요청을 통해 들어온 access token 을 수집하여 
-        const { data: { accessToken : newAccessToken } } = retryResponse;
+
+        const {
+          data: { accessToken: newAccessToken },
+        } = retryResponse;
 
         // 재요청의 응답에 refresh token 이 없을 경우, 로그아웃을 진행해야 한다.
-        if (!newAccessToken) throw new Error('리프레시 토큰이 만료되어 로그아웃이 필요합니다.');
+        if (!newAccessToken)
+          throw new Error('리프레시 토큰이 만료되어 로그아웃이 필요합니다.');
 
         await AuthRepository.setJwtCookieAsync(newAccessToken);
         return retryResponse;
@@ -64,9 +66,8 @@ API.interceptors.request.use(async (req: AxiosRequestConfig) => {
 function handleApiError(err: unknown): ApiError {
   // isAxiosError 조건이 true 라면, err는 AxiosError로 타입이 좁혀진다.
   if (axios.isAxiosError<ApiError, undefined>(err)) {
-    // 요청을 전송하여 서버에서 응답을 받았으나, 에러가 발생한 경우
+    // 요청을 전송하여 서버에서 응답을 받았으나, 에러가 발생한 경우 body를 참고하여 데이터 추가.
     if (err.response) {
-      // 서버의 Error Response 의 body를 참고하여 데이터 추가.
       return err.response.data;
     }
     // 요청을 전송하였으나 서버에서 응답을 받지 못한 경우
@@ -80,7 +81,7 @@ function handleApiError(err: unknown): ApiError {
   }
   // axios 오류가 아닌 다른 케이스의 오류일 경우
   return {
-    code: 0,
+    code: -1,
     messages: ['원인 미상의 오류가 발생했습니다.'],
     data: null,
   };

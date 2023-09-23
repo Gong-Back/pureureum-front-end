@@ -33,9 +33,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       });
     }
     case 'DELETE': {
-      res.setHeader('Set-Cookie', [
-        `accessToken=delete; path=/; Max-Age=0;`,
-      ]);
+      res.setHeader('Set-Cookie', [`accessToken=delete; path=/; Max-Age=0;`]);
       return res.status(200).json({
         code: 200,
         messages: ['정상적으로 엑세스 토큰을 삭제했습니다.'],
@@ -45,6 +43,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     default:
       return res
         .status(400)
-        .json({ code: 400, messages: ['유효하지 않은 요청입니다.'], data: null });
+        .json({
+          code: 400,
+          messages: ['유효하지 않은 요청입니다.'],
+          data: null,
+        });
   }
 }
