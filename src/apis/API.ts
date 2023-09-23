@@ -31,20 +31,18 @@ API.interceptors.response.use(
       error.response.status === ERROR_CODE.JWT_INVALID_EXCEPTION
     ) {
       try {
-        const { refreshToken } = await AuthRepository.getJwtCookieAsync();
         const {
-          data: { accessToken: newAccessToken, refreshToken: newRefreshToken },
-        } = await AuthRepository.refreshJwtCookieAsync(refreshToken);
+          data: { accessToken: newAccessToken },
+        } = await AuthRepository.refreshJwtCookieAsync();
         await AuthRepository.setJwtCookieAsync({
           accessToken: newAccessToken,
-          refreshToken: newRefreshToken,
         });
         // 새롭게 갱신 받은 엑세스 토큰을 헤더에 삽입한 후 재요청 진행
         return axios.request({
           ...error.config,
           headers: {
             ...error.config?.headers,
-            authorization: `Bearer ${newRefreshToken}`,
+            authorization: `Bearer ${newAccessToken}`,
           },
         });
       } catch (err) {
