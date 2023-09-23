@@ -106,7 +106,7 @@ export class AuthRepository {
    * Next Api Route를 통해 프론트 서버에 저장되었던 JWT 토큰을 가져오는 함수 getJwtCookieAsync
    */
   static async getJwtCookieAsync() {
-    const response = await fetch(`${process.env.NEXT_HOST_URL}/api/token`, {
+    const response = await fetch(`/api/token`, {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
@@ -123,7 +123,7 @@ export class AuthRepository {
    * @param param.accessToken 서버로부터 받은 엑세스 토큰
    */
   static async setJwtCookieAsync(accessToken: string) {
-    await fetch(`${process.env.NEXT_HOST_URL}/api/token`, {
+    await fetch(`/api/token`, {
       method: 'POST',
       body: JSON.stringify({ accessToken }),
       headers: {
@@ -136,7 +136,7 @@ export class AuthRepository {
    * 서버로부터 받았던 JWT 를 보관한 Cookie를 삭제하는 함수 removeJwtCookieAsync
    */
   static async removeJwtCookieAsync() {
-    await fetch(`${process.env.NEXT_HOST_URL}/api/token`, {
+    await fetch(`/api/token`, {
       method: 'DELETE',
       headers: {
         'Content-type': 'application/json',
