@@ -7,6 +7,12 @@ import { SocialRepository } from '@/apis/social';
 import { ERROR_CODE, SOCIAL_PLATFORM_LIST } from '@/constants/apis';
 import { SocialPlatformType } from '@/constants/types';
 
+// TODO: 아래와 같이 타입을 좁힐 수 있는 유틸 함수를 어떻게 처리할지 논의 필요
+const isSocialPlatformType = (
+  checkedType: string,
+): checkedType is SocialPlatformType =>
+  SOCIAL_PLATFORM_LIST.includes(checkedType);
+
 export async function middleware(request: NextRequest) {
   const accessToken = request.cookies.get('accessToken');
   const { pathname, origin, searchParams } = request.nextUrl;
@@ -38,12 +44,6 @@ export async function middleware(request: NextRequest) {
     const verifyCode = searchParams.get('code');
     const socialType = pathname.split('/').at(-1);
 
-    // TODO: 아래와 같이 타입을 좁힐 수 있는 유틸 함수를 어떻게 처리할지 논의 필요
-    const isSocialPlatformType = (
-      checkedType: string,
-    ): checkedType is SocialPlatformType =>
-      SOCIAL_PLATFORM_LIST.includes(checkedType);
-
     const loginPageUrl = new URL(`/auth/login`, origin);
 
     if (!verifyCode || !socialType || !isSocialPlatformType(socialType)) {
@@ -57,10 +57,13 @@ export async function middleware(request: NextRequest) {
         verifyCode,
         socialType,
       });
+
+      // 로그인에 실패할 경우, 서버로부터 받은 에러 Response를 담아 Throw 한다.
       if (code !== 200) {
         throw new ApiErrorInstance({ code, data, messages: [] });
       }
-      await AuthRepository.setJwtCookieAsync(data);
+
+      await AuthRepository.setJwtCookieAsync(data.accessToken);
       return NextResponse.redirect(origin);
     } catch (error) {
       const { code, data } = error as ApiErrorInstance;

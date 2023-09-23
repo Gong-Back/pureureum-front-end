@@ -8,7 +8,11 @@ import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
 import Button from '../Button';
 import * as style from './NavigationBar.style';
 
-const NavigationBar = () => {
+interface NavigationBarProps {
+  isLogin: boolean;
+}
+
+const NavigationBar = ({ isLogin }: NavigationBarProps) => {
   const router = useRouter();
   const currentBreakpoint = useMeasureBreakpoint(['mobile', 'pc']);
   const isPc = currentBreakpoint === 'pc';
@@ -32,13 +36,17 @@ const NavigationBar = () => {
               {NavInfo[item].text}
             </Link>
           ))}
-        <Button
-          sizeType="small"
-          isRound
-          onClick={() => router.push('/auth/login')}
-        >
-          로그인
-        </Button>
+        {isLogin ? (
+          <p>프로필</p>
+        ) : (
+          <Button
+            sizeType="small"
+            isRound
+            onClick={() => router.push('/auth/login')}
+          >
+            로그인
+          </Button>
+        )}
       </style.NavItemList>
     </style.Wrapper>
   );
