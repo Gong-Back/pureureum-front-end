@@ -17,7 +17,6 @@ export type AuthReqParams = {
   };
   jwt: {
     accessToken: string;
-    refreshToken: string;
   };
 };
 

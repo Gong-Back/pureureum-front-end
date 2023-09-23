@@ -113,23 +113,21 @@ export class AuthRepository {
       },
     });
     const {
-      data: { accessToken, refreshToken },
+      data: { accessToken },
     } = (await response.json()) as ApiResponse<AuthResponses['login']>;
-    return { accessToken, refreshToken };
+    return { accessToken };
   }
 
   /**
    * 토큰 갱신이 필요할 시 First-Site Cookie를 세팅하는 함수 setJwtCookieAsync
    * @param param.accessToken 서버로부터 받은 엑세스 토큰
-   * @param param.refreshToken 서버로부터 받은 리프레시 토큰
    */
   static async setJwtCookieAsync({
     accessToken,
-    refreshToken,
   }: AuthReqParams['jwt']) {
     await fetch('/api/token', {
       method: 'POST',
-      body: JSON.stringify({ accessToken, refreshToken }),
+      body: JSON.stringify({ accessToken }),
       headers: {
         'Content-type': 'application/json',
       },
@@ -141,13 +139,13 @@ export class AuthRepository {
    * @param refreshToken 토큰 재발급을 위해 필요한 refresh token
    * @returns
    */
-  static async refreshJwtCookieAsync(refreshToken: string) {
+  static async refreshJwtCookieAsync() {
     const response = await postAsync<AuthResponses['login'], null>(
       '/users/login',
       null,
       {
         headers: {
-          Authorization: `Bearer ${refreshToken}`,
+          Authorization: `Bearer`,
         },
       },
     );
