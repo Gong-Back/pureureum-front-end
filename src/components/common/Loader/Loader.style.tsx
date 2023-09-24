@@ -5,23 +5,23 @@ import CharacterSvg from '@/assets/icons/character.svg'
 
 const LoaderMovement = keyframes`
     from {
-        transform: translate3d(0px, 0px, 0px);
+        transform: translate3d(0px, 0px, 0px) rotate(0deg);
     }
 
-    20% {
-        transform: translate3d(0px, 25px, 0px);
+    25% {
+        transform: translate3d(0px, -20px, 0px) rotate(5deg);
     }
 
-    40% {
-        transform: translate3d(0px, 0px, 0px);
+    45% {
+        transform: translate3d(0px, 0px, 0px) rotate(0deg);
     }
 
-    80% {
-        transform: translate3d(0px, 40px, 0px);
+    75% {
+        transform: translate3d(0px, -35px, 0px) rotate(10deg);
     }
 
     to {
-        transform: translate3d(0px, 0px, 0px);
+        transform: translate3d(0px, 0px, 0px) rotate(2.5deg);
     }
 `
 
@@ -37,7 +37,6 @@ export const Wrapper = styled.div`
 `
 
 export const Loader = styled(CharacterSvg)`
-    margin-bottom: 36px;
-    animation: ${LoaderMovement} 800ms cubic-bezier(0.665, 1.290, 1.000, 0.985) infinite;
+    animation: ${LoaderMovement} 750ms cubic-bezier(0.665, 1.290, 1.000, 0.985) infinite;
     animation-delay: 250ms;
 `

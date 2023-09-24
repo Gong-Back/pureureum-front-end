@@ -16,8 +16,8 @@ const Loader = ({ infoText }: LoaderProps) => {
   return (
     <styles.Wrapper>
       <styles.Loader />
-      <Text fontStyleName="body1B" color={COLORS.primary.default}>
-        {infoText || '잠시만 기다려주세요...'}
+      <Text fontStyleName="body1B" color={COLORS.primary.dark}>
+        {infoText || '데이터를 불러오는 중입니다...'}
       </Text>
     </styles.Wrapper>
   );
