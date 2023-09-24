@@ -5,17 +5,18 @@ import {
   useForm,
   useWatch,
 } from 'react-hook-form';
-import { useQueryClient } from '@tanstack/react-query';
 
 import { UserRepository } from '@/apis/user';
 import Button from '@/components/common/Button';
 import ModalTemplate from '@/components/common/ModalTemplate';
+import Text from '@/components/common/Text';
 import NewTextInput from '@/components/common/TextInput/NewTextInput';
 import QUERY_KEY from '@/constants/apis/queryKey';
 import { COLORS } from '@/constants/styles';
 import type { UserFormType } from '@/constants/types';
 import useApiMutation from '@/hooks/useApiMutation';
 import useModal from '@/hooks/useModal';
+import { useQueryClient } from '@tanstack/react-query';
 
 import * as style from './UpdatePasswordModal.style';
 
@@ -65,7 +66,7 @@ const UpdatePasswordModal = () => {
       return;
     }
 
-    if (changedPassword !== currentPassword) {
+    if (changedPassword === currentPassword) {
       setError('root', {
         message: '변경하려는 비밀번호가 현재 비밀번호와 같습니다.',
       });
@@ -108,20 +109,30 @@ const UpdatePasswordModal = () => {
             sizeType="medium"
             type="password"
           />
-          <Button
-            isFilled
-            themeColor={
-              isPossibleToConfirm
-                ? COLORS.primary.default
-                : COLORS.grayscale.gray400
-            }
-            sizeType="small"
-            className="confirm-btn"
-            onClick={() => handleSubmit(confirmUpdatePassword)()}
-          >
-            비밀번호 변경
-          </Button>
-          {errors.root && <p>{errors.root.message}</p>}
+          <style.ButtonBox>
+            {errors.root && (
+              <Text
+                fontStyleName="body3"
+                color={COLORS.primary.default}
+                className="feedback"
+              >
+                {errors.root.message}
+              </Text>
+            )}
+            <Button
+              isFilled
+              themeColor={
+                isPossibleToConfirm
+                  ? COLORS.primary.default
+                  : COLORS.grayscale.gray400
+              }
+              sizeType="small"
+              className="confirm-btn"
+              onClick={() => handleSubmit(confirmUpdatePassword)()}
+            >
+              비밀번호 변경
+            </Button>
+          </style.ButtonBox>
         </style.Wrapper>
       </ModalTemplate>
     </FormProvider>
