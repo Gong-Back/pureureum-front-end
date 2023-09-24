@@ -15,7 +15,7 @@ import {
  * @param param.options useInfiniteQuery 에 쓰이는 옵션 목록
  */
 function useApiInfiniteQuery<
-  TData = unknown,
+  TData,
   TQueryFnData = ApiResponse<TData>,
   TError = ApiError,
 >({
