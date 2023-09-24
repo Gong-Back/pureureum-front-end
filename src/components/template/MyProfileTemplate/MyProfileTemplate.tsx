@@ -20,7 +20,7 @@ const MyProfileTemplate = () => {
   const { data: userProfile } = useApiQuery<UserResponses['info']>({
     queryFn: UserRepository.getUserInfoAsync,
     queryKey: QUERY_KEY.USER.base,
-    options: { staleTime: 0, cacheTime: 0 },
+    options: { staleTime: Infinity, cacheTime: Infinity },
   });
 
   const { openModal } = useModal();
