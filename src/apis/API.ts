@@ -23,9 +23,12 @@ const API = axios.create({
 
 API.interceptors.response.use(
   (res: AxiosResponse) => res,
-  async (error: AxiosError) => {
+  async (error: AxiosError<ApiError>) => {
     // 토큰 만료 에러인지를 확인하고, 만약 맞다면 저장된 리프레시 토큰을 재전송
-    if (error.response?.status === ERROR_CODE.JWT_INVALID_EXCEPTION) {
+    if (
+      error.response &&
+      error.response.data.code === ERROR_CODE.JWT_INVALID_EXCEPTION
+    ) {
       try {
         // 똑같은 요청을 재전송 하여 refresh token 을 재인증하는 과정도 거친다
         const retryResponse = await axios.request({
@@ -44,7 +47,7 @@ API.interceptors.response.use(
         return retryResponse;
       } catch (err) {
         await AuthRepository.removeJwtCookieAsync();
-        window.location.href = '/login';
+        window.location.href = '/auth/login';
       }
     }
     return Promise.reject(error);
