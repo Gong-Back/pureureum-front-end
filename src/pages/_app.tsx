@@ -1,4 +1,4 @@
-import type { AppProps, AppContext } from 'next/app';
+import type { AppContext, AppProps } from 'next/app';
 import { useState } from 'react';
 import { Provider } from 'jotai';
 import { Global, ThemeProvider } from '@emotion/react';
@@ -6,11 +6,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import '@/assets/fonts/font.css';
-
 import BottomNavigationBar from '@/components/common/BottomNavigationBar';
 import ModalPortal from '@/components/common/ModalPortal';
 import NavigationBar from '@/components/common/NavigationBar';
-
 import { GlobalStyle, theme } from '@/constants/styles';
 import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
 
@@ -54,17 +52,20 @@ const MyApp = ({ Component, pageProps }: AppProps<ServiceAppProps>) => {
 };
 
 // NOTE : 전역으로 로그인 여부를 판별하기 위해 getInitialProps 사용
-MyApp.getInitialProps = async ({Component, ctx}: AppContext) => {
+MyApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
   let pageProps = {};
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx);
   }
 
-  const cookie = ctx.req?.headers.cookie || window.document.cookie;
+  const cookie =
+    ctx.req?.headers.cookie ||
+    (typeof window !== 'undefined' && window.document.cookie) ||
+    null;
   const isLogin = cookie?.includes('accessToken');
-  pageProps = { ... pageProps, isLogin }
-  
+  pageProps = { ...pageProps, isLogin };
+
   return { pageProps };
-}
+};
 
 export default MyApp;
