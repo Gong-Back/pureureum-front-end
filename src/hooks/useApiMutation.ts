@@ -5,7 +5,7 @@ import {
   useMutation,
 } from '@tanstack/react-query';
 
-import type { ApiError, ApiResponse } from '@/constants/types';
+import type { ApiError } from '@/constants/types';
 
 /**
  * useMutation 의 Wrapper 함수 useApiMutation
@@ -13,14 +13,14 @@ import type { ApiError, ApiResponse } from '@/constants/types';
  * @param param.queryKey 쿼리 키
  * @param param.options useMutation 에 쓰이는 옵션 목록
  */
-function useApiMutation<TData = unknown, TError = ApiError>({
+function useApiMutation<TData = void, TVariable = void>({
   mutationFn,
   mutationKey,
-  options = {},
+  options
 }: {
-  mutationFn: MutationFunction<ApiResponse<TData>>;
+  mutationFn: MutationFunction<TData, TVariable>;
   mutationKey: MutationKey;
-  options: UseMutationOptions<ApiResponse<TData>, TError>;
+  options?: UseMutationOptions<TData, ApiError, TVariable>;
 }) {
   return useMutation({
     mutationFn,

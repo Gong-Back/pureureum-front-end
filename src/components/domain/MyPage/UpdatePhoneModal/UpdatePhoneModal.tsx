@@ -4,6 +4,7 @@ import {
   useForm,
   useWatch,
 } from 'react-hook-form';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { AuthRepository } from '@/apis/auth';
 import { UserRepository } from '@/apis/user';
@@ -11,8 +12,10 @@ import Button from '@/components/common/Button';
 import ModalTemplate from '@/components/common/ModalTemplate';
 import Text from '@/components/common/Text';
 import NewTextInput from '@/components/common/TextInput/NewTextInput';
+import QUERY_KEY from '@/constants/apis/queryKey';
 import { COLORS } from '@/constants/styles';
 import { type UserFormType } from '@/constants/types';
+import useApiMutation from '@/hooks/useApiMutation';
 import useModal from '@/hooks/useModal';
 import ValidationUtil from '@/utils/validation';
 
@@ -20,6 +23,22 @@ import * as style from './UpdatePhoneModal.style';
 
 const UpdatePhoneModal = () => {
   const { closeModal } = useModal();
+  const queryClient = useQueryClient();
+
+  const { mutateAsync: updatePhoneNumMutate } = useApiMutation<void, string>({
+    mutationFn: (phoneNumber) =>
+      UserRepository.updateUserInfoAsync({
+        type: 'password',
+        updatedValue: phoneNumber,
+      }),
+    mutationKey: QUERY_KEY.USER.base,
+    options: {
+      onSuccess: () => {
+        queryClient.invalidateQueries(QUERY_KEY.USER.base);
+        closeModal();
+      },
+    },
+  });
 
   const formMethods = useForm<UserFormType['updatePhoneNumber']>({
     defaultValues: {
@@ -80,11 +99,7 @@ const UpdatePhoneModal = () => {
     if (certificationNumber !== confirmedNumber) return;
 
     try {
-      await UserRepository.updateUserInfoAsync({
-        type: 'phoneNumber',
-        updatedValue: changedPhoneNumber,
-      });
-      closeModal();
+      updatePhoneNumMutate(changedPhoneNumber);
     } catch (error) {
       setError('root', {
         message: '통신 과정에서 문제가 생겼습니다. 다시 시도해주세요.',

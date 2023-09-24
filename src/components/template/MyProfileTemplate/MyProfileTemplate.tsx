@@ -3,14 +3,13 @@ import React from 'react';
 import { UserRepository } from '@/apis/user';
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
-import Layout from '@/components/domain/MyPage/Layout';
 import PersonalInfoList from '@/components/domain/MyPage/PersonalInfoList';
 import ProfileEditor from '@/components/domain/MyPage/ProfileEditor';
 import UpdatePasswordModal from '@/components/domain/MyPage/UpdatePasswordModal';
 import UpdatePhoneModal from '@/components/domain/MyPage/UpdatePhoneModal';
 import QUERY_KEY from '@/constants/apis/queryKey';
 import { COLORS } from '@/constants/styles';
-import { UserResponses } from '@/constants/types';
+import type { UserResponses } from '@/constants/types';
 import useApiQuery from '@/hooks/useApiQuery';
 import useModal from '@/hooks/useModal';
 import FormatUtil from '@/utils/format';
@@ -21,7 +20,7 @@ const MyProfileTemplate = () => {
   const { data: userProfile } = useApiQuery<UserResponses['info']>({
     queryFn: UserRepository.getUserInfoAsync,
     queryKey: QUERY_KEY.USER.base,
-    options: { staleTime: 0, cacheTime: Infinity },
+    options: { staleTime: 0, cacheTime: 0 },
   });
 
   const { openModal } = useModal();
@@ -33,7 +32,7 @@ const MyProfileTemplate = () => {
   if (!userProfile) return null;
 
   return (
-    <Layout>
+    <section>
       <ProfileEditor profileUrl={userProfile.profileUrl} nickname={userProfile.nickname} />
       <style.PersonalSection>
         <PersonalInfoList
@@ -95,7 +94,7 @@ const MyProfileTemplate = () => {
       >
         저장하기
       </Button>
-    </Layout>
+    </section>
   );
 };
 

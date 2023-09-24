@@ -1,9 +1,12 @@
 import Image from 'next/image';
+import { useQueryClient } from '@tanstack/react-query';
 
+import { UserRepository } from '@/apis/user';
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
+import QUERY_KEY from '@/constants/apis/queryKey';
 import { COLORS } from '@/constants/styles';
-import { useUpdateProfileImage } from '@/hooks/useFetchProfileInfo';
+import useApiMutation from '@/hooks/useApiMutation';
 import useUploadFile from '@/hooks/useUploadFile';
 
 import * as styles from './ProfileEditor.style';
@@ -14,12 +17,22 @@ interface ProfileEditorProps {
 }
 
 const ProfileEditor = ({ profileUrl, nickname }: ProfileEditorProps) => {
-  const { mutate } = useUpdateProfileImage();
+
+  const queryClient = useQueryClient();
+  const { mutateAsync: profileMutate } = useApiMutation<void, File | undefined>({
+    mutationFn: (uploadedFile) => UserRepository.updateProfileImageAsync(uploadedFile),
+    mutationKey: QUERY_KEY.USER.base,
+    options: {
+      onSuccess: () => {
+        queryClient.invalidateQueries(QUERY_KEY.USER.base);
+      }
+    }
+  });
 
   const { fileInputRef, handleUploadFile } = useUploadFile({
     maxFileSize: 10 * 1024 * 1024,
     allowFileTypes: ['png', 'jpg'],
-    onSubmit: (uploadedFile) => mutate(uploadedFile),
+    onSubmit: (uploadedFile) => profileMutate(uploadedFile),
   });
 
   const openFileUploadDialog = () => fileInputRef.current?.click();
@@ -36,7 +49,6 @@ const ProfileEditor = ({ profileUrl, nickname }: ProfileEditorProps) => {
           alt="profileImg"
           width={120}
           height={120}
-          layout="fill"
         />
       ) : (
         <styles.DefaultProfileImg />

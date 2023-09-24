@@ -5,19 +5,38 @@ import {
   useForm,
   useWatch,
 } from 'react-hook-form';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { UserRepository } from '@/apis/user';
 import Button from '@/components/common/Button';
 import ModalTemplate from '@/components/common/ModalTemplate';
 import NewTextInput from '@/components/common/TextInput/NewTextInput';
+import QUERY_KEY from '@/constants/apis/queryKey';
 import { COLORS } from '@/constants/styles';
-import { type UserFormType } from '@/constants/types';
+import type { UserFormType } from '@/constants/types';
+import useApiMutation from '@/hooks/useApiMutation';
 import useModal from '@/hooks/useModal';
 
 import * as style from './UpdatePasswordModal.style';
 
 const UpdatePasswordModal = () => {
   const { closeModal } = useModal();
+  const queryClient = useQueryClient();
+
+  const { mutateAsync: updatePasswordMutate } = useApiMutation<void, string>({
+    mutationFn: (password) =>
+      UserRepository.updateUserInfoAsync({
+        type: 'password',
+        updatedValue: password,
+      }),
+    mutationKey: QUERY_KEY.USER.base,
+    options: {
+      onSuccess: () => {
+        queryClient.invalidateQueries(QUERY_KEY.USER.base);
+      },
+    },
+  });
+
   const formMethods = useForm<UserFormType['updatePassword']>({
     defaultValues: {
       currentPassword: '',
@@ -25,6 +44,7 @@ const UpdatePasswordModal = () => {
       confirmedPassword: '',
     },
   });
+
   const {
     control,
     setError,
@@ -52,10 +72,7 @@ const UpdatePasswordModal = () => {
       return;
     }
 
-    await UserRepository.updateUserInfoAsync({
-      type: 'password',
-      updatedValue: changedPassword,
-    });
+    updatePasswordMutate(changedPassword);
     closeModal();
   };
 
