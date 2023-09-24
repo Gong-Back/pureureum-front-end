@@ -24,10 +24,13 @@ const AsyncBoundary = ({
   pendingFallback,
   rejectedFallback,
   children,
-}: PropsWithChildren<AsyncBoundaryProps>) => (
+}: PropsWithChildren<AsyncBoundaryProps>) => {
+  console.log('triggered');  
+  return (
   <ErrorBoundary fallbackRender={rejectedFallback || FallbackComponent}>
     <Suspense fallback={pendingFallback || <Loader />}>{children}</Suspense>
   </ErrorBoundary>
-);
+)
+};
 
 export default AsyncBoundary;

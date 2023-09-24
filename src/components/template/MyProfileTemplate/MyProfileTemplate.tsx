@@ -9,18 +9,19 @@ import ProfileEditor from '@/components/domain/MyPage/ProfileEditor';
 import UpdatePasswordModal from '@/components/domain/MyPage/UpdatePasswordModal';
 import UpdatePhoneModal from '@/components/domain/MyPage/UpdatePhoneModal';
 import QUERY_KEY from '@/constants/apis/queryKey';
-import { UserResponses } from '@/constants/types';
 import { COLORS } from '@/constants/styles';
+import { UserResponses } from '@/constants/types';
 import useApiQuery from '@/hooks/useApiQuery';
 import useModal from '@/hooks/useModal';
+import FormatUtil from '@/utils/format';
 
 import * as style from './MyProfileTemplate.style';
 
 const MyProfileTemplate = () => {
-  const { data } = useApiQuery<UserResponses['info']>({
+  const { data: userProfile } = useApiQuery<UserResponses['info']>({
     queryFn: UserRepository.getUserInfoAsync,
     queryKey: QUERY_KEY.USER.base,
-    options: { staleTime: Infinity, cacheTime: Infinity },
+    options: { staleTime: 0, cacheTime: Infinity },
   });
 
   const { openModal } = useModal();
@@ -29,20 +30,17 @@ const MyProfileTemplate = () => {
 
   const handleSaveChange = () => {};
 
-  if (!data) return null;
-
-  // TODO : 정규식의 경우 추후 Util 로 묶을 수 있다면 일괄적으로 수정해야 함.
-  const maskedPhoneNumber = data.phoneNumber.replace(/-[0-9]{4}-/g, '-****-');
+  if (!userProfile) return null;
 
   return (
     <Layout>
-      <ProfileEditor profileUrl={data.profileUrl} nickname={data.nickname} />
+      <ProfileEditor profileUrl={userProfile.profileUrl} nickname={userProfile.nickname} />
       <style.PersonalSection>
         <PersonalInfoList
-          name={data.name}
-          email={data.email}
-          gender={data.gender}
-          birthday={data.birthday}
+          name={userProfile.name}
+          email={userProfile.email}
+          gender={userProfile.gender}
+          birthday={userProfile.birthday}
         />
         <style.Section>
           <Text
@@ -57,7 +55,7 @@ const MyProfileTemplate = () => {
             color={COLORS.grayscale.gray700}
             fontStyleName="body2R"
           >
-            {maskedPhoneNumber}
+            {FormatUtil.formatMaskPhoneNum(userProfile.phoneNumber)}
           </Text>
           <Button
             onClick={openChangePhoneModal}
