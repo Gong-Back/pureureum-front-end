@@ -2,12 +2,14 @@ import { type ComponentProps, PropsWithChildren, Suspense } from 'react';
 
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
 
+import Loader from '@/components/common/Loader';
+
 type ErrorBoundaryProps = ComponentProps<typeof ErrorBoundary>;
 
 interface AsyncBoundaryProps
   extends Omit<ErrorBoundaryProps, 'fallbackRender'> {
-  pendingFallback: ComponentProps<typeof Suspense>['fallback'];
-  rejectedFallback: ErrorBoundaryProps['fallbackRender'];
+  pendingFallback?: ComponentProps<typeof Suspense>['fallback'];
+  rejectedFallback?: ErrorBoundaryProps['fallbackRender'];
 }
 
 const FallbackComponent = ({ error }: FallbackProps) => <p>{error.message}</p>;
@@ -24,7 +26,7 @@ const AsyncBoundary = ({
   children,
 }: PropsWithChildren<AsyncBoundaryProps>) => (
   <ErrorBoundary fallbackRender={rejectedFallback || FallbackComponent}>
-    <Suspense fallback={pendingFallback}>{children}</Suspense>
+    <Suspense fallback={pendingFallback || <Loader />}>{children}</Suspense>
   </ErrorBoundary>
 );
 
