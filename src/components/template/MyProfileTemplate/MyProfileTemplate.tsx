@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { profileDummyData } from 'src/dummyData';
-
+import { UserRepository } from '@/apis/user';
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 import Layout from '@/components/domain/MyPage/Layout';
@@ -9,13 +8,20 @@ import PersonalInfoList from '@/components/domain/MyPage/PersonalInfoList';
 import ProfileEditor from '@/components/domain/MyPage/ProfileEditor';
 import UpdatePasswordModal from '@/components/domain/MyPage/UpdatePasswordModal';
 import UpdatePhoneModal from '@/components/domain/MyPage/UpdatePhoneModal';
+import QUERY_KEY from '@/constants/apis/queryKey';
+import { UserResponses } from '@/constants/types';
 import { COLORS } from '@/constants/styles';
+import useApiQuery from '@/hooks/useApiQuery';
 import useModal from '@/hooks/useModal';
 
 import * as style from './MyProfileTemplate.style';
 
 const MyProfileTemplate = () => {
-  const data = profileDummyData;
+  const { data } = useApiQuery<UserResponses['info']>({
+    queryFn: UserRepository.getUserInfoAsync,
+    queryKey: QUERY_KEY.USER.base,
+    options: { staleTime: Infinity, cacheTime: Infinity },
+  });
 
   const { openModal } = useModal();
   const openChangePhoneModal = () => openModal(<UpdatePhoneModal />);
