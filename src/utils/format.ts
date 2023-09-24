@@ -53,6 +53,15 @@ class FormatUtil {
   static formatDateFromObj(date: { year: string; month: string; day: string }) {
     return `${date.year}-${date.month}-${date.day}`;
   }
+
+  /**
+   * 핸드폰 번호 가운데 번호를 마스킹 처리하는 함수 formatMaskPhoneNum
+   * @param phoneNumber
+   * @returns `010-****-NNNN`
+   */
+  static formatMaskPhoneNum(phoneNumber: string) {
+    return phoneNumber.replace(/-[0-9]{4}-/g, '-****-')
+  }
 }
 
 export default FormatUtil;
