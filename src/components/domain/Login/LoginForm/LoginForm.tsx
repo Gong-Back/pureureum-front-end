@@ -54,9 +54,9 @@ const LoginForm = () => {
 
     try {
       const {
-        data: { accessToken, refreshToken },
+        data: { accessToken },
       } = await AuthRepository.loginAsync(submittedData);
-      await AuthRepository.setJwtCookieAsync({ accessToken, refreshToken });
+      await AuthRepository.setJwtCookieAsync(accessToken);
       router.replace('/');
     } catch (error) {
       const apiError = error as ApiErrorInstance;

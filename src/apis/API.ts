@@ -4,10 +4,9 @@ import axios, {
   AxiosResponse,
 } from 'axios';
 
+import { AuthRepository } from '@/apis/auth';
 import { API_URL, ERROR_CODE } from '@/constants/apis';
 import { ApiError, type ApiResponse } from '@/constants/types';
-
-import { AuthRepository } from './auth';
 
 /**
  * API 요청에서 범용적으로 사용할 Axios Instance 생성
@@ -24,32 +23,31 @@ const API = axios.create({
 
 API.interceptors.response.use(
   (res: AxiosResponse) => res,
-  async (error: AxiosError) => {
+  async (error: AxiosError<ApiError>) => {
     // 토큰 만료 에러인지를 확인하고, 만약 맞다면 저장된 리프레시 토큰을 재전송
     if (
       error.response &&
-      error.response.status === ERROR_CODE.JWT_INVALID_EXCEPTION
+      error.response.data.code === ERROR_CODE.JWT_INVALID_EXCEPTION
     ) {
       try {
-        const { refreshToken } = await AuthRepository.getJwtCookieAsync();
-        const {
-          data: { accessToken: newAccessToken, refreshToken: newRefreshToken },
-        } = await AuthRepository.refreshJwtCookieAsync(refreshToken);
-        await AuthRepository.setJwtCookieAsync({
-          accessToken: newAccessToken,
-          refreshToken: newRefreshToken,
-        });
-        // 새롭게 갱신 받은 엑세스 토큰을 헤더에 삽입한 후 재요청 진행
-        return axios.request({
+        // 똑같은 요청을 재전송 하여 refresh token 을 재인증하는 과정도 거친다
+        const retryResponse = await axios.request({
           ...error.config,
-          headers: {
-            ...error.config?.headers,
-            authorization: `Bearer ${newRefreshToken}`,
-          },
         });
+
+        const {
+          data: { accessToken: newAccessToken },
+        } = retryResponse;
+
+        // 재요청의 응답에 refresh token 이 없을 경우, 로그아웃을 진행해야 한다.
+        if (!newAccessToken)
+          throw new Error('리프레시 토큰이 만료되어 로그아웃이 필요합니다.');
+
+        await AuthRepository.setJwtCookieAsync(newAccessToken);
+        return retryResponse;
       } catch (err) {
-        // 리프레시 토큰도 만료되었다면, 로그아웃을 진행시킴.
-        window.location.href = '/login';
+        await AuthRepository.removeJwtCookieAsync();
+        window.location.href = '/auth/login';
       }
     }
     return Promise.reject(error);
@@ -57,7 +55,7 @@ API.interceptors.response.use(
 );
 
 API.interceptors.request.use(async (req: AxiosRequestConfig) => {
-  const { accessToken } = await AuthRepository.getJwtCookieAsync();
+  const accessToken = await AuthRepository.getJwtCookieAsync();
   if (accessToken && req.headers)
     req.headers.authorization = `Bearer ${accessToken}`;
   return req;
@@ -71,9 +69,8 @@ API.interceptors.request.use(async (req: AxiosRequestConfig) => {
 function handleApiError(err: unknown): ApiError {
   // isAxiosError 조건이 true 라면, err는 AxiosError로 타입이 좁혀진다.
   if (axios.isAxiosError<ApiError, undefined>(err)) {
-    // 요청을 전송하여 서버에서 응답을 받았으나, 에러가 발생한 경우
+    // 요청을 전송하여 서버에서 응답을 받았으나, 에러가 발생한 경우 body를 참고하여 데이터 추가.
     if (err.response) {
-      // 서버의 Error Response 의 body를 참고하여 데이터 추가.
       return err.response.data;
     }
     // 요청을 전송하였으나 서버에서 응답을 받지 못한 경우
@@ -87,7 +84,7 @@ function handleApiError(err: unknown): ApiError {
   }
   // axios 오류가 아닌 다른 케이스의 오류일 경우
   return {
-    code: 0,
+    code: -1,
     messages: ['원인 미상의 오류가 발생했습니다.'],
     data: null,
   };

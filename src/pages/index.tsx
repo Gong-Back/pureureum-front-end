@@ -1,3 +1,4 @@
+import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 
@@ -5,7 +6,7 @@ import { ProjectRepository } from '@/apis/project';
 import HomeTemplate from '@/components/template/HomeTemplate';
 import { CategoryType, ProjectResponses } from '@/constants/types';
 
-// TODO 서버 사이드 애러 핸들링
+// TODO: 서버 사이드 애러 핸들링
 // export const getServerSideProps = async () => {
 //  try {
 //    const [popRes, latRes] = await Promise.all([
@@ -22,7 +23,7 @@ import { CategoryType, ProjectResponses } from '@/constants/types';
 //  }
 // };
 
-const Home = () => {
+const Home: NextPage = () => {
   const [categoryFilter, setCategoryFilter] = useState<CategoryType>();
   const [popularProjects, setPopularProjects] = useState<
     Array<ProjectResponses['main']>

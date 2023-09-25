@@ -17,7 +17,6 @@ export type AuthReqParams = {
   };
   jwt: {
     accessToken: string;
-    refreshToken: string;
   };
 };
 
@@ -48,11 +47,9 @@ export type VerifyReqParams = {
 export type AuthResponses = {
   login: {
     accessToken: string;
-    refreshToken: string;
   };
   register: {
     accessToken: string;
-    refreshToken: string;
   };
 };
 
