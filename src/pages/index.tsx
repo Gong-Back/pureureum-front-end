@@ -35,8 +35,14 @@ const Home: NextPage = () => {
   useEffect(() => {
     const getMainData = async () => {
       const [popRes, latRes] = await Promise.all([
-        ProjectRepository.getMainProjectListAsync('POPULAR', categoryFilter),
-        ProjectRepository.getMainProjectListAsync('LATEST', categoryFilter),
+        ProjectRepository.getMainProjectListAsync({
+          searchType: 'POPULAR',
+          category: categoryFilter,
+        }),
+        ProjectRepository.getMainProjectListAsync({
+          searchType: 'LATEST',
+          category: categoryFilter,
+        }),
       ]);
       setPopularProjects(popRes.data.projectList);
       setLatestProjects(latRes.data.projectList);

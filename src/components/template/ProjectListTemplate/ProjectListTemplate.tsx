@@ -14,9 +14,10 @@ const PROJECT_SORT_TYPE = {
 } as const;
 
 const ProjectListTemplate = () => {
-  const projectSortMethods = ['인기순', '최신순'] as const;
   const [sortMethod, setSortMethod] =
-    useState<typeof projectSortMethods[number]>('인기순');
+    useState<keyof typeof PROJECT_SORT_TYPE>('인기순');
+
+  console.log({sortMethod, searchType: PROJECT_SORT_TYPE[sortMethod]});
 
   const { data } = useGetProjectList({ searchType: PROJECT_SORT_TYPE[sortMethod] });
 
@@ -38,7 +39,7 @@ const ProjectListTemplate = () => {
           </Text>
         </style.TitleWrap>
         <DropdownMenu
-          menuList={projectSortMethods}
+          menuList={Object.keys(PROJECT_SORT_TYPE)}
           selectedMenu={sortMethod}
           setSelectedMenu={setSortMethod}
           className="sort-method-dropdown-menu"
