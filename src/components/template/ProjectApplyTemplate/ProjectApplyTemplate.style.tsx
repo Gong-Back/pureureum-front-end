@@ -156,6 +156,11 @@ export const Aside = styled.aside`
   border-radius: 5px;
   box-shadow: 0px 0px 5px 0px rgba(147, 147, 147, 0.25);
 
+  .content {
+    white-space: initial;
+    word-wrap: break-word
+  }
+
   @media ${MEDIA_QUERIES.tablet} {
     max-width: unset;
     width: 100%;

@@ -1,15 +1,22 @@
+import { QueryClient, dehydrate } from '@tanstack/react-query';
+import type { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 
+import { UserRepository } from '@/apis/user';
 import BookmarkIconSvg from '@/assets/icons/bookmarkIcon.svg';
 import HeartIconSvg from '@/assets/icons/heartIcon.svg';
 import LeftIconSvg from '@/assets/icons/leftIcon.svg';
 import ShareURLIconSvg from '@/assets/icons/shareURLIcon.svg';
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
+import QUERY_KEY from '@/constants/apis/queryKey';
 import { COLORS } from '@/constants/styles';
-import { UserResponses } from '@/constants/types';
+import { useGetProjectDetail } from '@/query-hooks/project';
+import { useGetUserProfile } from '@/query-hooks/user';
+import FormatUtil from '@/utils/format';
 
 import * as styles from './ProjectApplyTemplate.style';
+import { ProjectRepository } from '@/apis/project';
 
 const menuList = [
   { label: '좋아요', icon: HeartIconSvg, onClick: () => {} },
@@ -17,13 +24,52 @@ const menuList = [
   { label: 'URL 공유', icon: ShareURLIconSvg, onClick: () => {} },
 ];
 
-interface ProjectApplyTemplateProps {
-  userData: UserResponses['info'];
-}
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  const isLogin = ctx.req?.headers.cookie?.includes('accessToken') || false;
 
-const ProjectApplyTemplate = ({ userData }: ProjectApplyTemplateProps) => {
+  if (!isLogin)
+    return {
+      redirect: {
+        destination: '/auth/login',
+        permanent: true,
+      },
+    };
+
+  const queryClient = new QueryClient();
+  const projectId = Number(ctx.params?.pid);
+
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryFn: () => UserRepository.getUserInfoAsync(),
+      queryKey: QUERY_KEY.USER.base,
+      staleTime: Infinity,
+      cacheTime: Infinity,
+    }),
+    queryClient.prefetchQuery({
+      queryFn: () => ProjectRepository.getProjectDetailDataAsync(projectId),
+      queryKey: QUERY_KEY.PROJECT.detail(projectId),
+      staleTime: 1000 * 60 * 5,
+    })
+  ])
+
+
+  return {
+    props: {
+      dehydrateState: dehydrate(queryClient),
+    },
+  };
+};
+
+const ProjectApplyTemplate = () => {
   const router = useRouter();
-  const { name, nickname, birthday, gender, phoneNumber } = userData;
+  const projectId = Number(router.query.pid);
+  console.log(projectId);
+
+  const { data: userProfileData } = useGetUserProfile();
+  const { data: projectDetailData } = useGetProjectDetail(projectId);
+
+  const { name, nickname, birthday, gender, phoneNumber } = userProfileData;
+  const { projectInformation, projectPayment } = projectDetailData;
 
   const age = new Date().getFullYear() - new Date(birthday).getFullYear() + 1;
 
@@ -91,7 +137,7 @@ const ProjectApplyTemplate = ({ userData }: ProjectApplyTemplateProps) => {
               계좌
             </Text>
             <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
-              293201-04-201136
+              {projectPayment || '없음'}
             </Text>
             <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
               은행
@@ -131,13 +177,10 @@ const ProjectApplyTemplate = ({ userData }: ProjectApplyTemplateProps) => {
         </styles.CheckBoxSection>
         <styles.Aside>
           <Text fontStyleName="subtitle2B" color={COLORS.primary.dark}>
-            우리 함께 감자 농장 체험해요!
+            {projectInformation.title}
           </Text>
-          <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
-            그런데 스프링 프레임워크는 기능도 너무 많고 광범위해서 어디서부터
-            어떻게 시작해야 할지 막막합니다.또 너무 많은 유연성을 제공해서, 어떤
-            기술들을 함께 사용해야 할지 선택하기 어렵습니다. 기능이 점점
-            증가하면서 더 많은 설정들이 필요해지기 시작했습니다.
+          <Text className='content' fontStyleName="body2R" color={COLORS.grayscale.gray600}>
+            {projectInformation.content}
           </Text>
           <styles.FacilityDetail>
             <div className="option">
@@ -145,7 +188,7 @@ const ProjectApplyTemplate = ({ userData }: ProjectApplyTemplateProps) => {
                 주관
               </Text>
               <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
-                감자농장 소유주
+                {projectInformation.ownerName}
               </Text>
             </div>
             <div className="option">
@@ -153,7 +196,7 @@ const ProjectApplyTemplate = ({ userData }: ProjectApplyTemplateProps) => {
                 위치
               </Text>
               <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
-                고양시 송산읍 감자농장
+                {FormatUtil.formatLocation(projectInformation.facilityAddress)}
               </Text>
             </div>
             <div className="option">
@@ -161,7 +204,10 @@ const ProjectApplyTemplate = ({ userData }: ProjectApplyTemplateProps) => {
                 기간
               </Text>
               <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
-                2023.03.01 ~ 2023.04.01
+                {FormatUtil.formatDuration(
+                  projectInformation.projectStartDate,
+                  projectInformation.projectEndDate,
+                )}
               </Text>
             </div>
           </styles.FacilityDetail>
