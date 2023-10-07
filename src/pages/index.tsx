@@ -6,7 +6,6 @@ import AsyncBoundary from '@/components/common/AsyncBoundary';
 
 const HomeTemplate = dynamic(
   () => import('@/components/template/HomeTemplate'),
-  { suspense: true },
 );
 
 const Home: NextPage = () => {
