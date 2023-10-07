@@ -1,27 +1,20 @@
 import React from 'react';
 
-import { UserRepository } from '@/apis/user';
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 import PersonalInfoList from '@/components/domain/MyPage/PersonalInfoList';
 import ProfileEditor from '@/components/domain/MyPage/ProfileEditor';
 import UpdatePasswordModal from '@/components/domain/MyPage/UpdatePasswordModal';
 import UpdatePhoneModal from '@/components/domain/MyPage/UpdatePhoneModal';
-import QUERY_KEY from '@/constants/apis/queryKey';
 import { COLORS } from '@/constants/styles';
-import type { UserResponses } from '@/constants/types';
-import useApiQuery from '@/hooks/useApiQuery';
 import useModal from '@/hooks/useModal';
+import { useGetUserProfile } from '@/query-hooks/user';
 import FormatUtil from '@/utils/format';
 
 import * as style from './MyProfileTemplate.style';
 
 const MyProfileTemplate = () => {
-  const { data: userProfile } = useApiQuery<UserResponses['info']>({
-    queryFn: UserRepository.getUserInfoAsync,
-    queryKey: QUERY_KEY.USER.base,
-    options: { staleTime: Infinity, cacheTime: Infinity },
-  });
+  const { data: userProfile } = useGetUserProfile();
 
   const { openModal } = useModal();
   const openChangePhoneModal = () => openModal(<UpdatePhoneModal />);

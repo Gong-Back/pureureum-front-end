@@ -6,8 +6,8 @@ import type { ApiError, ApiResponse, UserResponses } from '@/constants/types';
 
 export const useGetUserProfile = () => useQuery<
     ApiResponse<UserResponses['info']>,
-    UserResponses['info'],
-    ApiError
+    ApiError,
+    UserResponses['info']
   >({
     queryFn: UserRepository.getUserInfoAsync,
     queryKey: QUERY_KEY.USER.base,
