@@ -1,59 +1,15 @@
 import type { NextPage } from 'next';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
 
-import { ProjectRepository } from '@/apis/project';
-import HomeTemplate from '@/components/template/HomeTemplate';
-import { CategoryType, ProjectResponses } from '@/constants/types';
+import AsyncBoundary from '@/components/common/AsyncBoundary';
 
-// TODO: 서버 사이드 애러 핸들링
-// export const getServerSideProps = async () => {
-//  try {
-//    const [popRes, latRes] = await Promise.all([
-//      ProjectRepository.getMainProjectListAsync('POPULAR'),
-//      ProjectRepository.getMainProjectListAsync('LATEST'),
-//    ]);
-//    const data = {
-//      popularProjects: popRes.data.projectList,
-//      latestProjects: latRes.data.projectList,
-//    };
-//    return { props: data };
-//  } catch (error) {
-//    return { props: { ...(error as ApiError) } };
-//  }
-// };
+const HomeTemplate = dynamic(
+  () => import('@/components/template/HomeTemplate'),
+  { suspense: true },
+);
 
 const Home: NextPage = () => {
-  const [categoryFilter, setCategoryFilter] = useState<CategoryType>();
-  const [popularProjects, setPopularProjects] = useState<
-    Array<ProjectResponses['main']>
-  >([]);
-  const [latestProjects, setLatestProjects] = useState<
-    Array<ProjectResponses['main']>
-  >([]);
-
-  useEffect(() => {
-    const getMainData = async () => {
-      const [popRes, latRes] = await Promise.all([
-        ProjectRepository.getMainProjectListAsync({
-          searchType: 'POPULAR',
-          category: categoryFilter,
-        }),
-        ProjectRepository.getMainProjectListAsync({
-          searchType: 'LATEST',
-          category: categoryFilter,
-        }),
-      ]);
-      setPopularProjects(popRes.data.projectList);
-      setLatestProjects(latRes.data.projectList);
-    };
-    getMainData();
-  }, [categoryFilter]);
-
-  const onClickCategoryFilter = (c: CategoryType) => {
-    setCategoryFilter(c === categoryFilter ? undefined : c);
-  };
-
   return (
     <>
       <Head>
@@ -62,15 +18,11 @@ const Home: NextPage = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {popularProjects && latestProjects && (
-        <HomeTemplate
-          popularProjects={popularProjects}
-          newProjects={latestProjects}
-          categoryFilter={categoryFilter}
-          onClickCategoryFilter={onClickCategoryFilter}
-        />
-      )}
+      <AsyncBoundary>
+        <HomeTemplate />
+      </AsyncBoundary>
     </>
   );
 };
+
 export default Home;

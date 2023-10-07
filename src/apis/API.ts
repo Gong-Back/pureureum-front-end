@@ -3,6 +3,7 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse,
 } from 'axios';
+import {  } from "next/head";
 
 import { AuthRepository } from '@/apis/auth';
 import { API_URL, ERROR_CODE } from '@/constants/apis';
@@ -29,6 +30,7 @@ API.interceptors.response.use(
       error.response &&
       error.response.data.code === ERROR_CODE.JWT_INVALID_EXCEPTION
     ) {
+      console.log(error.config);
       try {
         // 똑같은 요청을 재전송 하여 refresh token 을 재인증하는 과정도 거친다
         const retryResponse = await axios.request({
@@ -42,7 +44,7 @@ API.interceptors.response.use(
         // 재요청의 응답에 refresh token 이 없을 경우, 로그아웃을 진행해야 한다.
         if (!newAccessToken)
           throw new Error('리프레시 토큰이 만료되어 로그아웃이 필요합니다.');
-
+  
         await AuthRepository.setJwtCookieAsync(newAccessToken);
         return retryResponse;
       } catch (err) {
@@ -54,6 +56,10 @@ API.interceptors.response.use(
   },
 );
 
+/**
+ * SSR 에서 상대경로로 fetch 요청을 하면 절대 경로를 요구하는 문제
+ * @see https://github.com/vercel/next.js/issues/48344
+ */
 API.interceptors.request.use(async (req: AxiosRequestConfig) => {
   const accessToken = await AuthRepository.getJwtCookieAsync();
   if (accessToken && req.headers)
@@ -68,6 +74,7 @@ API.interceptors.request.use(async (req: AxiosRequestConfig) => {
  */
 function handleApiError(err: unknown): ApiError {
   // isAxiosError 조건이 true 라면, err는 AxiosError로 타입이 좁혀진다.
+  console.log(err);
   if (axios.isAxiosError<ApiError, undefined>(err)) {
     // 요청을 전송하여 서버에서 응답을 받았으나, 에러가 발생한 경우 body를 참고하여 데이터 추가.
     if (err.response) {

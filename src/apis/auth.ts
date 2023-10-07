@@ -5,8 +5,15 @@ import {
   VerifyReqParams,
   VerifyResponses,
 } from '@/constants/types';
+import { NEXT_SERVER_URL } from '@/constants/apis';
 
 import { postAsync } from './API';
+
+const getHostUrl = () => {
+  return typeof window === 'undefined'
+    ? 'https://dev.pureureum.site'
+    : 'http://localhost:3000';
+};
 
 export class AuthRepository {
   /**
@@ -106,15 +113,16 @@ export class AuthRepository {
    * Next Api Route를 통해 프론트 서버에 저장되었던 JWT 토큰을 가져오는 함수 getJwtCookieAsync
    */
   static async getJwtCookieAsync() {
-    const response = await fetch(`/api/token`, {
+    const hostUrl = NEXT_SERVER_URL[process.env.NODE_ENV];
+    console.log(hostUrl);
+    const response = await fetch(`${hostUrl}/api/token`, {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
       },
     });
-    const {
-      data: { accessToken },
-    } = (await response.json()) as ApiResponse<AuthResponses['login']>;
+    const { data: { accessToken } = {} } =
+      (await response.json()) as ApiResponse<AuthResponses['login']>;
     return accessToken;
   }
 
@@ -123,7 +131,8 @@ export class AuthRepository {
    * @param param.accessToken 서버로부터 받은 엑세스 토큰
    */
   static async setJwtCookieAsync(accessToken: string) {
-    await fetch(`/api/token`, {
+    const hostUrl = NEXT_SERVER_URL[process.env.NODE_ENV];
+    await fetch(`${hostUrl}/api/token`, {
       method: 'POST',
       body: JSON.stringify({ accessToken }),
       headers: {
@@ -136,7 +145,8 @@ export class AuthRepository {
    * 서버로부터 받았던 JWT 를 보관한 Cookie를 삭제하는 함수 removeJwtCookieAsync
    */
   static async removeJwtCookieAsync() {
-    await fetch(`/api/token`, {
+    const hostUrl = NEXT_SERVER_URL[process.env.NODE_ENV];
+    await fetch(`${hostUrl}/api/token`, {
       method: 'DELETE',
       headers: {
         'Content-type': 'application/json',

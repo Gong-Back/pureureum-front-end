@@ -17,11 +17,7 @@ const ProjectListTemplate = () => {
   const [sortMethod, setSortMethod] =
     useState<keyof typeof PROJECT_SORT_TYPE>('인기순');
 
-  console.log({sortMethod, searchType: PROJECT_SORT_TYPE[sortMethod]});
-
-  const { data } = useGetProjectList({ searchType: PROJECT_SORT_TYPE[sortMethod] });
-
-  if (!data) return null;
+  const { data: projectListRes } = useGetProjectList({ searchType: PROJECT_SORT_TYPE[sortMethod] });
 
   return (
     <style.Wrapper>
@@ -45,7 +41,7 @@ const ProjectListTemplate = () => {
           className="sort-method-dropdown-menu"
         />
       </style.HeaderWrap>
-      <ProjectList data={data.projectList} />
+      <ProjectList data={projectListRes.projectList} />
     </style.Wrapper>
   );
 };
