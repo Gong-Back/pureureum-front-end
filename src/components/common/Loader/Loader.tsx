@@ -12,7 +12,6 @@ interface LoaderProps {
  * Data Fetching 과정에서 Suspense Fallback 으로 보여줄 Loader 컴포넌트
  */
 const Loader = ({ infoText }: LoaderProps) => {
-  console.log('loader is loaded...')
   return (
     <styles.Wrapper>
       <styles.Loader />

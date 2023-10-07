@@ -1,19 +1,18 @@
-import { useQuery } from '@tanstack/react-query';
+
 
 import { type MainProjectListOutput, ProjectRepository } from '@/apis/project';
 import QUERY_KEY from '@/constants/apis/queryKey';
+import useSuspendedQuery from '@/hooks/useSuspensedQuery';
 import type {
   ApiError,
-  ApiResponse,
   ProjectReqParams,
 } from '@/constants/types';
-
 export const useGetProjectList = ({
   searchType,
   category,
 }: ProjectReqParams['main']) =>
-  useQuery<
-    ApiResponse<MainProjectListOutput>,
+  useSuspendedQuery<
+    MainProjectListOutput,
     ApiError,
     MainProjectListOutput
   >({
@@ -23,3 +22,4 @@ export const useGetProjectList = ({
     staleTime: 1000 * 60 * 5,
     useErrorBoundary: true,
   });
+

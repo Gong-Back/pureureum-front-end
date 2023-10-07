@@ -30,7 +30,7 @@ export class ProjectRepository {
         size: 6,
       },
     });
-    return response;
+    return response.data;
   }
 
   /**
@@ -42,7 +42,7 @@ export class ProjectRepository {
     const response = await getAsync<ProjectResponses['detail']>(
       `/projects/${id}`,
     );
-    return response;
+    return response.data;
   }
 
   /**
