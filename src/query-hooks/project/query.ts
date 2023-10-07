@@ -6,7 +6,6 @@ import type {
   ApiError,
   ApiResponse,
   ProjectReqParams,
-  ProjectResponses,
 } from '@/constants/types';
 
 export const useGetProjectList = ({
@@ -22,4 +21,5 @@ export const useGetProjectList = ({
       ProjectRepository.getMainProjectListAsync({ searchType, category }),
     queryKey: QUERY_KEY.PROJECT.main({ searchType, category }),
     staleTime: 1000 * 60 * 5,
+    useErrorBoundary: true,
   });
