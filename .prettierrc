@@ -9,11 +9,9 @@
   "bracketSpacing": true,
   "jsxBracketSameLine": false,
   "quoteProps": "as-needed",
-  "plugins": [
-    "@trivago/prettier-plugin-sort-imports"
-  ],
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
   "importOrder": [
-    "^(next/(.*)$)|^(next$)|^(react/(.*)$)|^(react$)",
+    "^(next/(.*)$)|^(next$)|^(react/(.*)$)|^(react$)|^(@tanstack/(.*)$)|^(@emotion/(.*)$)",
     "<THIRD_PARTY_MODULES>",
     "^[@/$]",
     "^[./]"
