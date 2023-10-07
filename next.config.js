@@ -16,8 +16,7 @@ const nextConfig = {
       {
         protocol: 'http',
         hostname: 'pureureum.s3.ap-northeast-2.amazonaws.com',
-        port: '',
-        pathname: '/**',
+        pathname: '/profile/**',
       },
     ],
   },

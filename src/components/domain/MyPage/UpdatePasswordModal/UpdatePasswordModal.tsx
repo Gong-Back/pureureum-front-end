@@ -6,18 +6,21 @@ import {
   useWatch,
 } from 'react-hook-form';
 
-import { UserRepository } from '@/apis/user';
 import Button from '@/components/common/Button';
 import ModalTemplate from '@/components/common/ModalTemplate';
+import Text from '@/components/common/Text';
 import NewTextInput from '@/components/common/TextInput/NewTextInput';
 import { COLORS } from '@/constants/styles';
-import { type UserFormType } from '@/constants/types';
+import type { UserFormType } from '@/constants/types';
+import { usePatchUserProfile } from '@/query-hooks/user';
 import useModal from '@/hooks/useModal';
 
 import * as style from './UpdatePasswordModal.style';
 
 const UpdatePasswordModal = () => {
   const { closeModal } = useModal();
+  const { mutateAsync: updatePasswordMutate } = usePatchUserProfile();
+
   const formMethods = useForm<UserFormType['updatePassword']>({
     defaultValues: {
       currentPassword: '',
@@ -25,6 +28,7 @@ const UpdatePasswordModal = () => {
       confirmedPassword: '',
     },
   });
+
   const {
     control,
     setError,
@@ -45,17 +49,14 @@ const UpdatePasswordModal = () => {
       return;
     }
 
-    if (changedPassword !== currentPassword) {
+    if (changedPassword === currentPassword) {
       setError('root', {
         message: '변경하려는 비밀번호가 현재 비밀번호와 같습니다.',
       });
       return;
     }
 
-    await UserRepository.updateUserInfoAsync({
-      type: 'password',
-      updatedValue: changedPassword,
-    });
+    updatePasswordMutate({ type: 'password', updatedValue: changedPassword });
     closeModal();
   };
 
@@ -91,20 +92,30 @@ const UpdatePasswordModal = () => {
             sizeType="medium"
             type="password"
           />
-          <Button
-            isFilled
-            themeColor={
-              isPossibleToConfirm
-                ? COLORS.primary.default
-                : COLORS.grayscale.gray400
-            }
-            sizeType="small"
-            className="confirm-btn"
-            onClick={() => handleSubmit(confirmUpdatePassword)()}
-          >
-            비밀번호 변경
-          </Button>
-          {errors.root && <p>{errors.root.message}</p>}
+          <style.ButtonBox>
+            {errors.root && (
+              <Text
+                fontStyleName="body3"
+                color={COLORS.primary.default}
+                className="feedback"
+              >
+                {errors.root.message}
+              </Text>
+            )}
+            <Button
+              isFilled
+              themeColor={
+                isPossibleToConfirm
+                  ? COLORS.primary.default
+                  : COLORS.grayscale.gray400
+              }
+              sizeType="small"
+              className="confirm-btn"
+              onClick={() => handleSubmit(confirmUpdatePassword)()}
+            >
+              비밀번호 변경
+            </Button>
+          </style.ButtonBox>
         </style.Wrapper>
       </ModalTemplate>
     </FormProvider>

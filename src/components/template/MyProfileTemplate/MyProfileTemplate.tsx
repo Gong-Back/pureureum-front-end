@@ -1,21 +1,20 @@
 import React from 'react';
 
-import { profileDummyData } from 'src/dummyData';
-
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
-import Layout from '@/components/domain/MyPage/Layout';
 import PersonalInfoList from '@/components/domain/MyPage/PersonalInfoList';
 import ProfileEditor from '@/components/domain/MyPage/ProfileEditor';
 import UpdatePasswordModal from '@/components/domain/MyPage/UpdatePasswordModal';
 import UpdatePhoneModal from '@/components/domain/MyPage/UpdatePhoneModal';
 import { COLORS } from '@/constants/styles';
 import useModal from '@/hooks/useModal';
+import { useGetUserProfile } from '@/query-hooks/user';
+import FormatUtil from '@/utils/format';
 
 import * as style from './MyProfileTemplate.style';
 
 const MyProfileTemplate = () => {
-  const data = profileDummyData;
+  const { data: userProfile } = useGetUserProfile();
 
   const { openModal } = useModal();
   const openChangePhoneModal = () => openModal(<UpdatePhoneModal />);
@@ -23,20 +22,17 @@ const MyProfileTemplate = () => {
 
   const handleSaveChange = () => {};
 
-  if (!data) return null;
-
-  // TODO : 정규식의 경우 추후 Util 로 묶을 수 있다면 일괄적으로 수정해야 함.
-  const maskedPhoneNumber = data.phoneNumber.replace(/-[0-9]{4}-/g, '-****-');
+  if (!userProfile) return null;
 
   return (
-    <Layout>
-      <ProfileEditor profileUrl={data.profileUrl} nickname={data.nickname} />
+    <section>
+      <ProfileEditor profileUrl={userProfile.profileUrl} nickname={userProfile.nickname} />
       <style.PersonalSection>
         <PersonalInfoList
-          name={data.name}
-          email={data.email}
-          gender={data.gender}
-          birthday={data.birthday}
+          name={userProfile.name}
+          email={userProfile.email}
+          gender={userProfile.gender}
+          birthday={userProfile.birthday}
         />
         <style.Section>
           <Text
@@ -51,7 +47,7 @@ const MyProfileTemplate = () => {
             color={COLORS.grayscale.gray700}
             fontStyleName="body2R"
           >
-            {maskedPhoneNumber}
+            {FormatUtil.formatMaskPhoneNum(userProfile.phoneNumber)}
           </Text>
           <Button
             onClick={openChangePhoneModal}
@@ -91,7 +87,7 @@ const MyProfileTemplate = () => {
       >
         저장하기
       </Button>
-    </Layout>
+    </section>
   );
 };
 

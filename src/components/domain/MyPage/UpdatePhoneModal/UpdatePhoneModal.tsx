@@ -6,7 +6,6 @@ import {
 } from 'react-hook-form';
 
 import { AuthRepository } from '@/apis/auth';
-import { UserRepository } from '@/apis/user';
 import Button from '@/components/common/Button';
 import ModalTemplate from '@/components/common/ModalTemplate';
 import Text from '@/components/common/Text';
@@ -14,6 +13,7 @@ import NewTextInput from '@/components/common/TextInput/NewTextInput';
 import { COLORS } from '@/constants/styles';
 import { type UserFormType } from '@/constants/types';
 import useModal from '@/hooks/useModal';
+import { usePatchUserProfile } from '@/query-hooks/user';
 import ValidationUtil from '@/utils/validation';
 
 import * as style from './UpdatePhoneModal.style';
@@ -21,6 +21,7 @@ import * as style from './UpdatePhoneModal.style';
 const UpdatePhoneModal = () => {
   const { closeModal } = useModal();
 
+  const { mutateAsync: updatePhoneNumMutate } = usePatchUserProfile();
   const formMethods = useForm<UserFormType['updatePhoneNumber']>({
     defaultValues: {
       changedPhoneNumber: '',
@@ -80,7 +81,7 @@ const UpdatePhoneModal = () => {
     if (certificationNumber !== confirmedNumber) return;
 
     try {
-      await UserRepository.updateUserInfoAsync({
+      updatePhoneNumMutate({
         type: 'phoneNumber',
         updatedValue: changedPhoneNumber,
       });

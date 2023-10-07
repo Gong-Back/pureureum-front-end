@@ -1,9 +1,11 @@
 import Image from 'next/image';
+import React, { useState } from 'react';
 
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
+import TextInput from '@/components/common/TextInput';
 import { COLORS } from '@/constants/styles';
-import { useUpdateProfileImage } from '@/hooks/useFetchProfileInfo';
+import { usePatchProfileImage, usePatchUserProfile } from '@/query-hooks/user';
 import useUploadFile from '@/hooks/useUploadFile';
 
 import * as styles from './ProfileEditor.style';
@@ -14,44 +16,57 @@ interface ProfileEditorProps {
 }
 
 const ProfileEditor = ({ profileUrl, nickname }: ProfileEditorProps) => {
-  const { mutate } = useUpdateProfileImage();
+  const { mutate: profileImageMutate } = usePatchProfileImage();
+  const { mutate: profileInfoMutate } = usePatchUserProfile();
+
+  const [isNicknameInputVisible, setIsNicknameInputVisible] = useState(false);
+  const [changedNickname, setChangedNickname] = useState('');
 
   const { fileInputRef, handleUploadFile } = useUploadFile({
     maxFileSize: 10 * 1024 * 1024,
     allowFileTypes: ['png', 'jpg'],
-    onSubmit: (uploadedFile) => mutate(uploadedFile),
+    onSubmit: (uploadedFile) => profileImageMutate(uploadedFile),
   });
 
   const openFileUploadDialog = () => fileInputRef.current?.click();
 
-  const handleChangeNickname = () => {
-    console.log('test');
+  const handleChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setChangedNickname(value);
+  };
+
+  const handleChangeNicknameButton = () => {
+    if (!isNicknameInputVisible) return setIsNicknameInputVisible(true);
+    return changedNickname.length
+      ? profileInfoMutate({ type: 'nickname', updatedValue: changedNickname})
+      : setIsNicknameInputVisible(false);
   };
 
   return (
     <styles.Wrapper>
-      {profileUrl ? (
-        <Image
-          src={profileUrl}
-          alt="profileImg"
-          width={120}
-          height={120}
-          layout="fill"
-        />
-      ) : (
-        <styles.DefaultProfileImg />
-      )}
+      <styles.DefaultProfileImg />
       <styles.Section>
-        <Text
-          fontStyleName="subtitle1"
-          color={COLORS.grayscale.gray700}
-          className="nickname"
-        >
-          {nickname || 'test_userId'}
-        </Text>
+        {isNicknameInputVisible ? (
+          <TextInput
+            isFilled
+            sizeType="small"
+            name="changedNickname"
+            onChange={handleChangeNickname}
+            max={20}
+            placeholder="변경할 닉네임을 입력해주세요"
+          />
+        ) : (
+          <Text
+            fontStyleName="subtitle1"
+            color={COLORS.grayscale.gray700}
+            className="nickname"
+          >
+            {nickname || 'test_userId'}
+          </Text>
+        )}
         <styles.ButtonBox>
           <Button
-            onClick={handleChangeNickname}
+            onClick={handleChangeNicknameButton}
             isRound
             sizeType="small"
             themeColor={COLORS.primary.default}
@@ -65,15 +80,26 @@ const ProfileEditor = ({ profileUrl, nickname }: ProfileEditorProps) => {
             style={{ display: 'none' }}
             onChange={handleUploadFile}
           />
-          <Button
-            onClick={openFileUploadDialog}
-            themeColor={COLORS.primary.default}
-            isRound
-            sizeType="small"
-            className="profile-img"
-          >
-            프로필 이미지 변경
-          </Button>
+          {isNicknameInputVisible ? (
+            <Button
+              onClick={() => setIsNicknameInputVisible(false)}
+              isRound
+              sizeType="small"
+              themeColor={COLORS.primary.default}
+            >
+              변경 취소
+            </Button>
+          ) : (
+            <Button
+              onClick={openFileUploadDialog}
+              themeColor={COLORS.primary.default}
+              isRound
+              sizeType="small"
+              className="profile-img"
+            >
+              프로필 이미지 변경
+            </Button>
+          )}
         </styles.ButtonBox>
       </styles.Section>
     </styles.Wrapper>
