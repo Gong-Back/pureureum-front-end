@@ -1,15 +1,20 @@
+import { QueryClient, dehydrate } from '@tanstack/react-query';
+import type { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
+import { ProjectRepository } from '@/apis/project';
 import Button from '@/components/common/Button';
 import CategoryTag from '@/components/common/CategoryTag';
 import Text from '@/components/common/Text';
 import FloatingMenu from '@/components/domain/Project/FloatingMenu';
+import QUERY_KEY from '@/constants/apis/queryKey';
 import { COLORS } from '@/constants/styles';
-import { ProjectContentType, ProjectResponses } from '@/constants/types';
+import { ProjectContentType } from '@/constants/types';
 import useKakaoMap from '@/hooks/useKakaoMap';
 import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
+import { useGetProjectDetail } from '@/query-hooks/project';
 
 import * as style from './ProjectDetailTemplate.style';
 
@@ -20,14 +25,34 @@ export const CONTENT_MENU: { type: ProjectContentType; label: string }[] = [
   { type: 'QNA', label: '문의하기' },
 ];
 
-interface ProjectDetailTemplateProps {
-  data: ProjectResponses['detail'];
-}
+export const getServerSideProps: GetServerSideProps = async (
+  ctx: GetServerSidePropsContext,
+) => {
+  const queryClient = new QueryClient();
 
-const ProjectDetailTemplate = ({ data }: ProjectDetailTemplateProps) => {
+  const pid = ctx.params?.pid as string;
+  const projectId = Number(pid);
+
+  await queryClient.prefetchQuery({
+    queryFn: () => ProjectRepository.getProjectDetailDataAsync(projectId),
+    queryKey: QUERY_KEY.PROJECT.detail(projectId),
+    staleTime: 1000 * 60 * 5,
+  });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+};
+
+const ProjectDetailTemplate = () => {
   const router = useRouter();
+  const projectId = Number(router.query.pid);
+
+  const { data: projectDetailData } = useGetProjectDetail(projectId);
   const { projectInformation, projectCategory, projectFiles, projectPayment } =
-    data;
+    projectDetailData;
   const {
     title,
     content,
@@ -108,6 +133,7 @@ const ProjectDetailTemplate = ({ data }: ProjectDetailTemplateProps) => {
       }
     }
   };
+  
   return (
     <style.Wrapper>
       <style.ContentWrapper>
@@ -118,6 +144,7 @@ const ProjectDetailTemplate = ({ data }: ProjectDetailTemplateProps) => {
           width={800}
           height={450}
           className="thumbnail-img"
+          alt='thumbnail'
         />
         {!isPC && (
           <FloatingMenu

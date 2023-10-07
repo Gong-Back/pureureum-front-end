@@ -12,6 +12,10 @@ const QUERY_KEY = {
       searchType,
       ...(category ? [category] : []),
     ],
+    detail: (id: number) => [
+      ...QUERY_KEY.PROJECT.base,
+      'detail', id
+    ]
   },
 };
 
