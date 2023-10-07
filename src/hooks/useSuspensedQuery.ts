@@ -7,6 +7,7 @@
  * - 그 외 케이스의 경우 status 의 상태와 관계 없이 무조건 요청이 성공했다 가정하고, data의 타입을 TData로 추론한다.
  * @see https://github.com/toss/slash/blob/302e59d214e8792fafedf8291981c408743e7c47/packages/react/react-query/src/hooks/useSuspendedQuery.ts
  */
+/* eslint-disable no-redeclare */
 
 import { useQuery, type QueryKey, type UseQueryOptions, type UseQueryResult, QueryClient } from '@tanstack/react-query';
 import type { ApiError } from "@/constants/types";
