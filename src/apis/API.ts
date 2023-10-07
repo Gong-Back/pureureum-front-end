@@ -3,7 +3,6 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse,
 } from 'axios';
-import {  } from "next/head";
 
 import { AuthRepository } from '@/apis/auth';
 import { API_URL, ERROR_CODE } from '@/constants/apis';
@@ -30,7 +29,6 @@ API.interceptors.response.use(
       error.response &&
       error.response.data.code === ERROR_CODE.JWT_INVALID_EXCEPTION
     ) {
-      console.log(error.config);
       try {
         // 똑같은 요청을 재전송 하여 refresh token 을 재인증하는 과정도 거친다
         const retryResponse = await axios.request({

@@ -9,12 +9,6 @@ import { NEXT_SERVER_URL } from '@/constants/apis';
 
 import { postAsync } from './API';
 
-const getHostUrl = () => {
-  return typeof window === 'undefined'
-    ? 'https://dev.pureureum.site'
-    : 'http://localhost:3000';
-};
-
 export class AuthRepository {
   /**
    * 신규 유저의 회원가입을 처리하는 함수 registerAsync
