@@ -1,15 +1,12 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
 
-import { UserRepository } from '@/apis/user';
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 import TextInput from '@/components/common/TextInput';
-import QUERY_KEY from '@/constants/apis/queryKey';
 import { COLORS } from '@/constants/styles';
-import useApiMutation from '@/hooks/useApiMutation';
+import { usePatchProfileImage, usePatchUserProfile } from '@/query-hooks/user';
 import useUploadFile from '@/hooks/useUploadFile';
-import { useQueryClient } from '@tanstack/react-query';
 
 import * as styles from './ProfileEditor.style';
 
@@ -19,33 +16,8 @@ interface ProfileEditorProps {
 }
 
 const ProfileEditor = ({ profileUrl, nickname }: ProfileEditorProps) => {
-  const queryClient = useQueryClient();
-  const { mutateAsync: profileMutate } = useApiMutation<void, File | undefined>(
-    {
-      mutationFn: (uploadedFile) =>
-        UserRepository.updateProfileImageAsync(uploadedFile),
-      mutationKey: QUERY_KEY.USER.base,
-      options: {
-        onSuccess: () => {
-          queryClient.invalidateQueries(QUERY_KEY.USER.base);
-        },
-      },
-    },
-  );
-
-  const { mutateAsync: nicknameMutate } = useApiMutation<void, string>({
-    mutationFn: (changedNickname) =>
-      UserRepository.updateUserInfoAsync({
-        type: 'nickname',
-        updatedValue: changedNickname,
-      }),
-    mutationKey: QUERY_KEY.USER.base,
-    options: {
-      onSuccess: () => {
-        queryClient.invalidateQueries(QUERY_KEY.USER.base);
-      },
-    },
-  });
+  const { mutate: profileImageMutate } = usePatchProfileImage();
+  const { mutate: profileInfoMutate } = usePatchUserProfile();
 
   const [isNicknameInputVisible, setIsNicknameInputVisible] = useState(false);
   const [changedNickname, setChangedNickname] = useState('');
@@ -53,7 +25,7 @@ const ProfileEditor = ({ profileUrl, nickname }: ProfileEditorProps) => {
   const { fileInputRef, handleUploadFile } = useUploadFile({
     maxFileSize: 10 * 1024 * 1024,
     allowFileTypes: ['png', 'jpg'],
-    onSubmit: (uploadedFile) => profileMutate(uploadedFile),
+    onSubmit: (uploadedFile) => profileImageMutate(uploadedFile),
   });
 
   const openFileUploadDialog = () => fileInputRef.current?.click();
@@ -66,7 +38,7 @@ const ProfileEditor = ({ profileUrl, nickname }: ProfileEditorProps) => {
   const handleChangeNicknameButton = () => {
     if (!isNicknameInputVisible) return setIsNicknameInputVisible(true);
     return changedNickname.length
-      ? nicknameMutate(changedNickname)
+      ? profileInfoMutate({ type: 'nickname', updatedValue: changedNickname})
       : setIsNicknameInputVisible(false);
   };
 
