@@ -108,7 +108,6 @@ export class AuthRepository {
    */
   static async getJwtCookieAsync() {
     const hostUrl = NEXT_SERVER_URL[process.env.NODE_ENV];
-    console.log(hostUrl);
     const response = await fetch(`${hostUrl}/api/token`, {
       method: 'GET',
       headers: {

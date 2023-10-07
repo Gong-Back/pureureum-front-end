@@ -76,7 +76,6 @@ API.interceptors.request.use(async (req: AxiosRequestConfig) => {
  */
 function handleApiError(err: unknown): ApiError {
   // isAxiosError 조건이 true 라면, err는 AxiosError로 타입이 좁혀진다.
-  console.log(err);
   if (axios.isAxiosError<ApiError, undefined>(err)) {
     // 요청을 전송하여 서버에서 응답을 받았으나, 에러가 발생한 경우 body를 참고하여 데이터 추가.
     if (err.response) {
