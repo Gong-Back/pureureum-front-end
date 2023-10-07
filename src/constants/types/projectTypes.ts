@@ -69,6 +69,10 @@ export type ProjectReqParams = {
     /// ** 일반 이미지  */
     // commonImage?: string;
   };
+  main: {
+    searchType: 'POPULAR' | 'LATEST',
+    category?: CategoryType,
+  }
 };
 
 /** 주소 정보 Type */
