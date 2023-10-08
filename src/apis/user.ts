@@ -10,6 +10,11 @@ export class UserRepository {
   static async getUserInfoAsync() {
     const response = await getAsync<ApiResponse<UserResponses['info']>>(
       '/users/me',
+      {
+        headers: {
+          requireToken: true,
+        },
+      }
     );
     return response.data;
   }
@@ -30,6 +35,11 @@ export class UserRepository {
       {
         [type]: updatedValue,
       },
+      {
+        headers: {
+          requireToken: true,
+        },
+      }
     );
   }
 
@@ -45,6 +55,7 @@ export class UserRepository {
     await postAsync<undefined, FormData>('/users/update/profile', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
+        requireToken: true,
       },
     });
   }

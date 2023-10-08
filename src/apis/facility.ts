@@ -60,6 +60,7 @@ export class FacilityRepository {
     await postAsync<undefined, FormData>('/facilities/register', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
+        requireToken: true,
       },
     });
   }
@@ -73,6 +74,9 @@ export class FacilityRepository {
     const response = await getAsync<FacilityResponses['searchByCategory']>(
       'facilities/me',
       {
+        headers: {
+          requireToken: true,
+        },
         params: { category },
       },
     );
@@ -86,6 +90,11 @@ export class FacilityRepository {
   static async getAllFacilitiesAsync() {
     const response = await getAsync<FacilityResponses['searchAll']>(
       'facilities/all',
+      {
+        headers: {
+          requireToken: true,
+        },
+      }
     );
     return response;
   }
