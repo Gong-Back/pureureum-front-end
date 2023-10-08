@@ -24,8 +24,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
     }),
     await queryClient.prefetchQuery({
       queryFn: () =>
-        ProjectRepository.getMainProjectListAsync({ searchType: 'POPULAR' }),
-      queryKey: QUERY_KEY.PROJECT.main({ searchType: 'POPULAR' }),
+        ProjectRepository.getMainProjectListAsync({ searchType: 'LATEST' }),
+      queryKey: QUERY_KEY.PROJECT.main({ searchType: 'LATEST' }),
     }),
   ]);
 
@@ -44,7 +44,7 @@ const HomeTemplate = () => {
     category: categoryFilter,
   });
   const { data: latestProjectRes } = useGetProjectList({
-    searchType: 'POPULAR',
+    searchType: 'LATEST',
     category: categoryFilter,
   });
 
