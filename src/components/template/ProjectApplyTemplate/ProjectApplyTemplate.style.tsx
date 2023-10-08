@@ -43,16 +43,22 @@ export const MainSection = styled.main`
   gap: 60px 100px;
 
   @media ${MEDIA_QUERIES.mobile} {
-    margin: 130px 80px;
+    margin: 130px 40px;
+    max-width: calc(100% - 80px);
 
     grid-template-rows: repeat(5, fit-content(100%));
-    grid-template-columns: fit-content(100%);
+    grid-template-columns: 1fr;
     grid-template-areas:
       'title'
       'aside'
       'personal'
       'banking'
       'checkbox';
+  }
+
+  @media ${MEDIA_QUERIES.tablet} {
+    max-width: calc(100% - 80px);
+    grid-template-columns: 1fr;
   }
 `;
 

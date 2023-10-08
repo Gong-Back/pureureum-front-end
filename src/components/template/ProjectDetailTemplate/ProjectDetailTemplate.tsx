@@ -188,7 +188,7 @@ const ProjectDetailTemplate = () => {
           sizeType="large"
           themeColor={COLORS.primary.default}
           isFilled
-          onClick={() => router.push('/project/apply')}
+          onClick={() => router.push(`/project/apply/${projectId}`)}
         >
           프로젝트 참여하기
         </Button>

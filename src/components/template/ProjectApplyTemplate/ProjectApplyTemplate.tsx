@@ -2,6 +2,7 @@ import { QueryClient, dehydrate } from '@tanstack/react-query';
 import type { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 
+import { ProjectRepository } from '@/apis/project';
 import { UserRepository } from '@/apis/user';
 import BookmarkIconSvg from '@/assets/icons/bookmarkIcon.svg';
 import HeartIconSvg from '@/assets/icons/heartIcon.svg';
@@ -16,7 +17,6 @@ import { useGetUserProfile } from '@/query-hooks/user';
 import FormatUtil from '@/utils/format';
 
 import * as styles from './ProjectApplyTemplate.style';
-import { ProjectRepository } from '@/apis/project';
 
 const menuList = [
   { label: '좋아요', icon: HeartIconSvg, onClick: () => {} },
@@ -49,9 +49,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
       queryFn: () => ProjectRepository.getProjectDetailDataAsync(projectId),
       queryKey: QUERY_KEY.PROJECT.detail(projectId),
       staleTime: 1000 * 60 * 5,
-    })
-  ])
-
+    }),
+  ]);
 
   return {
     props: {
@@ -124,47 +123,49 @@ const ProjectApplyTemplate = () => {
             </Text>
           </styles.InfoDetail>
         </styles.InfoSection>
-        <styles.BankingSection>
-          <Text fontStyleName="subtitle1" color={COLORS.grayscale.gray600}>
-            참가비용 입금
-          </Text>
-          <Text fontStyleName="body2R" color={COLORS.grayscale.gray500}>
-            푸르름은 아직 결제 서비스를 지원하지 않습니다. 하단에 기재되어 있는
-            계좌로 참가비를 송금해주세요.
-          </Text>
-          <styles.BankingDetail>
-            <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
-              계좌
+        {projectPayment && (
+          <styles.BankingSection>
+            <Text fontStyleName="subtitle1" color={COLORS.grayscale.gray600}>
+              참가비용 입금
             </Text>
-            <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
-              {projectPayment || '없음'}
+            <Text fontStyleName="body2R" color={COLORS.grayscale.gray500}>
+              푸르름은 아직 결제 서비스를 지원하지 않습니다. 하단에 기재되어
+              있는 계좌로 참가비를 송금해주세요.
             </Text>
-            <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
-              은행
-            </Text>
-            <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
-              국민은행
-            </Text>
-            <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
-              예금주
-            </Text>
-            <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
-              공소나
-            </Text>
-            <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
-              금액
-            </Text>
-            <Text fontStyleName="body1R" color={COLORS.primary.dark}>
-              KRW 10,000
-            </Text>
-            <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
-              문의
-            </Text>
-            <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
-              010-1234-1234
-            </Text>
-          </styles.BankingDetail>
-        </styles.BankingSection>
+            <styles.BankingDetail>
+              <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
+                계좌
+              </Text>
+              <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
+                {projectPayment || '없음'}
+              </Text>
+              <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
+                은행
+              </Text>
+              <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
+                국민은행
+              </Text>
+              <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
+                예금주
+              </Text>
+              <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
+                공소나
+              </Text>
+              <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
+                금액
+              </Text>
+              <Text fontStyleName="body1R" color={COLORS.primary.dark}>
+                KRW 10,000
+              </Text>
+              <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
+                문의
+              </Text>
+              <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
+                010-1234-1234
+              </Text>
+            </styles.BankingDetail>
+          </styles.BankingSection>
+        )}
         <styles.CheckBoxSection>
           <input type="checkbox" />
           <Text fontStyleName="body1R" color={COLORS.grayscale.gray500}>
@@ -179,7 +180,11 @@ const ProjectApplyTemplate = () => {
           <Text fontStyleName="subtitle2B" color={COLORS.primary.dark}>
             {projectInformation.title}
           </Text>
-          <Text className='content' fontStyleName="body2R" color={COLORS.grayscale.gray600}>
+          <Text
+            className="content"
+            fontStyleName="body2R"
+            color={COLORS.grayscale.gray600}
+          >
             {projectInformation.content}
           </Text>
           <styles.FacilityDetail>
