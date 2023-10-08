@@ -1,6 +1,7 @@
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import type { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 
 import { ProjectRepository } from '@/apis/project';
 import { UserRepository } from '@/apis/user';
@@ -50,6 +51,12 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   };
 };
 
+// TODO: 특정 컴포넌트에만 쓰이는 타입의 경우 어떻게 관리할 것인지 논의 필요.
+type ProjectApplyConfirmedType = {
+  isPaid: boolean;
+  isConfirmed: boolean;
+};
+
 const ProjectApplyTemplate = () => {
   const router = useRouter();
   const projectId = Number(router.query.pid);
@@ -59,6 +66,35 @@ const ProjectApplyTemplate = () => {
 
   const { name, nickname, birthday, gender, phoneNumber } = userProfileData;
   const { projectInformation, projectPayment } = projectDetailData;
+
+  const [checkedOption, setCheckedOption] = useState<ProjectApplyConfirmedType>(
+    {
+      isPaid: !!projectPayment,
+      isConfirmed: false,
+    },
+  );
+
+  const isCheckedAll = Object.keys(checkedOption).every(Boolean);
+
+  const handleCheckboxOption = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name: checkBoxName } = e.target;
+    setCheckedOption({
+      ...checkedOption,
+      [checkBoxName]:
+        !checkedOption[checkBoxName as keyof ProjectApplyConfirmedType],
+    });
+  };
+
+  const submitProjectApply = async () => {
+    if (!isCheckedAll) return;
+    try {
+      await ProjectRepository.postProjectApplyAsync(projectId);
+      router.replace('/mypage/project/pending');
+    } catch (error) {
+      // TODO: 에러 발생 시 toast 혹은 다른 요소로 에러가 발생했음을 사용자에게 인지하도록 해야 함.
+      console.error(error);
+    }
+  }
 
   const age = new Date().getFullYear() - new Date(birthday).getFullYear() + 1;
 
@@ -157,20 +193,29 @@ const ProjectApplyTemplate = () => {
           </styles.BankingSection>
         )}
         <styles.CheckBoxSection>
-          <input type="checkbox" />
+          <input
+            type="checkbox"
+            name="isPaid"
+            onChange={handleCheckboxOption}
+          />
           <Text fontStyleName="body1R" color={COLORS.grayscale.gray500}>
             참가비용을 입금했나요?
           </Text>
-          <input type="checkbox" />
+          <input
+            type="checkbox"
+            name="isConfirmed"
+            onChange={handleCheckboxOption}
+          />
           <Text fontStyleName="body1R" color={COLORS.grayscale.gray500}>
             프로젝트 유의사항을 제대로 확인했나요?
           </Text>
         </styles.CheckBoxSection>
-        <FloatingMenu className='aside' projectInfo={projectInformation} />
+        <FloatingMenu className="aside" projectInfo={projectInformation} />
       </styles.MainSection>
       <styles.ButtonSection>
         <Button
-          themeColor={COLORS.primary.default}
+          onClick={submitProjectApply}
+          themeColor={isCheckedAll ? COLORS.primary.default : COLORS.grayscale.gray200}
           sizeType="medium"
           className="button"
           isFilled
