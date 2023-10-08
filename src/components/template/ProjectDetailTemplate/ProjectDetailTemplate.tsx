@@ -1,5 +1,5 @@
 import { QueryClient, dehydrate } from '@tanstack/react-query';
-import type { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import type { GetStaticProps, GetStaticPropsContext } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -25,19 +25,28 @@ export const CONTENT_MENU: { type: ProjectContentType; label: string }[] = [
   { type: 'QNA', label: '문의하기' },
 ];
 
-export const getServerSideProps: GetServerSideProps = async (
-  ctx: GetServerSidePropsContext,
+export const getStaticProps: GetStaticProps = async (
+  ctx: GetStaticPropsContext,
 ) => {
   const queryClient = new QueryClient();
 
   const pid = ctx.params?.pid as string;
   const projectId = Number(pid);
 
-  await queryClient.prefetchQuery({
-    queryFn: () => ProjectRepository.getProjectDetailDataAsync(projectId),
-    queryKey: QUERY_KEY.PROJECT.detail(projectId),
-    staleTime: 1000 * 60 * 5,
-  });
+  try {
+    await queryClient.prefetchQuery({
+      queryFn: () => ProjectRepository.getProjectDetailDataAsync(projectId),
+      queryKey: QUERY_KEY.PROJECT.detail(projectId),
+      staleTime: 1000 * 60 * 5,
+    });
+  } catch {
+    return {
+      redirect: {
+        destination: '/auth/login',
+        permanent: true,
+      },
+    };
+  }
 
   return {
     props: {

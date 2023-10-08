@@ -38,9 +38,14 @@ export const MainSection = styled.main`
   grid-template-areas:
     'title aside'
     'personal aside'
-    'banking aside'
-    'checkbox aside';
+    'banking .'
+    'checkbox .';
   gap: 60px 100px;
+
+  .aside {
+    grid-area: aside;
+    position: sticky;
+  }
 
   @media ${MEDIA_QUERIES.mobile} {
     margin: 130px 40px;
@@ -146,68 +151,6 @@ export const CheckBoxSection = styled.div`
   @media ${MEDIA_QUERIES.tablet} {
     margin: 0 25px;
   }
-`;
-
-export const Aside = styled.aside`
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-  grid-area: aside;
-
-  max-width: 380px;
-  padding: 30px;
-  margin-bottom: auto;
-
-  background-color: ${COLORS.grayscale.cremeWhite};
-  border-radius: 5px;
-  box-shadow: 0px 0px 5px 0px rgba(147, 147, 147, 0.25);
-
-  .content {
-    white-space: initial;
-    word-wrap: break-word
-  }
-
-  @media ${MEDIA_QUERIES.tablet} {
-    max-width: unset;
-    width: 100%;
-  }
-`;
-
-export const FacilitySection = styled.div`
-  display: grid;
-  gap: 27px 0;
-  grid-template-columns: repeat(2, fit-content(100%));
-  grid-template-rows: repeat(3, fit-content(100%));
-
-  padding: 10px 0;
-`;
-
-export const FacilityDetail = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  .option {
-    display: flex;
-    gap: 0 10px;
-    padding: 10px 0;
-
-    &:not(:last-child) {
-      border-bottom: 1px solid ${COLORS.grayscale.gray100};
-    }
-  }
-`;
-
-export const ShareSection = styled.div`
-  display: flex;
-  column-gap: 15px;
-
-  margin: 0 auto;
-`;
-
-export const ShareField = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
 `;
 
 export const ButtonSection = styled.div`

@@ -4,25 +4,16 @@ import { useRouter } from 'next/router';
 
 import { ProjectRepository } from '@/apis/project';
 import { UserRepository } from '@/apis/user';
-import BookmarkIconSvg from '@/assets/icons/bookmarkIcon.svg';
-import HeartIconSvg from '@/assets/icons/heartIcon.svg';
 import LeftIconSvg from '@/assets/icons/leftIcon.svg';
-import ShareURLIconSvg from '@/assets/icons/shareURLIcon.svg';
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
+import FloatingMenu from '@/components/domain/Project/FloatingMenu';
 import QUERY_KEY from '@/constants/apis/queryKey';
 import { COLORS } from '@/constants/styles';
 import { useGetProjectDetail } from '@/query-hooks/project';
 import { useGetUserProfile } from '@/query-hooks/user';
-import FormatUtil from '@/utils/format';
 
 import * as styles from './ProjectApplyTemplate.style';
-
-const menuList = [
-  { label: '좋아요', icon: HeartIconSvg, onClick: () => {} },
-  { label: '관심 등록', icon: BookmarkIconSvg, onClick: () => {} },
-  { label: 'URL 공유', icon: ShareURLIconSvg, onClick: () => {} },
-];
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const isLogin = ctx.req?.headers.cookie?.includes('accessToken') || false;
@@ -62,7 +53,6 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 const ProjectApplyTemplate = () => {
   const router = useRouter();
   const projectId = Number(router.query.pid);
-  console.log(projectId);
 
   const { data: userProfileData } = useGetUserProfile();
   const { data: projectDetailData } = useGetProjectDetail(projectId);
@@ -176,57 +166,7 @@ const ProjectApplyTemplate = () => {
             프로젝트 유의사항을 제대로 확인했나요?
           </Text>
         </styles.CheckBoxSection>
-        <styles.Aside>
-          <Text fontStyleName="subtitle2B" color={COLORS.primary.dark}>
-            {projectInformation.title}
-          </Text>
-          <Text
-            className="content"
-            fontStyleName="body2R"
-            color={COLORS.grayscale.gray600}
-          >
-            {projectInformation.content}
-          </Text>
-          <styles.FacilityDetail>
-            <div className="option">
-              <Text fontStyleName="body2B" color={COLORS.primary.default}>
-                주관
-              </Text>
-              <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
-                {projectInformation.ownerName}
-              </Text>
-            </div>
-            <div className="option">
-              <Text fontStyleName="body2B" color={COLORS.primary.default}>
-                위치
-              </Text>
-              <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
-                {FormatUtil.formatLocation(projectInformation.facilityAddress)}
-              </Text>
-            </div>
-            <div className="option">
-              <Text fontStyleName="body2B" color={COLORS.primary.default}>
-                기간
-              </Text>
-              <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
-                {FormatUtil.formatDuration(
-                  projectInformation.projectStartDate,
-                  projectInformation.projectEndDate,
-                )}
-              </Text>
-            </div>
-          </styles.FacilityDetail>
-          <styles.ShareSection>
-            {menuList.map(({ icon: Icon, label, onClick }) => (
-              <styles.ShareField key={label} onClick={onClick}>
-                <Icon />
-                <Text fontStyleName="body2B" color={COLORS.grayscale.gray600}>
-                  {label}
-                </Text>
-              </styles.ShareField>
-            ))}
-          </styles.ShareSection>
-        </styles.Aside>
+        <FloatingMenu className='aside' projectInfo={projectInformation} />
       </styles.MainSection>
       <styles.ButtonSection>
         <Button

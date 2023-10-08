@@ -47,7 +47,7 @@ API.interceptors.response.use(
         return retryResponse;
       } catch (err) {
         await AuthRepository.removeJwtCookieAsync();
-        window.location.href = '/auth/login';
+        if (typeof window !== 'undefined') window.location.href = '/auth/login';
       }
     }
     return Promise.reject(error);
