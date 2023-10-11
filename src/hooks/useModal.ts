@@ -1,0 +1,25 @@
+import type { ReactNode } from 'react';
+
+import { useAtom } from 'jotai';
+
+import { handleModalAtom } from '@/stores/atom/modal';
+
+const useModal = () => {
+  const [modalState, setModalState] = useAtom(handleModalAtom);
+
+  const openModal = (newContent: ReactNode) => {
+    setModalState({
+      isOpen: true,
+      content: [...modalState.content, newContent],
+    });
+  };
+
+  const closeModal = () => {
+    if (!modalState.content.length) return;
+    setModalState({ isOpen: false, content: [...modalState.content.slice(1)] });
+  };
+
+  return { openModal, closeModal };
+};
+
+export default useModal;

@@ -1,0 +1,27 @@
+name: PRR-Development
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  pr-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v3
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Run ESLint
+        run: yarn lint
+
+      - name: Build next app
+        run: yarn build
