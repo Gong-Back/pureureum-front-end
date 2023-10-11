@@ -1,29 +1,100 @@
+import { QueryClient, dehydrate } from '@tanstack/react-query';
+import type { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 
-import BookmarkIconSvg from '@/assets/icons/bookmarkIcon.svg';
-import HeartIconSvg from '@/assets/icons/heartIcon.svg';
+import { ProjectRepository } from '@/apis/project';
+import { UserRepository } from '@/apis/user';
 import LeftIconSvg from '@/assets/icons/leftIcon.svg';
-import ShareURLIconSvg from '@/assets/icons/shareURLIcon.svg';
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
+import FloatingMenu from '@/components/domain/Project/FloatingMenu';
+import QUERY_KEY from '@/constants/apis/queryKey';
 import { COLORS } from '@/constants/styles';
-import { UserResponses } from '@/constants/types';
+import { useGetProjectDetail } from '@/query-hooks/project';
+import { useGetUserProfile } from '@/query-hooks/user';
 
 import * as styles from './ProjectApplyTemplate.style';
 
-const menuList = [
-  { label: '좋아요', icon: HeartIconSvg, onClick: () => {} },
-  { label: '관심 등록', icon: BookmarkIconSvg, onClick: () => {} },
-  { label: 'URL 공유', icon: ShareURLIconSvg, onClick: () => {} },
-];
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  const isLogin = ctx.req?.headers.cookie?.includes('accessToken') || false;
 
-interface ProjectApplyTemplateProps {
-  userData: UserResponses['info'];
-}
+  if (!isLogin)
+    return {
+      redirect: {
+        destination: '/auth/login',
+        permanent: true,
+      },
+    };
 
-const ProjectApplyTemplate = ({ userData }: ProjectApplyTemplateProps) => {
+  const queryClient = new QueryClient();
+  const projectId = Number(ctx.params?.pid);
+
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryFn: () => UserRepository.getUserInfoAsync(),
+      queryKey: QUERY_KEY.USER.base,
+      staleTime: Infinity,
+      cacheTime: Infinity,
+    }),
+    queryClient.prefetchQuery({
+      queryFn: () => ProjectRepository.getProjectDetailDataAsync(projectId),
+      queryKey: QUERY_KEY.PROJECT.detail(projectId),
+      staleTime: 1000 * 60 * 5,
+    }),
+  ]);
+
+  return {
+    props: {
+      dehydrateState: dehydrate(queryClient),
+    },
+  };
+};
+
+// TODO: 특정 컴포넌트에만 쓰이는 타입의 경우 어떻게 관리할 것인지 논의 필요.
+type ProjectApplyConfirmedType = {
+  isPaid: boolean;
+  isConfirmed: boolean;
+};
+
+const ProjectApplyTemplate = () => {
   const router = useRouter();
-  const { name, nickname, birthday, gender, phoneNumber } = userData;
+  const projectId = Number(router.query.pid);
+
+  const { data: userProfileData } = useGetUserProfile();
+  const { data: projectDetailData } = useGetProjectDetail(projectId);
+
+  const { name, nickname, birthday, gender, phoneNumber } = userProfileData;
+  const { projectInformation, projectPayment } = projectDetailData;
+
+  const [checkedOption, setCheckedOption] = useState<ProjectApplyConfirmedType>(
+    {
+      isPaid: !!projectPayment,
+      isConfirmed: false,
+    },
+  );
+
+  const isCheckedAll = Object.keys(checkedOption).every(Boolean);
+
+  const handleCheckboxOption = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name: checkBoxName } = e.target;
+    setCheckedOption({
+      ...checkedOption,
+      [checkBoxName]:
+        !checkedOption[checkBoxName as keyof ProjectApplyConfirmedType],
+    });
+  };
+
+  const submitProjectApply = async () => {
+    if (!isCheckedAll) return;
+    try {
+      await ProjectRepository.postProjectApplyAsync(projectId);
+      router.replace('/mypage/project/pending');
+    } catch (error) {
+      // TODO: 에러 발생 시 toast 혹은 다른 요소로 에러가 발생했음을 사용자에게 인지하도록 해야 함.
+      console.error(error);
+    }
+  }
 
   const age = new Date().getFullYear() - new Date(birthday).getFullYear() + 1;
 
@@ -78,108 +149,73 @@ const ProjectApplyTemplate = ({ userData }: ProjectApplyTemplateProps) => {
             </Text>
           </styles.InfoDetail>
         </styles.InfoSection>
-        <styles.BankingSection>
-          <Text fontStyleName="subtitle1" color={COLORS.grayscale.gray600}>
-            참가비용 입금
-          </Text>
-          <Text fontStyleName="body2R" color={COLORS.grayscale.gray500}>
-            푸르름은 아직 결제 서비스를 지원하지 않습니다. 하단에 기재되어 있는
-            계좌로 참가비를 송금해주세요.
-          </Text>
-          <styles.BankingDetail>
-            <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
-              계좌
+        {projectPayment && (
+          <styles.BankingSection>
+            <Text fontStyleName="subtitle1" color={COLORS.grayscale.gray600}>
+              참가비용 입금
             </Text>
-            <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
-              293201-04-201136
+            <Text fontStyleName="body2R" color={COLORS.grayscale.gray500}>
+              푸르름은 아직 결제 서비스를 지원하지 않습니다. 하단에 기재되어
+              있는 계좌로 참가비를 송금해주세요.
             </Text>
-            <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
-              은행
-            </Text>
-            <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
-              국민은행
-            </Text>
-            <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
-              예금주
-            </Text>
-            <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
-              공소나
-            </Text>
-            <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
-              금액
-            </Text>
-            <Text fontStyleName="body1R" color={COLORS.primary.dark}>
-              KRW 10,000
-            </Text>
-            <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
-              문의
-            </Text>
-            <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
-              010-1234-1234
-            </Text>
-          </styles.BankingDetail>
-        </styles.BankingSection>
+            <styles.BankingDetail>
+              <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
+                계좌
+              </Text>
+              <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
+                {projectPayment || '없음'}
+              </Text>
+              <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
+                은행
+              </Text>
+              <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
+                국민은행
+              </Text>
+              <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
+                예금주
+              </Text>
+              <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
+                공소나
+              </Text>
+              <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
+                금액
+              </Text>
+              <Text fontStyleName="body1R" color={COLORS.primary.dark}>
+                KRW 10,000
+              </Text>
+              <Text fontStyleName="body1B" color={COLORS.grayscale.dark}>
+                문의
+              </Text>
+              <Text fontStyleName="body1R" color={COLORS.grayscale.gray700}>
+                010-1234-1234
+              </Text>
+            </styles.BankingDetail>
+          </styles.BankingSection>
+        )}
         <styles.CheckBoxSection>
-          <input type="checkbox" />
+          <input
+            type="checkbox"
+            name="isPaid"
+            onChange={handleCheckboxOption}
+          />
           <Text fontStyleName="body1R" color={COLORS.grayscale.gray500}>
             참가비용을 입금했나요?
           </Text>
-          <input type="checkbox" />
+          <input
+            type="checkbox"
+            name="isConfirmed"
+            onChange={handleCheckboxOption}
+          />
           <Text fontStyleName="body1R" color={COLORS.grayscale.gray500}>
             프로젝트 유의사항을 제대로 확인했나요?
           </Text>
         </styles.CheckBoxSection>
-        <styles.Aside>
-          <Text fontStyleName="subtitle2B" color={COLORS.primary.dark}>
-            우리 함께 감자 농장 체험해요!
-          </Text>
-          <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
-            그런데 스프링 프레임워크는 기능도 너무 많고 광범위해서 어디서부터
-            어떻게 시작해야 할지 막막합니다.또 너무 많은 유연성을 제공해서, 어떤
-            기술들을 함께 사용해야 할지 선택하기 어렵습니다. 기능이 점점
-            증가하면서 더 많은 설정들이 필요해지기 시작했습니다.
-          </Text>
-          <styles.FacilityDetail>
-            <div className="option">
-              <Text fontStyleName="body2B" color={COLORS.primary.default}>
-                주관
-              </Text>
-              <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
-                감자농장 소유주
-              </Text>
-            </div>
-            <div className="option">
-              <Text fontStyleName="body2B" color={COLORS.primary.default}>
-                위치
-              </Text>
-              <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
-                고양시 송산읍 감자농장
-              </Text>
-            </div>
-            <div className="option">
-              <Text fontStyleName="body2B" color={COLORS.primary.default}>
-                기간
-              </Text>
-              <Text fontStyleName="body2R" color={COLORS.grayscale.gray600}>
-                2023.03.01 ~ 2023.04.01
-              </Text>
-            </div>
-          </styles.FacilityDetail>
-          <styles.ShareSection>
-            {menuList.map(({ icon: Icon, label, onClick }) => (
-              <styles.ShareField key={label} onClick={onClick}>
-                <Icon />
-                <Text fontStyleName="body2B" color={COLORS.grayscale.gray600}>
-                  {label}
-                </Text>
-              </styles.ShareField>
-            ))}
-          </styles.ShareSection>
-        </styles.Aside>
+        <FloatingMenu className="aside" projectInfo={projectInformation} />
       </styles.MainSection>
       <styles.ButtonSection>
         <Button
-          themeColor={COLORS.primary.default}
+          onClick={submitProjectApply}
+          themeColor={isCheckedAll ? COLORS.primary.default : COLORS.grayscale.gray200}
           sizeType="medium"
           className="button"
           isFilled

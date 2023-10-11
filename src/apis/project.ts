@@ -126,4 +126,19 @@ export class ProjectRepository {
 
     return response;
   }
+
+  /**
+   * 프로젝트 참가 신청을 진행하는 함수 postProjectApplyAsync
+   * @param projectId 참가 신청을 진행할 프로젝트의 ID
+   * @returns 성공 시 204, 실패 시 40X 혹은 500 에러 return
+   */
+  static async postProjectApplyAsync(projectId: number) {
+    const response = await postAsync<void, undefined>(`/projects/${projectId}/apply`, undefined, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        requireToken: true,
+      },
+    });
+    return response.data;
+  }
 }
