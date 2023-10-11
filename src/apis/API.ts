@@ -42,7 +42,7 @@ API.interceptors.response.use(
         // 재요청의 응답에 refresh token 이 없을 경우, 로그아웃을 진행해야 한다.
         if (!newAccessToken)
           throw new Error('리프레시 토큰이 만료되어 로그아웃이 필요합니다.');
-
+  
         await AuthRepository.setJwtCookieAsync(newAccessToken);
         return retryResponse;
       } catch (err) {
@@ -54,6 +54,10 @@ API.interceptors.response.use(
   },
 );
 
+/**
+ * SSR 에서 상대경로로 fetch 요청을 하면 절대 경로를 요구하는 문제
+ * @see https://github.com/vercel/next.js/issues/48344
+ */
 API.interceptors.request.use(async (req: AxiosRequestConfig) => {
   const accessToken = await AuthRepository.getJwtCookieAsync();
   if (accessToken && req.headers)

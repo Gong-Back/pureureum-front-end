@@ -1,12 +1,11 @@
 import {
-  CategoryType,
   ProjectReqParams,
   ProjectResponses,
 } from '@/constants/types';
 
 import { getAsync, postAsync } from './API';
 
-interface MainProjectListOutput {
+export interface MainProjectListOutput {
   page: number;
   size: number;
   totalPages: number;
@@ -20,10 +19,10 @@ export class ProjectRepository {
    * @param category 필터링할 프로젝트 카테고리 (값을 넘기지 않으면 카테고리와 상관없이 데이터 조회)
    * @returns 검색 타입을 기준으로 정렬되어 있는 총 6개의 프로젝트 목록 데이터
    */
-  static async getMainProjectListAsync(
-    searchType: 'POPULAR' | 'LATEST',
-    category?: CategoryType,
-  ) {
+  static async getMainProjectListAsync({
+    searchType,
+    category,
+  }: ProjectReqParams['main']) {
     const response = await getAsync<MainProjectListOutput>(`/projects`, {
       params: {
         searchType,
@@ -31,7 +30,7 @@ export class ProjectRepository {
         size: 6,
       },
     });
-    return response;
+    return response.data;
   }
 
   /**
@@ -43,7 +42,7 @@ export class ProjectRepository {
     const response = await getAsync<ProjectResponses['detail']>(
       `/projects/${id}`,
     );
-    return response;
+    return response.data;
   }
 
   /**
