@@ -136,6 +136,7 @@ export class ProjectRepository {
     const response = await postAsync<void, undefined>(`/projects/${projectId}/apply`, undefined, {
       headers: {
         'Content-Type': 'multipart/form-data',
+        requireToken: true,
       },
     });
     return response.data;
