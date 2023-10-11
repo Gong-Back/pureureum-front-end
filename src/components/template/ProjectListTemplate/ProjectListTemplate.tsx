@@ -1,18 +1,23 @@
 import { useState } from 'react';
 
-import { projectsDummydata } from 'src/dummyData';
-
 import DropdownMenu from '@/components/common/DropdownMenu';
 import Text from '@/components/common/Text';
 import ProjectList from '@/components/domain/Project/ProjectList';
 import { COLORS } from '@/constants/styles';
+import { useGetProjectList } from '@/query-hooks/project';
 
 import * as style from './ProjectListTemplate.style';
 
+const PROJECT_SORT_TYPE = {
+  '인기순': 'POPULAR',
+  '최신순': 'LATEST',
+} as const;
+
 const ProjectListTemplate = () => {
-  const projectSortMethods = ['인기순', '최신순'] as const;
   const [sortMethod, setSortMethod] =
-    useState<typeof projectSortMethods[number]>('인기순');
+    useState<keyof typeof PROJECT_SORT_TYPE>('인기순');
+
+  const { data: projectListRes } = useGetProjectList({ searchType: PROJECT_SORT_TYPE[sortMethod] });
 
   return (
     <style.Wrapper>
@@ -30,13 +35,13 @@ const ProjectListTemplate = () => {
           </Text>
         </style.TitleWrap>
         <DropdownMenu
-          menuList={projectSortMethods}
+          menuList={Object.keys(PROJECT_SORT_TYPE)}
           selectedMenu={sortMethod}
           setSelectedMenu={setSortMethod}
           className="sort-method-dropdown-menu"
         />
       </style.HeaderWrap>
-      <ProjectList data={projectsDummydata} />
+      <ProjectList data={projectListRes.projectList} />
     </style.Wrapper>
   );
 };
