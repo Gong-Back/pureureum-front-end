@@ -33,6 +33,7 @@ export const getStaticProps: GetStaticProps = async (
   const pid = ctx.params?.pid as string;
   const projectId = Number(pid);
 
+
   try {
     await queryClient.prefetchQuery({
       queryFn: () => ProjectRepository.getProjectDetailDataAsync(projectId),
