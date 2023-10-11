@@ -11,7 +11,7 @@ import { useState } from 'react';
 
 import { Provider } from 'jotai';
 
-import '@/assets/fonts/font.css';
+import '@/constants/styles/font.css';
 import BottomNavigationBar from '@/components/common/BottomNavigationBar';
 import ModalPortal from '@/components/common/ModalPortal';
 import NavigationBar from '@/components/common/NavigationBar';
