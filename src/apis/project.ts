@@ -120,6 +120,7 @@ export class ProjectRepository {
     const response = await postAsync<any, FormData>('/projects', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
+        requireToken: true,
       },
     });
 

@@ -55,13 +55,17 @@ API.interceptors.response.use(
 );
 
 /**
- * SSR 에서 상대경로로 fetch 요청을 하면 절대 경로를 요구하는 문제
- * @see https://github.com/vercel/next.js/issues/48344
+ * Request Header 에 requireToken 속성이 true 인 경우만 access token 동봉
+ * 모든 요청에 토큰을 담아 보내기에는 next 서버에 요청해야 하는 과정이 필요하여 개선.
  */
 API.interceptors.request.use(async (req: AxiosRequestConfig) => {
-  const accessToken = await AuthRepository.getJwtCookieAsync();
-  if (accessToken && req.headers)
-    req.headers.authorization = `Bearer ${accessToken}`;
+  const isRequireToken = req.headers?.requireToken;
+
+  if (req.headers && isRequireToken) {
+    const accessToken = await AuthRepository.getJwtCookieAsync();
+    if (accessToken) req.headers.authorization = `Bearer ${accessToken}`;
+  }
+
   return req;
 });
 
