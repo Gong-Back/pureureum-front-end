@@ -1,3 +1,4 @@
+import { NEXT_SERVER_URL } from '@/constants/apis';
 import {
   ApiResponse,
   AuthReqParams,
@@ -5,7 +6,6 @@ import {
   VerifyReqParams,
   VerifyResponses,
 } from '@/constants/types';
-import { NEXT_SERVER_URL } from '@/constants/apis';
 
 import { postAsync } from './API';
 

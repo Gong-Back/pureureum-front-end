@@ -33,7 +33,6 @@ export const getStaticProps: GetStaticProps = async (
   const pid = ctx.params?.pid as string;
   const projectId = Number(pid);
 
-
   try {
     await queryClient.prefetchQuery({
       queryFn: () => ProjectRepository.getProjectDetailDataAsync(projectId),
@@ -143,7 +142,7 @@ const ProjectDetailTemplate = () => {
       }
     }
   };
-  
+
   return (
     <style.Wrapper>
       <style.ContentWrapper>
@@ -154,7 +153,7 @@ const ProjectDetailTemplate = () => {
           width={800}
           height={450}
           className="thumbnail-img"
-          alt='thumbnail'
+          alt="thumbnail"
         />
         {!isPC && (
           <FloatingMenu

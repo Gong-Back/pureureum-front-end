@@ -42,7 +42,7 @@ API.interceptors.response.use(
         // 재요청의 응답에 refresh token 이 없을 경우, 로그아웃을 진행해야 한다.
         if (!newAccessToken)
           throw new Error('리프레시 토큰이 만료되어 로그아웃이 필요합니다.');
-  
+
         await AuthRepository.setJwtCookieAsync(newAccessToken);
         return retryResponse;
       } catch (err) {

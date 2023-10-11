@@ -1,5 +1,6 @@
-import { MEDIA_QUERIES } from '@/constants/styles';
 import styled from '@emotion/styled';
+
+import { MEDIA_QUERIES } from '@/constants/styles';
 
 export const Wrapper = styled.div`
   width: 1110px;

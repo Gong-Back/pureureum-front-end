@@ -9,15 +9,17 @@ import { useGetProjectList } from '@/query-hooks/project';
 import * as style from './ProjectListTemplate.style';
 
 const PROJECT_SORT_TYPE = {
-  '인기순': 'POPULAR',
-  '최신순': 'LATEST',
+  인기순: 'POPULAR',
+  최신순: 'LATEST',
 } as const;
 
 const ProjectListTemplate = () => {
   const [sortMethod, setSortMethod] =
     useState<keyof typeof PROJECT_SORT_TYPE>('인기순');
 
-  const { data: projectListRes } = useGetProjectList({ searchType: PROJECT_SORT_TYPE[sortMethod] });
+  const { data: projectListRes } = useGetProjectList({
+    searchType: PROJECT_SORT_TYPE[sortMethod],
+  });
 
   return (
     <style.Wrapper>

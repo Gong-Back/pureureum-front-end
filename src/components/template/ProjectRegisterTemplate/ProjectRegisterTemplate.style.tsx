@@ -1,5 +1,6 @@
-import { COLORS } from '@/constants/styles';
 import styled from '@emotion/styled';
+
+import { COLORS } from '@/constants/styles';
 
 export const Header = styled.div`
   display: flex;

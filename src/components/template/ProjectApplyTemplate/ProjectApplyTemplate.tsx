@@ -94,7 +94,7 @@ const ProjectApplyTemplate = () => {
       // TODO: 에러 발생 시 toast 혹은 다른 요소로 에러가 발생했음을 사용자에게 인지하도록 해야 함.
       console.error(error);
     }
-  }
+  };
 
   const age = new Date().getFullYear() - new Date(birthday).getFullYear() + 1;
 
@@ -215,7 +215,9 @@ const ProjectApplyTemplate = () => {
       <styles.ButtonSection>
         <Button
           onClick={submitProjectApply}
-          themeColor={isCheckedAll ? COLORS.primary.default : COLORS.grayscale.gray200}
+          themeColor={
+            isCheckedAll ? COLORS.primary.default : COLORS.grayscale.gray200
+          }
           sizeType="medium"
           className="button"
           isFilled

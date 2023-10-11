@@ -38,9 +38,13 @@ const FloatingMenu = ({ projectInfo, className }: FloatingMenuProps) => {
   const menuList = [
     { label: '좋아요', icon: HeartIconSvg, onClick: () => {} },
     { label: '관심 등록', icon: BookmarkIconSvg, onClick: () => {} },
-    { label: 'URL 공유', icon: ShareURLIconSvg, onClick: () => {
-      MiscellaneousUtil.copyToClipboard(window.location.href);
-    } },
+    {
+      label: 'URL 공유',
+      icon: ShareURLIconSvg,
+      onClick: () => {
+        MiscellaneousUtil.copyToClipboard(window.location.href);
+      },
+    },
   ];
 
   return (

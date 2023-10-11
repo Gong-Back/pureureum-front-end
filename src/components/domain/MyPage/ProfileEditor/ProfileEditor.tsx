@@ -5,8 +5,8 @@ import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 import TextInput from '@/components/common/TextInput';
 import { COLORS } from '@/constants/styles';
-import { usePatchProfileImage, usePatchUserProfile } from '@/query-hooks/user';
 import useUploadFile from '@/hooks/useUploadFile';
+import { usePatchProfileImage, usePatchUserProfile } from '@/query-hooks/user';
 
 import * as styles from './ProfileEditor.style';
 
@@ -38,7 +38,7 @@ const ProfileEditor = ({ profileUrl, nickname }: ProfileEditorProps) => {
   const handleChangeNicknameButton = () => {
     if (!isNicknameInputVisible) return setIsNicknameInputVisible(true);
     return changedNickname.length
-      ? profileInfoMutate({ type: 'nickname', updatedValue: changedNickname})
+      ? profileInfoMutate({ type: 'nickname', updatedValue: changedNickname })
       : setIsNicknameInputVisible(false);
   };
 

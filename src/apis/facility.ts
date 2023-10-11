@@ -94,7 +94,7 @@ export class FacilityRepository {
         headers: {
           requireToken: true,
         },
-      }
+      },
     );
     return response;
   }

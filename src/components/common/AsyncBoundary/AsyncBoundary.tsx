@@ -1,11 +1,11 @@
+import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import { type ComponentProps, PropsWithChildren, Suspense } from 'react';
 
-import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
 
+import Button from '@/components/common/Button';
 import Loader from '@/components/common/Loader';
 import Text from '@/components/common/Text';
-import Button from '@/components/common/Button';
 
 type ErrorBoundaryProps = ComponentProps<typeof ErrorBoundary>;
 
@@ -17,8 +17,8 @@ interface AsyncBoundaryProps
 
 const FallbackComponent = ({ error, resetErrorBoundary }: FallbackProps) => (
   <div>
-    <Text fontStyleName='subtitle2R'>알 수 없는 에러가 발생했습니다.</Text>
-    <Button sizeType='medium' onClick={resetErrorBoundary}>
+    <Text fontStyleName="subtitle2R">알 수 없는 에러가 발생했습니다.</Text>
+    <Button sizeType="medium" onClick={resetErrorBoundary}>
       새로고침
     </Button>
   </div>
@@ -37,7 +37,10 @@ const AsyncBoundary = ({
 }: PropsWithChildren<AsyncBoundaryProps>) => (
   <QueryErrorResetBoundary>
     {({ reset }) => (
-      <ErrorBoundary onReset={reset} fallbackRender={rejectedFallback || FallbackComponent}>
+      <ErrorBoundary
+        onReset={reset}
+        fallbackRender={rejectedFallback || FallbackComponent}
+      >
         <Suspense fallback={pendingFallback || <Loader />}>{children}</Suspense>
       </ErrorBoundary>
     )}

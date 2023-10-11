@@ -26,7 +26,10 @@ const MyProfileTemplate = () => {
 
   return (
     <section>
-      <ProfileEditor profileUrl={userProfile.profileUrl} nickname={userProfile.nickname} />
+      <ProfileEditor
+        profileUrl={userProfile.profileUrl}
+        nickname={userProfile.nickname}
+      />
       <style.PersonalSection>
         <PersonalInfoList
           name={userProfile.name}

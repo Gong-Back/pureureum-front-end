@@ -1,6 +1,6 @@
+import { QueryClient, dehydrate } from '@tanstack/react-query';
 import type { GetServerSideProps } from 'next';
 import React, { useState } from 'react';
-import { QueryClient, dehydrate } from '@tanstack/react-query';
 
 import { ProjectRepository } from '@/apis/project';
 import Text from '@/components/common/Text';

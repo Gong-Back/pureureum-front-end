@@ -70,9 +70,9 @@ export type ProjectReqParams = {
     // commonImage?: string;
   };
   main: {
-    searchType: 'POPULAR' | 'LATEST',
-    category?: CategoryType,
-  }
+    searchType: 'POPULAR' | 'LATEST';
+    category?: CategoryType;
+  };
 };
 
 /** 주소 정보 Type */

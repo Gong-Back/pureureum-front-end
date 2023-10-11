@@ -1,5 +1,6 @@
-import { MEDIA_QUERIES } from '@/constants/styles';
 import styled from '@emotion/styled';
+
+import { MEDIA_QUERIES } from '@/constants/styles';
 
 export const Wrapper = styled.section`
   display: flex;
@@ -15,9 +16,8 @@ export const Wrapper = styled.section`
   }
 
   > input {
-
     &:last-child {
-      margin-bottom: 110px;  
+      margin-bottom: 110px;
     }
 
     @media ${MEDIA_QUERIES.mobile} {
@@ -46,11 +46,10 @@ export const ButtonBox = styled.div`
   }
 
   > .confirm-btn {
-      width: 300px;
+    width: 300px;
 
-      @media ${MEDIA_QUERIES.mobile} {
-        width: 200px;
-      }
+    @media ${MEDIA_QUERIES.mobile} {
+      width: 200px;
     }
-`
-
+  }
+`;

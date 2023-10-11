@@ -41,12 +41,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       });
     }
     default:
-      return res
-        .status(400)
-        .json({
-          code: 400,
-          messages: ['유효하지 않은 요청입니다.'],
-          data: null,
-        });
+      return res.status(400).json({
+        code: 400,
+        messages: ['유효하지 않은 요청입니다.'],
+        data: null,
+      });
   }
 }

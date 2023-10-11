@@ -1,9 +1,15 @@
+import { Global, ThemeProvider } from '@emotion/react';
+import {
+  type DehydratedState,
+  Hydrate,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import type { AppContext, AppProps } from 'next/app';
 import { useState } from 'react';
+
 import { Provider } from 'jotai';
-import { Global, ThemeProvider } from '@emotion/react';
-import { QueryClient, QueryClientProvider, Hydrate, type DehydratedState } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import '@/assets/fonts/font.css';
 import BottomNavigationBar from '@/components/common/BottomNavigationBar';
@@ -15,7 +21,7 @@ import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
 interface ServiceAppProps {
   isNavigationVisible: boolean;
   isLogin: boolean;
-  dehydratedState: DehydratedState,
+  dehydratedState: DehydratedState;
 }
 
 const MyApp = ({ Component, pageProps }: AppProps<ServiceAppProps>) => {

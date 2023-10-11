@@ -1,7 +1,4 @@
-import {
-  ProjectReqParams,
-  ProjectResponses,
-} from '@/constants/types';
+import { ProjectReqParams, ProjectResponses } from '@/constants/types';
 
 import { getAsync, postAsync } from './API';
 
@@ -133,12 +130,16 @@ export class ProjectRepository {
    * @returns 성공 시 204, 실패 시 40X 혹은 500 에러 return
    */
   static async postProjectApplyAsync(projectId: number) {
-    const response = await postAsync<void, undefined>(`/projects/${projectId}/apply`, undefined, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        requireToken: true,
+    const response = await postAsync<void, undefined>(
+      `/projects/${projectId}/apply`,
+      undefined,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          requireToken: true,
+        },
       },
-    });
+    );
     return response.data;
   }
 }

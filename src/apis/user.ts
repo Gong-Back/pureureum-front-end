@@ -14,7 +14,7 @@ export class UserRepository {
         headers: {
           requireToken: true,
         },
-      }
+      },
     );
     return response.data;
   }
@@ -39,7 +39,7 @@ export class UserRepository {
         headers: {
           requireToken: true,
         },
-      }
+      },
     );
   }
 

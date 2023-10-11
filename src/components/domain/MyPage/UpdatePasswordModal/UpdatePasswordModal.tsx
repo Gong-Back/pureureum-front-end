@@ -12,8 +12,8 @@ import Text from '@/components/common/Text';
 import NewTextInput from '@/components/common/TextInput/NewTextInput';
 import { COLORS } from '@/constants/styles';
 import type { UserFormType } from '@/constants/types';
-import { usePatchUserProfile } from '@/query-hooks/user';
 import useModal from '@/hooks/useModal';
+import { usePatchUserProfile } from '@/query-hooks/user';
 
 import * as style from './UpdatePasswordModal.style';
 

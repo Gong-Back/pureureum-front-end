@@ -60,7 +60,7 @@ class FormatUtil {
    * @returns `010-****-NNNN`
    */
   static formatMaskPhoneNum(phoneNumber: string) {
-    return phoneNumber.replace(/-[0-9]{4}-/g, '-****-')
+    return phoneNumber.replace(/-[0-9]{4}-/g, '-****-');
   }
 }
 
