@@ -6,6 +6,8 @@ import ProjectList from '@/components/domain/Project/ProjectList';
 import { COLORS } from '@/constants/styles';
 import { useGetProjectList } from '@/query-hooks/project';
 
+import { projectsDummydata } from 'src/dummyData';
+
 import * as style from './ProjectListTemplate.style';
 
 const PROJECT_SORT_TYPE = {
@@ -17,9 +19,11 @@ const ProjectListTemplate = () => {
   const [sortMethod, setSortMethod] =
     useState<keyof typeof PROJECT_SORT_TYPE>('인기순');
 
-  const { data: projectListRes } = useGetProjectList({
-    searchType: PROJECT_SORT_TYPE[sortMethod],
-  });
+  // const { data: projectListRes } = useGetProjectList({
+  //   searchType: PROJECT_SORT_TYPE[sortMethod],
+  // });
+
+  const projectListRes = { projectList: projectsDummydata };
 
   return (
     <style.Wrapper>

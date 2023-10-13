@@ -16,6 +16,8 @@ import useKakaoMap from '@/hooks/useKakaoMap';
 import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
 import { useGetProjectDetail } from '@/query-hooks/project';
 
+import { projectContentDummyData } from 'src/dummyData';
+
 import * as style from './ProjectDetailTemplate.style';
 
 export const CONTENT_MENU: { type: ProjectContentType; label: string }[] = [
@@ -59,7 +61,11 @@ const ProjectDetailTemplate = () => {
   const router = useRouter();
   const projectId = Number(router.query.pid);
 
-  const { data: projectDetailData } = useGetProjectDetail(projectId);
+  // const { data: projectDetailData } = useGetProjectDetail(projectId);
+  
+  // FIXME : API 연결 이전에 등록된 Dummy Data
+  const projectDetailData = projectContentDummyData;
+  
   const { projectInformation, projectCategory, projectFiles, projectPayment } =
     projectDetailData;
   const {

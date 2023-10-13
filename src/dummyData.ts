@@ -39,7 +39,7 @@ export const projectItemDummyData: ProjectResponses['main'] = {
   },
 };
 
-export const projectsDummydata = Array(10)
+export const projectsDummydata = Array(6)
   .fill(0)
   .map((v, i) => ({ ...projectItemDummyData, id: i }));
 
