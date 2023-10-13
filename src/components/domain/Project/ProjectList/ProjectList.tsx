@@ -12,7 +12,6 @@ const ProjectList = ({ data }: ProjectListProps) => (
     {data.map((project) => (
       <ProjectItem
         key={project.projectPartInformation.id}
-        category={project.projectCategory}
         thumbnail={project.thumbnailFileRes?.projectFileUrl ?? ''}
         info={project.projectPartInformation}
       />

@@ -5,22 +5,20 @@ import { useState } from 'react';
 import CalendarIconSvg from '@/assets/icons/calendarIcon.svg';
 import GrassIconSvg from '@/assets/icons/grassIcon.svg';
 import LocationIconSvg from '@/assets/icons/locationIcon.svg';
-import CategoryTag from '@/components/common/CategoryTag';
 import Text from '@/components/common/Text';
 import { COLORS } from '@/constants/styles';
-import { CategoryType, ProjectPartInfoType } from '@/constants/types';
+import { ProjectPartInfoType } from '@/constants/types';
 import FormatUtil from '@/utils/format';
 
 import * as style from './ProjectItem.style';
 
 export interface ProjectItemProps {
-  category: CategoryType;
   thumbnail: string;
   info: ProjectPartInfoType;
 }
 
 // TODO 멤버 모집률을 반영한 GrassIcon 상태 변화는 추후에 수정하겠습니다
-const ProjectItem = ({ category, thumbnail, info }: ProjectItemProps) => {
+const ProjectItem = ({ thumbnail, info }: ProjectItemProps) => {
   const router = useRouter();
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const onHover = () => setIsHovering((prev) => !prev);
@@ -50,11 +48,6 @@ const ProjectItem = ({ category, thumbnail, info }: ProjectItemProps) => {
           </style.HoveringContentWrap>
         )}
         <style.TagsWrap>
-          <CategoryTag
-            type={category}
-            sizeType="small"
-            className="category-tag"
-          />
           <style.MemberStatusTag>
             <Text fontStyleName="body3" color={COLORS.grayscale.gray700}>
               {info.recruits} / {info.totalRecruits}
