@@ -1,4 +1,4 @@
-import { AddressType, CoordinateType } from './facilityTypes';
+import { FacilityAddressType } from './facilityTypes';
 
 /** 프로젝트 카테고리 */
 export type CategoryType =
@@ -41,6 +41,30 @@ export interface ProjectFormType {
   amount?: number;
 }
 
+/** 프로젝트와 관련된 주요 정보 Type */
+export interface ProjectPartInfoType {
+  id: number;
+  title: string;
+  likeCount: number;
+  ownerName: string;
+  projectStartDate: string;
+  projectEndDate: string;
+  recruits: number;
+  totalRecruits: number;
+  facilityAddress: FacilityAddressType;
+}
+
+/** 프로젝트와 관련된 상세 정보 Type (주요 정보 포함) */
+export interface ProjectInfoType extends Omit<ProjectPartInfoType, 'id'> {
+  introduction: string;
+  content: string;
+  minAge: number;
+  maxAge: number;
+  guide: string | null;
+  notice: string | null;
+}
+
+/** 프로젝트 관련 API 요청 / 응답 타입 */
 export type ProjectReqParams = {
   register: {
     title: string;
@@ -74,32 +98,6 @@ export type ProjectReqParams = {
     category?: CategoryType;
   };
 };
-
-/** 주소 정보 Type */
-export interface FacilityAddressType extends AddressType, CoordinateType {}
-
-/** 프로젝트와 관련된 주요 정보 Type */
-export interface ProjectPartInfoType {
-  id: number;
-  title: string;
-  likeCount: number;
-  ownerName: string;
-  projectStartDate: string;
-  projectEndDate: string;
-  recruits: number;
-  totalRecruits: number;
-  facilityAddress: FacilityAddressType;
-}
-
-/** 프로젝트와 관련된 상세 정보 Type (주요 정보 포함) */
-export interface ProjectInfoType extends Omit<ProjectPartInfoType, 'id'> {
-  introduction: string;
-  content: string;
-  minAge: number;
-  maxAge: number;
-  guide: string | null;
-  notice: string | null;
-}
 
 export type ProjectResponses = {
   main: {
