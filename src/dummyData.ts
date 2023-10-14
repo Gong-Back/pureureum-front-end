@@ -17,6 +17,8 @@ export const projectItemDummyData: ProjectResponses['main'] = {
     id: 1,
     title: '우리 봄에 감자 농장 체험해요!',
     likeCount: 10,
+    discussionStartDate: '2023-03-03',
+    discussionEndDate: '2023-03-09',
     projectStartDate: '2023-03-10',
     projectEndDate: '2023-03-15',
     recruits: 0,
@@ -48,6 +50,8 @@ export const projectContentDummyData: ProjectResponses['detail'] = {
   projectInformation: {
     title: '우리 봄에 감자 농장 체험해요!',
     likeCount: 10,
+    discussionStartDate: '2023-03-03',
+    discussionEndDate: '2023-03-09',
     projectStartDate: '2023-03-10',
     projectEndDate: '2023-03-15',
     recruits: 10,

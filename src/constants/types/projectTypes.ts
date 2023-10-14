@@ -17,7 +17,7 @@ export type ProjectFileType = {
 };
 
 /** 프로젝트 진행 상태 여부 */
-export type ProjectStatusType = 'NOT_STARTED' | 'PROGRESSED' | 'FINISHED';
+export type ProjectStatusType = 'NEED_DISCUSSION' | 'NOT_STARTED' | 'PROGRESSED' | 'FINISHED';
 
 /** 프로젝트 컨텐츠 종류 */
 export type ProjectContentType = 'INTRO' | 'DISCUSSION' | 'LOCATION';
@@ -47,6 +47,8 @@ export interface ProjectPartInfoType {
   title: string;
   likeCount: number;
   ownerName: string;
+  discussionStartDate: string;
+  discussionEndDate: string;
   projectStartDate: string;
   projectEndDate: string;
   recruits: number;
@@ -70,6 +72,8 @@ export type ProjectReqParams = {
     title: string;
     introduction: string;
     content: string;
+    discussionStartDate: string;
+    discussionEndDate: string;
     projectStartDate: string;
     projectEndDate: string;
     totalRecruits: number;

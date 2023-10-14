@@ -3,6 +3,8 @@ import type { GetStaticProps, GetStaticPropsContext } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import dayjs from 'dayjs';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 
 import { projectContentDummyData } from 'src/dummyData';
 
@@ -13,18 +15,27 @@ import Text from '@/components/common/Text';
 import FloatingMenu from '@/components/domain/Project/FloatingMenu';
 import QUERY_KEY from '@/constants/apis/queryKey';
 import { COLORS } from '@/constants/styles';
-import { ProjectContentType } from '@/constants/types';
+import { ProjectContentType, ProjectStatusType } from '@/constants/types';
 import useKakaoMap from '@/hooks/useKakaoMap';
 import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
 import { useGetProjectDetail } from '@/query-hooks/project';
 
 import * as style from './ProjectDetailTemplate.style';
 
+dayjs.extend(isSameOrBefore);
+
 export const CONTENT_MENU: { type: ProjectContentType; label: string }[] = [
   { type: 'INTRO', label: '프로젝트 소개' },
   { type: 'DISCUSSION', label: '의견 공유' },
   { type: 'LOCATION', label: '찾아오시는 길' },
 ];
+
+export const APPLY_BUTTON_TEXT: Record<ProjectStatusType, string> = {
+  'NEED_DISCUSSION': '의견 공유하기',
+  'NOT_STARTED': '컨텐츠 참여하기',
+  'PROGRESSED': '참여가 종료된 컨텐츠입니다.',
+  'FINISHED': '참여가 종료된 컨텐츠입니다.',
+}
 
 // export const getStaticProps: GetStaticProps = async (
 //   ctx: GetStaticPropsContext,
@@ -70,6 +81,9 @@ const ProjectDetailTemplate = () => {
   const {
     title,
     content,
+    discussionEndDate,
+    projectStartDate,
+    projectEndDate,
     recruits,
     totalRecruits,
     notice,
@@ -88,6 +102,22 @@ const ProjectDetailTemplate = () => {
       ? projectFiles.filter((p) => p.projectFileType === 'THUMBNAIL')[0]
           .projectFileUrl
       : '/projectThumbnail.jpg';
+    
+  const getCurrentProjectStatus = (): ProjectStatusType => {
+    const current = dayjs();
+    switch (true) {
+      case current.isSameOrBefore(discussionEndDate):
+        return 'NEED_DISCUSSION';
+      case current.isSameOrBefore(projectStartDate):
+        return 'NOT_STARTED';
+      case current.isSameOrBefore(projectEndDate):
+        return 'PROGRESSED';
+      default:
+        return 'FINISHED';
+    }
+  }
+
+  const currentProjectStatus = getCurrentProjectStatus();
 
   const renderDetailContent = () => {
     switch (activeMenu) {
@@ -202,7 +232,7 @@ const ProjectDetailTemplate = () => {
           isFilled
           onClick={() => router.push(`/project/apply/${projectId}`)}
         >
-          프로젝트 참여하기
+          {APPLY_BUTTON_TEXT[currentProjectStatus]}
         </Button>
       </style.FloatingWrapper>
     </style.Wrapper>
