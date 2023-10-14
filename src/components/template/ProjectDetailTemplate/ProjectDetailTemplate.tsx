@@ -13,6 +13,8 @@ import Button from '@/components/common/Button';
 import CategoryTag from '@/components/common/CategoryTag';
 import Text from '@/components/common/Text';
 import FloatingMenu from '@/components/domain/Project/FloatingMenu';
+import CommentSection from '@/components/common/CommentSection';
+import Comment from '@/components/common/CommentSection/Comment';
 import QUERY_KEY from '@/constants/apis/queryKey';
 import { COLORS } from '@/constants/styles';
 import { ProjectContentType, ProjectStatusType } from '@/constants/types';
@@ -88,7 +90,7 @@ const ProjectDetailTemplate = () => {
   // FIXME : API 연결 이전에 등록된 Dummy Data
   const projectDetailData = projectContentDummyData;
 
-  const { projectInformation, projectCategory, projectFiles, projectPayment } =
+  const { projectInformation, projectCategory, projectFiles } =
     projectDetailData;
   const {
     title,
@@ -98,7 +100,6 @@ const ProjectDetailTemplate = () => {
     projectEndDate,
     recruits,
     totalRecruits,
-    notice,
     guide,
     facilityAddress: { latitude, longitude },
   } = projectInformation;
@@ -149,28 +150,17 @@ const ProjectDetailTemplate = () => {
       }
       case 'DISCUSSION': {
         return (
-          <>
-            <Text fontStyleName="subtitle2B" color={COLORS.grayscale.dark}>
-              유의사항
-            </Text>
-            <Text
-              fontStyleName="body1R"
-              color={COLORS.grayscale.gray700}
-              className="content cost-content"
-            >
-              {notice ?? '유의사항 없음'}
-            </Text>
-            <Text fontStyleName="subtitle2B" color={COLORS.grayscale.dark}>
-              참가비
-            </Text>
-            <Text
-              fontStyleName="body1R"
-              color={COLORS.grayscale.gray700}
-              className="content cost-content"
-            >
-              {projectPayment ?? '참가비 없음'}
-            </Text>
-          </>
+          <CommentSection>
+            <Comment />
+            <Comment />
+            <Comment />
+            <Comment />
+            <Comment />
+            <Comment />
+            <Comment />
+            <Comment />
+            <Text fontStyleName='body2B'>테스트</Text>
+          </CommentSection>
         );
       }
       case 'LOCATION': {

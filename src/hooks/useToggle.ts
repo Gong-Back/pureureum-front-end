@@ -5,7 +5,7 @@
  */
 import { useMemo, useState } from 'react';
 
-export const useToggle = (initialValue: boolean) => {
+const useToggle = (initialValue: boolean = false) => {
   const [value, setValue] = useState(initialValue);
 
   return useMemo(
@@ -18,3 +18,5 @@ export const useToggle = (initialValue: boolean) => {
     [value],
   );
 };
+
+export default useToggle
