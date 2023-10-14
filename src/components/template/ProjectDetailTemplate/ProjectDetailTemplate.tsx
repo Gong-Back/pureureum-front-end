@@ -3,9 +3,9 @@ import type { GetStaticProps, GetStaticPropsContext } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+
 import dayjs from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-
 import { projectContentDummyData } from 'src/dummyData';
 
 import { ProjectRepository } from '@/apis/project';
@@ -30,12 +30,24 @@ export const CONTENT_MENU: { type: ProjectContentType; label: string }[] = [
   { type: 'LOCATION', label: '찾아오시는 길' },
 ];
 
-export const APPLY_BUTTON_TEXT: Record<ProjectStatusType, string> = {
-  'NEED_DISCUSSION': '의견 공유하기',
-  'NOT_STARTED': '컨텐츠 참여하기',
-  'PROGRESSED': '참여가 종료된 컨텐츠입니다.',
-  'FINISHED': '참여가 종료된 컨텐츠입니다.',
-}
+export const APPLY_BUTTON_CONTENT = {
+  NEED_DISCUSSION: {
+    label: '의견 공유하기',
+    color: COLORS.primary.default,
+  },
+  NOT_STARTED: {
+    label: '컨텐츠 참여하기',
+    color: COLORS.primary.default,
+  },
+  PROGRESSED: {
+    label: '참여가 마감된 컨텐츠입니다',
+    color: COLORS.grayscale.gray400,
+  },
+  FINISHED: {
+    label: '이미 종료된 컨텐츠입니다',
+    color: COLORS.grayscale.gray400,
+  },
+};
 
 // export const getStaticProps: GetStaticProps = async (
 //   ctx: GetStaticPropsContext,
@@ -92,7 +104,10 @@ const ProjectDetailTemplate = () => {
   } = projectInformation;
 
   const [activeMenu, setActiveMenu] = useState<ProjectContentType>('INTRO');
-  const { mapContainerRef, relayOutMap } = useKakaoMap(Number(latitude), Number(longitude));
+  const { mapContainerRef, relayOutMap } = useKakaoMap(
+    Number(latitude),
+    Number(longitude),
+  );
 
   const currentBreakpoint = useMeasureBreakpoint();
   const isPC = currentBreakpoint === 'pc';
@@ -102,7 +117,7 @@ const ProjectDetailTemplate = () => {
       ? projectFiles.filter((p) => p.projectFileType === 'THUMBNAIL')[0]
           .projectFileUrl
       : '/projectThumbnail.jpg';
-    
+
   const getCurrentProjectStatus = (): ProjectStatusType => {
     const current = dayjs();
     switch (true) {
@@ -115,7 +130,7 @@ const ProjectDetailTemplate = () => {
       default:
         return 'FINISHED';
     }
-  }
+  };
 
   const currentProjectStatus = getCurrentProjectStatus();
 
@@ -161,13 +176,13 @@ const ProjectDetailTemplate = () => {
       case 'LOCATION': {
         relayOutMap();
         return (
-            <Text
-              fontStyleName="body1R"
-              color={COLORS.grayscale.gray700}
-              className="content"
-            >
-              {guide}
-            </Text>
+          <Text
+            fontStyleName="body1R"
+            color={COLORS.grayscale.gray700}
+            className="content"
+          >
+            {guide}
+          </Text>
         );
       }
       default: {
@@ -209,7 +224,10 @@ const ProjectDetailTemplate = () => {
           ))}
         </style.MenuWrapper>
         {renderDetailContent()}
-        <style.MapContainer ref={mapContainerRef} visible={activeMenu === 'LOCATION'} />
+        <style.MapContainer
+          ref={mapContainerRef}
+          visible={activeMenu === 'LOCATION'}
+        />
       </style.ContentWrapper>
       <style.FloatingWrapper className={`${currentBreakpoint}-menu`}>
         {isPC && (
@@ -228,11 +246,11 @@ const ProjectDetailTemplate = () => {
         </Text>
         <Button
           sizeType="large"
-          themeColor={COLORS.primary.default}
+          themeColor={APPLY_BUTTON_CONTENT[currentProjectStatus].color}
           isFilled
           onClick={() => router.push(`/project/apply/${projectId}`)}
         >
-          {APPLY_BUTTON_TEXT[currentProjectStatus]}
+          {APPLY_BUTTON_CONTENT[currentProjectStatus].label}
         </Button>
       </style.FloatingWrapper>
     </style.Wrapper>
