@@ -7,9 +7,6 @@ export type CategoryType =
   | 'FARMING_EXPERIENCE'
   | 'ETC';
 
-/** 지불 방식 */
-export type PaymentType = 'NONE' | 'DEPOSIT' | 'ENTRY_FEE';
-
 /** 프로젝트 관련 이미지 파일 */
 export type ProjectFileType = {
   projectFileType: 'THUMBNAIL' | 'COMMON';
@@ -27,17 +24,16 @@ export interface ProjectFormType {
   guide: string;
   introduction: string;
   content: string;
+  discussionStartDate: { year: string; month: string; day: string };
+  discussionEndDate: { year: string; month: string; day: string };
   projectStartDate: { year: string; month: string; day: string };
   projectEndDate: { year: string; month: string; day: string };
   totalRecruits: number;
   minAge: number;
   maxAge: number;
-  paymentType: PaymentType;
   notice?: string;
   thumbnailImage?: string;
   commonImage?: string;
-  refundInstruction?: string;
-  depositionInformation?: string;
   amount?: number;
 }
 
@@ -113,7 +109,6 @@ export type ProjectResponses = {
     projectInformation: ProjectInfoType;
     projectCategory: CategoryType;
     projectStatus: string;
-    paymentType: PaymentType;
     projectFiles: ProjectFileType[];
     projectPayment: string | null;
   };
