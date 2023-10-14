@@ -1,12 +1,9 @@
-import React, { DetailedHTMLProps, InputHTMLAttributes } from 'react';
+import React, { ComponentProps } from 'react';
 
 import * as styles from './TextInput.style';
 
 export interface TextInputProps
-  extends DetailedHTMLProps<
-    InputHTMLAttributes<HTMLInputElement>,
-    HTMLInputElement
-  > {
+  extends ComponentProps<"input"> {
   /** Input 텍스트 입력 값 */
   value?: string | number;
   /** Input placeholder */
@@ -30,7 +27,7 @@ const TextInput = ({
   isRound,
   sizeType = 'medium',
   className,
-  ...inputprops
+  ...rest
 }: TextInputProps) => (
   <styles.Input
     value={value}
@@ -40,7 +37,7 @@ const TextInput = ({
     placeholder={placeholder}
     className={className}
     // eslint-disable-next-line react/jsx-props-no-spreading
-    {...inputprops}
+    {...rest}
   />
 );
 
