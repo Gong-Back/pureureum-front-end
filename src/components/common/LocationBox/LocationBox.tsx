@@ -24,11 +24,11 @@ const LocationBox = ({
   haveCheckBox = false,
   checked,
 }: LocationBoxProps) => {
-  const mapRef = useKakaoMap(latitude, longitude);
+  const { mapContainerRef } = useKakaoMap(latitude, longitude);
 
   return (
     <style.Wrapper>
-      <style.MapContainer ref={mapRef} style={{ width: 360, height: 187 }} />
+      <style.MapContainer ref={mapContainerRef} style={{ width: 360, height: 187 }} />
       <style.TextContainer>
         <style.Title>
           {haveCheckBox && <style.CheckBox type="checkbox" checked={checked} />}

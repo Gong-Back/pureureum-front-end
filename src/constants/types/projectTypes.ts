@@ -20,7 +20,7 @@ export type ProjectFileType = {
 export type ProjectStatusType = 'NOT_STARTED' | 'PROGRESSED' | 'FINISHED';
 
 /** 프로젝트 컨텐츠 종류 */
-export type ProjectContentType = 'INTRO' | 'COST' | 'LOCATION' | 'QNA';
+export type ProjectContentType = 'INTRO' | 'DISCUSSION' | 'LOCATION';
 
 export interface ProjectFormType {
   title: string;

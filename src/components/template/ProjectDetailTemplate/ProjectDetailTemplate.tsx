@@ -4,6 +4,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
+import { projectContentDummyData } from 'src/dummyData';
+
 import { ProjectRepository } from '@/apis/project';
 import Button from '@/components/common/Button';
 import CategoryTag from '@/components/common/CategoryTag';
@@ -16,56 +18,53 @@ import useKakaoMap from '@/hooks/useKakaoMap';
 import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
 import { useGetProjectDetail } from '@/query-hooks/project';
 
-import { projectContentDummyData } from 'src/dummyData';
-
 import * as style from './ProjectDetailTemplate.style';
 
 export const CONTENT_MENU: { type: ProjectContentType; label: string }[] = [
   { type: 'INTRO', label: '프로젝트 소개' },
-  { type: 'COST', label: '유의사항 및 금액' },
+  { type: 'DISCUSSION', label: '의견 공유' },
   { type: 'LOCATION', label: '찾아오시는 길' },
-  { type: 'QNA', label: '문의하기' },
 ];
 
-export const getStaticProps: GetStaticProps = async (
-  ctx: GetStaticPropsContext,
-) => {
-  const queryClient = new QueryClient();
+// export const getStaticProps: GetStaticProps = async (
+//   ctx: GetStaticPropsContext,
+// ) => {
+//   const queryClient = new QueryClient();
 
-  const pid = ctx.params?.pid as string;
-  const projectId = Number(pid);
+//   const pid = ctx.params?.pid as string;
+//   const projectId = Number(pid);
 
-  try {
-    await queryClient.prefetchQuery({
-      queryFn: () => ProjectRepository.getProjectDetailDataAsync(projectId),
-      queryKey: QUERY_KEY.PROJECT.detail(projectId),
-      staleTime: 1000 * 60 * 5,
-    });
-  } catch {
-    return {
-      redirect: {
-        destination: '/auth/login',
-        permanent: true,
-      },
-    };
-  }
+//   try {
+//     await queryClient.prefetchQuery({
+//       queryFn: () => ProjectRepository.getProjectDetailDataAsync(projectId),
+//       queryKey: QUERY_KEY.PROJECT.detail(projectId),
+//       staleTime: 1000 * 60 * 5,
+//     });
+//   } catch {
+//     return {
+//       redirect: {
+//         destination: '/auth/login',
+//         permanent: true,
+//       },
+//     };
+//   }
 
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};
+//   return {
+//     props: {
+//       dehydratedState: dehydrate(queryClient),
+//     },
+//   };
+// };
 
 const ProjectDetailTemplate = () => {
   const router = useRouter();
   const projectId = Number(router.query.pid);
 
   // const { data: projectDetailData } = useGetProjectDetail(projectId);
-  
+
   // FIXME : API 연결 이전에 등록된 Dummy Data
   const projectDetailData = projectContentDummyData;
-  
+
   const { projectInformation, projectCategory, projectFiles, projectPayment } =
     projectDetailData;
   const {
@@ -79,7 +78,7 @@ const ProjectDetailTemplate = () => {
   } = projectInformation;
 
   const [activeMenu, setActiveMenu] = useState<ProjectContentType>('INTRO');
-  const mapRef = useKakaoMap(Number(latitude), Number(longitude));
+  const { mapContainerRef, relayOutMap } = useKakaoMap(Number(latitude), Number(longitude));
 
   const currentBreakpoint = useMeasureBreakpoint();
   const isPC = currentBreakpoint === 'pc';
@@ -103,7 +102,7 @@ const ProjectDetailTemplate = () => {
           </Text>
         );
       }
-      case 'COST': {
+      case 'DISCUSSION': {
         return (
           <>
             <Text fontStyleName="subtitle2B" color={COLORS.grayscale.dark}>
@@ -130,21 +129,19 @@ const ProjectDetailTemplate = () => {
         );
       }
       case 'LOCATION': {
+        relayOutMap();
         return (
-          <Text
-            fontStyleName="body1R"
-            color={COLORS.grayscale.gray700}
-            className="content"
-          >
-            {guide}
-          </Text>
+            <Text
+              fontStyleName="body1R"
+              color={COLORS.grayscale.gray700}
+              className="content"
+            >
+              {guide}
+            </Text>
         );
       }
-      case 'QNA': {
-        return <>문의하기 기능은 준비중이에요!</>;
-      }
       default: {
-        return <>NOT FOUND</>;
+        return null;
       }
     }
   };
@@ -182,7 +179,7 @@ const ProjectDetailTemplate = () => {
           ))}
         </style.MenuWrapper>
         {renderDetailContent()}
-        <style.MapContainer ref={mapRef} visible={activeMenu === 'LOCATION'} />
+        <style.MapContainer ref={mapContainerRef} visible={activeMenu === 'LOCATION'} />
       </style.ContentWrapper>
       <style.FloatingWrapper className={`${currentBreakpoint}-menu`}>
         {isPC && (
