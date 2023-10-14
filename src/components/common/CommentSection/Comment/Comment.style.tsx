@@ -31,12 +31,34 @@ export const Writter = styled.div`
 export const Vote = styled.div`
     display: flex;
     gap: 0 6px;
-
     align-items: center;
     justify-content: center;
+
+    cursor: pointer;
 `
 
 export const BottomSection = styled.div`
     display: flex;
     gap: 10px;
+`
+
+export const ReplySection = styled.div`
+    width: calc(100% - 50px);
+    margin-left: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+`
+
+export const WriteSection = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0 16px;
+
+    .input {
+        width: 100%;
+    }
 `
