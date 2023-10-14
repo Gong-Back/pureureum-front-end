@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
   width: 140px;
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 8px;
-  border: 1.5px solid ${COLORS.primary.default};
+  border: 1.5px solid ${COLORS.grayscale.gray600};
   position: relative;
   cursor: pointer;
 
