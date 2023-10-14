@@ -35,18 +35,6 @@ const FloatingMenu = ({ projectInfo, className }: FloatingMenuProps) => {
     },
   ];
 
-  const menuList = [
-    { label: '좋아요', icon: HeartIconSvg, onClick: () => {} },
-    { label: '관심 등록', icon: BookmarkIconSvg, onClick: () => {} },
-    {
-      label: 'URL 공유',
-      icon: ShareURLIconSvg,
-      onClick: () => {
-        MiscellaneousUtil.copyToClipboard(window.location.href);
-      },
-    },
-  ];
-
   return (
     <style.Wrapper className={className}>
       <Text fontStyleName="subtitle2B" color={COLORS.primary.default}>
@@ -72,14 +60,16 @@ const FloatingMenu = ({ projectInfo, className }: FloatingMenuProps) => {
         ))}
       </style.InfoWrapper>
       <style.MenuWrapper>
-        {menuList.map(({ icon: Icon, label, onClick }) => (
-          <style.MenuField key={label} onClick={onClick}>
-            <Icon />
-            <Text fontStyleName="body2B" color={COLORS.grayscale.gray600}>
-              {label}
-            </Text>
-          </style.MenuField>
-        ))}
+        <style.MenuField
+          onClick={() => {
+            MiscellaneousUtil.copyToClipboard(window.location.href);
+          }}
+        >
+          <ShareURLIconSvg />
+          <Text fontStyleName="body2B" color={COLORS.grayscale.gray600}>
+            URL 공유
+          </Text>
+        </style.MenuField>
       </style.MenuWrapper>
     </style.Wrapper>
   );
