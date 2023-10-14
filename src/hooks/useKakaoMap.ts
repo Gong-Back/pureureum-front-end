@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
 
-const kakaoMapScriptSrc = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_APP_KEY}&autoload=false`
-
 const useKakaoMap = (latitude: number, longitude: number) => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   // eslint-disable-next-line no-undef
