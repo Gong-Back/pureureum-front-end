@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { COLORS } from '@/constants/styles';
-
 export const Wrapper = styled.div`
   width: calc(100% - 28px);
   margin-right: 28px;
