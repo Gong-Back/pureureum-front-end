@@ -1,16 +1,18 @@
-import dynamic from 'next/dynamic';
 
-import AsyncBoundary from '@/components/common/AsyncBoundary';
+import ProjectDetailTemplate from '@/components/template/ProjectDetailTemplate';
 
-const ProjectDetailTemplate = dynamic(
-  () => import('@/components/template/ProjectDetailTemplate'),
-  { suspense: true },
-);
+// import AsyncBoundary from '@/components/common/AsyncBoundary';
+
+// const ProjectDetailTemplate = dynamic(
+//  () => import('@/components/template/ProjectDetailTemplate'),
+//  { suspense: true },
+// );
 
 const ProjectDetail = () => (
-  <AsyncBoundary>
-    <ProjectDetailTemplate />
-  </AsyncBoundary>
+  // <AsyncBoundary>
+  //  <ProjectDetailTemplate />
+  // </AsyncBoundary>
+  <ProjectDetailTemplate />
 );
 
 export default ProjectDetail;

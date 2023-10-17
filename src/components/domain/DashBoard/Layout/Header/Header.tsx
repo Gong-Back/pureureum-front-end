@@ -20,7 +20,7 @@ const Header = ({ isMain, headerInfo }: HeaderProps) => (
     <Text fontStyleName="title" color={COLORS.grayscale.white}>
       {headerInfo?.title}
     </Text>
-    <Text fontStyleName="body2R" color={COLORS.grayscale.white}>
+    <Text fontStyleName="body1R" color={COLORS.grayscale.white}>
       {headerInfo?.introduction}
     </Text>
     {isMain && (

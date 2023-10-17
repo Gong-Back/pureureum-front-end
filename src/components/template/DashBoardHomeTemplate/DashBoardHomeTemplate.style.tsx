@@ -5,59 +5,53 @@ import { MEDIA_QUERIES } from '@/constants/styles';
 export const ContentWrapper = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   gap: 30px;
-  padding: 30px 30px 80px;
+  padding: 30px;
 
   @media ${MEDIA_QUERIES.mobile} {
     flex-direction: column;
+    padding-bottom: 80px;
   }
 `;
 
-export const LeftContent = styled.div`
+export const TopContent = styled.div`
   width: 100%;
-  flex: 3;
 
-  display: grid;
-  grid-template-areas:
-    'schedule notice'
-    'gallery gallery';
+  display: flex;
+  align-items: flex-start;
   gap: 30px;
 
   .schedule-widget {
-    grid-area: schedule;
-    min-height: 450px;
+    flex: 1;
+    max-width: 400px;
+    min-height: 400px;
   }
-  .notice-widget {
-    grid-area: notice;
-    min-height: 450px;
+  .board-widget {
+    flex: 2;
+    min-height: 400px;
   }
 
-  .gallery-widget {
-    grid-area: gallery;
-    height: 100%;
+  .members-widget {
+    flex: 1;
+    max-width: 400px;
+    min-height: 400px;
   }
 
   @media ${MEDIA_QUERIES.mobile} {
-    grid-template-areas:
-      'schedule'
-      'notice'
-      'gallery';
+    flex-direction: column;
+
+    .schedule-widget,
+    .members-widget {
+      max-width: 100%;
+    }
   }
 `;
 export const RightContent = styled.div`
-  width: 100%;
-  flex: 1;
+  height: 100%;
 
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-
-  .members-widget {
-    min-height: 370px;
-  }
-
-  .board-widget {
+  .gallery-widget {
     height: 100%;
+    min-height: 450px;
   }
 `;

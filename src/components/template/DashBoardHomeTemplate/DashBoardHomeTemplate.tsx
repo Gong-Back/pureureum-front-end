@@ -13,27 +13,21 @@ const DashBoardHomeTemplate = () => {
   return (
     <Layout headerInfo={{ title, introduction }}>
       <styles.ContentWrapper>
-        <styles.LeftContent>
-          <HomeWidget title="프로젝트 일정" className="schedule-widget">
-            프로젝트 일정 Content
+        <styles.TopContent>
+          <HomeWidget title="일정" className="schedule-widget">
+            일정 Content
           </HomeWidget>
-          <HomeWidget title="공지사항" className="notice-widget">
-            공지사항 Content
+          <HomeWidget title="게시판" className="board-widget">
+            게시판 Content
           </HomeWidget>
-          <HomeWidget title="프로젝트 갤러리" className="gallery-widget">
+          <HomeWidget title="참여자 목록" className="members-widget">
             프로젝트 갤러리 Content
           </HomeWidget>
-        </styles.LeftContent>
+        </styles.TopContent>
 
         <styles.RightContent>
-          <HomeWidget title="프로젝트 멤버" className="members-widget">
-            프로젝트 멤버 Content
-          </HomeWidget>
-          <HomeWidget
-            title="자유 게시판 | 질문 게시판"
-            className="board-widget"
-          >
-            자유 게시판 | 질문 게시판 Content
+          <HomeWidget title="문화 콘텐츠 갤러리" className="gallery-widget">
+            갤러리 content
           </HomeWidget>
         </styles.RightContent>
       </styles.ContentWrapper>

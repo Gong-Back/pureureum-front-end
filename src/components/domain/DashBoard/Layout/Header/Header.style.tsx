@@ -9,6 +9,10 @@ export const Wrapper = styled.div(({ isMain }: { isMain: boolean }) => ({
   padding: '40px 50px',
   position: 'relative',
 
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 10,
+
   borderRadius: '0px 0px 0px 30px',
   background: isMain
     ? 'radial-gradient(759.59% 149.63% at 8.46% 109.19%, #68DCA4 0%, #2DBDDA 100%)'
