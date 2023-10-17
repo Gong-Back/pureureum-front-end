@@ -7,7 +7,7 @@ import * as styles from './HomeWidget.style';
 
 interface HomeWidgetProps {
   title: string;
-  children: string;
+  children: ReactNode;
   headerContent?: ReactNode;
   footerContent?: ReactNode;
   className?: string;

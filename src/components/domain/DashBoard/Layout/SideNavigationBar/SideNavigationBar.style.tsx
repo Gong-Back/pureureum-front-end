@@ -20,6 +20,10 @@ export const ContentWrapper = styled.div`
   position: fixed;
   top: 100px;
   left: 40px;
+
+  .selected > * {
+    color: ${COLORS.grayscale.gray700};
+  }
 `;
 
 export const NavItem = styled.div`
@@ -28,14 +32,11 @@ export const NavItem = styled.div`
   justify-content: flex-end;
   cursor: pointer;
 
-  & > svg {
+  svg {
     margin: auto 0px;
     width: 18px;
     height: 18px;
-  }
-
-  > .selected {
-    color: ${COLORS.grayscale.gray700};
+    color: ${COLORS.grayscale.gray500};
   }
 `;
 
