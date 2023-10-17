@@ -19,7 +19,7 @@ export const ContentWrapper = styled.div`
 
   position: fixed;
   top: 100px;
-  left: 28px;
+  left: 40px;
 `;
 
 export const NavItem = styled.div`
