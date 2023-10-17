@@ -4,19 +4,15 @@ import { useEffect } from 'react';
 
 import DashboardGalleryTemplate from '@/components/template/DashboardGalleryTemplate';
 
+import { DashboardMenuType } from './board';
+
 const DashboardGalleryPage: NextPage = () => {
   const router = useRouter();
-  const menu = (router.query.menu ?? 'list') as 'list' | 'item' | 'new';
+  const menu = (router.query.menu ?? 'list') as DashboardMenuType;
   const galleryId = Number(router.query.gallery_id as string);
 
-  console.log(menu, galleryId);
-
   useEffect(() => {
-    const getData = async () => {
-      // 메뉴가 list나 item 이라면 데이터 불러오기
-      console.log('get data');
-    };
-
+    const getData = async () => {};
     getData();
   }, []);
 
