@@ -34,12 +34,12 @@ const SideNavigationBar = () => {
         <style.Wrapper isMobile={isMobile}>
           <style.ContentWrapper>
             {DashboardNavList.map((nav) => {
-              const { pathname, text, icon } = DashboardNavInfo[nav];
+              const { text, icon, path } = DashboardNavInfo[nav];
 
               return (
-                <Link href={{ pathname, query: { pid } }} passHref>
+                <Link href={{ pathname: path, query: { pid } }}>
                   <style.NavItem
-                    className={pathname === router.pathname ? 'selected' : ''}
+                    className={path === router.pathname ? 'selected' : ''}
                   >
                     <Text
                       fontStyleName="body3"

@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { PropsWithChildren } from 'react';
 
 import Button from '@/components/common/Button';
@@ -17,28 +18,31 @@ interface LayoutProps {
 }
 
 const Layout = ({ children, headerInfo }: PropsWithChildren<LayoutProps>) => {
-  const isMain = true;
+  const router = useRouter();
+
   return (
     <style.Wrapper>
       <SideNavigationBar />
       <style.ContentWrapper>
         {headerInfo && (
-          <style.HeaderWrapper isMain={isMain}>
+          <style.HeaderWrapper isMain={router.pathname === '/dashboard/[pid]'}>
             <Text fontStyleName="title" color={COLORS.grayscale.white}>
               {headerInfo.title}
             </Text>
             <Text fontStyleName="body1R" color={COLORS.grayscale.white}>
               {headerInfo.description}
             </Text>
-            <Button
-              sizeType="small"
-              themeColor={COLORS.grayscale.white}
-              isRound
-              onClick={() => {}}
-              className="create-post-btn"
-            >
-              {headerInfo.buttonLabel}
-            </Button>
+            {headerInfo.buttonLabel && (
+              <Button
+                sizeType="small"
+                themeColor={COLORS.grayscale.white}
+                isRound
+                onClick={headerInfo.onButtonClick}
+                className="create-post-btn"
+              >
+                {headerInfo.buttonLabel}
+              </Button>
+            )}
           </style.HeaderWrapper>
         )}
         {children}

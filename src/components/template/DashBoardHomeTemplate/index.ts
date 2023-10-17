@@ -1,3 +1,3 @@
-import DashBoardHomeTemplate from './DashBoardHomeTemplate';
+import DashboardHomeTemplate from './DashboardHomeTemplate';
 
-export default DashBoardHomeTemplate;
+export default DashboardHomeTemplate;
