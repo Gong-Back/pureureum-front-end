@@ -46,7 +46,7 @@ export const projectsDummydata = Array(10)
 // 프로젝트 상세 데이터 조회 시
 export const projectContentDummyData: ProjectResponses['detail'] = {
   projectInformation: {
-    title: '우리 봄에 감자 농장 체험해요!',
+    title: '성동구 시민과 함께하는 추억의 애니메이션 모음전',
     likeCount: 10,
     projectStartDate: '2023-03-10',
     projectEndDate: '2023-03-15',
@@ -61,7 +61,8 @@ export const projectContentDummyData: ProjectResponses['detail'] = {
       longitude: '',
       latitude: '',
     },
-    introduction: 'introduction',
+    introduction:
+      '10대부터 20대, 30대까지 다양한 연령대의 사람들이 모두 즐길 수 있도록, 추억의 애니메이션에 함께 빠져보실 분 있나요?',
     content: 'content',
     minAge: -1,
     maxAge: -1,

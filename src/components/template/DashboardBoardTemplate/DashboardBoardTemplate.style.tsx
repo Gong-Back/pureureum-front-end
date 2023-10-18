@@ -47,7 +47,7 @@ export const TopContent = styled.div`
     }
   }
 `;
-export const BottomContent = styled.div`
+export const RightContent = styled.div`
   height: 100%;
 
   .gallery-widget {
