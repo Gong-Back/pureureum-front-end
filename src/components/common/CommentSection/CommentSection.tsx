@@ -6,9 +6,13 @@ import CommentWrapper from "./Wrapper";
 import Comment from "./Comment";
 import ReplyComment from "./ReplyComment";
 
-const CommentSection = ({ children }: PropsWithChildren) => (
+interface CommentSectionProps {
+  className?: string;
+}
+
+const CommentSection = ({ className, children }: PropsWithChildren<CommentSectionProps>) => (
   <CommentContextProvider>
-    <CommentWrapper>
+    <CommentWrapper className={className}>
       {children}
     </CommentWrapper>
   </CommentContextProvider>

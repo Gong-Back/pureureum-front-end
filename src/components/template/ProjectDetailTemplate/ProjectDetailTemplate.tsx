@@ -135,14 +135,12 @@ const ProjectDetailTemplate = () => {
   };
 
   const currentProjectStatus = getCurrentProjectStatus();
+  const isPeriodOver =
+    currentProjectStatus === 'PROGRESSED' ||
+    currentProjectStatus === 'FINISHED';
 
   const handleApplyProject = () => {
-    if (
-      currentProjectStatus === 'NEED_DISCUSSION' ||
-      currentProjectStatus === 'NOT_STARTED'
-    ) {
-      router.push(`/project/discussion/${projectId}`);
-    }
+    if (!isPeriodOver) router.push(`/project/discussion/${projectId}`);
   };
 
   const renderDetailContent = () => {
@@ -160,19 +158,32 @@ const ProjectDetailTemplate = () => {
       }
       case 'DISCUSSION': {
         return (
-          <CommentSection>
-            {commentList.map((comment) => (
-              <CommentSection.Comment
-                commentId={comment.commentId}
-                nickname={comment.nickname}
-                writtenDate={comment.writtenDate}
-                content={comment.content}
-                approved={comment.approved}
-                denied={comment.denied}
-                replyAmount={comment.replyAmount}
-              />
-            ))}
-          </CommentSection>
+          <style.CommentWrapper
+            isPeriodOver={currentProjectStatus !== 'NEED_DISCUSSION'}
+          >
+            {isPeriodOver && (
+              <Text
+                fontStyleName="body1B"
+                color={COLORS.grayscale.gray700}
+                className="notice"
+              >
+                현재 의견 모집 기간이 종료되었습니다.
+              </Text>
+            )}
+            <CommentSection className="inner">
+              {commentList.map((comment) => (
+                <CommentSection.Comment
+                  commentId={comment.commentId}
+                  nickname={comment.nickname}
+                  writtenDate={comment.writtenDate}
+                  content={comment.content}
+                  approved={comment.approved}
+                  denied={comment.denied}
+                  replyAmount={comment.replyAmount}
+                />
+              ))}
+            </CommentSection>
+          </style.CommentWrapper>
         );
       }
       case 'LOCATION': {

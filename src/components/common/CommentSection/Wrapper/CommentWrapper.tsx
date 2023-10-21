@@ -22,7 +22,14 @@ import {
 
 import * as style from './CommentWrapper.style';
 
-const CommentWrapper = ({ children }: PropsWithChildren) => {
+interface CommentWrapperProps {
+  className?: string;
+}
+
+const CommentWrapper = ({
+  className,
+  children,
+}: PropsWithChildren<CommentWrapperProps>) => {
   const { sortMethod, commentMode, selectedCommentId } =
     useContext(CommentValueContext);
   const { toggleSortMethod, unsetRepliedComment } =
@@ -43,7 +50,7 @@ const CommentWrapper = ({ children }: PropsWithChildren) => {
   const isValidReplyMode = commentMode === 'REPLY' && repliedComment;
 
   return (
-    <style.Wrapper>
+    <style.Wrapper className={className}>
       <style.Header>
         <Text fontStyleName="body1B" color={COLORS.grayscale.gray700}>
           {`의견 (${commentAmount})`}
@@ -105,7 +112,12 @@ const CommentWrapper = ({ children }: PropsWithChildren) => {
           >
             {repliedComment.content}
           </Text>
-          <CloseIcon width={16} height={16} className="close" onClick={unsetRepliedComment} />
+          <CloseIcon
+            width={16}
+            height={16}
+            className="close"
+            onClick={unsetRepliedComment}
+          />
         </style.ReplyCommentSection>
       )}
       <style.WriteSection>
