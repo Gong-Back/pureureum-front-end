@@ -11,10 +11,10 @@ import { projectContentDummyData } from 'src/dummyData';
 import { ProjectRepository } from '@/apis/project';
 import Button from '@/components/common/Button';
 import CategoryTag from '@/components/common/CategoryTag';
-import Text from '@/components/common/Text';
-import FloatingMenu from '@/components/domain/Project/FloatingMenu';
 import CommentSection from '@/components/common/CommentSection';
 import Comment from '@/components/common/CommentSection/Comment';
+import Text from '@/components/common/Text';
+import FloatingMenu from '@/components/domain/Project/FloatingMenu';
 import QUERY_KEY from '@/constants/apis/queryKey';
 import { COLORS } from '@/constants/styles';
 import { ProjectContentType, ProjectStatusType } from '@/constants/types';
@@ -28,8 +28,8 @@ dayjs.extend(isSameOrBefore);
 
 export const CONTENT_MENU: { type: ProjectContentType; label: string }[] = [
   { type: 'INTRO', label: '프로젝트 소개' },
-  { type: 'DISCUSSION', label: '의견 공유' },
   { type: 'LOCATION', label: '찾아오시는 길' },
+  { type: 'DISCUSSION', label: '의견 공유' },
 ];
 
 export const APPLY_BUTTON_CONTENT = {
@@ -135,6 +135,15 @@ const ProjectDetailTemplate = () => {
 
   const currentProjectStatus = getCurrentProjectStatus();
 
+  const handleApplyProject = () => {
+    if (
+      currentProjectStatus === 'NEED_DISCUSSION' ||
+      currentProjectStatus === 'NOT_STARTED'
+    ) {
+      router.push(`/project/discussion/${projectId}`);
+    }
+  };
+
   const renderDetailContent = () => {
     switch (activeMenu) {
       case 'INTRO': {
@@ -159,7 +168,6 @@ const ProjectDetailTemplate = () => {
             <Comment />
             <Comment />
             <Comment />
-            <Text fontStyleName='body2B'>테스트</Text>
           </CommentSection>
         );
       }
@@ -238,7 +246,7 @@ const ProjectDetailTemplate = () => {
           sizeType="large"
           themeColor={APPLY_BUTTON_CONTENT[currentProjectStatus].color}
           isFilled
-          onClick={() => router.push(`/project/apply/${projectId}`)}
+          onClick={handleApplyProject}
         >
           {APPLY_BUTTON_CONTENT[currentProjectStatus].label}
         </Button>
