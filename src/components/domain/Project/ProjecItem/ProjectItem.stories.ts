@@ -15,7 +15,6 @@ type Story = StoryObj<typeof ProjectItem>;
 
 export const Default: Story = {
   args: {
-    category: projectItemDummyData.projectCategory,
     thumbnail: projectItemDummyData.thumbnailFileRes?.projectFileUrl ?? '',
     info: projectItemDummyData.projectPartInformation,
   },
