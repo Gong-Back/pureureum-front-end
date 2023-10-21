@@ -3,10 +3,11 @@ import Image from 'next/image';
 import defaultProfileImage from '@/assets/images/defaultProfile.png';
 import Text from '@/components/common/Text';
 import { COLORS } from '@/constants/styles';
+import type { ReplyCommentType } from '@/constants/types';
 
 import * as style from './ReplyComment.style';
 
-const ReplyComment = () => {
+const ReplyComment = ({ nickname, writtenDate, content }: ReplyCommentType) => {
   const profileUrl = defaultProfileImage;
 
   return (
@@ -21,15 +22,15 @@ const ReplyComment = () => {
             className="profile"
           />
           <Text fontStyleName="body2B" color={COLORS.grayscale.gray700}>
-            관리자
+            {nickname}
           </Text>
           <Text fontStyleName="body3" color={COLORS.grayscale.gray400}>
-            10분 전
+            {writtenDate}
           </Text>
         </style.Writter>
       </style.HeaderSection>
       <Text fontStyleName="body3" color={COLORS.grayscale.gray700}>
-        댓글 내용입니다.
+        {content}
       </Text>
     </style.Wrapper>
   );

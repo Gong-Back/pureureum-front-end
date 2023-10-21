@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 import dayjs from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import { projectContentDummyData } from 'src/dummyData';
+import { commentDummyData, projectContentDummyData } from 'src/dummyData';
 
 import { ProjectRepository } from '@/apis/project';
 import Button from '@/components/common/Button';
@@ -86,6 +86,7 @@ const ProjectDetailTemplate = () => {
   const projectId = Number(router.query.pid);
 
   // const { data: projectDetailData } = useGetProjectDetail(projectId);
+  const commentList = commentDummyData;
 
   // FIXME : API 연결 이전에 등록된 Dummy Data
   const projectDetailData = projectContentDummyData;
@@ -160,14 +161,17 @@ const ProjectDetailTemplate = () => {
       case 'DISCUSSION': {
         return (
           <CommentSection>
-            <Comment />
-            <Comment />
-            <Comment />
-            <Comment />
-            <Comment />
-            <Comment />
-            <Comment />
-            <Comment />
+            {commentList.map((comment) => (
+              <CommentSection.Comment
+                commentId={comment.commentId}
+                nickname={comment.nickname}
+                writtenDate={comment.writtenDate}
+                content={comment.content}
+                approved={comment.approved}
+                denied={comment.denied}
+                replyAmount={comment.replyAmount}
+              />
+            ))}
           </CommentSection>
         );
       }

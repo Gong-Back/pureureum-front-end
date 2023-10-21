@@ -1,5 +1,7 @@
 import Image from 'next/image';
-import { type ChangeEvent, useState } from 'react';
+import { useContext } from 'react';
+
+import { commentReplyDummyData } from 'src/dummyData';
 
 import ApprovedIcon from '@/assets/icons/approvedIcon.svg';
 import DeniedIcon from '@/assets/icons/deniedIcon.svg';
@@ -7,27 +9,26 @@ import defaultProfileImage from '@/assets/images/defaultProfile.png';
 import Button from '@/components/common/Button';
 import ReplyComment from '@/components/common/CommentSection/ReplyComment';
 import Text from '@/components/common/Text';
-import TextInput from '@/components/common/TextInput';
 import { COLORS } from '@/constants/styles';
+import { CommentType } from '@/constants/types';
 import useToggle from '@/hooks/useToggle';
+import { CommentActionContext } from '@/stores/context/comment';
 
 import * as style from './Comment.style';
 
-const Comment = () => {
-  const { value: isViewReply, onToggle: toggleViewReply } = useToggle();
-  const { value: isWriteReply, onToggle: toggleWriteReply } = useToggle();
-  const [replyComment, setReplyComment] = useState('');
-
-  const handleReplyComment = (e: ChangeEvent<HTMLInputElement>) => {
-    setReplyComment(e.target.value);
-  };
-
-  const handleToggleWriteReply = () => {
-    if (!isViewReply) return;
-    toggleWriteReply();
-  };
+const Comment = ({
+  commentId,
+  nickname,
+  content,
+  approved,
+  denied,
+  replyAmount,
+}: CommentType) => {
+  const { value: isReplyVisible, onToggle: toggleReplyVisible } = useToggle();
+  const { selectRepliedComment } = useContext(CommentActionContext);
 
   const profileUrl = defaultProfileImage;
+  const replyCommentList = commentReplyDummyData[commentId];
 
   return (
     <>
@@ -42,7 +43,7 @@ const Comment = () => {
               className="profile"
             />
             <Text fontStyleName="body2B" color={COLORS.grayscale.gray700}>
-              관리자
+              {nickname}
             </Text>
             <Text fontStyleName="body3" color={COLORS.grayscale.gray400}>
               10분 전
@@ -51,33 +52,33 @@ const Comment = () => {
           <style.Vote>
             <ApprovedIcon fill={COLORS.grayscale.gray700} />
             <Text fontStyleName="body3" color={COLORS.grayscale.gray700}>
-              공감 (10)
+              {`공감 (${approved})`}
             </Text>
             <DeniedIcon fill={COLORS.grayscale.gray700} />
             <Text fontStyleName="body3" color={COLORS.grayscale.gray700}>
-              반대 (0)
+              {`반대 (${denied})`}
             </Text>
           </style.Vote>
         </style.HeaderSection>
         <Text fontStyleName="body3" color={COLORS.grayscale.gray700}>
-          댓글 내용입니다.
+          {content}
         </Text>
         <style.BottomSection>
           <Button
             themeColor={COLORS.grayscale.gray100}
             isFilled
             isRound
-            onClick={toggleViewReply}
+            onClick={toggleReplyVisible}
           >
             <Text fontStyleName="body3" color={COLORS.grayscale.gray500}>
-              답글 보기 (10)
+              {`답글 보기 (${replyAmount})`}
             </Text>
           </Button>
           <Button
             themeColor={COLORS.grayscale.gray100}
             isFilled
             isRound
-            onClick={handleToggleWriteReply}
+            onClick={() => selectRepliedComment(commentId)}
           >
             <Text fontStyleName="body3" color={COLORS.grayscale.gray500}>
               답글 작성
@@ -85,30 +86,15 @@ const Comment = () => {
           </Button>
         </style.BottomSection>
       </style.Wrapper>
-      {isViewReply && (
+      {isReplyVisible && (
         <style.ReplySection>
-          <ReplyComment />
-          {isWriteReply && (
-            <style.WriteSection>
-              <TextInput
-                isFilled
-                className="input"
-                value={replyComment}
-                placeholder="자유롭게 대댓글을 작성해주세요"
-                onChange={handleReplyComment}
-              />
-              <Button
-                isFilled
-                themeColor={
-                  replyComment.length
-                    ? COLORS.primary.default
-                    : COLORS.grayscale.gray400
-                }
-              >
-                작성
-              </Button>
-            </style.WriteSection>
-          )}
+          {replyCommentList.map((reply) => (
+            <ReplyComment
+              nickname={reply.nickname}
+              content={reply.content}
+              writtenDate={reply.writtenDate}
+            />
+          ))}
         </style.ReplySection>
       )}
     </>

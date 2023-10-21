@@ -1,4 +1,9 @@
-import { ProjectResponses, UserResponses } from '@/constants/types';
+import {
+  CommentType,
+  ProjectResponses,
+  ReplyCommentType,
+  UserResponses,
+} from '@/constants/types';
 
 // 마이페이지 접속 시
 export const profileDummyData: UserResponses['info'] = {
@@ -75,7 +80,6 @@ export const projectContentDummyData: ProjectResponses['detail'] = {
   },
   projectCategory: 'FARMING_HEALING',
   projectStatus: 'string',
-  paymentType: 'ENTRY_FEE',
   projectPayment: '10000원',
   projectFiles: [
     { projectFileType: 'THUMBNAIL', projectFileUrl: '' },
@@ -85,3 +89,29 @@ export const projectContentDummyData: ProjectResponses['detail'] = {
     },
   ],
 };
+
+// 프로젝트 의견 나누기 관련 댓글 더미 데이터
+export const commentDummyData: CommentType[] = new Array(10)
+  .fill({})
+  .map((_, index) => ({
+    commentId: index + 1,
+    nickname: '관리자',
+    content: '관리자 테스트 코멘트입니다.',
+    writtenDate: '2021-03-03',
+    approved: 10,
+    denied: 10,
+    replyAmount: 10,
+  }));
+
+export const commentReplyDummyData: ReplyCommentType[][] = Array(10)
+  .fill({})
+  .map((_, index) =>
+    Array(7)
+      .fill({})
+      .map(() => ({
+        repliedCommentId: index + 1,
+        nickname: '관리자',
+        content: '관리자 테스트 코멘트입니다.',
+        writtenDate: '2021-03-03',
+      })),
+  );
