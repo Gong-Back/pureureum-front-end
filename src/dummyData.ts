@@ -1,4 +1,9 @@
-import { ProjectResponses, UserResponses } from '@/constants/types';
+import {
+  CommentType,
+  ProjectResponses,
+  ReplyCommentType,
+  UserResponses,
+} from '@/constants/types';
 
 // 마이페이지 접속 시
 export const profileDummyData: UserResponses['info'] = {
@@ -17,6 +22,8 @@ export const projectItemDummyData: ProjectResponses['main'] = {
     id: 1,
     title: '우리 봄에 감자 농장 체험해요!',
     likeCount: 10,
+    discussionStartDate: '2023-03-03',
+    discussionEndDate: '2023-03-09',
     projectStartDate: '2023-03-10',
     projectEndDate: '2023-03-15',
     recruits: 0,
@@ -39,7 +46,7 @@ export const projectItemDummyData: ProjectResponses['main'] = {
   },
 };
 
-export const projectsDummydata = Array(10)
+export const projectsDummydata = Array(6)
   .fill(0)
   .map((v, i) => ({ ...projectItemDummyData, id: i }));
 
@@ -48,6 +55,8 @@ export const projectContentDummyData: ProjectResponses['detail'] = {
   projectInformation: {
     title: '성동구 시민과 함께하는 추억의 애니메이션 모음전',
     likeCount: 10,
+    discussionStartDate: '2023-03-03',
+    discussionEndDate: '2023-03-09',
     projectStartDate: '2023-03-10',
     projectEndDate: '2023-03-15',
     recruits: 10,
@@ -58,8 +67,8 @@ export const projectContentDummyData: ProjectResponses['detail'] = {
       district: '어딘가',
       jibun: '',
       detail: '',
-      longitude: '',
-      latitude: '',
+      longitude: '126.570667',
+      latitude: '33.450701',
     },
     introduction:
       '10대부터 20대, 30대까지 다양한 연령대의 사람들이 모두 즐길 수 있도록, 추억의 애니메이션에 함께 빠져보실 분 있나요?',
@@ -72,7 +81,6 @@ export const projectContentDummyData: ProjectResponses['detail'] = {
   },
   projectCategory: 'FARMING_HEALING',
   projectStatus: 'string',
-  paymentType: 'ENTRY_FEE',
   projectPayment: '10000원',
   projectFiles: [
     { projectFileType: 'THUMBNAIL', projectFileUrl: '' },
@@ -82,3 +90,28 @@ export const projectContentDummyData: ProjectResponses['detail'] = {
     },
   ],
 };
+
+// 프로젝트 의견 나누기 관련 댓글 더미 데이터
+export const commentDummyData: CommentType[] = new Array(10)
+  .fill({})
+  .map((_, index) => ({
+    commentId: index + 1,
+    nickname: '관리자',
+    content: `관리자 테스트 코멘트입니다. (${index + 1} 번째)`,
+    writtenDate: '2021-03-03',
+    approved: 10,
+    denied: 10,
+    replyAmount: 15,
+  }));
+
+export const commentReplyDummyData: ReplyCommentType[][] = Array(10)
+  .fill({})
+  .map(() =>
+    Array(15)
+      .fill({})
+      .map(() => ({
+        nickname: '관리자',
+        content: '관리자 테스트 코멘트입니다.',
+        writtenDate: '2021-03-03',
+      })),
+  );

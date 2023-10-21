@@ -4,76 +4,112 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
+import dayjs from 'dayjs';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import { commentDummyData, projectContentDummyData } from 'src/dummyData';
+
 import { ProjectRepository } from '@/apis/project';
 import Button from '@/components/common/Button';
 import CategoryTag from '@/components/common/CategoryTag';
+import CommentSection from '@/components/common/CommentSection';
+import Comment from '@/components/common/CommentSection/Comment';
 import Text from '@/components/common/Text';
 import FloatingMenu from '@/components/domain/Project/FloatingMenu';
 import QUERY_KEY from '@/constants/apis/queryKey';
 import { COLORS } from '@/constants/styles';
-import { ProjectContentType } from '@/constants/types';
+import { ProjectContentType, ProjectStatusType } from '@/constants/types';
 import useKakaoMap from '@/hooks/useKakaoMap';
 import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
 import { useGetProjectDetail } from '@/query-hooks/project';
 
 import * as style from './ProjectDetailTemplate.style';
 
+dayjs.extend(isSameOrBefore);
+
 export const CONTENT_MENU: { type: ProjectContentType; label: string }[] = [
   { type: 'INTRO', label: '프로젝트 소개' },
-  { type: 'COST', label: '유의사항 및 금액' },
   { type: 'LOCATION', label: '찾아오시는 길' },
-  { type: 'QNA', label: '문의하기' },
+  { type: 'DISCUSSION', label: '의견 공유' },
 ];
 
-export const getStaticProps: GetStaticProps = async (
-  ctx: GetStaticPropsContext,
-) => {
-  const queryClient = new QueryClient();
-
-  const pid = ctx.params?.pid as string;
-  const projectId = Number(pid);
-
-  try {
-    await queryClient.prefetchQuery({
-      queryFn: () => ProjectRepository.getProjectDetailDataAsync(projectId),
-      queryKey: QUERY_KEY.PROJECT.detail(projectId),
-      staleTime: 1000 * 60 * 5,
-    });
-  } catch {
-    return {
-      redirect: {
-        destination: '/auth/login',
-        permanent: true,
-      },
-    };
-  }
-
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
+export const APPLY_BUTTON_CONTENT = {
+  NEED_DISCUSSION: {
+    label: '의견 공유하기',
+    color: COLORS.primary.default,
+  },
+  NOT_STARTED: {
+    label: '컨텐츠 참여하기',
+    color: COLORS.primary.default,
+  },
+  PROGRESSED: {
+    label: '참여가 마감된 컨텐츠입니다',
+    color: COLORS.grayscale.gray400,
+  },
+  FINISHED: {
+    label: '이미 종료된 컨텐츠입니다',
+    color: COLORS.grayscale.gray400,
+  },
 };
+
+// export const getStaticProps: GetStaticProps = async (
+//   ctx: GetStaticPropsContext,
+// ) => {
+//   const queryClient = new QueryClient();
+
+//   const pid = ctx.params?.pid as string;
+//   const projectId = Number(pid);
+
+//   try {
+//     await queryClient.prefetchQuery({
+//       queryFn: () => ProjectRepository.getProjectDetailDataAsync(projectId),
+//       queryKey: QUERY_KEY.PROJECT.detail(projectId),
+//       staleTime: 1000 * 60 * 5,
+//     });
+//   } catch {
+//     return {
+//       redirect: {
+//         destination: '/auth/login',
+//         permanent: true,
+//       },
+//     };
+//   }
+
+//   return {
+//     props: {
+//       dehydratedState: dehydrate(queryClient),
+//     },
+//   };
+// };
 
 const ProjectDetailTemplate = () => {
   const router = useRouter();
   const projectId = Number(router.query.pid);
 
-  const { data: projectDetailData } = useGetProjectDetail(projectId);
-  const { projectInformation, projectCategory, projectFiles, projectPayment } =
+  // const { data: projectDetailData } = useGetProjectDetail(projectId);
+  const commentList = commentDummyData;
+
+  // FIXME : API 연결 이전에 등록된 Dummy Data
+  const projectDetailData = projectContentDummyData;
+
+  const { projectInformation, projectCategory, projectFiles } =
     projectDetailData;
   const {
     title,
     content,
+    discussionEndDate,
+    projectStartDate,
+    projectEndDate,
     recruits,
     totalRecruits,
-    notice,
     guide,
     facilityAddress: { latitude, longitude },
   } = projectInformation;
 
   const [activeMenu, setActiveMenu] = useState<ProjectContentType>('INTRO');
-  const mapRef = useKakaoMap(Number(latitude), Number(longitude));
+  const { mapContainerRef, relayOutMap } = useKakaoMap(
+    Number(latitude),
+    Number(longitude),
+  );
 
   const currentBreakpoint = useMeasureBreakpoint();
   const isPC = currentBreakpoint === 'pc';
@@ -83,6 +119,29 @@ const ProjectDetailTemplate = () => {
       ? projectFiles.filter((p) => p.projectFileType === 'THUMBNAIL')[0]
           .projectFileUrl
       : '/projectThumbnail.jpg';
+
+  const getCurrentProjectStatus = (): ProjectStatusType => {
+    const current = dayjs();
+    switch (true) {
+      case current.isSameOrBefore(discussionEndDate):
+        return 'NEED_DISCUSSION';
+      case current.isSameOrBefore(projectStartDate):
+        return 'NOT_STARTED';
+      case current.isSameOrBefore(projectEndDate):
+        return 'PROGRESSED';
+      default:
+        return 'FINISHED';
+    }
+  };
+
+  const currentProjectStatus = getCurrentProjectStatus();
+  const isPeriodOver =
+    currentProjectStatus === 'PROGRESSED' ||
+    currentProjectStatus === 'FINISHED';
+
+  const handleApplyProject = () => {
+    if (!isPeriodOver) router.push(`/project/discussion/${projectId}`);
+  };
 
   const renderDetailContent = () => {
     switch (activeMenu) {
@@ -97,33 +156,38 @@ const ProjectDetailTemplate = () => {
           </Text>
         );
       }
-      case 'COST': {
+      case 'DISCUSSION': {
         return (
-          <>
-            <Text fontStyleName="subtitle2B" color={COLORS.grayscale.dark}>
-              유의사항
-            </Text>
-            <Text
-              fontStyleName="body1R"
-              color={COLORS.grayscale.gray700}
-              className="content cost-content"
-            >
-              {notice ?? '유의사항 없음'}
-            </Text>
-            <Text fontStyleName="subtitle2B" color={COLORS.grayscale.dark}>
-              참가비
-            </Text>
-            <Text
-              fontStyleName="body1R"
-              color={COLORS.grayscale.gray700}
-              className="content cost-content"
-            >
-              {projectPayment ?? '참가비 없음'}
-            </Text>
-          </>
+          <style.CommentWrapper
+            isPeriodOver={currentProjectStatus !== 'NEED_DISCUSSION'}
+          >
+            {isPeriodOver && (
+              <Text
+                fontStyleName="body1B"
+                color={COLORS.grayscale.gray700}
+                className="notice"
+              >
+                현재 의견 모집 기간이 종료되었습니다.
+              </Text>
+            )}
+            <CommentSection className="inner">
+              {commentList.map((comment) => (
+                <CommentSection.Comment
+                  commentId={comment.commentId}
+                  nickname={comment.nickname}
+                  writtenDate={comment.writtenDate}
+                  content={comment.content}
+                  approved={comment.approved}
+                  denied={comment.denied}
+                  replyAmount={comment.replyAmount}
+                />
+              ))}
+            </CommentSection>
+          </style.CommentWrapper>
         );
       }
       case 'LOCATION': {
+        relayOutMap();
         return (
           <Text
             fontStyleName="body1R"
@@ -134,11 +198,8 @@ const ProjectDetailTemplate = () => {
           </Text>
         );
       }
-      case 'QNA': {
-        return <>문의하기 기능은 준비중이에요!</>;
-      }
       default: {
-        return <>NOT FOUND</>;
+        return null;
       }
     }
   };
@@ -176,7 +237,10 @@ const ProjectDetailTemplate = () => {
           ))}
         </style.MenuWrapper>
         {renderDetailContent()}
-        <style.MapContainer ref={mapRef} visible={activeMenu === 'LOCATION'} />
+        <style.MapContainer
+          ref={mapContainerRef}
+          visible={activeMenu === 'LOCATION'}
+        />
       </style.ContentWrapper>
       <style.FloatingWrapper className={`${currentBreakpoint}-menu`}>
         {isPC && (
@@ -195,11 +259,11 @@ const ProjectDetailTemplate = () => {
         </Text>
         <Button
           sizeType="large"
-          themeColor={COLORS.primary.default}
+          themeColor={APPLY_BUTTON_CONTENT[currentProjectStatus].color}
           isFilled
-          onClick={() => router.push(`/project/apply/${projectId}`)}
+          onClick={handleApplyProject}
         >
-          프로젝트 참여하기
+          {APPLY_BUTTON_CONTENT[currentProjectStatus].label}
         </Button>
       </style.FloatingWrapper>
     </style.Wrapper>

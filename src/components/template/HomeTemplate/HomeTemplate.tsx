@@ -11,6 +11,8 @@ import { COLORS } from '@/constants/styles';
 import { CategoryType } from '@/constants/types';
 import { useGetProjectList } from '@/query-hooks/project';
 
+import { projectsDummydata } from 'src/dummyData';
+
 import * as style from './HomeTemplate.style';
 
 // NOTICE : Server - Side 에서 목록을 사전에 받아와 인계하는 과정
@@ -48,6 +50,10 @@ const HomeTemplate = () => {
   //   category: categoryFilter,
   // });
 
+  // FIXME : API 연결 이전에 등록된 Dummy Data
+  const popularProjectRes = { projectList: projectsDummydata };
+  const latestProjectRes = { projectList: projectsDummydata };
+
   const onClickCategoryFilter = (c: CategoryType) => {
     setCategoryFilter(c === categoryFilter ? undefined : c);
   };
@@ -67,7 +73,7 @@ const HomeTemplate = () => {
         >
           인기 중인 프로젝트 🎉
         </Text>
-        {/* <ProjectList data={popularProjectRes.projectList} /> */}
+        <ProjectList data={popularProjectRes.projectList} />
       </style.ProjectListWrap>
       <style.ProjectListWrap>
         <Text
@@ -77,7 +83,7 @@ const HomeTemplate = () => {
         >
           신규 생성된 프로젝트 🌱
         </Text>
-        {/* <ProjectList data={latestProjectRes.projectList} /> */}
+        <ProjectList data={latestProjectRes.projectList} />
       </style.ProjectListWrap>
     </style.Wrapper>
   );

@@ -21,7 +21,6 @@ import ValidationUtil from '@/utils/validation';
 import FirstStepForm from './FirstStepForm';
 import * as style from './ProjectInfoForm.style';
 import SecondStepForm from './SecondStepForm';
-import ThirdStepForm from './ThirdStepForm';
 
 const ProjectInfoForm = () => {
   const router = useRouter();
@@ -46,24 +45,17 @@ const ProjectInfoForm = () => {
     formState: { errors },
   } = formMethods;
 
-  const [
-    totalRecruits,
-    minAge,
-    maxAge,
-    projectStartDate,
-    projectEndDate,
-    paymentType,
-  ] = useWatch({
-    control,
-    name: [
-      'totalRecruits',
-      'minAge',
-      'maxAge',
-      'projectStartDate',
-      'projectEndDate',
-      'paymentType',
-    ],
-  });
+  const [totalRecruits, minAge, maxAge, projectStartDate, projectEndDate] =
+    useWatch({
+      control,
+      name: [
+        'totalRecruits',
+        'minAge',
+        'maxAge',
+        'projectStartDate',
+        'projectEndDate',
+      ],
+    });
 
   const goNextStep = () => {
     if (
@@ -95,6 +87,12 @@ const ProjectInfoForm = () => {
       await ProjectRepository.registerProjectAsync({
         ...formValue,
         totalRecruits: totalRecruits < 1 ? -1 : totalRecruits,
+        discussionStartDate: FormatUtil.formatDateFromObj(
+          formValue.discussionStartDate,
+        ),
+        discussionEndDate: FormatUtil.formatDateFromObj(
+          formValue.discussionEndDate,
+        ),
         projectStartDate: FormatUtil.formatDateFromObj(
           formValue.projectStartDate,
         ),
@@ -132,25 +130,18 @@ const ProjectInfoForm = () => {
           maxAge={maxAge}
         />
       )}
-      {currentStep > 2 && (
-        <ThirdStepForm
-          scrollRef={scrollRef}
-          control={control}
-          paymentType={paymentType}
-        />
-      )}
 
       <style.BottomBar>
         <style.Feedback>{renderFeedbackMessage()}</style.Feedback>
 
         <Button
           onClick={handleSubmit(
-            currentStep < 3 ? goNextStep : submitProjectForm,
+            currentStep < 2 ? goNextStep : submitProjectForm,
           )}
           isRound
           isFilled
         >
-          {currentStep < 3 ? '다음' : '신청 완료'}
+          {currentStep < 2 ? '다음' : '신청 완료'}
         </Button>
         <Button
           onClick={() => router.back()}

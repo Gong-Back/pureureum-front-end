@@ -32,4 +32,17 @@ export const GlobalStyle = css`
     text-decoration: none;
     cursor: pointer;
   }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background: #ffffff;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: #C8C8C8;
+    &:hover {
+      background-color: #AAAAAA;
+    }
+  }
 `;
