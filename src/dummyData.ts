@@ -96,20 +96,19 @@ export const commentDummyData: CommentType[] = new Array(10)
   .map((_, index) => ({
     commentId: index + 1,
     nickname: '관리자',
-    content: '관리자 테스트 코멘트입니다.',
+    content: `관리자 테스트 코멘트입니다. (${index + 1} 번째)`,
     writtenDate: '2021-03-03',
     approved: 10,
     denied: 10,
-    replyAmount: 10,
+    replyAmount: 15,
   }));
 
 export const commentReplyDummyData: ReplyCommentType[][] = Array(10)
   .fill({})
-  .map((_, index) =>
-    Array(7)
+  .map(() =>
+    Array(15)
       .fill({})
       .map(() => ({
-        repliedCommentId: index + 1,
         nickname: '관리자',
         content: '관리자 테스트 코멘트입니다.',
         writtenDate: '2021-03-03',

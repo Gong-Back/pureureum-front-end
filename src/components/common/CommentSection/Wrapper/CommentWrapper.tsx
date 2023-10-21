@@ -1,11 +1,15 @@
+import Image from 'next/image';
 import {
   type ChangeEvent,
   type PropsWithChildren,
-  Children,
   useContext,
   useState,
 } from 'react';
 
+import { commentDummyData } from 'src/dummyData';
+
+import ReplyIcon from '@/assets/icons/replyIcon.svg';
+import defaultProfileImage from '@/assets/images/defaultProfile.png';
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 import TextInput from '@/components/common/TextInput';
@@ -18,16 +22,23 @@ import {
 import * as style from './CommentWrapper.style';
 
 const CommentWrapper = ({ children }: PropsWithChildren) => {
-  const { sortMethod } = useContext(CommentValueContext);
+  const { sortMethod, commentMode, selectedCommentId } =
+    useContext(CommentValueContext);
   const { toggleSortMethod } = useContext(CommentActionContext);
 
   const [writtenComment, setWrittenComment] = useState('');
+  const repliedComment = selectedCommentId
+    ? commentDummyData[selectedCommentId]
+    : null;
 
   const handleWrittenComment = (e: ChangeEvent<HTMLInputElement>) => {
     setWrittenComment(e.target.value);
   };
 
-  const commentAmount = Children.count(children);
+  const postWrittenComment = () => {};
+
+  const commentAmount = commentDummyData.length;
+  const isValidReplyMode = commentMode === 'REPLY' && repliedComment;
 
   return (
     <style.Wrapper>
@@ -63,6 +74,33 @@ const CommentWrapper = ({ children }: PropsWithChildren) => {
         </style.SortSection>
       </style.Header>
       <style.CommentList>{children}</style.CommentList>
+      {isValidReplyMode && (
+        <style.ReplyCommentSection>
+          <ReplyIcon className='icon'/>
+          <style.ReplyWritterSection>
+            <Image
+              width={25}
+              height={25}
+              src={defaultProfileImage}
+              alt="profile"
+              className="profile"
+            />
+            <Text
+              className="nickname"
+              fontStyleName="body2B"
+              color={COLORS.grayscale.gray700}
+            >
+              {repliedComment.nickname}
+            </Text>
+            <Text fontStyleName="body3" color={COLORS.grayscale.gray400}>
+              {repliedComment.writtenDate}
+            </Text>
+          </style.ReplyWritterSection>
+          <Text className='content' fontStyleName="body3" color={COLORS.grayscale.gray600}>
+            {repliedComment.content}
+          </Text>
+        </style.ReplyCommentSection>
+      )}
       <style.WriteSection>
         <TextInput
           isFilled
@@ -78,6 +116,7 @@ const CommentWrapper = ({ children }: PropsWithChildren) => {
               ? COLORS.primary.default
               : COLORS.grayscale.gray400
           }
+          onClick={postWrittenComment}
         >
           작성
         </Button>

@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 import { commentReplyDummyData } from 'src/dummyData';
 
@@ -11,10 +11,14 @@ import ReplyComment from '@/components/common/CommentSection/ReplyComment';
 import Text from '@/components/common/Text';
 import { COLORS } from '@/constants/styles';
 import { CommentType } from '@/constants/types';
+import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
 import useToggle from '@/hooks/useToggle';
 import { CommentActionContext } from '@/stores/context/comment';
 
 import * as style from './Comment.style';
+
+/** 한 뎁스 당 보여줄 대댓글 갯수 */
+const COMMENT_LIMIT = 5;
 
 const Comment = ({
   commentId,
@@ -26,9 +30,25 @@ const Comment = ({
 }: CommentType) => {
   const { value: isReplyVisible, onToggle: toggleReplyVisible } = useToggle();
   const { selectRepliedComment } = useContext(CommentActionContext);
+  const [replyCommentPage, setReplyCommentPage] = useState(1);
 
   const profileUrl = defaultProfileImage;
   const replyCommentList = commentReplyDummyData[commentId];
+
+  const currentBreakpoint = useMeasureBreakpoint();
+  const isMobile = currentBreakpoint === 'mobile';
+
+  const lastPage = Math.ceil(replyAmount / COMMENT_LIMIT);
+  const isLastPage = lastPage <= replyCommentPage;
+
+  const handleReplyCollapse = () => {
+    if (isLastPage) {
+      toggleReplyVisible();
+      selectRepliedComment(1);
+      return;
+    }
+    setReplyCommentPage((prev) => prev + 1);
+  };
 
   return (
     <>
@@ -52,11 +72,11 @@ const Comment = ({
           <style.Vote>
             <ApprovedIcon fill={COLORS.grayscale.gray700} />
             <Text fontStyleName="body3" color={COLORS.grayscale.gray700}>
-              {`공감 (${approved})`}
+              {isMobile ? approved : `공감 (${approved})`}
             </Text>
             <DeniedIcon fill={COLORS.grayscale.gray700} />
             <Text fontStyleName="body3" color={COLORS.grayscale.gray700}>
-              {`반대 (${denied})`}
+              {isMobile ? denied : `반대 (${denied})`}
             </Text>
           </style.Vote>
         </style.HeaderSection>
@@ -65,16 +85,18 @@ const Comment = ({
         </Text>
         <style.BottomSection>
           <Button
+            className='button'
             themeColor={COLORS.grayscale.gray100}
             isFilled
             isRound
             onClick={toggleReplyVisible}
           >
             <Text fontStyleName="body3" color={COLORS.grayscale.gray500}>
-              {`답글 보기 (${replyAmount})`}
+              {`답글 ${isReplyVisible ? '접기' : '보기'} (${replyAmount})`}
             </Text>
           </Button>
           <Button
+            className='button'
             themeColor={COLORS.grayscale.gray100}
             isFilled
             isRound
@@ -88,13 +110,23 @@ const Comment = ({
       </style.Wrapper>
       {isReplyVisible && (
         <style.ReplySection>
-          {replyCommentList.map((reply) => (
-            <ReplyComment
-              nickname={reply.nickname}
-              content={reply.content}
-              writtenDate={reply.writtenDate}
-            />
-          ))}
+          {replyCommentList
+            .slice(0, COMMENT_LIMIT * replyCommentPage)
+            .map((reply) => (
+              <ReplyComment
+                nickname={reply.nickname}
+                content={reply.content}
+                writtenDate={reply.writtenDate}
+              />
+            ))}
+          <Text
+            className="collapse"
+            onClick={handleReplyCollapse}
+            fontStyleName="body3"
+            color={COLORS.grayscale.gray400}
+          >
+            {`대댓글 ${isLastPage ? '접기' : `펼치기`} (${replyCommentPage}/${lastPage})`}
+          </Text>
         </style.ReplySection>
       )}
     </>

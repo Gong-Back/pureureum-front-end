@@ -9,19 +9,16 @@ export const Wrapper = styled.div`
   gap: 12px 0;
 `;
 
-export const HeaderSection = styled.div`
-    width: 100%;
+export const WritterSection = styled.div`
     display: flex;
-    justify-content: space-between;
-`
-
-export const Writter = styled.div`
-    display: flex;
-    gap: 0 6px;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 
     .profile {
         border-radius: 50%;
+    }
+
+    .nickname {
+        margin: 0 10px 0 6px;
     }
 `

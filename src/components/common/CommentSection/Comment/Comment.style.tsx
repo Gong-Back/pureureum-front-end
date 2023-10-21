@@ -38,6 +38,10 @@ export const Vote = styled.div`
 export const BottomSection = styled.div`
     display: flex;
     gap: 10px;
+
+    .button {
+        height: 33px;
+    }
 `
 
 export const ReplySection = styled.div`
@@ -46,7 +50,11 @@ export const ReplySection = styled.div`
 
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 24px;
+
+    .collapse {
+        cursor: pointer;
+    }
 
 `
 

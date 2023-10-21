@@ -12,23 +12,21 @@ const ReplyComment = ({ nickname, writtenDate, content }: ReplyCommentType) => {
 
   return (
     <style.Wrapper>
-      <style.HeaderSection>
-        <style.Writter>
-          <Image
-            width={25}
-            height={25}
-            src={profileUrl}
-            alt="profile"
-            className="profile"
-          />
-          <Text fontStyleName="body2B" color={COLORS.grayscale.gray700}>
-            {nickname}
-          </Text>
-          <Text fontStyleName="body3" color={COLORS.grayscale.gray400}>
-            {writtenDate}
-          </Text>
-        </style.Writter>
-      </style.HeaderSection>
+      <style.WritterSection>
+        <Image
+          width={25}
+          height={25}
+          src={profileUrl}
+          alt="profile"
+          className="profile"
+        />
+        <Text className='nickname' fontStyleName="body2B" color={COLORS.grayscale.gray700}>
+          {nickname}
+        </Text>
+        <Text fontStyleName="body3" color={COLORS.grayscale.gray400}>
+          {writtenDate}
+        </Text>
+      </style.WritterSection>
       <Text fontStyleName="body3" color={COLORS.grayscale.gray700}>
         {content}
       </Text>

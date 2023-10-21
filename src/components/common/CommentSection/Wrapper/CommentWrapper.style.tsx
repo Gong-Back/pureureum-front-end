@@ -49,3 +49,46 @@ export const WriteSection = styled.div`
         width: 100%;
     }
 `
+
+export const ReplyCommentSection = styled.div`
+  width: 100%; 
+  padding: 10px 28px;
+
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-columns: fit-content(100%) 1fr;
+  grid-template-areas:
+    'icon writter'
+    'icon content';
+  gap: 0 12px;
+
+  background: ${`${COLORS.primary.bright}33`};
+  border-radius: 100px;
+
+  .icon {
+    margin: auto 0;
+    grid-area: icon;
+    fill: ${COLORS.grayscale.gray600};
+  }
+
+  .content {
+    grid-area: content;
+    margin: auto 0;
+  }
+`
+
+export const ReplyWritterSection = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    grid-area: writter;
+
+    .profile {
+        border-radius: 50%;
+    }
+
+    .nickname {
+        margin: 0 10px 0 6px;
+    }
+`
