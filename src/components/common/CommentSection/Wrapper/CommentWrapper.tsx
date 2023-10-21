@@ -8,6 +8,7 @@ import {
 
 import { commentDummyData } from 'src/dummyData';
 
+import CloseIcon from '@/assets/icons/modalCloseIcon.svg';
 import ReplyIcon from '@/assets/icons/replyIcon.svg';
 import defaultProfileImage from '@/assets/images/defaultProfile.png';
 import Button from '@/components/common/Button';
@@ -24,7 +25,8 @@ import * as style from './CommentWrapper.style';
 const CommentWrapper = ({ children }: PropsWithChildren) => {
   const { sortMethod, commentMode, selectedCommentId } =
     useContext(CommentValueContext);
-  const { toggleSortMethod } = useContext(CommentActionContext);
+  const { toggleSortMethod, unsetRepliedComment } =
+    useContext(CommentActionContext);
 
   const [writtenComment, setWrittenComment] = useState('');
   const repliedComment = selectedCommentId
@@ -76,7 +78,7 @@ const CommentWrapper = ({ children }: PropsWithChildren) => {
       <style.CommentList>{children}</style.CommentList>
       {isValidReplyMode && (
         <style.ReplyCommentSection>
-          <ReplyIcon className='icon'/>
+          <ReplyIcon className="icon" />
           <style.ReplyWritterSection>
             <Image
               width={25}
@@ -96,9 +98,14 @@ const CommentWrapper = ({ children }: PropsWithChildren) => {
               {repliedComment.writtenDate}
             </Text>
           </style.ReplyWritterSection>
-          <Text className='content' fontStyleName="body3" color={COLORS.grayscale.gray600}>
+          <Text
+            className="content"
+            fontStyleName="body3"
+            color={COLORS.grayscale.gray600}
+          >
             {repliedComment.content}
           </Text>
+          <CloseIcon width={16} height={16} className="close" onClick={unsetRepliedComment} />
         </style.ReplyCommentSection>
       )}
       <style.WriteSection>

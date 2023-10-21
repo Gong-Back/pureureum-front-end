@@ -44,7 +44,7 @@ const Comment = ({
   const handleReplyCollapse = () => {
     if (isLastPage) {
       toggleReplyVisible();
-      selectRepliedComment(1);
+      setReplyCommentPage(1);
       return;
     }
     setReplyCommentPage((prev) => prev + 1);

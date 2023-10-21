@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 
-import { COLORS } from '@/constants/styles';
+import { COLORS, MEDIA_QUERIES } from '@/constants/styles';
 
 export const Wrapper = styled.div`
-    padding: 40px 50px;
+    padding: 40px;
 
     display: flex;
     flex-direction: column;
@@ -12,6 +12,14 @@ export const Wrapper = styled.div`
     background: ${COLORS.grayscale.white};
     border-radius: 10px;
     box-shadow: 0px 0px 4px 0px rgba(88, 88, 88, 0.25);
+
+    @media ${MEDIA_QUERIES.mobile} {
+        padding: 30px 25px;
+    }
+
+    @media ${MEDIA_QUERIES.tablet} {
+        padding: 40px;
+    }
 `
 
 export const Header = styled.div`
@@ -56,10 +64,10 @@ export const ReplyCommentSection = styled.div`
 
   display: grid;
   grid-template-rows: repeat(2, 1fr);
-  grid-template-columns: fit-content(100%) 1fr;
+  grid-template-columns: fit-content(100%) 1fr fit-content(100%);
   grid-template-areas:
-    'icon writter'
-    'icon content';
+    'icon writter close'
+    'icon content close';
   gap: 0 12px;
 
   background: ${`${COLORS.primary.bright}33`};
@@ -69,6 +77,12 @@ export const ReplyCommentSection = styled.div`
     margin: auto 0;
     grid-area: icon;
     fill: ${COLORS.grayscale.gray600};
+  }
+
+  .close {
+    margin: auto 0;
+    cursor: pointer;
+    grid-area: close;
   }
 
   .content {
