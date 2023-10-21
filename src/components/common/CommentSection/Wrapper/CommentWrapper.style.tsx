@@ -66,7 +66,7 @@ export const ReplyCommentSection = styled.div`
   grid-template-rows: repeat(2, 1fr);
   grid-template-columns: fit-content(100%) 1fr fit-content(100%);
   grid-template-areas:
-    'icon writter close'
+    'icon writer close'
     'icon content close';
   gap: 0 12px;
 
@@ -91,12 +91,12 @@ export const ReplyCommentSection = styled.div`
   }
 `
 
-export const ReplyWritterSection = styled.div`
+export const ReplyWriterSection = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-start;
 
-    grid-area: writter;
+    grid-area: writer;
 
     .profile {
         border-radius: 50%;

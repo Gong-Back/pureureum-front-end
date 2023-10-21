@@ -9,7 +9,7 @@ export const Wrapper = styled.div`
   gap: 12px 0;
 `;
 
-export const WritterSection = styled.div`
+export const WriterSection = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-start;

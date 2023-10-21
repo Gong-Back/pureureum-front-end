@@ -12,7 +12,7 @@ const ReplyComment = ({ nickname, writtenDate, content }: ReplyCommentType) => {
 
   return (
     <style.Wrapper>
-      <style.WritterSection>
+      <style.WriterSection>
         <Image
           width={25}
           height={25}
@@ -26,7 +26,7 @@ const ReplyComment = ({ nickname, writtenDate, content }: ReplyCommentType) => {
         <Text fontStyleName="body3" color={COLORS.grayscale.gray400}>
           {writtenDate}
         </Text>
-      </style.WritterSection>
+      </style.WriterSection>
       <Text fontStyleName="body3" color={COLORS.grayscale.gray700}>
         {content}
       </Text>

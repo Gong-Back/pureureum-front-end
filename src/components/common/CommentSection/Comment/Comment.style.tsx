@@ -15,7 +15,7 @@ export const HeaderSection = styled.div`
     justify-content: space-between;
 `
 
-export const Writter = styled.div`
+export const Writer = styled.div`
     display: flex;
     gap: 0 6px;
     align-items: center;

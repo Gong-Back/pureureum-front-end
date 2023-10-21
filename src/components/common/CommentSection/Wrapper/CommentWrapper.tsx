@@ -86,7 +86,7 @@ const CommentWrapper = ({
       {isValidReplyMode && (
         <style.ReplyCommentSection>
           <ReplyIcon className="icon" />
-          <style.ReplyWritterSection>
+          <style.ReplyWriterSection>
             <Image
               width={25}
               height={25}
@@ -104,7 +104,7 @@ const CommentWrapper = ({
             <Text fontStyleName="body3" color={COLORS.grayscale.gray400}>
               {repliedComment.writtenDate}
             </Text>
-          </style.ReplyWritterSection>
+          </style.ReplyWriterSection>
           <Text
             className="content"
             fontStyleName="body3"

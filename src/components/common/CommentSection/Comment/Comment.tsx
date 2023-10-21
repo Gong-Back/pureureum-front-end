@@ -54,7 +54,7 @@ const Comment = ({
     <>
       <style.Wrapper>
         <style.HeaderSection>
-          <style.Writter>
+          <style.Writer>
             <Image
               width={25}
               height={25}
@@ -68,7 +68,7 @@ const Comment = ({
             <Text fontStyleName="body3" color={COLORS.grayscale.gray400}>
               10분 전
             </Text>
-          </style.Writter>
+          </style.Writer>
           <style.Vote>
             <ApprovedIcon fill={COLORS.grayscale.gray700} />
             <Text fontStyleName="body3" color={COLORS.grayscale.gray700}>
