@@ -3,7 +3,6 @@ import { ReactElement } from 'react';
 import GalleryIcon from '@/assets/icons/galleryIcon.svg';
 import HomeIcon from '@/assets/icons/homeIcon.svg';
 import NoteIcon from '@/assets/icons/noteIcon.svg';
-import { DashboardMenuType } from '@/pages/dashboard/[pid]/board';
 
 export const DashboardNavList = ['home', 'board', 'gallery'] as const;
 
@@ -27,27 +26,3 @@ export const DashboardNavInfo: Record<
     path: '/dashboard/[pid]/gallery',
   },
 } as const;
-
-export const getBoardPath = (
-  pid: string,
-  menu: DashboardMenuType,
-  id?: number,
-) => [
-  {
-    pathname: '/dashboard/[pid]/board',
-    query: { pid, menu, board_id: id },
-  },
-  `/dashboard/${pid}/board`,
-];
-
-export const getGalleryPath = (
-  pid: string,
-  menu: DashboardMenuType,
-  id?: number,
-) => [
-  {
-    pathname: '/dashboard/[pid]/gallery',
-    query: { pid, menu, gallery_id: id },
-  },
-  `/dashboard/${pid}/gallery`,
-];
