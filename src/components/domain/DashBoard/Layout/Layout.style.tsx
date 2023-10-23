@@ -14,10 +14,10 @@ export const ContentWrapper = styled.div`
   margin-top: 60px;
 `;
 
-export const HeaderWrapper = styled.div(({ isMain }: { isMain: boolean }) => ({
+export const HeaderWrapper = styled.div(({ isHome }: { isHome: boolean }) => ({
   width: '100%',
   height: 'fit-content',
-  minHeight: '200px',
+  minHeight: '180px',
   padding: '40px 50px',
   position: 'relative',
 
@@ -26,7 +26,7 @@ export const HeaderWrapper = styled.div(({ isMain }: { isMain: boolean }) => ({
   gap: 10,
 
   borderRadius: '0px 0px 0px 30px',
-  background: isMain
+  background: isHome
     ? 'radial-gradient(759.59% 149.63% at 8.46% 109.19%, #68DCA4 0%, #2DBDDA 100%)'
     : COLORS.primary.default,
 
