@@ -10,7 +10,7 @@ interface DashboardHomeTemplateProps {
 }
 
 const DashboardHomeTemplate = ({ data }: DashboardHomeTemplateProps) => {
-  const { title, description, boardData } = data;
+  const { title, description, boards } = data;
 
   const HomeHeaderInfo = {
     title,
@@ -27,7 +27,7 @@ const DashboardHomeTemplate = ({ data }: DashboardHomeTemplateProps) => {
             일정 Content
           </HomeWidget>
           <HomeWidget title="게시판" className="board-widget">
-            {boardData.map((b: any) => (
+            {boards.map((b: any) => (
               <BoardItem
                 key={b.id}
                 id={b.id}

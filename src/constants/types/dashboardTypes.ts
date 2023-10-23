@@ -26,5 +26,7 @@ export interface DashboardHomeInfo {
   pid: number;
   title: string;
   description: string;
-  boardData: BoardItemType[];
+  boards: BoardItemType[];
+  gallerys: any[];
+  members: any[];
 }
