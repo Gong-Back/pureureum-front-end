@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { ApiErrorInstance } from '@/apis/API';
 import { AuthRepository } from '@/apis/auth';
-import { SocialRepository } from '@/apis/social';
 import { ERROR_CODE, SOCIAL_PLATFORM_LIST } from '@/constants/apis';
 import { SocialPlatformType } from '@/constants/types';
 
@@ -30,7 +29,7 @@ export async function middleware(request: NextRequest) {
     if (!email || !socialType) return NextResponse.redirect(loginPageUrl);
 
     try {
-      await SocialRepository.tempSearchUserAsync(email);
+      await AuthRepository.tempSearchUserAsync(email);
       return NextResponse.next();
     } catch (error) {
       loginPageUrl.searchParams.set('feedback', 'NOT_STORED');
@@ -50,7 +49,7 @@ export async function middleware(request: NextRequest) {
 
     try {
       // OAuth2 로그인을 먼저 진행하고, 성공했다면 메인 페이지로 리다이렉트 시킨다.
-      const { code, data } = await SocialRepository.loginAsync({
+      const { code, data } = await AuthRepository.loginAsync({
         verifyCode,
         socialType,
       });
