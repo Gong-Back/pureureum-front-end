@@ -11,21 +11,12 @@ export const Wrapper = styled.section`
 export const Header = styled.header`
   display: flex;
   flex-direction: column;
-  gap: 32px 0px;
+  gap: 16px 0px;
 
   margin-bottom: 70px;
 `;
 
-export const Register = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 37px 0px;
-
-  margin: 0px 34px;
-`;
-
-export const Section = styled.section`
+export const RegisterSection = styled.section`
   display: flex;
   justify-content: space-between;
   width: 335px;
@@ -40,7 +31,7 @@ export const Section = styled.section`
   }
 `;
 
-export const SocialIcons = styled.div`
+export const SocialButton = styled.div`
   display: flex;
   gap: 0px 20px;
 `;
