@@ -4,7 +4,7 @@ import React from 'react';
 import GoogleCircleIconSvg from '@/assets/icons/googleCircleIcon.svg';
 import KakaoCircleIconSvg from '@/assets/icons/kakaoCircleIcon.svg';
 import NaverCircleIconSvg from '@/assets/icons/naverCircleIcon.svg';
-import PureureumPcLogoSvg from '@/assets/icons/pureureumPcLogo.svg';
+import PrrPcLogoSvg from '@/assets/icons/prrPcLogo.svg';
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 import LoginForm from '@/components/domain/Login/LoginForm';
@@ -15,7 +15,7 @@ import * as style from './LoginTemplate.style';
 const LoginTemplate = () => (
   <style.Wrapper>
     <style.Header>
-      <PureureumPcLogoSvg />
+      <PrrPcLogoSvg />
       <Text fontStyleName="body1R" color={COLORS.grayscale.gray500}>
         로그인해서 재밌는 프로젝트들을 경험해보세요!
       </Text>
