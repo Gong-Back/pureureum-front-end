@@ -9,10 +9,13 @@ import { COLORS } from '@/constants/styles';
 import useModal from '@/hooks/useModal';
 import { useGetUserProfile } from '@/query-hooks/user';
 
+import { profileDummyData } from 'src/dummyData';
 import * as style from './MyProfileTemplate.style';
 
 const MyProfileTemplate = () => {
-  const { data: userProfile } = useGetUserProfile();
+  // const { data: userProfile } = useGetUserProfile();
+
+  const userProfile = profileDummyData
 
   const { openModal } = useModal();
   const openChangePasswordModal = () => openModal(<UpdatePasswordModal />);
