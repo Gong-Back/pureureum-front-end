@@ -10,7 +10,6 @@ import {
 // 마이페이지 접속 시
 export const profileDummyData: UserResponses['info'] = {
   email: 'gwangin1999@naver.com',
-  phoneNumber: '010-7167-0851',
   name: '백광인',
   nickname: 'RookieAND',
   gender: 'MALE',

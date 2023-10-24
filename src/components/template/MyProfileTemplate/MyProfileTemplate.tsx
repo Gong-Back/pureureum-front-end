@@ -5,11 +5,9 @@ import Text from '@/components/common/Text';
 import PersonalInfoList from '@/components/domain/MyPage/PersonalInfoList';
 import ProfileEditor from '@/components/domain/MyPage/ProfileEditor';
 import UpdatePasswordModal from '@/components/domain/MyPage/UpdatePasswordModal';
-import UpdatePhoneModal from '@/components/domain/MyPage/UpdatePhoneModal';
 import { COLORS } from '@/constants/styles';
 import useModal from '@/hooks/useModal';
 import { useGetUserProfile } from '@/query-hooks/user';
-import FormatUtil from '@/utils/format';
 
 import * as style from './MyProfileTemplate.style';
 
@@ -17,7 +15,6 @@ const MyProfileTemplate = () => {
   const { data: userProfile } = useGetUserProfile();
 
   const { openModal } = useModal();
-  const openChangePhoneModal = () => openModal(<UpdatePhoneModal />);
   const openChangePasswordModal = () => openModal(<UpdatePasswordModal />);
 
   const handleSaveChange = () => {};
@@ -37,31 +34,6 @@ const MyProfileTemplate = () => {
           gender={userProfile.gender}
           birthday={userProfile.birthday}
         />
-        <style.Section>
-          <Text
-            className="info-label"
-            color={COLORS.grayscale.gray700}
-            fontStyleName="body2B"
-          >
-            휴대폰 번호
-          </Text>
-          <Text
-            className="info-content"
-            color={COLORS.grayscale.gray700}
-            fontStyleName="body2R"
-          >
-            {FormatUtil.formatMaskPhoneNum(userProfile.phoneNumber)}
-          </Text>
-          <Button
-            onClick={openChangePhoneModal}
-            themeColor={COLORS.primary.default}
-            isRound
-            sizeType="small"
-            className="phone-button"
-          >
-            번호 변경
-          </Button>
-        </style.Section>
         <style.Section>
           <Text
             className="info-label"

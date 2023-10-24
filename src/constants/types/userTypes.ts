@@ -2,7 +2,7 @@ import { GenderType } from './authTypes';
 
 export type UserReqParams = {
   updateInfo: {
-    type: 'password' | 'phoneNumber' | 'nickname';
+    type: 'password' | 'nickname';
     updatedValue: string;
   };
   updateProfile: {
@@ -13,7 +13,6 @@ export type UserReqParams = {
 export type UserResponses = {
   info: {
     email: string;
-    phoneNumber: string;
     name: string;
     nickname: string;
     gender: GenderType;
@@ -27,11 +26,5 @@ export type UserFormType = {
     currentPassword: string;
     changedPassword: string;
     confirmedPassword: string;
-  };
-  updatePhoneNumber: {
-    changedPhoneNumber: string;
-    confirmedNumber: string;
-    certificationNumber: string;
-    isSendingVerifyNum: boolean;
   };
 };
