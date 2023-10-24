@@ -14,7 +14,7 @@ const isSocialPlatformType = (
 export async function middleware(request: NextRequest) {
   const accessToken = request.cookies.get('accessToken');
   const { pathname, origin, searchParams } = request.nextUrl;
-  const loginPageUrl = new URL(`/auth/login`, origin);
+  const mainPageUrl = new URL(`/`, origin);
 
   // 로그인, 회원가입 시도 시 access token이 존재한다면 메인 화면으로 redirect.
   if (pathname.startsWith('/auth')) {
@@ -26,14 +26,14 @@ export async function middleware(request: NextRequest) {
     const email = searchParams.get('email');
     const socialType = searchParams.get('socialType');
 
-    if (!email || !socialType) return NextResponse.redirect(loginPageUrl);
+    if (!email || !socialType) return NextResponse.redirect(mainPageUrl);
 
     try {
       await AuthRepository.tempSearchUserAsync(email);
       return NextResponse.next();
     } catch (error) {
-      loginPageUrl.searchParams.set('feedback', 'NOT_STORED');
-      return NextResponse.redirect(loginPageUrl);
+      mainPageUrl.searchParams.set('feedback', 'NOT_STORED');
+      return NextResponse.redirect(mainPageUrl);
     }
   }
 
@@ -43,8 +43,8 @@ export async function middleware(request: NextRequest) {
     const socialType = pathname.split('/').at(-1);
 
     if (!verifyCode || !socialType || !isSocialPlatformType(socialType)) {
-      loginPageUrl.searchParams.set('feedback', 'WRONG_PLATFORM');
-      return NextResponse.redirect(loginPageUrl);
+      mainPageUrl.searchParams.set('feedback', 'WRONG_PLATFORM');
+      return NextResponse.redirect(mainPageUrl);
     }
 
     try {
@@ -65,8 +65,8 @@ export async function middleware(request: NextRequest) {
       const { code, data } = error as ApiErrorInstance;
 
       if (code === ERROR_CODE.REQUEST_RESOURCE_ALREADY_EXISTS) {
-        loginPageUrl.searchParams.set('feedback', 'ALREADY_EXISTS');
-        return NextResponse.redirect(loginPageUrl);
+        mainPageUrl.searchParams.set('feedback', 'ALREADY_EXISTS');
+        return NextResponse.redirect(mainPageUrl);
       }
 
       const registerPageUrl = new URL(`/auth/register`, origin);
