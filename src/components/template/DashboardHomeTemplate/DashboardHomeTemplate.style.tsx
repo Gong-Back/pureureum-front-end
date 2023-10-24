@@ -25,17 +25,17 @@ export const TopContent = styled.div`
   .schedule-widget {
     flex: 1;
     max-width: 400px;
-    min-height: 400px;
+    min-height: 475px;
   }
   .board-widget {
     flex: 2;
-    min-height: 400px;
+    min-height: 475px;
   }
 
   .members-widget {
     flex: 1;
     max-width: 400px;
-    min-height: 400px;
+    min-height: 475px;
   }
 
   @media ${MEDIA_QUERIES.mobile} {

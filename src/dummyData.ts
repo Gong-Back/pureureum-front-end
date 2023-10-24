@@ -1,4 +1,6 @@
 import {
+  BoardItemDetailType,
+  BoardItemType,
   CommentType,
   ProjectResponses,
   ReplyCommentType,
@@ -115,3 +117,23 @@ export const commentReplyDummyData: ReplyCommentType[][] = Array(10)
         writtenDate: '2021-03-03',
       })),
   );
+export const boardItem = {
+  title: '전시회 첫 참여 이벤트',
+  content:
+    '전시회 관람 후 갤러리에 참여 인증 사진을 올리면  추첨을 통해 총 10분에게 ‘스타벅스 아메리카노 교환권(T)’을 증정해 드립니다.전시회 관람 후 갤러리에 참여 인증 사진을 올리면  추첨을 통해 총 10분에게 ‘스타벅스 아메리카노 교환권(T)’을 증정해 드립니다.전시회 관람 후 갤러리에 참여 인증 사진을 올리면  추첨을 통해 총 10분에게 ‘스타벅스 아메리카노 교환권(T)’을 증정해 드립니다.전시회 관람 후 갤러리에 참여 인증 사진을 올리면  추첨을 통해 총 10분에게 ‘스타벅스 아메리카노 교환권(T)’을 증정해 드립니다.',
+  time: '2분전',
+};
+
+export const boardListData: BoardItemType[] = Array(10)
+  .fill(0)
+  .map((v, i) => ({
+    id: i,
+    ...boardItem,
+  }));
+
+export const boardDetailData: BoardItemDetailType = {
+  ...boardItem,
+  id: 10,
+  writerInfo: { profileUrl: '/projectThumbnail.jpg', name: 'user' },
+  comments: [],
+};

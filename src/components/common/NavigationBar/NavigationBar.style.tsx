@@ -18,6 +18,12 @@ export const Wrapper = styled.nav`
   z-index: 100;
 `;
 
+export const LogoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
 export const NavItemList = styled.div`
   display: flex;
   align-items: center;

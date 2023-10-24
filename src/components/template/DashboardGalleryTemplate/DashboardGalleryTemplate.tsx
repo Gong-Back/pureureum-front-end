@@ -1,8 +1,7 @@
 import { useRouter } from 'next/router';
 
 import Layout from '@/components/domain/DashBoard/Layout';
-import { getBoardPath, getGalleryPath } from '@/constants/navigation';
-import { DashboardMenuType } from '@/pages/dashboard/[pid]/board';
+import { DashboardMenuType } from '@/constants/types';
 
 import * as styles from './DashboardGalleryTemplate.style';
 
@@ -24,14 +23,29 @@ const DashboardGalleryTemplate = ({
     description: '추억을 공유해보세요',
     buttonLabel: '추가',
     onButtonClick: () => {
-      const [url, as] = getGalleryPath(pid, 'new');
-      router.push(url, as);
+      router.push({
+        pathname: '/dashboard/[pid]/gallery',
+        query: { pid, menu: 'new' },
+      });
     },
+  };
+
+  const renderContent = () => {
+    switch (menu) {
+      case 'list':
+        return <styles.ListWrapper>gallery list</styles.ListWrapper>;
+      case 'item':
+        return <>item</>;
+      case 'new':
+        return <>new </>;
+      default:
+        return <>wrong path!</>;
+    }
   };
 
   return (
     <Layout headerInfo={menu === 'list' ? GallerysHeaderInfo : undefined}>
-      <div>{menu}</div>
+      {renderContent()}
     </Layout>
   );
 };

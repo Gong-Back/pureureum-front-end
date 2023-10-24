@@ -1,28 +1,20 @@
-import { useRouter } from 'next/router';
-
-import { projectContentDummyData } from 'src/dummyData';
-
+import BoardItem from '@/components/domain/DashBoard/BoardItem';
 import HomeWidget from '@/components/domain/DashBoard/HomeWidget';
 import Layout from '@/components/domain/DashBoard/Layout';
+import { DashboardHomeInfo } from '@/constants/types';
 
 import * as styles from './DashboardHomeTemplate.style';
 
-// dummydata
-const {
-  projectInformation: { title, introduction },
-} = projectContentDummyData;
-
 interface DashboardHomeTemplateProps {
-  data?: any;
+  data: DashboardHomeInfo;
 }
 
 const DashboardHomeTemplate = ({ data }: DashboardHomeTemplateProps) => {
-  const router = useRouter();
-  const pid = router.query.pid as string;
+  const { title, description, boards } = data;
 
   const HomeHeaderInfo = {
     title,
-    description: introduction,
+    description,
     buttonLabel: '나가기',
     onButtonClick: () => {},
   };
@@ -35,7 +27,15 @@ const DashboardHomeTemplate = ({ data }: DashboardHomeTemplateProps) => {
             일정 Content
           </HomeWidget>
           <HomeWidget title="게시판" className="board-widget">
-            {/* 게시판 Content */}
+            {boards.map((b: any) => (
+              <BoardItem
+                key={b.id}
+                id={b.id}
+                title={b.title}
+                content={b.content}
+                time={b.time}
+              />
+            ))}
           </HomeWidget>
           <HomeWidget title="참여자 목록" className="members-widget">
             프로젝트 갤러리 Content

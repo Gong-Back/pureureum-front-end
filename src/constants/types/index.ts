@@ -4,3 +4,4 @@ export * from './commentTypes';
 export * from './userTypes';
 export * from './projectTypes';
 export * from './facilityTypes';
+export * from './dashboardTypes';

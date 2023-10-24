@@ -1,22 +1,26 @@
-import { NextPage } from 'next';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { GetServerSideProps } from 'next';
 
 import DashboardGalleryTemplate from '@/components/template/DashboardGalleryTemplate';
+import { DashboardMenuType } from '@/constants/types';
 
-import { DashboardMenuType } from './board';
+export const getServerSideProps: GetServerSideProps<
+  DashboardGalleryPageProps
+> = async (ctx) => {
+  const menu = (ctx.query.menu ?? 'list') as DashboardMenuType;
+  const { id: galleryId } = ctx.query;
 
-const DashboardGalleryPage: NextPage = () => {
-  const router = useRouter();
-  const menu = (router.query.menu ?? 'list') as DashboardMenuType;
-  const galleryId = Number(router.query.gallery_id as string);
-
-  useEffect(() => {
-    const getData = async () => {};
-    getData();
-  }, []);
-
-  return <DashboardGalleryTemplate menu={menu} data={[]} />;
+  return {
+    props: { menu, data: [] },
+  };
 };
+
+interface DashboardGalleryPageProps {
+  menu: DashboardMenuType;
+  data?: any; // TODO add gallery type
+}
+
+const DashboardGalleryPage = ({ menu, data }: DashboardGalleryPageProps) => (
+  <DashboardGalleryTemplate menu={menu} data={data} />
+);
 
 export default DashboardGalleryPage;

@@ -1,22 +1,49 @@
-import { NextPage } from 'next';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { GetServerSideProps } from 'next';
+
+import { boardDetailData, boardListData } from 'src/dummyData';
 
 import DashboardBoardTemplate from '@/components/template/DashboardBoardTemplate';
+import {
+  BoardItemDetailType,
+  BoardItemType,
+  DashboardMenuType,
+} from '@/constants/types';
 
-export type DashboardMenuType = 'list' | 'item' | 'new';
+export const getServerSideProps: GetServerSideProps<
+  DashboardBoardPageProps
+> = async (ctx) => {
+  const menu = (ctx.query.menu ?? 'list') as DashboardMenuType;
+  const { id: boardId } = ctx.query;
 
-const DashboardPage: NextPage = () => {
-  const router = useRouter();
-  const menu = (router.query.menu ?? 'list') as DashboardMenuType;
-  const boardId = Number(router.query.board_id as string);
+  if (menu === 'list') {
+    // TODO get board list data from server
+    return {
+      props: {
+        menu: 'list',
+        data: boardListData,
+      },
+    };
+  }
 
-  useEffect(() => {
-    const getData = async () => {};
-    getData();
-  }, []);
+  if (menu === 'item') {
+    // TODO get board detail and comments data from server
+    return {
+      props: { menu: 'item', data: boardDetailData },
+    };
+  }
 
-  return <DashboardBoardTemplate menu={menu} data={[]} />;
+  return {
+    props: { menu: 'new' },
+  };
 };
 
-export default DashboardPage;
+interface DashboardBoardPageProps {
+  menu: DashboardMenuType;
+  data?: BoardItemType[] | BoardItemDetailType;
+}
+
+const DashboardBoardPage = ({ menu, data }: DashboardBoardPageProps) => (
+  <DashboardBoardTemplate menu={menu} data={data} />
+);
+
+export default DashboardBoardPage;
