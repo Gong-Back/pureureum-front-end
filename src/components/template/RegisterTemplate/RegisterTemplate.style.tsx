@@ -21,15 +21,10 @@ export const VisibleSection = styled.div`
   overflow: hidden;
 `;
 
-export const Section = styled.section<{ currentRegisterStep: number }>(
-  ({ currentRegisterStep }) => ({
-    display: 'flex',
-    gap: '16px 0px',
-
-    transform: `translateX(${-100 * currentRegisterStep}%)`,
-    transition: '0.25s all ease-in-out',
-  }),
-);
+export const Section = styled.section`
+    display: flex;
+    gap: 16px 0px;
+`
 
 export const Footer = styled.footer`
   display: flex;

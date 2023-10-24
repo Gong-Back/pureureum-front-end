@@ -7,7 +7,6 @@ import { SocialRepository } from '@/apis/social';
 import { ERROR_CODE, SOCIAL_PLATFORM_LIST } from '@/constants/apis';
 import { SocialPlatformType } from '@/constants/types';
 
-// TODO: 아래와 같이 타입을 좁힐 수 있는 유틸 함수를 어떻게 처리할지 논의 필요
 const isSocialPlatformType = (
   checkedType: string,
 ): checkedType is SocialPlatformType =>
@@ -16,6 +15,7 @@ const isSocialPlatformType = (
 export async function middleware(request: NextRequest) {
   const accessToken = request.cookies.get('accessToken');
   const { pathname, origin, searchParams } = request.nextUrl;
+  const loginPageUrl = new URL(`/auth/login`, origin);
 
   // 로그인, 회원가입 시도 시 access token이 존재한다면 메인 화면으로 redirect.
   if (pathname.startsWith('/auth')) {
@@ -27,13 +27,12 @@ export async function middleware(request: NextRequest) {
     const email = searchParams.get('email');
     const socialType = searchParams.get('socialType');
 
-    if (!email || !socialType) return NextResponse.next();
+    if (!email || !socialType) return NextResponse.redirect(loginPageUrl);
 
     try {
       await SocialRepository.tempSearchUserAsync(email);
       return NextResponse.next();
     } catch (error) {
-      const loginPageUrl = new URL(`/auth/login`, origin);
       loginPageUrl.searchParams.set('feedback', 'NOT_STORED');
       return NextResponse.redirect(loginPageUrl);
     }
@@ -43,8 +42,6 @@ export async function middleware(request: NextRequest) {
   if (pathname.startsWith('/oauth2/redirect')) {
     const verifyCode = searchParams.get('code');
     const socialType = pathname.split('/').at(-1);
-
-    const loginPageUrl = new URL(`/auth/login`, origin);
 
     if (!verifyCode || !socialType || !isSocialPlatformType(socialType)) {
       loginPageUrl.searchParams.set('feedback', 'WRONG_PLATFORM');
