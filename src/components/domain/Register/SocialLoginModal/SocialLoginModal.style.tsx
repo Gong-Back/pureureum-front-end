@@ -54,12 +54,11 @@ export const SocialButton = styled.button<{ backgroundColor: string }>`
   ${({ backgroundColor }) => css`
     width: 400px;
     height: 48px;
-    padding: 0 96px;
+    padding: 0 90px;
 
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
-    gap: 0 4px;
 
     background-color: ${backgroundColor};
     border-radius: 8px;
