@@ -36,6 +36,11 @@ export const IconWrap = styled.div`
   position: relative;
   top: calc(-100% + 4px);
   left: calc(100% - 24px);
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
 `;
 
 export const Section = styled.section`
