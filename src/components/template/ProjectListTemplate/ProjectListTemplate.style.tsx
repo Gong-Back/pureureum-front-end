@@ -42,6 +42,11 @@ export const ProjectListWrap = styled.div`
   }
 `;
 
+export const DropdownWrap = styled.div`
+  display: flex;
+  gap: 0 16px;
+`
+
 export const HeaderWrap = styled.div`
   display: flex;
   align-items: flex-end;

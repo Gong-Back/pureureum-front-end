@@ -1,16 +1,19 @@
 import styled from '@emotion/styled';
 
-import { COLORS } from '@/constants/styles';
+import { COLORS, MEDIA_QUERIES } from '@/constants/styles';
 
-export const Wrapper = styled.aside(({ isMobile }: { isMobile: boolean }) => ({
-  minWidth: 150,
-  backgroundColor: COLORS.grayscale.white,
-  boxShadow: '0px 5px 6px 0px #F2F2F2',
+export const Wrapper = styled.aside`
+  min-width: 150px;
+  background-color: ${COLORS.grayscale.white};
+  box-shadow: 0px 5px 6px 0px #f2f2f2;
+  z-index: 99;
 
-  position: isMobile ? 'fixed' : 'static',
-  height: isMobile ? '100%' : '',
-  zIndex: 99,
-}));
+  @media ${MEDIA_QUERIES.mobile} {
+    position: fixed;
+    min-width: 130px;
+    height: 100%;
+  }
+`;
 
 export const ContentWrapper = styled.div`
   display: flex;
@@ -19,7 +22,11 @@ export const ContentWrapper = styled.div`
 
   position: fixed;
   top: 100px;
-  left: 28px;
+  left: 40px;
+
+  .selected > * {
+    color: ${COLORS.grayscale.gray700};
+  }
 `;
 
 export const NavItem = styled.div`
@@ -28,14 +35,11 @@ export const NavItem = styled.div`
   justify-content: flex-end;
   cursor: pointer;
 
-  & > svg {
+  svg {
     margin: auto 0px;
     width: 18px;
     height: 18px;
-  }
-
-  > .selected {
-    color: ${COLORS.grayscale.gray700};
+    color: ${COLORS.grayscale.gray500};
   }
 `;
 

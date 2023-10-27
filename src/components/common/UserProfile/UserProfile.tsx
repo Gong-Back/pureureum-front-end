@@ -15,13 +15,16 @@ interface UserProfileProps {
 
 const UserProfile = ({ imageSrc, nickname }: UserProfileProps) => (
   <style.Wrapper>
-    <Image
-      width={32}
-      height={32}
-      src={imageSrc || DefaultProfilePng}
-      alt="profileImage"
-      placeholder="blur"
-    />
+    <style.ImageWrapper>
+      <Image
+        src={imageSrc || DefaultProfilePng}
+        layout="fill"
+        // placeholder="blur"
+        className="profileImage"
+        alt="profileImage"
+      />
+    </style.ImageWrapper>
+
     <Text
       fontStyleName={FONT_STYLE_NAME.body2B}
       color={COLORS.grayscale.gray700}

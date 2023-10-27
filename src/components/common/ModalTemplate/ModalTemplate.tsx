@@ -20,7 +20,7 @@ const ModalTemplate = ({ title, children }: ModalTemplateProps) => {
       <styles.Header>
         <styles.Title>{title}</styles.Title>
         <styles.IconWrap>
-          <ModalCloseIconSvg onClick={closeModal} />
+          <ModalCloseIconSvg width={24} height={24} onClick={closeModal} />
         </styles.IconWrap>
       </styles.Header>
       <styles.Section>{children}</styles.Section>

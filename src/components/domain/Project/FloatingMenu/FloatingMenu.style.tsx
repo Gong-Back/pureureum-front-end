@@ -35,7 +35,7 @@ export const InfoField = styled.div`
 export const MenuWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 15px;
 `;
 

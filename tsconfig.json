@@ -27,6 +27,7 @@
       "@/query-hooks/*": ["./src/query-hooks/*"],
       "@/utils/*": ["./src/utils/*"]
     },
+    "types": ["kakao.maps.d.ts"],
     "incremental": true
   },
   "include": ["global.d.ts", "next-env.d.ts", "**/*.ts", "**/*.tsx"],

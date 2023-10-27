@@ -10,6 +10,7 @@ export interface ProjectOperationItemProps {
 }
 
 const PROJECT_STATUS: Record<ProjectStatusType, string> = {
+  NEED_DISCUSSION: '의견 수렴 중',
   NOT_STARTED: '모집 중',
   PROGRESSED: '진행 중',
   FINISHED: '진행 완료',

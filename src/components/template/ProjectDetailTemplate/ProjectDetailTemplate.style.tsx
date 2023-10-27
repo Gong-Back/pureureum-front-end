@@ -121,3 +121,26 @@ export const FloatingWrapper = styled.div`
     width: 300px;
   }
 `;
+
+export const CommentWrapper = styled.div`
+  position: relative;
+  height: 100%;
+  background: ${(props: { isPeriodOver: boolean }) =>
+    props.isPeriodOver ? `${COLORS.grayscale.gray400}22` : 'transparent'};
+
+  .inner {
+    position: relative;
+    opacity: 0.25;
+    z-index: -1;
+  }
+
+  .notice {
+    position: absolute;
+    top: 50%;
+
+    width: 100%;
+    margin: auto 0;
+    
+    text-align: center;
+  }
+`;
