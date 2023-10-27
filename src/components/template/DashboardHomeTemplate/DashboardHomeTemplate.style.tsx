@@ -61,17 +61,11 @@ export const GalleryList = styled.div`
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  gap: 20px;
-  /*max-width: 1260px;*/
-
-  .gallery-item {
-    width: 300px;
-    height: 250px;
-  }
+  gap: 40px 20px;
 `;
 
 export const GalleryContent = styled.div`
   width: 100%;
-  height: 100%;
+  height: 580px;
   overflow-x: scroll;
 `;

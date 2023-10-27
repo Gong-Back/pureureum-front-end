@@ -8,22 +8,21 @@ export const ListWrapper = styled.div`
   padding: 70px 50px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 30px;
+  gap: 50px 30px;
 
-  @media screen and (max-width: 1640px) {
+  @media screen and (max-width: 1550px) {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  @media screen and (max-width: 1280px) {
+  @media screen and (max-width: 1220px) {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media screen and (max-width: 690px) {
+    grid-template-columns: repeat(1, 1fr);
   }
 
   @media ${MEDIA_QUERIES.mobile} {
     padding: 50px 30px;
-  }
-
-  .gallery-item {
-    width: 320px;
-    height: 250px;
   }
 `;

@@ -23,7 +23,11 @@ const GalleryItem = ({
       alt="gallery-img"
       className="gallery-img"
     />
-    <Text color={COLORS.grayscale.gray400} fontStyleName="body3">
+    <Text
+      color={COLORS.grayscale.dark}
+      fontStyleName="body3"
+      className="gallery-caption"
+    >
       {caption}
     </Text>
   </styles.Wrapper>
