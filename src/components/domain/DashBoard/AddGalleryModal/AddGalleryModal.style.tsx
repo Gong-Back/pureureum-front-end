@@ -1,20 +1,25 @@
 import styled from '@emotion/styled';
 
-import { COLORS, MEDIA_QUERIES } from '@/constants/styles';
+import { COLORS } from '@/constants/styles';
 
 export const Wrapper = styled.section`
-  /*height: 100%;*/
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   padding: 25px 0px;
 
-  .intro {
+  .add-gallery-btn {
+    width: 60%;
+    height: 50px;
   }
 
-  .add-gallery-btn {
+  .caption-input {
+    border: none;
+    border-bottom: 1px solid ${COLORS.grayscale.gray600};
+    border-radius: 0px;
+    padding-left: 5px;
+    margin-bottom: 30px;
     width: 60%;
   }
 `;
@@ -27,6 +32,10 @@ export const ImageInputWrapper = styled.div`
   position: relative;
   margin: 30px 0px 50px;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   input {
     width: 100%;
     height: 100%;
@@ -35,5 +44,9 @@ export const ImageInputWrapper = styled.div`
     top: 0;
     left: 0;
     opacity: 0;
+  }
+
+  svg {
+    transform: rotate(45deg);
   }
 `;
