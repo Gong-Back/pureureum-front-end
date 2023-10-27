@@ -27,6 +27,7 @@ export const TopContent = styled.div`
     max-width: 400px;
     min-height: 475px;
   }
+
   .board-widget {
     flex: 2;
     min-height: 475px;
@@ -54,4 +55,23 @@ export const BottomContent = styled.div`
     height: 100%;
     min-height: 450px;
   }
+`;
+
+export const GalleryList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 20px;
+  /*max-width: 1260px;*/
+
+  .gallery-item {
+    width: 300px;
+    height: 250px;
+  }
+`;
+
+export const GalleryContent = styled.div`
+  width: 100%;
+  height: 100%;
+  overflow-x: scroll;
 `;

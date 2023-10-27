@@ -30,3 +30,11 @@ export interface DashboardHomeInfo {
   gallerys: any[];
   members: any[];
 }
+
+// 게시판 갤러리 정보
+export interface GalleryItemType {
+  id: number;
+  userId: number;
+  imageUrl: string;
+  caption: string;
+}

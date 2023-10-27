@@ -2,6 +2,7 @@ import {
   BoardItemDetailType,
   BoardItemType,
   CommentType,
+  GalleryItemType,
   ProjectResponses,
   ReplyCommentType,
   UserResponses,
@@ -117,6 +118,7 @@ export const commentReplyDummyData: ReplyCommentType[][] = Array(10)
         writtenDate: '2021-03-03',
       })),
   );
+
 export const boardItem = {
   title: '전시회 첫 참여 이벤트',
   content:
@@ -137,3 +139,16 @@ export const boardDetailData: BoardItemDetailType = {
   writerInfo: { profileUrl: '/projectThumbnail.jpg', name: 'user' },
   comments: [],
 };
+
+export const galleryItem: Omit<GalleryItemType, 'id'> = {
+  userId: 10,
+  imageUrl: '/projectThumbnail.jpg',
+  caption: 'image caption',
+};
+
+export const galleryListData: GalleryItemType[] = Array(12)
+  .fill(0)
+  .map((v, i) => ({
+    id: i,
+    ...galleryItem,
+  }));
