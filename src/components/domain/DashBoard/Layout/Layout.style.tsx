@@ -1,17 +1,22 @@
 import styled from '@emotion/styled';
 
-import { COLORS } from '@/constants/styles';
+import { COLORS, MEDIA_QUERIES } from '@/constants/styles';
 
 export const Wrapper = styled.section`
   display: flex;
   justify-content: space-between;
+
   min-height: 100vh;
   background-color: ${COLORS.background2};
 `;
 
 export const ContentWrapper = styled.div`
-  width: 100%;
+  width: calc(100% - 150px);
   margin-top: 60px;
+
+  @media ${MEDIA_QUERIES.mobile} {
+    width: 100%;
+  }
 `;
 
 export const HeaderWrapper = styled.div(({ isHome }: { isHome: boolean }) => ({

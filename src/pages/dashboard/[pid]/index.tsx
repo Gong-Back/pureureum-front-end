@@ -1,4 +1,8 @@
-import { boardListData, projectContentDummyData } from 'src/dummyData';
+import {
+  boardListData,
+  galleryListData,
+  projectContentDummyData,
+} from 'src/dummyData';
 
 import DashboardHomeTemplate from '@/components/template/DashboardHomeTemplate';
 
@@ -12,7 +16,7 @@ const HomeData = {
   title,
   description: introduction,
   boards: boardListData.slice(0, 3),
-  gallerys: [],
+  gallerys: galleryListData,
   members: [],
 };
 

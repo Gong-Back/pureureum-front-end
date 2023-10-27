@@ -1,4 +1,5 @@
 import BoardItem from '@/components/domain/DashBoard/BoardItem';
+import GalleryItem from '@/components/domain/DashBoard/GalleryItem';
 import HomeWidget from '@/components/domain/DashBoard/HomeWidget';
 import Layout from '@/components/domain/DashBoard/Layout';
 import { DashboardHomeInfo } from '@/constants/types';
@@ -10,7 +11,7 @@ interface DashboardHomeTemplateProps {
 }
 
 const DashboardHomeTemplate = ({ data }: DashboardHomeTemplateProps) => {
-  const { title, description, boards } = data;
+  const { title, description, boards, gallerys } = data;
 
   const HomeHeaderInfo = {
     title,
@@ -44,7 +45,20 @@ const DashboardHomeTemplate = ({ data }: DashboardHomeTemplateProps) => {
 
         <styles.BottomContent>
           <HomeWidget title="문화 콘텐츠 갤러리" className="gallery-widget">
-            갤러리 content
+            <styles.GalleryContent>
+              <styles.GalleryList>
+                {gallerys.map((b: any) => (
+                  <GalleryItem
+                    key={b.id}
+                    id={b.id}
+                    userId={b.userId}
+                    imageUrl={b.imageUrl}
+                    caption={b.caption}
+                    className="gallery-item"
+                  />
+                ))}
+              </styles.GalleryList>
+            </styles.GalleryContent>
           </HomeWidget>
         </styles.BottomContent>
       </styles.ContentWrapper>
