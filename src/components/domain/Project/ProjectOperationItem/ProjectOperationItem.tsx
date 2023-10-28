@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+
 import Text from '@/components/common/Text';
 import { COLORS } from '@/constants/styles';
 import { ProjectPartInfoType, ProjectStatusType } from '@/constants/types';
@@ -17,6 +19,7 @@ const PROJECT_STATUS: Record<ProjectStatusType, string> = {
 };
 
 const ProjectOperationItem = ({ projectInfo }: ProjectOperationItemProps) => {
+  const router = useRouter();
   const getProjectStatus = (): ProjectStatusType => {
     const todayMillis = new Date().getMilliseconds();
     const startDateMillis = Date.parse(projectInfo.projectStartDate);
@@ -28,7 +31,7 @@ const ProjectOperationItem = ({ projectInfo }: ProjectOperationItemProps) => {
   };
 
   return (
-    <style.Wrapper>
+    <style.Wrapper onClick={() => router.push('/dashboard/10')}>
       <style.StatusBadge>
         <Text fontStyleName="body1B" color={COLORS.grayscale.gray600}>
           {PROJECT_STATUS[getProjectStatus()]}

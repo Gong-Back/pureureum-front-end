@@ -2,6 +2,8 @@ import { QueryClient, dehydrate } from '@tanstack/react-query';
 import type { GetServerSideProps } from 'next';
 import React, { useState } from 'react';
 
+import { projectsDummydata } from 'src/dummyData';
+
 import { ProjectRepository } from '@/apis/project';
 import Text from '@/components/common/Text';
 import CategoryFilter from '@/components/domain/Main/CategoryFilter';
@@ -10,8 +12,6 @@ import QUERY_KEY from '@/constants/apis/queryKey';
 import { COLORS } from '@/constants/styles';
 import { CategoryType } from '@/constants/types';
 import { useGetProjectList } from '@/query-hooks/project';
-
-import { projectsDummydata } from 'src/dummyData';
 
 import * as style from './HomeTemplate.style';
 
@@ -65,7 +65,7 @@ const HomeTemplate = () => {
         activeCategory={categoryFilter}
         onClickCategory={onClickCategoryFilter}
       />
-      <style.ProjectListWrap>0
+      <style.ProjectListWrap>
         <Text
           fontStyleName="title"
           color={COLORS.grayscale.dark}
