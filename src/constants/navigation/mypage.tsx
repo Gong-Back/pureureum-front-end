@@ -10,7 +10,7 @@ import UserIcon from '@/assets/icons/userIcon.svg';
 
 export const MYPAGE_NAVIGATION_CONTENT = [
   {
-    label: '프로젝트',
+    label: '문화 컨텐츠',
     contents: [
       {
         title: '내가 관심 있는',
@@ -65,17 +65,17 @@ export const MYPAGE_NAVIGATION_CONTENT = [
     ],
   },
   {
-    label: '프로젝트 운영',
+    label: '컨텐츠 운영',
     contents: [
       {
         title: '승인 대기 중인',
         icon: <NotificationIcon />,
-        path: '/mypage/project/pending',
+        path: '/mypage/contents/pending',
       },
       {
         title: '현재 운영 중인',
         icon: <DashBoardIcon />,
-        path: '/mypage/project/operated',
+        path: '/mypage/contents/operated',
       },
     ],
   },
