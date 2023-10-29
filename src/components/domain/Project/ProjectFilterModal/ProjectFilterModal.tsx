@@ -10,7 +10,7 @@ const ProjectFilterModal = () => {
   const { closeModal } = useModal();
 
   return (
-    <ModalTemplate title="휴대폰 번호 변경하기">
+    <ModalTemplate title="컨텐츠 검색 필터 설정하기">
       <style.Wrapper>
         <Text
           color={COLORS.grayscale.gray500}

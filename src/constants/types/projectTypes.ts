@@ -16,6 +16,9 @@ export type ProjectFileType = {
 /** 프로젝트 진행 상태 여부 */
 export type ProjectStatusType = 'ADMIN_REQUIRED' | 'REJECTED' | 'PREPARING' | 'RECRUITING' | 'COMPLETED';
 
+/** 프로젝트 검색 필터 종류 */
+export type ProjectSortType = 'POPULAR' | 'LATEST' | 'PARTICIPANT';
+
 /** 프로젝트 컨텐츠 종류 */
 export type ProjectContentType = 'INTRO' | 'DISCUSSION' | 'LOCATION';
 

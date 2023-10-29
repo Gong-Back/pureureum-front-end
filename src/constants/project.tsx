@@ -1,4 +1,4 @@
-import { ProjectStatusType } from './types';
+import { ProjectStatusType, ProjectSortType } from './types';
 
 export const ProjectStatusInfo: Record<
 ProjectStatusType,
@@ -25,3 +25,18 @@ ProjectStatusType,
     description: '컨텐츠가 성공적으로 마무리 된 상태입니다.',
   },
 };
+
+export const ProjectFilterInfo: Record<ProjectSortType, {title: string; description: string}> = {
+  POPULAR: {
+    title: '관심 순',
+    description: '사람들이 많이 관심을 가진 컨텐츠들을 보여줍니다.'
+  },
+  LATEST: {
+    title: '최신 순',
+    description: '이제 막 따끈따끈하게 올라온 컨텐츠들을 보여줍니다.'
+  },
+  PARTICIPANT: {
+    title: '참여 순',
+    description: '많은 시민 분들이 참여를 희망한 컨텐츠들을 보여줍니다.'
+  },
+}
