@@ -8,7 +8,7 @@ import { commentDummyData, projectContentDummyData } from 'src/dummyData';
 
 import { ProjectRepository } from '@/apis/project';
 import Button from '@/components/common/Button';
-import ProjectStatusTag from '@/components/domain/Project/ProjectStatusTag';
+import ProjectStatusTag from '@/components/common/ProjectStatusTag';
 import CommentSection from '@/components/common/CommentSection';
 import Comment from '@/components/common/CommentSection/Comment';
 import Text from '@/components/common/Text';

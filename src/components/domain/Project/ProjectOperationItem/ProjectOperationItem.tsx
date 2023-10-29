@@ -1,5 +1,5 @@
+import ProjectStatusTag from '@/components/common/ProjectStatusTag';
 import Text from '@/components/common/Text';
-import ProjectStatusTag from '@/components/domain/Project/ProjectStatusTag';
 import { COLORS } from '@/constants/styles';
 import type { ProjectPartInfoType } from '@/constants/types';
 import ProjectUtil from '@/utils/content';

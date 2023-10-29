@@ -1,7 +1,7 @@
 import { ProjectStatusInfo } from '@/constants/project';
 import { ProjectStatusType } from '@/constants/types';
 
-import Text from '../../../common/Text';
+import Text from '../Text';
 import * as style from './ProjectStatusTag.style';
 
 export interface ProjectStatusTagProps {
