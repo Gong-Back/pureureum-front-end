@@ -31,7 +31,7 @@ export const Section = styled.div`
   }
 `;
 
-export const SectionList = styled.div`
+export const NavList = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -50,10 +50,11 @@ export const NavItem = styled.div`
     margin: auto 0px;
     width: 18px;
     height: 18px;
+    color: ${COLORS.grayscale.gray500};
   }
 
   > .selected {
-    color: ${COLORS.grayscale.gray700};
+    font-weight: bold;
   }
 `;
 
