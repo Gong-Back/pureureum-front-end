@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Control, Controller } from 'react-hook-form';
 
-import CategoryTag from '@/components/common/CategoryTag';
 import FormLabel from '@/components/common/FormLabel';
 import LocationBox from '@/components/common/LocationBox';
 import NewTextInput from '@/components/common/TextInput/NewTextInput';
@@ -27,10 +26,6 @@ export const FirstStepForm = ({ control }: FirstStepFormProps) => (
       maxLength={200}
       className="title-input"
     />
-    <style.Section>
-      <FormLabel text="카테고리" />
-      <CategoryTag sizeType="big" type="YOUTH_FARMING" />
-    </style.Section>
     <style.Section>
       <FormLabel text="진행시설" />
       <LocationBox name="감자농장" address="서울시 영등포구 가나다라" />

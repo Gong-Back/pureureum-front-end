@@ -17,8 +17,8 @@ const ProjectFilterMenu = () => {
         <Text fontStyleName="body2B" color={COLORS.grayscale.gray500}>
           필터 추가
         </Text>
+        <FilterIcon color={COLORS.primary.default} />
       </style.MenuWrap>
-      <FilterIcon color={COLORS.primary.default} />
     </style.Wrapper>
   );
 };

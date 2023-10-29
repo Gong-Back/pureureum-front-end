@@ -5,15 +5,17 @@ import Text from '@/components/common/Text';
 import ProjectList from '@/components/domain/Project/ProjectList';
 import ProjectFilterMenu from '@/components/domain/Project/ProjectFilterMenu';
 import { COLORS } from '@/constants/styles';
+import { ProjectSortType } from '@/constants/types';
 import { useGetProjectList } from '@/query-hooks/project';
 
 import { projectsDummydata } from 'src/dummyData';
 
 import * as style from './ProjectListTemplate.style';
 
-const PROJECT_SORT_TYPE = {
+const PROJECT_SORT_TYPE: Record<string, ProjectSortType> = {
   인기순: 'POPULAR',
   최신순: 'LATEST',
+  참여순: 'PARTICIPANT',
 } as const;
 
 const ProjectListTemplate = () => {
@@ -38,7 +40,7 @@ const ProjectListTemplate = () => {
             color={COLORS.grayscale.gray500}
             className="sub-title"
           >
-            다양한 문화 컨텐츠들을 살퍄보고 자유롭게 참여해보세요!
+            다양한 문화 컨텐츠들을 살펴보고 자유롭게 참여해보세요!
           </Text>
         </style.TitleWrap>
         <style.DropdownWrap>

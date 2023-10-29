@@ -1,36 +1,34 @@
-import { CategoryInfo } from '@/constants/project';
-import { CategoryType } from '@/constants/types';
+import { ProjectStatusInfo } from '@/constants/project';
+import { ProjectStatusType } from '@/constants/types';
 
 import Text from '../Text';
-import * as style from './CategoryTag.style';
+import * as style from './ProjectStatusTag.style';
 
-export interface CategoryTagProps {
+export interface ProjectStatusTagProps {
   sizeType: 'small' | 'big';
-  type: CategoryType;
+  status: ProjectStatusType;
   className?: string;
   onClick?: () => void;
 }
 
-const CategoryTag = ({
+const ProjectStatusTag = ({
   sizeType,
-  type,
+  status,
   className,
   onClick,
-}: CategoryTagProps) => {
+}: ProjectStatusTagProps) => {
   const isBigSize = sizeType === 'big';
   return (
     <style.Wrapper
-      type={type}
       isBigSize={isBigSize}
       className={className}
       onClick={onClick}
     >
       <Text fontStyleName={isBigSize ? 'body1B' : 'body3'} className="text">
-        {CategoryInfo[type].title}
+        {ProjectStatusInfo[status].title}
       </Text>
-      {isBigSize && CategoryInfo[type].emoji}
     </style.Wrapper>
   );
 };
 
-export default CategoryTag;
+export default ProjectStatusTag;
