@@ -8,7 +8,7 @@ import { commentDummyData, projectContentDummyData } from 'src/dummyData';
 
 import { ProjectRepository } from '@/apis/project';
 import Button from '@/components/common/Button';
-import CategoryTag from '@/components/common/CategoryTag';
+import ProjectStatusTag from '@/components/common/ProjectStatusTag';
 import CommentSection from '@/components/common/CommentSection';
 import Comment from '@/components/common/CommentSection/Comment';
 import Text from '@/components/common/Text';
@@ -187,7 +187,7 @@ const ProjectDetailTemplate = () => {
   return (
     <style.Wrapper>
       <style.ContentWrapper>
-        <CategoryTag sizeType="small" type={projectCategory} />
+        <ProjectStatusTag sizeType="small" status={currentProjectStatus} />
         <style.ProjectTitle>{title}</style.ProjectTitle>
         <Image
           src={thumbnailImageUrl}
