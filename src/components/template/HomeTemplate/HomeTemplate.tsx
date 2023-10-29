@@ -4,11 +4,10 @@ import React, { useState } from 'react';
 
 import { ProjectRepository } from '@/apis/project';
 import Text from '@/components/common/Text';
-import CategoryFilter from '@/components/domain/Main/CategoryFilter';
 import ProjectList from '@/components/domain/Project/ProjectList/ProjectList';
 import QUERY_KEY from '@/constants/apis/queryKey';
 import { COLORS } from '@/constants/styles';
-import { CategoryType } from '@/constants/types';
+import { ProjectSortType } from '@/constants/types';
 import { useGetProjectList } from '@/query-hooks/project';
 
 import { projectsDummydata } from 'src/dummyData';
@@ -39,33 +38,21 @@ import * as style from './HomeTemplate.style';
 // };
 
 const HomeTemplate = () => {
-  const [categoryFilter, setCategoryFilter] = useState<CategoryType>();
-
   // const { data: popularProjectRes } = useGetProjectList({
   //   searchType: 'POPULAR',
-  //   category: categoryFilter,
   // });
   // const { data: latestProjectRes } = useGetProjectList({
   //   searchType: 'LATEST',
-  //   category: categoryFilter,
   // });
 
   // FIXME : API 연결 이전에 등록된 Dummy Data
   const popularProjectRes = { projectList: projectsDummydata };
   const latestProjectRes = { projectList: projectsDummydata };
 
-  const onClickCategoryFilter = (c: CategoryType) => {
-    setCategoryFilter(c === categoryFilter ? undefined : c);
-  };
-
   return (
     <style.Wrapper>
       <style.Carousel />
-      <CategoryFilter
-        activeCategory={categoryFilter}
-        onClickCategory={onClickCategoryFilter}
-      />
-      <style.ProjectListWrap>0
+      <style.ProjectListWrap>
         <Text
           fontStyleName="title"
           color={COLORS.grayscale.dark}
