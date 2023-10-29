@@ -12,15 +12,15 @@ class ProjectUtil {
   }: Pick<
     ProjectInfoType,
     'discussionEndDate' | 'projectStartDate'
-  >): ProjectStatusType {
+  >): Exclude<ProjectStatusType, 'ADMIN_REQUIRED' | 'REJECTED'> {
     const current = dayjs();
     switch (true) {
       case current.isSameOrBefore(discussionEndDate):
-        return 'NEED_DISCUSSION';
+        return 'PREPARING';
       case current.isSameOrBefore(projectStartDate):
-        return 'NOT_STARTED';
+        return 'RECRUITING';
       default:
-        return 'PROGRESSED';
+        return 'COMPLETED';
     }
   }
 }

@@ -30,15 +30,15 @@ export const CONTENT_MENU: { type: ProjectContentType; label: string }[] = [
 ];
 
 export const APPLY_BUTTON_CONTENT = {
-  NEED_DISCUSSION: {
+  PREPARING: {
     label: '관심 목록에 추가하기',
     color: COLORS.primary.default,
   },
-  NOT_STARTED: {
+  RECRUITING: {
     label: '문화 컨텐츠 참여하기',
     color: COLORS.primary.default,
   },
-  PROGRESSED: {
+  COMPLETED: {
     label: '참여가 마감된 컨텐츠입니다',
     color: COLORS.grayscale.gray400,
   },
@@ -91,7 +91,6 @@ const ProjectDetailTemplate = () => {
     content,
     discussionEndDate,
     projectStartDate,
-    projectEndDate,
     recruits,
     totalRecruits,
     guide,
@@ -118,7 +117,7 @@ const ProjectDetailTemplate = () => {
     projectStartDate,
   });
 
-  const isPeriodOver = currentProjectStatus === 'PROGRESSED'
+  const isPeriodOver = currentProjectStatus === 'COMPLETED'
 
   const handleApplyProject = () => {
     if (!isPeriodOver) router.push(`/project/discussion/${projectId}`);
@@ -140,7 +139,7 @@ const ProjectDetailTemplate = () => {
       case 'DISCUSSION': {
         return (
           <style.CommentWrapper
-            isPeriodOver={currentProjectStatus !== 'NEED_DISCUSSION'}
+            isPeriodOver={currentProjectStatus !== 'PREPARING'}
           >
             {isPeriodOver && (
               <Text
