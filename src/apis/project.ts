@@ -13,17 +13,14 @@ export class ProjectRepository {
   /**
    * 메인 페이지에서 보여줄 프로젝트 목록을 조회하는 함수 getMainProjectListAsync
    * @param searchType 검색 기준 (인기순, 최신순)
-   * @param category 필터링할 프로젝트 카테고리 (값을 넘기지 않으면 카테고리와 상관없이 데이터 조회)
    * @returns 검색 타입을 기준으로 정렬되어 있는 총 6개의 프로젝트 목록 데이터
    */
-  static async getMainProjectListAsync({
-    searchType,
-    category,
-  }: ProjectReqParams['main']) {
+  static async getMainProjectListAsync(
+    searchType
+  : ProjectReqParams['main']) {
     const response = await getAsync<MainProjectListOutput>(`/projects`, {
       params: {
         searchType,
-        category,
         size: 6,
       },
     });

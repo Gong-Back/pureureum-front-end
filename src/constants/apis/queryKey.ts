@@ -6,11 +6,10 @@ const QUERY_KEY = {
   },
   PROJECT: {
     base: ['projects'],
-    main: ({ searchType, category }: ProjectReqParams['main']) => [
+    main: (searchType: ProjectReqParams['main']) => [
       ...QUERY_KEY.PROJECT.base,
       'main',
       searchType,
-      ...(category ? [category] : []),
     ],
     detail: (id: number) => [...QUERY_KEY.PROJECT.base, 'detail', id],
   },

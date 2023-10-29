@@ -7,14 +7,10 @@ import type {
 } from '@/constants/types';
 import useSuspendedQuery from '@/hooks/useSuspensedQuery';
 
-export const useGetProjectList = ({
-  searchType,
-  category,
-}: ProjectReqParams['main']) =>
+export const useGetProjectList = (searchType: ProjectReqParams['main']) =>
   useSuspendedQuery<MainProjectListOutput, ApiError, MainProjectListOutput>({
-    queryFn: () =>
-      ProjectRepository.getMainProjectListAsync({ searchType, category }),
-    queryKey: QUERY_KEY.PROJECT.main({ searchType, category }),
+    queryFn: () => ProjectRepository.getMainProjectListAsync(searchType),
+    queryKey: QUERY_KEY.PROJECT.main(searchType),
     staleTime: 1000 * 60 * 5,
     useErrorBoundary: true,
   });
