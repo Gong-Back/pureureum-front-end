@@ -45,15 +45,12 @@ export const NavItem = styled.div`
   display: flex;
   gap: 0px 6px;
   justify-content: flex-end;
+  color: ${COLORS.grayscale.gray500};
 
   & > svg {
     margin: auto 0px;
     width: 18px;
     height: 18px;
-  }
-
-  > .selected {
-    color: ${COLORS.grayscale.gray700};
   }
 `;
 
