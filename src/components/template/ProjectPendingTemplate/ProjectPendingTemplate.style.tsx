@@ -17,6 +17,15 @@ export const Aside = styled.div`
   padding: 60px;
 `;
 
+export const ProjectListSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 25px 0;
+
+  width: 100%;
+`;
+
+
 export const EmptyNotice = styled.div`
   display: flex;
   flex-direction: column;

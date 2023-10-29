@@ -1,6 +1,8 @@
 import Text from '@/components/common/Text';
+import ProjectStatusTag from '@/components/domain/Project/ProjectStatusTag';
 import { COLORS } from '@/constants/styles';
-import { ProjectPartInfoType, ProjectStatusType } from '@/constants/types';
+import type { ProjectPartInfoType } from '@/constants/types';
+import ProjectUtil from '@/utils/content';
 import FormatUtil from '@/utils/format';
 
 import * as style from './ProjectOperationItem.style';
@@ -9,33 +11,19 @@ export interface ProjectOperationItemProps {
   projectInfo: ProjectPartInfoType;
 }
 
-const PROJECT_STATUS: Record<ProjectStatusType, string> = {
-  NEED_DISCUSSION: '의견 수렴 중',
-  NOT_STARTED: '모집 중',
-  PROGRESSED: '진행 중',
-  FINISHED: '진행 완료',
-};
-
 const ProjectOperationItem = ({ projectInfo }: ProjectOperationItemProps) => {
-  const getProjectStatus = (): ProjectStatusType => {
-    const todayMillis = new Date().getMilliseconds();
-    const startDateMillis = Date.parse(projectInfo.projectStartDate);
-    const endDateMillis = Date.parse(projectInfo.projectEndDate);
+  const { title, discussionEndDate, projectStartDate } = projectInfo;
 
-    if (todayMillis < startDateMillis) return 'NOT_STARTED';
-    if (todayMillis <= endDateMillis) return 'PROGRESSED';
-    return 'FINISHED';
-  };
+  const currentProjectStatus = ProjectUtil.getContentStatus({
+    discussionEndDate,
+    projectStartDate,
+  });
 
   return (
     <style.Wrapper>
-      <style.StatusBadge>
-        <Text fontStyleName="body1B" color={COLORS.grayscale.gray600}>
-          {PROJECT_STATUS[getProjectStatus()]}
-        </Text>
-      </style.StatusBadge>
+      <ProjectStatusTag sizeType="big" status={currentProjectStatus} />
       <Text fontStyleName="subtitle1" color={COLORS.grayscale.gray700}>
-        {projectInfo.title}
+        {title}
       </Text>
       <Text fontStyleName="body2R" color={COLORS.primary.default}>
         {FormatUtil.formatLocation(projectInfo.facilityAddress)}

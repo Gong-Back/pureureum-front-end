@@ -18,18 +18,18 @@ const ProjectOperationTemplate = () => {
   const moveToProjectCreation = () => router.push('/project/new');
 
   return (
-    <Layout title="프로젝트 관리">
+    <Layout title="운영 중인 컨텐츠 관리">
       {isEmpty ? (
         <style.EmptyNotice>
           <Text fontStyleName="subtitle2R" color={COLORS.grayscale.gray500}>
-            아직 생성하신 프로젝트가 없습니다!
+            아직 등록한 문화 컨텐츠가 없습니다!
           </Text>
           <Button
             isRound
             className="seek-button"
             onClick={moveToProjectCreation}
           >
-            프로젝트 생생하기
+            문화 컨텐츠 등록하기
           </Button>
         </style.EmptyNotice>
       ) : (
