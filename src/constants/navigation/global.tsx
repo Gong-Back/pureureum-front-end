@@ -23,7 +23,7 @@ export const NavInfo: Record<
   },
   project: {
     path: '/project',
-    text: '프로젝트',
+    text: '컨텐츠 목록',
     icon: <ProjectIcon />,
   },
   community: {

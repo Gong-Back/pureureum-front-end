@@ -58,7 +58,7 @@ const HomeTemplate = () => {
           color={COLORS.grayscale.dark}
           className="title"
         >
-          인기 중인 프로젝트 🎉
+          많은 관심을 보인 문화 컨텐츠 🎉
         </Text>
         <ProjectList data={popularProjectRes.projectList} />
       </style.ProjectListWrap>
@@ -68,7 +68,7 @@ const HomeTemplate = () => {
           color={COLORS.grayscale.dark}
           className="title"
         >
-          신규 생성된 프로젝트 🌱
+          참여자가 많은 문화 컨텐츠 💡
         </Text>
         <ProjectList data={latestProjectRes.projectList} />
       </style.ProjectListWrap>
