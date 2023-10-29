@@ -22,7 +22,7 @@ const NavContent = () => {
           >
             {label}
           </Text>
-          <style.SectionList>
+          <style.NavList>
             {contents.map(({ title, icon, path }) => (
               <Link href={path} passHref>
                 <style.NavItem
@@ -42,7 +42,7 @@ const NavContent = () => {
                 </style.NavItem>
               </Link>
             ))}
-          </style.SectionList>
+          </style.NavList>
         </style.Section>
       ))}
     </style.ContentWrapper>
