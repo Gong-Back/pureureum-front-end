@@ -1,7 +1,7 @@
 import { ProjectStatusInfo } from '@/constants/project';
 import { ProjectStatusType } from '@/constants/types';
 
-import Text from '../Text';
+import Text from '../../../common/Text';
 import * as style from './ProjectStatusTag.style';
 
 export interface ProjectStatusTagProps {
@@ -20,7 +20,6 @@ const ProjectStatusTag = ({
   const isBigSize = sizeType === 'big';
   return (
     <style.Wrapper
-      status={status}
       isBigSize={isBigSize}
       className={className}
       onClick={onClick}
