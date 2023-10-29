@@ -40,7 +40,7 @@ const ProjectListTemplate = () => {
             color={COLORS.grayscale.gray500}
             className="sub-title"
           >
-            다양한 문화 컨텐츠들을 살퍄보고 자유롭게 참여해보세요!
+            다양한 문화 컨텐츠들을 살펴보고 자유롭게 참여해보세요!
           </Text>
         </style.TitleWrap>
         <style.DropdownWrap>

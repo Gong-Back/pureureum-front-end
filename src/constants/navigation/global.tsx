@@ -17,7 +17,7 @@ export const NavInfo: Record<
     icon: <HomeIcon />,
   },
   mypage: {
-    path: '/mypage/project/pending',
+    path: '/mypage/contents/pending',
     text: '나의 푸르름',
     icon: <UserIcon />,
   },
