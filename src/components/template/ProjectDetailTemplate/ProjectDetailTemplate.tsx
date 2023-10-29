@@ -4,8 +4,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-import dayjs from 'dayjs';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import { commentDummyData, projectContentDummyData } from 'src/dummyData';
 
 import { ProjectRepository } from '@/apis/project';
@@ -21,10 +19,9 @@ import { ProjectContentType, ProjectStatusType } from '@/constants/types';
 import useKakaoMap from '@/hooks/useKakaoMap';
 import useMeasureBreakpoint from '@/hooks/useMeasureBreakpoint';
 import { useGetProjectDetail } from '@/query-hooks/project';
+import ProjectUtil from '@/utils/content';
 
 import * as style from './ProjectDetailTemplate.style';
-
-dayjs.extend(isSameOrBefore);
 
 export const CONTENT_MENU: { type: ProjectContentType; label: string }[] = [
   { type: 'INTRO', label: '프로젝트 소개' },
@@ -34,19 +31,15 @@ export const CONTENT_MENU: { type: ProjectContentType; label: string }[] = [
 
 export const APPLY_BUTTON_CONTENT = {
   NEED_DISCUSSION: {
-    label: '의견 공유하기',
+    label: '관심 목록에 추가하기',
     color: COLORS.primary.default,
   },
   NOT_STARTED: {
-    label: '컨텐츠 참여하기',
+    label: '문화 컨텐츠 참여하기',
     color: COLORS.primary.default,
   },
   PROGRESSED: {
     label: '참여가 마감된 컨텐츠입니다',
-    color: COLORS.grayscale.gray400,
-  },
-  FINISHED: {
-    label: '이미 종료된 컨텐츠입니다',
     color: COLORS.grayscale.gray400,
   },
 };
@@ -120,24 +113,12 @@ const ProjectDetailTemplate = () => {
           .projectFileUrl
       : '/projectThumbnail.jpg';
 
-  const getCurrentProjectStatus = (): ProjectStatusType => {
-    const current = dayjs();
-    switch (true) {
-      case current.isSameOrBefore(discussionEndDate):
-        return 'NEED_DISCUSSION';
-      case current.isSameOrBefore(projectStartDate):
-        return 'NOT_STARTED';
-      case current.isSameOrBefore(projectEndDate):
-        return 'PROGRESSED';
-      default:
-        return 'FINISHED';
-    }
-  };
+  const currentProjectStatus = ProjectUtil.getContentStatus({
+    discussionEndDate,
+    projectStartDate,
+  });
 
-  const currentProjectStatus = getCurrentProjectStatus();
-  const isPeriodOver =
-    currentProjectStatus === 'PROGRESSED' ||
-    currentProjectStatus === 'FINISHED';
+  const isPeriodOver = currentProjectStatus === 'PROGRESSED'
 
   const handleApplyProject = () => {
     if (!isPeriodOver) router.push(`/project/discussion/${projectId}`);
