@@ -1,23 +1,14 @@
+import CommentIcon from '@/assets/icons/communityIcon.svg'
+import DashBoardIcon from '@/assets/icons/dashboardIcon.svg'
 import NoteDeleteIcon from '@/assets/icons/noteDeleteIcon.svg';
 import NoteIcon from '@/assets/icons/noteIcon.svg';
 import NotificationBellIcon from '@/assets/icons/notificationBellIcon.svg';
 import NotificationIcon from '@/assets/icons/notificationIcon.svg';
 import PresentationIcon from '@/assets/icons/presentationIcon.svg';
-import LocationIcon from '@/assets/icons/locationIcon.svg';
 import SavedIcon from '@/assets/icons/savedIcon.svg';
 import UserIcon from '@/assets/icons/userIcon.svg';
 
 export const MYPAGE_NAVIGATION_CONTENT = [
-  {
-    label: '문화 시민증',
-    contents: [
-      {
-        title: '시민증 발급',
-        icon: <SavedIcon />,
-        path: '/mypage/license/issue',
-      },
-    ],
-  },
   {
     label: '프로젝트',
     contents: [
@@ -28,7 +19,7 @@ export const MYPAGE_NAVIGATION_CONTENT = [
       },
       {
         title: '내가 의견을 낸',
-        icon: <NotificationIcon />,
+        icon: <CommentIcon />,
         path: '/mypage/project/comment',
       },
       {
@@ -64,6 +55,16 @@ export const MYPAGE_NAVIGATION_CONTENT = [
     ],
   },
   {
+    label: '문화 시민증',
+    contents: [
+      {
+        title: '시민증 발급',
+        icon: <SavedIcon />,
+        path: '/mypage/license/issue',
+      },
+    ],
+  },
+  {
     label: '프로젝트 운영',
     contents: [
       {
@@ -73,7 +74,7 @@ export const MYPAGE_NAVIGATION_CONTENT = [
       },
       {
         title: '현재 운영 중인',
-        icon: <LocationIcon />,
+        icon: <DashBoardIcon />,
         path: '/mypage/project/operated',
       },
     ],
